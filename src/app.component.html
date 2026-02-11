@@ -1,0 +1,257 @@
+<div class="flex h-screen w-full overflow-hidden bg-white">
+  <div class="flex-1 flex flex-col h-full overflow-hidden">
+    <app-header></app-header>
+
+    <main class="flex-1 overflow-y-auto bg-[#F8F9FA] p-6 relative">
+      <div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
+           style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgydjJIMUMxem00IDBoMnYySDV6bTQgMGgydjJIOXptNCAwaDJ2MmgxM3ptNCAwaDJ2MmgxN3oiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');">
+      </div>
+
+      <div class="text-center mb-6 relative z-10 w-full overflow-hidden rounded-xl border-b-4 border-[#C2264B] shadow-sm bg-white">
+        <div class="absolute inset-0 z-0">
+             <img src="https://picsum.photos/seed/crowd/1200/400" 
+                  alt="Gente del Perú" 
+                  class="w-full h-full object-cover opacity-30 grayscale mix-blend-multiply">
+             <div class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 py-10">
+            <h2 class="text-2xl font-bold text-gray-500 uppercase tracking-widest mb-2">Censos Nacionales 2025</h2>
+            
+            <div class="flex justify-center items-center py-4">
+                 <div class="px-10">
+                     <h1 class="text-7xl lg:text-8xl font-black text-[#C2264B] tracking-tight drop-shadow-sm">{{ stats().totalPopulation | number:'1.0-0' }}</h1>
+                 </div>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-[#009FE3] uppercase tracking-wide bg-white/50 inline-block px-4 py-1 rounded-full backdrop-blur-sm">Población Censada</h3>
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-4 mt-4 mb-6 relative z-10">
+  
+  <div class="relative">
+    <button (click)="toggleResultados()" class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-all font-medium text-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+      Resultados
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" [class.rotate-180]="isResultadosOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    @if (isResultadosOpen()) {
+      <div class="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-2 animate-fade-in">
+        <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          ¿Quiénes somos?
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          ¿Cómo vivimos?
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          ¿Dónde estamos?
+        </button>
+      </div>
+    }
+  </div>
+
+  <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 7v10c0 1.105 2.239 2 5 2s5-.895 5-2V7m0 10c0 1.105 2.239 2 5 2s5-.895 5-2V7M4 7c0 1.105 2.239 2 5 2s5-.895 5-2M4 7c0-1.105 2.239-2 5-2s5 .895 5 2m0 0c0 1.105 2.239 2 5 2s5-.895 5-2m0 0c0-1.105-2.239-2-5-2s-5 .895-5 2" /></svg>
+    REDATAM
+  </button>
+
+  <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2z" /></svg>
+    Tabulados
+  </button>
+
+  <div class="relative">
+    <button (click)="toggleCensoMenu()" class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-all font-medium text-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      Censos 2025
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" [class.rotate-180]="isCensoMenuOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    @if (isCensoMenuOpen()) {
+      <div class="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-2 animate-fade-in">
+        <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Metodología</button>
+        <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Manuales</button>
+        <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Organigrama</button>
+        <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Procesos</button>
+      </div>
+    }
+  </div>
+
+  <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg>
+    Censo en Línea
+  </button>
+  <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" /></svg>
+    Geoportal
+  </button>
+</div> 
+      <div class="grid grid-cols-12 gap-6 max-w-[1400px] mx-auto">
+        
+        <div class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+           
+           <div class="grid grid-cols-2 gap-6">
+             <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#D45D79] flex items-center justify-between group hover:shadow-md transition-shadow">
+               <div>
+                  <div class="flex items-center gap-2 text-[#D45D79] mb-1">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                       <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                     </svg>
+                     <span class="font-bold text-sm uppercase">Mujeres</span>
+                  </div>
+                  <div class="text-4xl font-bold text-[#D45D79]">{{ stats().womenPercentage }}%</div>
+                  <div class="text-xs text-gray-400 mt-1">23,203,891 personas</div>
+               </div>
+             </div>
+
+             <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#5A9CF8] flex items-center justify-between group hover:shadow-md transition-shadow">
+               <div>
+                  <div class="flex items-center gap-2 text-[#5A9CF8] mb-1">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                       <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                     </svg>
+                     <span class="font-bold text-sm uppercase">Hombres</span>
+                  </div>
+                  <div class="text-4xl font-bold text-[#5A9CF8]">{{ stats().menPercentage }}%</div>
+                  <div class="text-xs text-gray-400 mt-1">22,116,209 personas</div>
+               </div>
+             </div>
+           </div>
+
+           <app-pyramid-chart [data]="stats().pyramidData"></app-pyramid-chart>
+
+           <app-data-table [data]="stats().departmentStats"></app-data-table>
+
+        </div>
+
+        <div class="col-span-12 lg:col-span-5 min-h-[500px]">
+           <app-map-viewer class="h-full block sticky top-6"></app-map-viewer>
+        </div>
+
+      </div>
+
+      <div class="flex justify-center items-center gap-12 mt-16 opacity-70 pb-10">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-orange-400"></div>
+            <span class="font-bold text-gray-600">GeoCensus</span>
+        </div>
+        <div class="flex items-center gap-2 border-l pl-12 border-gray-300">
+             <span class="font-bold text-[#9E1F3D]">Todos sumamos Perú</span>
+             <span class="text-2xl font-black text-blue-900">Censos<br><span class="text-[#C2264B]">2025</span></span>
+        </div>
+      </div>
+    </main>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+       
+       @if (isOpen()) {
+         <div class="w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col animate-fade-in-up origin-bottom-right transition-all duration-300 ease-out">
+            
+            <div class="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#C2264B] to-orange-500 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm leading-tight">GeoBot IA</h3>
+                        <p class="text-[10px] text-gray-400">Asistente del Censo</p>
+                    </div>
+                </div>
+                <button (click)="toggleChat()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="chat-scroll-area" class="h-80 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3">
+                @for (msg of messages(); track msg.time) {
+                    <div class="flex gap-2 max-w-[90%]" [ngClass]="{'self-end flex-row-reverse': msg.sender === 'user'}">
+                        @if (msg.sender === 'bot') {
+                            <div class="w-6 h-6 rounded-full bg-gray-200 flex-shrink-0 flex items-center justify-center mt-1">
+                                <span class="text-xs">🤖</span>
+                            </div>
+                        }
+                        
+                        <div class="p-3 rounded-xl text-xs leading-relaxed shadow-sm"
+                             [ngClass]="{
+                                'bg-white text-gray-700 rounded-tl-none': msg.sender === 'bot',
+                                'bg-[#C2264B] text-white rounded-tr-none': msg.sender === 'user'
+                             }">
+                             {{ msg.text }}
+                             <p class="text-[9px] opacity-60 mt-1 text-right">{{ msg.time | date:'HH:mm' }}</p>
+                        </div>
+                    </div>
+                }
+
+                @if (isTyping()) {
+                    <div class="flex gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-200 flex-shrink-0 flex items-center justify-center">
+                            <span class="text-xs">🤖</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm flex gap-1 items-center h-8">
+                             <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
+                             <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></div>
+                             <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (messages().length < 3) {
+                <div class="px-4 pb-2 bg-gray-50 flex gap-2 overflow-x-auto no-scrollbar">
+                    @for (action of quickActions; track action.label) {
+                        <button (click)="sendMessage(action.query)" class="whitespace-nowrap bg-white border border-[#C2264B]/20 text-[#C2264B] text-[10px] px-2 py-1 rounded-full hover:bg-[#C2264B] hover:text-white transition-colors">
+                            {{ action.label }}
+                        </button>
+                    }
+                </div>
+            }
+
+            <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
+                <input 
+                    type="text" 
+                    [(ngModel)]="userMessage" 
+                    (keydown.enter)="sendMessage()"
+                    placeholder="Escribe tu consulta..." 
+                    class="flex-1 bg-gray-100 text-xs rounded-full px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#C2264B] focus:bg-white transition-colors"
+                >
+                <button (click)="sendMessage()" [disabled]="!userMessage().trim()" class="bg-[#C2264B] text-white p-2 rounded-full hover:bg-[#a01e3c] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </button>
+            </div>
+         </div>
+       }
+
+       <button (click)="toggleChat()" 
+                [class.scale-0]="isOpen()"
+                class="bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 hover:bg-black transition-all hover:scale-105 transform origin-center">
+            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+            <span class="font-semibold">Asistente IA</span>
+        </button>
+    </div>
+  </div>
+</div>
