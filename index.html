@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Censos Nacionales 2025 | INEI</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            inei: {
+              red: '#C2264B',
+              dark: '#9E1F3D',
+              light: '#E84E6E'
+            },
+            census: {
+              bg: '#F3F4F6',
+              text: '#1F2937',
+              blue: '#4A90E2',
+              pink: '#D4365F'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar for table */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888; 
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    
+    .map-path {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .map-path:hover {
+      filter: brightness(1.1) drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+      stroke: white;
+      stroke-width: 1.5;
+      transform: translateY(-2px);
+      z-index: 10;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://esm.sh/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.1.3?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^21.1.3?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.1.3?external=rxjs",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.1.3?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^21.1.3?external=rxjs"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-gray-50 text-slate-800">
+  <app-root></app-root>
+</body>
+</html>

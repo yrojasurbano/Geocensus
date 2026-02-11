@@ -1,0 +1,5 @@
+{
+  "name": "INEI Census Dashboard 2025",
+  "description": "A responsive, hexagonal architecture dashboard simulating the Peruvian National Census 2025 results with data visualization and geographic filtering.",
+  "requestFramePermissions": []
+}
