@@ -9,6 +9,7 @@
     </div>
 
     <header class="relative z-10 w-full p-8 flex justify-between items-start">
+      <!--
       <div class="flex items-center gap-3">
          <div class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center leading-none">
             <div class="flex gap-1 mb-1">
@@ -18,7 +19,16 @@
             </div>
             <span class="font-black text-2xl tracking-tighter text-black">INEI</span>
          </div>
-      </div>
+      </div> -->
+  <div class="flex items-center gap-3">
+  <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
+    <img 
+      src="assets/images/logo.png" 
+      alt="Logo INEI" 
+      class="h-12 w-auto object-contain"
+    >
+  </div>
+</div>
 
       <div class="flex items-center gap-2">
          <div class="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
@@ -84,17 +94,19 @@
     </footer>
   </div>
 }
-<!-- DASHBOARD APPLICATION-->
-@if (!showLanding()) {
-  <div class="flex h-screen w-full overflow-hidden bg-white animate-fade-in">       
-    <div class="flex-1 flex flex-col h-full overflow-hidden">      
-      <app-header></app-header>
-      <main class="flex-1 overflow-y-auto bg-[#F8F9FA] p-6 relative">
-        <div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
-             style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgydjJIMUMxem00IDBoMnYySDV6bTQgMGgydjJIOXptNCAwaDJ2MmgxM3ptNCAwaDJ2MmgxN3oiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');">
-        </div>        
 
-        <div class="text-center mb-6 relative z-10 w-full overflow-hidden rounded-xl border-b-4 border-[#01A9DA] shadow-sm bg-white">
+@if (!showLanding()) {
+  <div class="flex flex-col h-screen w-full overflow-hidden bg-white animate-fade-in">
+    
+    <app-header class="z-30"></app-header>
+
+    <div class="flex-1 overflow-y-auto bg-[#F8F9FA] relative flex flex-col">
+       
+       <div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
+            style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgydjJIMUMxem00IDBoMnYySDV6bTQgMGgydjJIOXptNCAwaDJ2MmgxM3ptNCAwaDJ2MmgxN3oiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');">
+       </div>
+
+       <div class="text-center relative z-20 w-full overflow-hidden border-b-4 border-[#01A9DA] shadow-sm bg-white shrink-0">
           <div class="absolute inset-0 z-0">
                <img src="https://picsum.photos/seed/crowd/1200/400" alt="Gente" class="w-full h-full object-cover opacity-30 grayscale mix-blend-multiply">
                <div class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
@@ -102,15 +114,15 @@
           <div class="relative z-10 py-10">
               <h2 class="text-2xl font-bold text-gray-500 uppercase tracking-widest mb-2">Censos Nacionales 2025</h2>
               <div class="flex justify-center items-center py-4">
-                  <div class="px-10">
-                      <h1 class="text-7xl lg:text-8xl font-black text-[#0057A4] tracking-tight drop-shadow-sm">{{ stats().totalPopulation | number:'1.0-0' }}</h1>
-                  </div>
+                   <div class="px-10">
+                       <h1 class="text-7xl lg:text-8xl font-black text-[#0057A4] tracking-tight drop-shadow-sm">{{ stats().totalPopulation | number:'1.0-0' }}</h1>
+                   </div>
               </div>
               <h3 class="text-2xl font-bold text-[#009FE3] uppercase tracking-wide bg-white/50 inline-block px-4 py-1 rounded-full backdrop-blur-sm">Población Censada</h3>
           </div>
-        </div>
+       </div>
 
-        <div class="flex justify-center gap-4 mt-4 mb-6 relative z-10">             
+       <div class="flex justify-center gap-4 mt-6 mb-6 relative z-10 px-4 flex-wrap">
             <button (click)="goBackToLanding()" 
                     class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md shadow-md hover:bg-black transition-all font-bold text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,108 +186,126 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg>
               Censo en Línea
             </button>
-        </div> 
-        <div class="grid grid-cols-12 gap-6 max-w-[1400px] mx-auto">    
-          <div class="col-span-12 lg:col-span-7 flex flex-col gap-6">
-             <div class="grid grid-cols-2 gap-6">
-               <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#D45D79] flex items-center justify-between group hover:shadow-md transition-shadow">
-                 <div>
-                    <div class="flex items-center gap-2 text-[#D45D79] mb-1">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                       <span class="font-bold text-sm uppercase">Mujeres</span>
-                    </div>
-                    <div class="text-4xl font-bold text-[#D45D79]">{{ stats().womenPercentage }}%</div>
-                    <div class="text-xs text-gray-400 mt-1">23,203,891 personas</div>
-                 </div>
-               </div>
-               <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#5A9CF8] flex items-center justify-between group hover:shadow-md transition-shadow">
-                 <div>
-                    <div class="flex items-center gap-2 text-[#5A9CF8] mb-1">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                       <span class="font-bold text-sm uppercase">Hombres</span>
-                    </div>
-                    <div class="text-4xl font-bold text-[#5A9CF8]">{{ stats().menPercentage }}%</div>
-                    <div class="text-xs text-gray-400 mt-1">22,116,209 personas</div>
-                 </div>
-               </div>
-             </div>
-             <app-pyramid-chart [data]="stats().pyramidData"></app-pyramid-chart>
-             <app-data-table [data]="stats().departmentStats"></app-data-table>
-          </div>
-          <div class="col-span-12 lg:col-span-5 min-h-[500px]">
-             <app-map-viewer class="h-full block sticky top-6"></app-map-viewer>
-          </div>
-        </div>
+       </div>
 
-        <div class="flex justify-center items-center gap-12 mt-16 opacity-70 pb-10">
-          <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-orange-400"></div>
-              <span class="font-bold text-gray-600">GeoCensus</span>
-          </div>
-          <div class="flex items-center gap-2 border-l pl-12 border-gray-300">
-               <span class="font-bold text-[#9E1F3D]">Todos sumamos Perú</span>
-               <span class="text-2xl font-black text-blue-900">Censos<br><span class="text-[#C2264B]">2025</span></span>
-          </div>
-        </div>
-      </main>
+       <div class="flex flex-col lg:flex-row flex-1 relative z-10">
+          
+          <app-sidebar class="lg:w-80 flex-shrink-0 z-20"></app-sidebar>
 
-      <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-         @if (isOpen()) {
-           <div class="w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col animate-fade-in-up origin-bottom-right transition-all duration-300 ease-out">
-              <div class="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md">
-                  <div class="flex items-center gap-3">
-                      <div class="relative">
-                          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#C2264B] to-orange-500 flex items-center justify-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <main class="flex-1 p-6 pt-0">
+              <div class="grid grid-cols-12 gap-6 max-w-[1400px] mx-auto">
+                
+                <div class="col-span-12 xl:col-span-7 flex flex-col gap-6">
+                   
+                   <div class="grid grid-cols-2 gap-6">
+                      <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#D45D79] flex items-center justify-between group hover:shadow-md transition-shadow">
+                        <div>
+                           <div class="flex items-center gap-2 text-[#D45D79] mb-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                               </svg>
-                          </div>
-                          <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+                              <span class="font-bold text-sm uppercase">Mujeres</span>
+                           </div>
+                           <div class="text-4xl font-bold text-[#D45D79]">{{ stats().womenPercentage }}%</div>
+                           <div class="text-xs text-gray-400 mt-1">23,203,891 personas</div>
+                        </div>
                       </div>
-                      <div>
-                          <h3 class="font-bold text-sm leading-tight">GeoBot IA</h3>
-                          <p class="text-[10px] text-gray-400">Asistente del Censo</p>
+
+                      <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#5A9CF8] flex items-center justify-between group hover:shadow-md transition-shadow">
+                        <div>
+                           <div class="flex items-center gap-2 text-[#5A9CF8] mb-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                              </svg>
+                              <span class="font-bold text-sm uppercase">Hombres</span>
+                           </div>
+                           <div class="text-4xl font-bold text-[#5A9CF8]">{{ stats().menPercentage }}%</div>
+                           <div class="text-xs text-gray-400 mt-1">22,116,209 personas</div>
+                        </div>
                       </div>
-                  </div>
-                  <button (click)="toggleChat()" class="text-gray-400 hover:text-white transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                  </button>
+                   </div>
+
+                   <app-pyramid-chart [data]="stats().pyramidData"></app-pyramid-chart>
+
+                   <app-data-table [data]="stats().departmentStats"></app-data-table>
+                </div>
+
+                <div class="col-span-12 xl:col-span-5 min-h-[500px]">
+                   <app-map-viewer class="h-full block sticky top-6"></app-map-viewer>
+                </div>
               </div>
 
-              <div id="chat-scroll-area" class="h-80 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3">
-                  @for (msg of messages(); track msg.time) {
-                      <div class="flex gap-2 max-w-[90%]" [ngClass]="{'self-end flex-row-reverse': msg.sender === 'user'}">
-                          <div class="p-3 rounded-xl text-xs leading-relaxed shadow-sm"
-                               [ngClass]="{
-                                  'bg-white text-gray-700 rounded-tl-none': msg.sender === 'bot',
-                                  'bg-[#C2264B] text-white rounded-tr-none': msg.sender === 'user'
-                               }">
-                               {{ msg.text }}
-                               <p class="text-[9px] opacity-60 mt-1 text-right">{{ msg.time | date:'HH:mm' }}</p>
-                          </div>
-                      </div>
-                  }
+              <div class="flex justify-center items-center gap-12 mt-16 opacity-70 pb-10">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-orange-400"></div>
+                    <span class="font-bold text-gray-600">GeoCensus</span>
+                </div>
+                <div class="flex items-center gap-2 border-l pl-12 border-gray-300">
+                     <span class="font-bold text-[#9E1F3D]">Todos sumamos Perú</span>
+                     <span class="text-2xl font-black text-blue-900">Censos<br><span class="text-[#C2264B]">2025</span></span>
+                </div>
               </div>
+          </main>
+       </div>
+    </div>
 
-              <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
-                  <input type="text" [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Escribe..." class="flex-1 bg-gray-100 text-xs rounded-full px-4 py-2 focus:outline-none">
-                  <button (click)="sendMessage()" class="bg-[#C2264B] text-white p-2 rounded-full">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                  </button>
-              </div>
-           </div>
-         }
 
-         <button (click)="toggleChat()" 
-                 [class.scale-0]="isOpen()"
-                 class="bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 hover:bg-black transition-all hover:scale-105 transform origin-center">
-              <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-              <span class="font-semibold">Asistente IA</span>
-         </button>
-      </div>
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+       @if (isOpen()) {
+         <div class="w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col animate-fade-in-up origin-bottom-right transition-all duration-300 ease-out">
+            <div class="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#C2264B] to-orange-500 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm leading-tight">GeoBot IA</h3>
+                        <p class="text-[10px] text-gray-400">Asistente del Censo</p>
+                    </div>
+                </div>
+                <button (click)="toggleChat()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="chat-scroll-area" class="h-80 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3">
+                @for (msg of messages(); track msg.time) {
+                    <div class="flex gap-2 max-w-[90%]" [ngClass]="{'self-end flex-row-reverse': msg.sender === 'user'}">
+                        <div class="p-3 rounded-xl text-xs leading-relaxed shadow-sm"
+                             [ngClass]="{
+                                'bg-white text-gray-700 rounded-tl-none': msg.sender === 'bot',
+                                'bg-[#C2264B] text-white rounded-tr-none': msg.sender === 'user'
+                             }">
+                             {{ msg.text }}
+                             <p class="text-[9px] opacity-60 mt-1 text-right">{{ msg.time | date:'HH:mm' }}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
+                <input type="text" [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Escribe..." class="flex-1 bg-gray-100 text-xs rounded-full px-4 py-2 focus:outline-none">
+                <button (click)="sendMessage()" class="bg-[#C2264B] text-white p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                </button>
+            </div>
+         </div>
+       }
+
+       <button (click)="toggleChat()" 
+               [class.scale-0]="isOpen()"
+               class="bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 hover:bg-black transition-all hover:scale-105 transform origin-center">
+           <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+           <span class="font-semibold">Asistente IA</span>
+       </button>
     </div>
   </div>
 }

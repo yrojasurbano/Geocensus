@@ -1,223 +1,116 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CensusService } from '../services/census.service';
-import { FormsModule } from '@angular/forms';
+
+interface MenuCard {
+  title: string;
+  description: string;
+  iconKey: string;
+  action: string;
+}
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   template: `
-    <aside class="w-80 bg-[#C2264B] text-white flex flex-col h-full shadow-2xl z-20">
-      <!-- Title -->
-      <div class="p-6 border-b border-rose-800">
-        <h2 class="text-2xl font-bold leading-tight">¿Cuántos somos?</h2>
-        <p class="text-xs text-rose-200 mt-2 leading-relaxed">
-          Resultados definitivos de la población censada. Información detallada sobre crecimiento, estructura por edad y sexo, y distribución geográfica.
-        </p>
-      </div>
-
-      <!-- Menu Items -->
-      <div class="flex-1 overflow-y-auto custom-scrollbar">
-        <div class="mt-4 px-4 space-y-2">
-          <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider mb-2 px-2">Tema:</div>
-          
-          <!-- Menu Item: Info General -->
-          <div class="rounded-lg overflow-hidden transition-all duration-300"
-               [class.bg-white]="activeMenu() === 'general'"
-               [class.text-[#C2264B]]="activeMenu() === 'general'"
-               [class.text-white]="activeMenu() !== 'general'">
+    <aside class="w-full lg:w-80 bg-[#f1f6ff] flex flex-col h-full border-r border-blue-100/50">
+      
+      <!-- Contenedor de Tarjetas -->
+      <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar h-full">
+        
+        @for (item of menuItems; track item.title) {
+          <div class="group bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-transparent hover:border-blue-200 flex items-center gap-4 select-none relative overflow-hidden">
             
-            <div (click)="toggleMenu('general')" 
-                 class="p-3 font-semibold flex justify-between items-center cursor-pointer hover:bg-rose-800/50 transition-colors"
-                 [class.hover:bg-rose-100]="activeMenu() === 'general'">
-              <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Información General</span>
-              </div>
-              <span class="text-xl font-bold">{{ activeMenu() === 'general' ? '-' : '+' }}</span>
+            <!-- Decoración Hover -->
+            <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+
+            <!-- Icono Circular -->
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#f1f6ff] group-hover:bg-blue-100 transition-colors flex items-center justify-center text-[#009FE3]">
+              <!-- Switch de Iconos para evitar problemas de sanitización con innerHTML -->
+              @switch (item.iconKey) {
+                @case ('chart') {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                  </svg>
+                }
+                @case ('map') {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+                  </svg>
+                }
+                @case ('building') {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                  </svg>
+                }
+                @case ('globe') {
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S12 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S12 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                  </svg>
+                }
+                @case ('download') {
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                }
+              }
             </div>
 
-            @if (activeMenu() === 'general') {
-              <div class="bg-rose-50 px-4 py-2 text-sm text-gray-600 space-y-2 border-t border-rose-100">
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Resumen Ejecutivo
-                  </p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2">
-                     <span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Metodología
-                  </p>
-              </div>
-            }
+            <!-- Contenido -->
+            <div class="flex-1 min-w-0 z-10">
+              <h3 class="font-bold text-gray-800 text-sm leading-tight group-hover:text-[#009FE3] transition-colors mb-1">
+                {{ item.title }}
+              </h3>
+              <p class="text-[10px] text-gray-500 leading-snug line-clamp-2">
+                {{ item.description }}
+              </p>
+            </div>
+
+            <!-- Flecha -->
+            <div class="flex-shrink-0 text-gray-300 group-hover:text-[#009FE3] transition-colors transform group-hover:translate-x-1 duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+
           </div>
+        }
 
-          <!-- Menu Item: Poblacion -->
-          <div class="rounded-lg overflow-hidden transition-all duration-300"
-               [class.bg-white]="activeMenu() === 'poblacion'"
-               [class.text-[#C2264B]]="activeMenu() === 'poblacion'"
-               [class.text-white]="activeMenu() !== 'poblacion'">
-            
-            <div (click)="toggleMenu('poblacion')" 
-                 class="p-3 font-semibold flex justify-between items-center cursor-pointer hover:bg-rose-800/50 transition-colors"
-                 [class.hover:bg-rose-100]="activeMenu() === 'poblacion'">
-              <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <span>Población</span>
-              </div>
-              <span class="text-xl font-bold">{{ activeMenu() === 'poblacion' ? '-' : '+' }}</span>
-            </div>
-
-            @if (activeMenu() === 'poblacion') {
-              <div class="bg-rose-50 px-4 py-2 text-sm text-gray-600 space-y-2 border-t border-rose-100">
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Población Total</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Por Sexo</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Por Edad (Quinquenal)</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Area Urbana/Rural</p>
-              </div>
-            }
-          </div>
-
-           <!-- Menu Item: Indices -->
-          <div class="rounded-lg overflow-hidden transition-all duration-300"
-               [class.bg-white]="activeMenu() === 'indices'"
-               [class.text-[#C2264B]]="activeMenu() === 'indices'"
-               [class.text-white]="activeMenu() !== 'indices'">
-            
-            <div (click)="toggleMenu('indices')" 
-                 class="p-3 font-semibold flex justify-between items-center cursor-pointer hover:bg-rose-800/50 transition-colors"
-                 [class.hover:bg-rose-100]="activeMenu() === 'indices'">
-              <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                <span>Índices Demográficos</span>
-              </div>
-              <span class="text-xl font-bold">{{ activeMenu() === 'indices' ? '-' : '+' }}</span>
-            </div>
-
-            @if (activeMenu() === 'indices') {
-              <div class="bg-rose-50 px-4 py-2 text-sm text-gray-600 space-y-2 border-t border-rose-100">
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Edad Media</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Razón de Dependencia</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Índice de Masculinidad</p>
-              </div>
-            }
-          </div>
-
-          <!-- Menu Item: Alfabetismo -->
-          <div class="rounded-lg overflow-hidden transition-all duration-300"
-               [class.bg-white]="activeMenu() === 'alfabetismo'"
-               [class.text-[#C2264B]]="activeMenu() === 'alfabetismo'"
-               [class.text-white]="activeMenu() !== 'alfabetismo'">
-            
-            <div (click)="toggleMenu('alfabetismo')" 
-                 class="p-3 font-semibold flex justify-between items-center cursor-pointer hover:bg-rose-800/50 transition-colors"
-                 [class.hover:bg-rose-100]="activeMenu() === 'alfabetismo'">
-              <div class="flex items-center gap-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                 </svg>
-                <span>Alfabetismo</span>
-              </div>
-              <span class="text-xl font-bold">{{ activeMenu() === 'alfabetismo' ? '-' : '+' }}</span>
-            </div>
-
-            @if (activeMenu() === 'alfabetismo') {
-              <div class="bg-rose-50 px-4 py-2 text-sm text-gray-600 space-y-2 border-t border-rose-100">
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Tasa de Alfabetización</p>
-                  <p class="cursor-pointer hover:text-[#C2264B] flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#C2264B]"></span> Años promedio de estudio</p>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="mt-8 px-6">
-          <div class="flex items-center gap-2 text-xs font-semibold text-rose-300 uppercase tracking-wider mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            Filtros Geográficos - Ubigeo
-          </div>
-
-          <div class="space-y-4">
-            <div class="group">
-              <label class="text-[10px] text-rose-200 font-bold uppercase mb-1 block">Departamento</label>
-              <div class="relative">
-                <select 
-                  [ngModel]="census.selectedDepartment()" 
-                  (ngModelChange)="census.updateDepartment($event)"
-                  class="w-full bg-[#9E1F3D] text-white text-sm rounded-lg p-3 pr-8 appearance-none focus:outline-none focus:ring-2 focus:ring-rose-400 cursor-pointer shadow-inner">
-                  @for (dept of census.departmentOptions(); track dept.id) {
-                    <option [value]="dept.id">{{ dept.name }}</option>
-                  }
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>
-
-            <div class="group">
-              <label class="text-[10px] text-rose-200 font-bold uppercase mb-1 block">Provincia</label>
-              <div class="relative">
-                <select 
-                  [ngModel]="census.selectedProvince()"
-                  (ngModelChange)="census.updateProvince($event)"
-                  [disabled]="census.selectedDepartment() === '00'"
-                  [class.opacity-50]="census.selectedDepartment() === '00'"
-                  class="w-full bg-[#9E1F3D] text-white text-sm rounded-lg p-3 pr-8 appearance-none focus:outline-none focus:ring-2 focus:ring-rose-400 cursor-pointer shadow-inner">
-                  @for (prov of census.provinceOptions(); track prov.id) {
-                    <option [value]="prov.id">{{ prov.name }}</option>
-                  }
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>
-
-            <div class="group">
-              <label class="text-[10px] text-rose-200 font-bold uppercase mb-1 block">Distrito</label>
-              <div class="relative">
-                <select 
-                  [ngModel]="census.selectedDistrict()"
-                  (ngModelChange)="census.updateDistrict($event)"
-                  [disabled]="census.selectedProvince() === '00'"
-                  [class.opacity-50]="census.selectedProvince() === '00'"
-                  class="w-full bg-[#9E1F3D] text-white text-sm rounded-lg p-3 pr-8 appearance-none focus:outline-none focus:ring-2 focus:ring-rose-400 cursor-pointer shadow-inner">
-                  @for (dist of census.districtOptions(); track dist.id) {
-                    <option [value]="dist.id">{{ dist.name }}</option>
-                  }
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer Help -->
-      <div class="p-6 border-t border-rose-800">
-        <a href="#" class="flex items-center gap-2 text-xs text-rose-200 hover:text-white transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          ¿Necesitas ayuda con los datos?
-        </a>
       </div>
     </aside>
   `
 })
 export class SidebarComponent {
-  census = inject(CensusService);
-  activeMenu = signal<string | null>('general');
-
-  toggleMenu(menuName: string) {
-    this.activeMenu.update(current => current === menuName ? null : menuName);
-  }
+  
+  menuItems: MenuCard[] = [
+    {
+      title: 'Dashboard de indicadores',
+      description: 'Consulta los principales resultados del censo 2025. Mediante indicadores.',
+      iconKey: 'chart',
+      action: 'dashboard'
+    },
+    {
+      title: 'Dashboard Geográfico',
+      description: 'Visualiza los principales indicadores de resultados del censo 2025. Mediante indicadores.',
+      iconKey: 'map',
+      action: 'geo-dashboard'
+    },
+    {
+      title: 'Visualizador manzanas',
+      description: 'Visualiza los principales indicadores de resultados del censo 2025. Mediante indicadores.',
+      iconKey: 'building',
+      action: 'manzanas'
+    },
+    {
+      title: 'Redatam web',
+      description: 'Visualiza los principales indicadores de resultados del censo 2025. Mediante indicadores.',
+      iconKey: 'globe',
+      action: 'redatam'
+    },
+    {
+      title: 'Descargar síntesis',
+      description: 'Visualiza los principales indicadores de resultados del censo 2025. Mediante indicadores.',
+      iconKey: 'download',
+      action: 'download'
+    }
+  ];
 }
