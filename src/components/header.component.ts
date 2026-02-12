@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-header',
   imports: [CommonModule],
   template: `
-    <header class="bg-[#C2264B] text-white flex flex-col">
+    <header class="bg-[#0057A4] text-white flex flex-col">
       <!-- Top Bar -->
       <div class="flex justify-between items-center px-6 py-2 border-b border-rose-800">
         <div class="flex items-center gap-4">
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
                   <div class="w-2 h-5 bg-blue-500"></div>
               </div>
               <span class="font-black text-2xl tracking-tighter mt-1">INEI</span>
-              <span class="text-[5px] uppercase tracking-widest text-rose-200">Instituto Nacional de Estadística</span>
+              <span class="text-[5px] uppercase tracking-widest text-white-200">Instituto Nacional de Estadística</span>
            </div>
         </div>
 
@@ -25,10 +25,10 @@ import { CommonModule } from '@angular/common';
 
         <div class="flex items-center gap-3 text-right">
             <div>
-                <div class="text-[10px] text-rose-200 uppercase font-bold">INEI</div>
+                <div class="text-[10px] text-white-200 uppercase font-bold">INEI</div>
                 <div class="text-xs font-mono">1.256.456 Visitantes</div>
             </div>
-            <div class="bg-rose-800 p-1.5 rounded-full">
+            <div class="bg-blue-600 p-1.5 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
