@@ -9,33 +9,25 @@
     </div>
 
     <header class="relative z-10 w-full p-8 flex justify-between items-start">
-      <!--
       <div class="flex items-center gap-3">
-         <div class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center leading-none">
-            <div class="flex gap-1 mb-1">
-                <div class="w-3 h-6 bg-[#009FE3]"></div>
-                <div class="w-3 h-4 bg-[#4A90E2] self-end"></div>
-                <div class="w-3 h-8 bg-[#0056b3]"></div>
-            </div>
-            <span class="font-black text-2xl tracking-tighter text-black">INEI</span>
-         </div>
-      </div> -->
-  <div class="flex items-center gap-3">
-  <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-    <img 
-      src="assets/images/logo.png" 
-      alt="Logo INEI" 
-      class="h-12 w-auto object-contain"
-    >
+    <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
+      <img 
+        src="./src/assets/images/logo.png"
+        alt="Logo INEI" 
+        class="h-12 w-auto object-contain"
+      >
+    </div>
   </div>
-</div>
 
-      <div class="flex items-center gap-2">
-         <div class="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
-             <span class="block text-[#C2264B] font-black text-2xl tracking-wide">CENSOS</span>
-             <span class="block text-gray-800 font-bold text-sm text-center tracking-widest -mt-1">2025</span>
-         </div>
-      </div>
+      <div class="flex items-center gap-3">
+    <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
+      <img 
+        src="./src/assets/images/logo-cpv.png"
+        alt="Logo INEI" 
+        class="h-12 w-auto object-contain"
+      >
+    </div>
+  </div>
     </header>
 
     <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 w-full max-w-7xl mx-auto">
@@ -122,7 +114,7 @@
           </div>
        </div>
 
-       <div class="flex justify-center gap-4 mt-6 mb-6 relative z-10 px-4 flex-wrap">
+       <div class="flex justify-center gap-4 mt-6 mb-6 relative z-40 px-4 flex-wrap">
             <button (click)="goBackToLanding()" 
                     class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md shadow-md hover:bg-black transition-all font-bold text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -241,8 +233,8 @@
                     <span class="font-bold text-gray-600">GeoCensus</span>
                 </div>
                 <div class="flex items-center gap-2 border-l pl-12 border-gray-300">
-                     <span class="font-bold text-[#9E1F3D]">Todos sumamos Perú</span>
-                     <span class="text-2xl font-black text-blue-900">Censos<br><span class="text-[#C2264B]">2025</span></span>
+                      <span class="font-bold text-[#9E1F3D]">Todos sumamos Perú</span>
+                      <span class="text-2xl font-black text-blue-900">Censos<br><span class="text-[#C2264B]">2025</span></span>
                 </div>
               </div>
           </main>
