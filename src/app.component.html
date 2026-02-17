@@ -10,24 +10,24 @@
 
     <header class="relative z-10 w-full p-8 flex justify-between items-start">
       <div class="flex items-center gap-3">
-    <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-      <img 
-        src="./src/assets/images/logo.png"
-        alt="Logo INEI" 
-        class="h-12 w-auto object-contain"
-      >
-    </div>
-  </div>
+        <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
+          <img 
+            src="./src/assets/images/logo.png"
+            alt="Logo INEI" 
+            class="h-12 w-auto object-contain"
+          >
+        </div>
+      </div>
 
       <div class="flex items-center gap-3">
-    <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-      <img 
-        src="./src/assets/images/logo-cpv.png"
-        alt="Logo INEI" 
-        class="h-12 w-auto object-contain"
-      >
-    </div>
-  </div>
+        <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
+          <img 
+            src="./src/assets/images/logo-cpv.png"
+            alt="Logo INEI" 
+            class="h-12 w-auto object-contain"
+          >
+        </div>
+      </div>
     </header>
 
     <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 w-full max-w-7xl mx-auto">
@@ -74,7 +74,7 @@
 
       <button (click)="enterDashboard()" 
               class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-[#01A9DA] rounded-full focus:outline-none focus:ring-4 focus:ring-rose-500/50 hover:bg-[#0057A4] shadow-[0_0_20px_rgba(6,133,246,0.6)] hover:shadow-[0_0_30px_rgba(6,133,246,0.8)] animate-slide-up delay-200">
-        <span class="mr-2">INGRESAR AL SISTEMA</span>
+        <span class="mr-2">EXPLORAR  RESULTADOS</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>
@@ -82,7 +82,7 @@
     </main>
 
     <footer class="relative z-10 w-full p-6 text-center text-xs text-rose-200/60 font-mono uppercase tracking-widest">
-      © 2025 Instituto Nacional de Estadística e Informática - Todos los derechos reservados
+      © 2026 Instituto Nacional de Estadística e Informática - Todos los derechos reservados
     </footer>
   </div>
 }
@@ -98,23 +98,7 @@
             style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgydjJIMUMxem00IDBoMnYySDV6bTQgMGgydjJIOXptNCAwaDJ2MmgxM3ptNCAwaDJ2MmgxN3oiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');">
        </div>
 
-       <div class="text-center relative z-20 w-full overflow-hidden border-b-4 border-[#01A9DA] shadow-sm bg-white shrink-0">
-          <div class="absolute inset-0 z-0">
-               <img src="https://picsum.photos/seed/crowd/1200/400" alt="Gente" class="w-full h-full object-cover opacity-30 grayscale mix-blend-multiply">
-               <div class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
-          </div>
-          <div class="relative z-10 py-10">
-              <h2 class="text-2xl font-bold text-gray-500 uppercase tracking-widest mb-2">Censos Nacionales 2025</h2>
-              <div class="flex justify-center items-center py-4">
-                   <div class="px-10">
-                       <h1 class="text-7xl lg:text-8xl font-black text-[#0057A4] tracking-tight drop-shadow-sm">{{ stats().totalPopulation | number:'1.0-0' }}</h1>
-                   </div>
-              </div>
-              <h3 class="text-2xl font-bold text-[#009FE3] uppercase tracking-wide bg-white/50 inline-block px-4 py-1 rounded-full backdrop-blur-sm">Población Censada</h3>
-          </div>
-       </div>
-
-       <div class="flex justify-center gap-4 mt-6 mb-6 relative z-40 px-4 flex-wrap">
+       <div class="sticky top-0 z-50 bg-[#F8F9FA]/95 backdrop-blur-sm py-4 flex justify-center gap-4 relative px-4 flex-wrap border-b border-gray-200/50">
             <button (click)="goBackToLanding()" 
                     class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md shadow-md hover:bg-black transition-all font-bold text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,6 +164,22 @@
             </button>
        </div>
 
+       <div class="text-center relative z-20 w-full overflow-hidden border-b-4 border-[#01A9DA] shadow-sm bg-white shrink-0">
+          <div class="absolute inset-0 z-0">
+                <img src="https://picsum.photos/seed/crowd/1200/400" alt="Gente" class="w-full h-full object-cover opacity-30 grayscale mix-blend-multiply">
+                <div class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
+          </div>
+          <div class="relative z-10 py-10">
+              <h2 class="text-2xl font-bold text-gray-500 uppercase tracking-widest mb-2">Censos Nacionales 2025</h2>
+              <div class="flex justify-center items-center py-4">
+                    <div class="px-10">
+                        <h1 class="text-7xl lg:text-8xl font-black text-[#0057A4] tracking-tight drop-shadow-sm">{{ stats().totalPopulation | number:'1.0-0' }}</h1>
+                    </div>
+              </div>
+              <h3 class="text-2xl font-bold text-[#009FE3] uppercase tracking-wide bg-white/50 inline-block px-4 py-1 rounded-full backdrop-blur-sm">Población Censada</h3>
+          </div>
+       </div>
+
        <div class="flex flex-col lg:flex-row flex-1 relative z-10">
           
           <app-sidebar class="lg:w-80 flex-shrink-0 z-20"></app-sidebar>
@@ -188,7 +188,7 @@
               <div class="grid grid-cols-12 gap-6 max-w-[1400px] mx-auto">
                 
                 <div class="col-span-12 xl:col-span-7 flex flex-col gap-6">
-                   
+                    
                    <div class="grid grid-cols-2 gap-6">
                       <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#D45D79] flex items-center justify-between group hover:shadow-md transition-shadow">
                         <div>
@@ -223,7 +223,7 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-5 min-h-[500px]">
-                   <app-map-viewer class="h-full block sticky top-6"></app-map-viewer>
+                   <app-map-viewer class="h-full block sticky top-24"></app-map-viewer>
                 </div>
               </div>
 
@@ -240,7 +240,6 @@
           </main>
        </div>
     </div>
-
 
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
        @if (isOpen()) {
