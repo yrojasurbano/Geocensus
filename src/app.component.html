@@ -11,21 +11,12 @@
     <header class="relative z-10 w-full p-8 flex justify-between items-start">
       <div class="flex items-center gap-3">
         <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-          <img 
-            src="./src/assets/images/logo.png"
-            alt="Logo INEI" 
-            class="h-12 w-auto object-contain"
-          >
+          <img src="./src/assets/images/logo.png" alt="Logo INEI" class="h-12 w-auto object-contain">
         </div>
       </div>
-
       <div class="flex items-center gap-3">
         <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-          <img 
-            src="./src/assets/images/logo-cpv.png"
-            alt="Logo INEI" 
-            class="h-12 w-auto object-contain"
-          >
+          <img src="./src/assets/images/logo-cpv.png" alt="Logo CPV" class="h-12 w-auto object-contain">
         </div>
       </div>
     </header>
@@ -74,7 +65,7 @@
 
       <button (click)="enterDashboard()" 
               class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-[#01A9DA] rounded-full focus:outline-none focus:ring-4 focus:ring-rose-500/50 hover:bg-[#0057A4] shadow-[0_0_20px_rgba(6,133,246,0.6)] hover:shadow-[0_0_30px_rgba(6,133,246,0.8)] animate-slide-up delay-200">
-        <span class="mr-2">EXPLORAR  RESULTADOS</span>
+        <span class="mr-2">EXPLORAR RESULTADOS</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>
@@ -89,11 +80,9 @@
 
 @if (!showLanding()) {
   <div class="flex flex-col h-screen w-full overflow-hidden bg-white animate-fade-in">
-    
     <app-header class="z-30"></app-header>
 
     <div class="flex-1 overflow-y-auto bg-[#F8F9FA] relative flex flex-col">
-       
        <div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
             style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgydjJIMUMxem00IDBoMnYySDV6bTQgMGgydjJIOXptNCAwaDJ2MmgxM3ptNCAwaDJ2MmgxN3oiIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');">
        </div>
@@ -106,12 +95,38 @@
               </svg>
               INICIO
             </button>
+            
+            <div class="relative">
+              <button (click)="toggleCensoMenu()" class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-all font-medium text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Principales Resultados
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" [class.rotate-180]="isCensoMenuOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              @if (isCensoMenuOpen()) {
+                <div class="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-2 animate-fade-in">
+                  <div class="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Resumen Ejecutivo</div>
+                  <button class="w-full text-left px-8 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Indicadores de población</button>
+                  <button class="w-full text-left px-8 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Vivienda</button>
+                  <button class="w-full text-left px-8 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Hogar</button>
+                  
+                  <div class="my-1 border-t border-gray-100"></div>
+                  
+                  <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Comparativa Departamental</button>
+                  <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Evolución</button>
+                </div>
+              }
+            </div>           
+
             <div class="relative">
               <button (click)="toggleResultados()" class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-all font-medium text-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
-                Resultados
+                Temática Censal
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" [class.rotate-180]="isResultadosOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -120,44 +135,23 @@
                 <div class="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-2 animate-fade-in">
                   <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    ¿Quiénes somos?
+                    Población
                   </button>
                   <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                    ¿Cómo vivimos?
+                    Vivienda
                   </button>
                   <button class="w-full flex items-center gap-3 px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    ¿Dónde estamos?
+                    Hogar
                   </button>
                 </div>
               }
             </div>
-
             <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 7v10c0 1.105 2.239 2 5 2s5-.895 5-2V7m0 10c0 1.105 2.239 2 5 2s5-.895 5-2V7M4 7c0 1.105 2.239 2 5 2s5-.895 5-2M4 7c0-1.105 2.239-2 5-2s5 .895 5 2m0 0c0 1.105 2.239 2 5 2s5-.895 5-2m0 0c0-1.105-2.239-2-5-2s-5 .895-5 2" /></svg>
-              REDATAM
+              CENSOS 2025
             </button>
-
-            <div class="relative">
-              <button (click)="toggleCensoMenu()" class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-all font-medium text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Censos 2025
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" [class.rotate-180]="isCensoMenuOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              @if (isCensoMenuOpen()) {
-                <div class="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-2 animate-fade-in">
-                  <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Metodología</button>
-                  <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Manuales</button>
-                  <button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-rose-50 hover:text-rose-700 transition-colors">Procesos</button>
-                </div>
-              }
-            </div>
-            
             <button class="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors font-medium text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg>
               Censo en Línea
@@ -181,14 +175,10 @@
        </div>
 
        <div class="flex flex-col lg:flex-row flex-1 relative z-10">
-          
           <app-sidebar class="lg:w-80 flex-shrink-0 z-20"></app-sidebar>
-
           <main class="flex-1 p-6 pt-0">
               <div class="grid grid-cols-12 gap-6 max-w-[1400px] mx-auto">
-                
                 <div class="col-span-12 xl:col-span-7 flex flex-col gap-6">
-                    
                    <div class="grid grid-cols-2 gap-6">
                       <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#D45D79] flex items-center justify-between group hover:shadow-md transition-shadow">
                         <div>
@@ -218,7 +208,6 @@
                    </div>
 
                    <app-pyramid-chart [data]="stats().pyramidData"></app-pyramid-chart>
-
                    <app-data-table [data]="stats().departmentStats"></app-data-table>
                 </div>
 
@@ -306,4 +295,6 @@
   .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
+  .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
