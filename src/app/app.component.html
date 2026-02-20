@@ -6,33 +6,37 @@
     <div class="absolute inset-0 z-0">
       <img src="https://images.unsplash.com/photo-1526308422422-6a57b9567eff?q=80&w=2670&auto=format&fit=crop"
            alt="Rostros del Perú"
-           class="w-full h-full object-cover object-center filter brightness-[0.8] contrast-125">
+           class="w-full h-full object-cover object-center brightness-75 contrast-125">
       <div class="absolute inset-0 bg-[#8B4996]/75 mix-blend-multiply"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60"></div>
     </div>
 
     <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 w-full max-w-7xl mx-auto">
-      <div class="mb-12 space-y-2 animate-slide-up">
-        <h2 class="text-xl md:text-2xl font-medium tracking-[0.2em] text-purple-200 uppercase">Instituto Nacional de Estadística e Informática</h2>
+      <div class="mb-10 space-y-2 animate-slide-up">
+        <h2 class="text-lg md:text-2xl font-medium tracking-[0.2em] text-purple-200 uppercase">
+          Instituto Nacional de Estadística e Informática
+        </h2>
         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl">
-          CENSO DE POBLACIÓN<br>
-          Y VIVIENDA <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">CPV 2025</span>
+          CENSO DE POBLACIÓN<br>Y VIVIENDA
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400"> CPV 2025</span>
         </h1>
-        <div class="w-32 h-2 bg-[#C5328A] mx-auto mt-6 rounded-full shadow-lg border border-white/20"></div>
+        <div class="w-32 h-2 bg-[#C5328A] mx-auto mt-5 rounded-full border border-white/20"></div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-12 animate-slide-up delay-100 items-center">
-        <div class="bg-white/15 backdrop-blur-xl border-2 border-white/20 p-6 rounded-3xl flex flex-col items-center hover:bg-white/20 transition-all transform hover:-translate-y-2 md:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.15)] z-10">
-          <div class="bg-[#C5328A] p-5 rounded-full mb-5 shadow-[0_0_15px_rgba(197,50,138,0.5)] border-2 border-white/30">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10 animate-slide-up delay-100 items-center">
+        <!-- Población total -->
+        <div class="bg-white/15 backdrop-blur-xl border-2 border-white/20 p-6 rounded-3xl flex flex-col items-center hover:bg-white/20 transition-all hover:-translate-y-2 md:scale-105">
+          <div class="bg-[#C5328A] p-4 rounded-full mb-4 border-2 border-white/30">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
-          <span class="text-gray-300 text-base font-bold uppercase tracking-[0.2em] mb-2">Población Censada</span>
-          <span class="text-4xl md:text-5xl font-black text-white drop-shadow-sm">35,678,678</span>
+          <span class="text-gray-300 text-sm font-bold uppercase tracking-[0.2em] mb-2">Población Censada</span>
+          <span class="text-4xl md:text-5xl font-black text-white">35,678,678</span>
         </div>
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center hover:bg-white/20 transition-all transform hover:-translate-y-1">
-          <div class="bg-[#5A9CF8] p-4 rounded-full mb-4 shadow-lg border-2 border-white/20">
+        <!-- Hombres -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center hover:bg-white/20 transition-all hover:-translate-y-1">
+          <div class="bg-[#5A9CF8] p-4 rounded-full mb-4 border-2 border-white/20">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
@@ -40,8 +44,9 @@
           <span class="text-blue-200 text-sm font-bold uppercase tracking-wider mb-1">Población Masculina</span>
           <span class="text-3xl font-black text-white">17,450,120</span>
         </div>
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center hover:bg-white/20 transition-all transform hover:-translate-y-1">
-          <div class="bg-[#D45D79] p-4 rounded-full mb-4 shadow-lg border-2 border-white/20">
+        <!-- Mujeres -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center hover:bg-white/20 transition-all hover:-translate-y-1">
+          <div class="bg-[#D45D79] p-4 rounded-full mb-4 border-2 border-white/20">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
@@ -51,33 +56,33 @@
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 animate-slide-up delay-200">
+      <div class="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-slide-up delay-200">
         <button (click)="enterDashboard()"
-                class="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-[#C5328A] rounded-full hover:bg-[#a02474] shadow-[0_0_20px_rgba(197,50,138,0.5)] transition-all">
+                class="group inline-flex items-center px-8 py-4 text-lg font-bold text-white bg-[#C5328A] rounded-full hover:bg-[#a02474] shadow-[0_0_20px_rgba(197,50,138,0.5)] transition-all">
           <span class="mr-2">EXPLORAR RESULTADOS</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </button>
-        <button class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-[#8B4996] rounded-full hover:bg-[#72387c] shadow-[0_0_20px_rgba(139,73,150,0.5)] transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button class="inline-flex items-center px-8 py-4 text-lg font-bold text-white bg-[#8B4996] rounded-full hover:bg-[#72387c] shadow-[0_0_20px_rgba(139,73,150,0.5)] transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span>INFORMES Y DOCUMENTOS</span>
+          INFORMES Y DOCUMENTOS
         </button>
       </div>
 
       <div class="flex items-center gap-4 animate-slide-up delay-300">
-        <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-          <img src="./src/assets/images/logo.png" alt="Logo INEI" class="h-12 w-auto object-contain">
+        <div class="bg-white p-3 rounded-lg shadow-lg">
+          <img src="assets/images/logo.png" alt="Logo INEI" class="h-11 w-auto object-contain">
         </div>
-        <div class="bg-white p-3 rounded-lg shadow-lg flex items-center justify-center">
-          <img src="./src/assets/images/logo-cpv.png" alt="Logo CPV" class="h-12 w-auto object-contain">
+        <div class="bg-white p-3 rounded-lg shadow-lg">
+          <img src="assets/images/logo-cpv.png" alt="Logo CPV" class="h-11 w-auto object-contain">
         </div>
       </div>
     </main>
 
-    <footer class="relative z-10 w-full p-6 text-center text-xs text-purple-200/60 font-mono uppercase tracking-widest">
+    <footer class="relative z-10 w-full p-5 text-center text-xs text-purple-200/50 font-mono uppercase tracking-widest">
       © 2026 Instituto Nacional de Estadística e Informática — Todos los derechos reservados
     </footer>
   </div>
@@ -90,25 +95,25 @@
 @if (!showLanding()) {
   <div class="flex flex-col h-screen w-full overflow-hidden bg-[#F0EEF5] font-sans animate-fade-in">
 
-    <!-- ================================================
-         HEADER — 3 NIVELES  (paleta morado-magenta)
-         ================================================ -->
-    <header class="flex-shrink-0 z-40 shadow-2xl">
+    <!-- ══════════════════════════════════════════════
+         HEADER — 3 NIVELES
+         ══════════════════════════════════════════════ -->
+    <header class="flex-shrink-0 z-40 shadow-xl">
 
-      <!-- NIVEL 1: Logos + Título + Perfil  |  bg #8B4996 -->
+      <!-- NIVEL 1 — #8B4996 -->
       <div class="bg-[#8B4996] text-white flex justify-between items-center px-4 md:px-6 py-2 border-b border-white/10">
         <div class="flex items-center gap-3">
           <div class="bg-white p-1.5 rounded-md shadow-md flex-shrink-0">
-            <img src="./src/assets/images/logo.png" alt="Logo INEI" class="h-9 w-auto object-contain">
+            <img src="assets/images/logo.png" alt="INEI" class="h-8 w-auto object-contain">
           </div>
           <div class="bg-white p-1.5 rounded-md shadow-md flex-shrink-0">
-            <img src="./src/assets/images/logo-cpv.png" alt="Logo CPV 2025" class="h-9 w-auto object-contain">
+            <img src="assets/images/logo-cpv.png" alt="CPV 2025" class="h-8 w-auto object-contain">
           </div>
-          <div class="ml-1 hidden md:flex flex-col justify-center">
+          <div class="ml-1 hidden md:flex flex-col">
             <p class="text-[9px] text-purple-200 uppercase tracking-widest font-semibold leading-none mb-0.5">
               Instituto Nacional de Estadística e Informática
             </p>
-            <h1 class="text-sm font-black uppercase tracking-wide text-white leading-tight">
+            <h1 class="text-sm font-black uppercase text-white leading-tight">
               Censos Nacionales de Población y Vivienda
               <span class="text-yellow-300 ml-1">CPV 2025</span>
             </h1>
@@ -119,7 +124,7 @@
             <div class="text-[9px] text-purple-200 uppercase font-bold tracking-widest">INEI — Visitantes</div>
             <div class="text-sm font-mono font-bold">1,256,456</div>
           </div>
-          <div class="bg-white/10 border border-white/20 p-1.5 rounded-full hover:bg-white/20 transition-colors cursor-pointer">
+          <div class="bg-white/10 border border-white/20 p-1.5 rounded-full hover:bg-white/20 cursor-pointer transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
@@ -127,35 +132,30 @@
         </div>
       </div>
 
-      <!-- NIVEL 2: Nav Principal  |  ALINEADA A LA DERECHA  |  bg #72387c -->
+      <!-- NIVEL 2 — #72387c  |  alineado a la DERECHA -->
       <nav class="bg-[#72387c] text-white flex items-center justify-end gap-1 px-4 md:px-6 py-1 border-b border-white/10">
         <button (click)="goBackToLanding()"
-                class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90
-                       hover:bg-white/15 hover:text-white transition-colors">
+                class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           Inicio
         </button>
         <div class="w-px h-3.5 bg-white/20 mx-0.5"></div>
-        <button class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90
-                       hover:bg-white/15 hover:text-white transition-colors">
+        <button class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          Documentos
+          Informes y Documentos
         </button>
       </nav>
 
-      <!-- NIVEL 3: Vistas + Selector  |  bg #C5328A -->
+      <!-- NIVEL 3 — #C5328A -->
       <div class="bg-[#C5328A] text-white flex justify-between items-center px-4 md:px-6 py-1.5">
-
-        <!-- Izquierda: botones con iconos SVG representativos -->
         <div class="flex items-center gap-1">
-
-          <!-- POBLACIÓN: icono user-group (personas) -->
+          <!-- Botón Población: icono user-group -->
           <button (click)="setActiveView('poblacion')"
-                  [class]="activeView() === 'poblacion'
+                  [class]="activeView()==='poblacion'
                     ? 'flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-white text-[#C5328A] shadow'
                     : 'flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/80 hover:bg-white/15 hover:text-white transition-colors'">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -163,10 +163,9 @@
             </svg>
             <span class="hidden sm:inline">Población</span>
           </button>
-
-          <!-- COMPARATIVO: icono presentation-chart-bar (barras) -->
+          <!-- Botón Comparativo: icono chart-bar -->
           <button (click)="setActiveView('comparativo')"
-                  [class]="activeView() === 'comparativo'
+                  [class]="activeView()==='comparativo'
                     ? 'flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-white text-[#C5328A] shadow'
                     : 'flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/80 hover:bg-white/15 hover:text-white transition-colors'">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,8 +174,7 @@
             <span class="hidden sm:inline">Comparativo Territorial</span>
           </button>
         </div>
-
-        <!-- Derecha: Selector de Departamentos -->
+        <!-- Selector Departamentos -->
         <div class="flex items-center gap-2">
           <span class="text-[9px] text-pink-100 uppercase font-black tracking-widest hidden md:block">Departamentos:</span>
           <div class="relative">
@@ -184,7 +182,7 @@
                     (ngModelChange)="onDepartmentChange($event)"
                     class="appearance-none bg-white/15 border border-white/30 text-white text-xs font-bold
                            rounded-md pl-3 pr-7 py-1 focus:outline-none focus:ring-2 focus:ring-white/40
-                           cursor-pointer hover:bg-white/25 transition-colors min-w-[130px] md:min-w-[160px]">
+                           cursor-pointer hover:bg-white/25 transition-colors min-w-[130px] md:min-w-[155px]">
               <option value="" class="text-gray-900 font-bold bg-white">TODOS</option>
               @for (dep of departments; track dep) {
                 <option [value]="dep" class="text-gray-900 bg-white">{{ dep }}</option>
@@ -201,26 +199,25 @@
     </header>
 
 
-    <!-- ================================================
-         CONTENIDO PRINCIPAL
-         ================================================ -->
+    <!-- ══════════════════════════════════════════════
+         CONTENIDO PRINCIPAL — 2 columnas
+         ══════════════════════════════════════════════ -->
     <div class="flex-1 overflow-hidden flex flex-col lg:flex-row min-h-0">
 
-      <!-- ── BLOQUE IZQUIERDO: MÉTRICAS ── -->
+      <!-- ───── BLOQUE IZQUIERDO: MÉTRICAS ───── -->
       <div class="lg:w-[54%] overflow-y-auto p-3 space-y-3 border-r border-gray-200/60 min-h-0">
 
-        <!-- ══════════════════════════════════════════
-             SUB-BLOQUE 1 — INDICADORES DE POBLACIÓN
-             ══════════════════════════════════════════ -->
+        <!-- ──────────────────────────────────────────
+             SUB-BLOQUE 1: INDICADORES DE POBLACIÓN
+             ────────────────────────────────────────── -->
         <section>
           <div class="flex items-center gap-2 mb-2">
             <div class="w-1 h-4 bg-[#C5328A] rounded-full"></div>
             <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Indicadores de Población</h2>
           </div>
 
-          <!-- Cards Hombres / Mujeres — grid equitativo -->
+          <!-- Cards H / M -->
           <div class="grid grid-cols-2 gap-3 mb-3">
-            <!-- Hombres -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 flex flex-col hover:shadow-md transition-shadow">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-1.5">
@@ -234,12 +231,12 @@
                 <span class="text-[9px] font-bold text-[#5A9CF8] bg-blue-50 px-1.5 py-0.5 rounded-full">48.8%</span>
               </div>
               <span class="text-2xl font-black text-[#5A9CF8] mb-0.5">{{ stats().menPercentage }}%</span>
-              <span class="text-[10px] text-gray-400 font-medium mb-2">17,450,120 personas</span>
+              <span class="text-[10px] text-gray-400 mb-2">17,450,120 personas</span>
               <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-[#5A9CF8] rounded-full transition-all duration-700" [style.width.%]="stats().menPercentage"></div>
               </div>
             </div>
-            <!-- Mujeres -->
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 flex flex-col hover:shadow-md transition-shadow">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-1.5">
@@ -253,41 +250,27 @@
                 <span class="text-[9px] font-bold text-[#D45D79] bg-pink-50 px-1.5 py-0.5 rounded-full">51.2%</span>
               </div>
               <span class="text-2xl font-black text-[#D45D79] mb-0.5">{{ stats().womenPercentage }}%</span>
-              <span class="text-[10px] text-gray-400 font-medium mb-2">18,228,558 personas</span>
+              <span class="text-[10px] text-gray-400 mb-2">18,228,558 personas</span>
               <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-[#D45D79] rounded-full transition-all duration-700" [style.width.%]="stats().womenPercentage"></div>
               </div>
             </div>
           </div>
 
-          <!-- Ciclo de Vida — bar 2D con [view] FIJO -->
+          <!-- Ciclo de Vida — echarts -->
           <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 mb-3 hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-1">
               <div>
                 <h3 class="text-xs font-black text-gray-700">Población por Ciclo de Vida</h3>
-                <p class="text-[9px] text-gray-400 font-medium uppercase">Grupos etarios (%)</p>
+                <p class="text-[9px] text-gray-400 uppercase">Grupos etarios (%)</p>
               </div>
               <div class="flex items-center gap-3 text-[8px] text-gray-400 font-bold uppercase flex-shrink-0">
-                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#5A9CF8] inline-block"></span>H</span>
-                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#D45D79] inline-block"></span>M</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-[#5A9CF8] inline-block"></span>Hombres</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-[#D45D79] inline-block"></span>Mujeres</span>
               </div>
             </div>
-            <!-- [view]="[chartWidth, 120]" — ancho calculado en TS, evita hover-to-render -->
-            <ngx-charts-bar-vertical-2d
-              [results]="lifecycleChartData()"
-              [view]="[chartWidth, 120]"
-              [scheme]="lifecycleColorScheme"
-              [groupPadding]="8"
-              [barPadding]="2"
-              [roundEdges]="true"
-              [showXAxisLabel]="false"
-              [showYAxisLabel]="false"
-              [xAxis]="true"
-              [yAxis]="false"
-              [legend]="false"
-              [animations]="true"
-              style="display:block; width:100%;">
-            </ngx-charts-bar-vertical-2d>
+            <!-- ✅ ngx-echarts: height por CSS, NO [view] numérico -->
+            <div echarts [options]="lifecycleOptions()" style="height:130px; width:100%;"></div>
           </div>
 
           <!-- Pirámide Poblacional -->
@@ -297,9 +280,9 @@
         </section>
 
 
-        <!-- ══════════════════════════════════════════
-             SUB-BLOQUE 2 — INDICADORES DEMOGRÁFICOS
-             ══════════════════════════════════════════ -->
+        <!-- ──────────────────────────────────────────
+             SUB-BLOQUE 2: INDICADORES DEMOGRÁFICOS
+             ────────────────────────────────────────── -->
         <section>
           <div class="flex items-center gap-2 mb-2">
             <div class="w-1 h-4 bg-[#8B4996] rounded-full"></div>
@@ -308,7 +291,7 @@
 
           <div class="grid grid-cols-2 gap-3 mb-3">
 
-            <!-- Edad Media / Mediana — SOLO CSS, carga instantánea -->
+            <!-- Edad Media / Mediana — CSS puro -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow">
               <div class="flex items-center gap-1.5 mb-2">
                 <div class="bg-purple-50 p-1 rounded-md">
@@ -339,7 +322,7 @@
                 </div>
                 <div>
                   <div class="flex justify-between text-[8px] text-gray-400 font-bold mb-0.5">
-                    <span>Mediana 27.0 años</span><span>100</span>
+                    <span>Mediana 27 años</span><span>100</span>
                   </div>
                   <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                     <div class="h-full bg-[#C5328A] rounded-full" style="width:27%"></div>
@@ -348,9 +331,9 @@
               </div>
             </div>
 
-            <!-- Razón Hombre-Mujer — pie-chart con [view] FIJO 100×100 -->
+            <!-- Razón H/M — donut echarts -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow flex flex-col">
-              <div class="flex items-center gap-1.5 mb-2">
+              <div class="flex items-center gap-1.5 mb-1">
                 <div class="bg-teal-50 p-1 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -358,46 +341,29 @@
                 </div>
                 <span class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Razón H/M</span>
               </div>
-              <div class="flex items-center gap-2 flex-1">
-                <!-- Donut pie-chart: dimensiones fijas, NO depende del layout -->
-                <ngx-charts-pie-chart
-                  [results]="sexRatioChartData()"
-                  [view]="[110, 110]"
-                  [scheme]="sexRatioColorScheme"
-                  [legend]="false"
-                  [labels]="false"
-                  [doughnut]="true"
-                  [arcWidth]="0.4"
-                  [animations]="true"
-                  style="display:block; flex-shrink:0;">
-                </ngx-charts-pie-chart>
-                <!-- Leyenda lateral — texto contenido, sin desborde -->
-                <div class="flex flex-col gap-2 flex-1 min-w-0">
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <div class="w-2 h-2 rounded-full bg-[#5A9CF8] flex-shrink-0"></div>
-                      <span class="text-[9px] text-gray-500 font-bold uppercase">Hombres</span>
-                    </div>
-                    <span class="text-lg font-black text-[#5A9CF8] block leading-none">48.8%</span>
-                    <span class="text-[9px] text-gray-400">17,450,120</span>
+              <div echarts [options]="sexRatioOptions()" style="height:110px; width:100%;"></div>
+              <div class="flex justify-around mt-1 pt-1 border-t border-gray-100">
+                <div class="text-center">
+                  <div class="flex items-center gap-1 justify-center mb-0.5">
+                    <div class="w-2 h-2 rounded-full bg-[#5A9CF8]"></div>
+                    <span class="text-[8px] text-gray-500 font-bold">Hombres</span>
                   </div>
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <div class="w-2 h-2 rounded-full bg-[#D45D79] flex-shrink-0"></div>
-                      <span class="text-[9px] text-gray-500 font-bold uppercase">Mujeres</span>
-                    </div>
-                    <span class="text-lg font-black text-[#D45D79] block leading-none">51.2%</span>
-                    <span class="text-[9px] text-gray-400">18,228,558</span>
+                  <span class="text-sm font-black text-[#5A9CF8]">48.8%</span>
+                </div>
+                <div class="w-px bg-gray-100"></div>
+                <div class="text-center">
+                  <div class="flex items-center gap-1 justify-center mb-0.5">
+                    <div class="w-2 h-2 rounded-full bg-[#D45D79]"></div>
+                    <span class="text-[8px] text-gray-500 font-bold">Mujeres</span>
                   </div>
-                  <div class="pt-1 border-t border-gray-100">
-                    <span class="text-[9px] text-gray-500 font-bold">95.7 H / 100 M</span>
-                  </div>
+                  <span class="text-sm font-black text-[#D45D79]">51.2%</span>
                 </div>
               </div>
+              <p class="text-center text-[9px] text-gray-400 font-bold mt-1">95.7 H / 100 M</p>
             </div>
           </div>
 
-          <!-- Relaciones de Dependencia (3 iguales) -->
+          <!-- Dependencia — 3 cards iguales -->
           <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow">
               <span class="text-[8px] font-black text-gray-400 uppercase tracking-wider block mb-1">Dep. Total</span>
@@ -425,9 +391,9 @@
             </div>
           </div>
 
-          <!-- Índice de Envejecimiento + línea con [view] FIJO -->
+          <!-- Índice de Envejecimiento — line echarts -->
           <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start mb-2">
+            <div class="flex justify-between items-start mb-1">
               <div class="flex items-center gap-2">
                 <div class="bg-amber-50 p-1 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -436,7 +402,7 @@
                 </div>
                 <div>
                   <h3 class="text-xs font-black text-gray-700">Índice de Envejecimiento</h3>
-                  <p class="text-[9px] text-gray-400">Adultos 60+ / 100 menores de 15</p>
+                  <p class="text-[9px] text-gray-400">Adultos 60+ / 100 menores de 15 años</p>
                 </div>
               </div>
               <div class="text-right flex-shrink-0 ml-2">
@@ -444,26 +410,14 @@
                 <p class="text-[8px] text-gray-400 font-bold uppercase">puntos</p>
               </div>
             </div>
-            <ngx-charts-line-chart
-              [results]="agingIndexTrendData()"
-              [view]="[chartWidth, 65]"
-              [scheme]="orangeColorScheme"
-              [showGridLines]="false"
-              [xAxis]="true"
-              [yAxis]="false"
-              [showXAxisLabel]="false"
-              [showYAxisLabel]="false"
-              [animations]="true"
-              [curve]="curveBasis"
-              style="display:block; width:100%;">
-            </ngx-charts-line-chart>
+            <div echarts [options]="agingTrendOptions()" style="height:70px; width:100%;"></div>
           </div>
         </section>
 
 
-        <!-- ══════════════════════════════════════════
-             SUB-BLOQUE 3 — INDICADORES DE TRANSICIÓN
-             ══════════════════════════════════════════ -->
+        <!-- ──────────────────────────────────────────────
+             SUB-BLOQUE 3: INDICADORES DE TRANSICIÓN
+             ────────────────────────────────────────────── -->
         <section class="pb-4">
           <div class="flex items-center gap-2 mb-2">
             <div class="w-1 h-4 bg-amber-500 rounded-full"></div>
@@ -473,7 +427,7 @@
           <div class="grid grid-cols-2 gap-3">
             <!-- Densidad Total -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow">
-              <div class="flex items-center gap-1.5 mb-2">
+              <div class="flex items-center gap-1.5 mb-1">
                 <div class="bg-amber-50 p-1 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -482,27 +436,17 @@
                 </div>
                 <span class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Densidad Total</span>
               </div>
-              <div class="flex items-end gap-1 mb-1">
-                <span class="text-2xl font-black text-amber-500">27.7</span>
+              <div class="flex items-end gap-1 mb-0.5">
+                <span class="text-xl font-black text-amber-500">27.7</span>
                 <span class="text-xs text-gray-400 font-bold mb-0.5">hab/km²</span>
               </div>
-              <p class="text-[9px] text-gray-400 mb-2">Superficie: 1,285,215 km²</p>
-              <ngx-charts-bar-vertical
-                [results]="densityBarData()"
-                [view]="[chartHalfWidth, 80]"
-                [scheme]="amberColorScheme"
-                [showXAxisLabel]="false"
-                [showYAxisLabel]="false"
-                [xAxis]="true"
-                [yAxis]="false"
-                [roundEdges]="true"
-                [animations]="true"
-                style="display:block; width:100%;">
-              </ngx-charts-bar-vertical>
+              <p class="text-[9px] text-gray-400 mb-1">Sup.: 1,285,215 km²</p>
+              <div echarts [options]="densityTotalOptions()" style="height:90px; width:100%;"></div>
             </div>
+
             <!-- Densidad Adulto Mayor -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 hover:shadow-md transition-shadow">
-              <div class="flex items-center gap-1.5 mb-2">
+              <div class="flex items-center gap-1.5 mb-1">
                 <div class="bg-rose-50 p-1 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -510,39 +454,28 @@
                 </div>
                 <span class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Densidad Adulto Mayor</span>
               </div>
-              <div class="flex items-end gap-1 mb-1">
-                <span class="text-2xl font-black text-rose-500">4.2</span>
+              <div class="flex items-end gap-1 mb-0.5">
+                <span class="text-xl font-black text-rose-500">4.2</span>
                 <span class="text-xs text-gray-400 font-bold mb-0.5">hab/km²</span>
               </div>
-              <p class="text-[9px] text-gray-400 mb-2">5,388,254 mayores de 60 años</p>
-              <ngx-charts-bar-vertical
-                [results]="densityElderlyBarData()"
-                [view]="[chartHalfWidth, 80]"
-                [scheme]="roseColorScheme"
-                [showXAxisLabel]="false"
-                [showYAxisLabel]="false"
-                [xAxis]="true"
-                [yAxis]="false"
-                [roundEdges]="true"
-                [animations]="true"
-                style="display:block; width:100%;">
-              </ngx-charts-bar-vertical>
+              <p class="text-[9px] text-gray-400 mb-1">5,388,254 may. de 60 años</p>
+              <div echarts [options]="densityElderlyOptions()" style="height:90px; width:100%;"></div>
             </div>
           </div>
         </section>
       </div>
 
 
-      <!-- ── BLOQUE DERECHO: MAPA ── -->
+      <!-- ───── BLOQUE DERECHO: MAPA ───── -->
       <div class="lg:w-[46%] flex-shrink-0 p-3 flex flex-col min-h-0">
         <app-map-viewer class="flex-1 block min-h-[400px] lg:min-h-0"></app-map-viewer>
       </div>
     </div>
 
 
-    <!-- ================================================
-         FOOTER FIJO
-         ================================================ -->
+    <!-- ══════════════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════════════ -->
     <footer class="flex-shrink-0 bg-[#3d1d45] text-white py-2 px-4 md:px-6 flex justify-between items-center z-40 border-t border-white/10">
       <div class="hidden md:block">
         <p class="text-[9px] text-purple-300 font-semibold uppercase tracking-widest">Instituto Nacional de Estadística e Informática</p>
@@ -550,39 +483,29 @@
       </div>
       <div class="flex items-center gap-1.5">
         <span class="text-[8px] text-purple-400 uppercase tracking-widest hidden sm:block mr-1">Síguenos:</span>
-        <a href="#" aria-label="Facebook" class="text-purple-300 hover:text-white transition-colors p-1 rounded hover:bg-white/10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
+        <a href="#" class="text-purple-300 hover:text-white p-1 rounded hover:bg-white/10 transition-colors" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </a>
-        <a href="#" aria-label="X" class="text-purple-300 hover:text-white transition-colors p-1 rounded hover:bg-white/10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
+        <a href="#" class="text-purple-300 hover:text-white p-1 rounded hover:bg-white/10 transition-colors" aria-label="X">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="#" aria-label="Instagram" class="text-purple-300 hover:text-white transition-colors p-1 rounded hover:bg-white/10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
+        <a href="#" class="text-purple-300 hover:text-white p-1 rounded hover:bg-white/10 transition-colors" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </a>
-        <a href="#" aria-label="YouTube" class="text-purple-300 hover:text-white transition-colors p-1 rounded hover:bg-white/10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
+        <a href="#" class="text-purple-300 hover:text-white p-1 rounded hover:bg-white/10 transition-colors" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </a>
-        <a href="#" aria-label="LinkedIn" class="text-purple-300 hover:text-white transition-colors p-1 rounded hover:bg-white/10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
+        <a href="#" class="text-purple-300 hover:text-white p-1 rounded hover:bg-white/10 transition-colors" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         </a>
       </div>
       <p class="text-[8px] text-purple-400 hidden lg:block">© 2026 INEI — CPV 2025</p>
     </footer>
 
 
-    <!-- ================================================
+    <!-- ══════════════════════════════════════════════
          GEOBOT
-         ================================================ -->
+         ══════════════════════════════════════════════ -->
     <div class="fixed bottom-12 right-4 z-50 flex flex-col items-end gap-2">
       @if (isOpen()) {
         <div class="w-72 md:w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col animate-fade-in-up">
@@ -614,7 +537,7 @@
               </button>
             }
           </div>
-          <div class="h-56 bg-gray-50 p-3 overflow-y-auto flex flex-col gap-2 chat-scroll-area">
+          <div class="h-52 bg-gray-50 p-3 overflow-y-auto flex flex-col gap-2 chat-scroll-area">
             @for (msg of messages(); track msg.time) {
               <div class="flex gap-2 max-w-[90%]" [ngClass]="{'self-end flex-row-reverse': msg.sender === 'user'}">
                 <div class="p-2.5 rounded-xl text-xs shadow-sm leading-relaxed"
@@ -634,13 +557,10 @@
             }
           </div>
           <div class="p-2 bg-white border-t flex gap-2">
-            <input type="text"
-                   [(ngModel)]="userMessageValue"
-                   (keyup.enter)="sendMessage()"
+            <input type="text" [(ngModel)]="userMessageValue" (keyup.enter)="sendMessage()"
                    placeholder="Pregunta sobre el Censo..."
                    class="flex-1 bg-gray-100 text-xs rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#C5328A]/30">
-            <button (click)="sendMessage()"
-                    class="bg-[#C5328A] text-white p-1.5 rounded-full hover:bg-[#a02474] transition-colors">
+            <button (click)="sendMessage()" class="bg-[#C5328A] text-white p-1.5 rounded-full hover:bg-[#a02474] transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
               </svg>
@@ -648,8 +568,7 @@
           </div>
         </div>
       }
-      <button (click)="toggleChat()"
-              [class.scale-0]="isOpen()"
+      <button (click)="toggleChat()" [class.scale-0]="isOpen()"
               class="bg-gradient-to-r from-[#8B4996] to-[#C5328A] text-white px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 transition-all">
         <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
         <span class="font-semibold text-xs">Asistente IA</span>
@@ -659,24 +578,23 @@
   </div>
 }
 
-
 <style>
   @keyframes slide-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
   }
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity:0; }
+    to   { opacity:1; }
   }
   @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(10px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity:0; transform:translateY(10px) scale(0.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
   }
   .animate-slide-up   { animation: slide-up 0.8s ease-out forwards; }
   .animate-fade-in    { animation: fadeIn 0.5s ease-in-out; }
   .animate-fade-in-up { animation: fadeInUp 0.2s ease-out forwards; }
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
+  .delay-100 { animation-delay:100ms; }
+  .delay-200 { animation-delay:200ms; }
+  .delay-300 { animation-delay:300ms; }
 </style>

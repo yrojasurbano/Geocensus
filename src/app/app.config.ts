@@ -1,15 +1,28 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-
-// ─── CRÍTICO: sin provideAnimations(), ngx-charts no inicializa sus ───────────
-// componentes SVG correctamente y solo renderiza al hacer hover.             ───
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  importProvidersFrom,
+} from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient }  from '@angular/common/http';
+
+// ── ngx-echarts ──────────────────────────────────────────────────────────────
+// provideEchartsCore NO existe en ngx-echarts.
+// La forma correcta para apps Standalone Angular 17+ es importProvidersFrom
+// con NgxEchartsModule.forRoot(), pasando el motor eagerly.
 // ─────────────────────────────────────────────────────────────────────────────
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts          from 'echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),   // necesario para cargar el GeoJSON en map-viewer
-    provideAnimations(),   // necesario para que ngx-charts renderice al inicio
+    provideAnimations(),
+    provideHttpClient(),
+
+    // Registra NGX_ECHARTS_CONFIG globalmente (resuelve NG0201)
+    importProvidersFrom(
+      NgxEchartsModule.forRoot({ echarts }),
+    ),
   ],
 };

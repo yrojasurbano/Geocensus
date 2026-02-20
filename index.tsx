@@ -1,13 +1,12 @@
-import { enableProdMode } from '@angular/core';
+// index.tsx — Entry point de la aplicación GeoCensus
+// ─────────────────────────────────────────────────────────────────────────────
+
+// CORRECCIÓN NG0908: Zone.js debe importarse ANTES que cualquier cosa de Angular
+import 'zone.js';
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './src/app.component';
-import { provideZonelessChangeDetection } from '@angular/core';
+import { AppComponent }         from './src/app/app.component';
+import { appConfig }            from './src/app/app.config';
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideZonelessChangeDetection()
-  ]
-}).catch(err => console.error(err));
-
-// AI Studio always uses an `index.tsx` file for all project types.
+bootstrapApplication(AppComponent, appConfig)
+  .catch(err => console.error(err));
