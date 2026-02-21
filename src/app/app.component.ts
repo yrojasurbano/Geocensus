@@ -3,17 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CensusService } from '../services/census.service';
 
-// Componentes propios
-import { PyramidChartComponent } from '../components/pyramid-chart.component';
-import { MapViewerComponent }    from '../components/map-viewer.component';
+import { PyramidChartComponent }           from '../components/pyramid-chart.component';
+import { MapViewerComponent }              from '../components/map-viewer.component';
+import { InformesComponent }               from '../components/informes.component';
+import { ComparativaTerritorialComponent } from '../components/comparativa-territorial.component'; // ← NUEVO
 
-// ── ngx-echarts ──────────────────────────────────────────────────────────────
-// Sólo se importa la DIRECTIVA. El motor ECharts completo se registra
-// una sola vez en app.config.ts mediante provideEcharts().
-// Compatible con Angular 19, 20, 21+
 import { NgxEchartsDirective } from 'ngx-echarts';
 import type { EChartsOption }   from 'echarts';
-// ─────────────────────────────────────────────────────────────────────────────
 
 type ActiveView = 'poblacion' | 'comparativo';
 
@@ -34,30 +30,62 @@ interface QuickAction {
   imports: [
     CommonModule,
     FormsModule,
-    NgxEchartsDirective,   // ← directiva "echarts" para usar en el template
+    NgxEchartsDirective,
     PyramidChartComponent,
     MapViewerComponent,
+    InformesComponent,
+    ComparativaTerritorialComponent, // ← NUEVO
   ],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 
-  // ── Servicio de datos ───────────────────────────────────────────────────────
   census = inject(CensusService);
   stats  = this.census.globalStats;
 
   ngOnInit(): void {}
 
-  // ── Landing / Dashboard ─────────────────────────────────────────────────────
-  showLanding = signal(true);
-  enterDashboard():  void { this.showLanding.set(false); }
-  goBackToLanding(): void { this.showLanding.set(true);  }
+  // ── Vistas principales ───────────────────────────────────────────────────
+  showLanding     = signal(true);
+  showInformes    = signal(false);
+  showComparativa = signal(false); // ← NUEVO
 
-  // ── Vista activa ────────────────────────────────────────────────────────────
+  enterDashboard(): void {
+    this.showLanding.set(false);
+    this.showInformes.set(false);
+    this.showComparativa.set(false);
+  }
+
+  goBackToLanding(): void {
+    this.showLanding.set(true);
+    this.showInformes.set(false);
+    this.showComparativa.set(false);
+  }
+
+  enterInformes(): void {
+    this.showLanding.set(false);
+    this.showInformes.set(true);
+    this.showComparativa.set(false);
+  }
+
+  goBackToDashboard(): void {
+    this.showInformes.set(false);
+    this.showComparativa.set(false);
+    this.showLanding.set(false);
+  }
+
+  // ← NUEVO: entra a la vista comparativa territorial
+  enterComparativa(): void {
+    this.showLanding.set(false);
+    this.showInformes.set(false);
+    this.showComparativa.set(true);
+  }
+
+  // ── Vista activa del dashboard ───────────────────────────────────────────
   activeView = signal<ActiveView>('poblacion');
   setActiveView(view: ActiveView): void { this.activeView.set(view); }
 
-  // ── Filtro de departamentos ─────────────────────────────────────────────────
+  // ── Filtro de departamentos ──────────────────────────────────────────────
   selectedDepartmentValue = '';
   selectedDepartment      = signal<string>('');
 
@@ -71,120 +99,58 @@ export class AppComponent implements OnInit {
 
   onDepartmentChange(dep: string): void {
     this.selectedDepartment.set(dep);
-    // Pendiente: this.census.setDepartmentFilter(dep);
   }
 
-  // ════════════════════════════════════════════════════════════════════════════
-  //  OPCIONES DE ECHARTS
-  //  Cada objeto EChartsOption se pasa directamente a la directiva [options].
-  //  ngx-echarts usa el height del contenedor CSS — NO se necesita [view].
-  // ════════════════════════════════════════════════════════════════════════════
-
-  /** Barras agrupadas: Población por Ciclo de Vida */
+  // ── ECharts options ──────────────────────────────────────────────────────
   lifecycleOptions = computed<EChartsOption>(() => ({
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { type: 'shadow' },
-      formatter: (p: any) =>
-        p.map((s: any) => `${s.marker}${s.seriesName}: <b>${s.value}%</b>`).join('<br/>'),
-    },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' },
+      formatter: (p: any) => p.map((s: any) => `${s.marker}${s.seriesName}: <b>${s.value}%</b>`).join('<br/>') },
     grid: { left: 4, right: 4, top: 6, bottom: 18, containLabel: true },
-    xAxis: {
-      type: 'category',
-      data: ['0-14','15-29','30-44','45-59','60+'],
-      axisLabel: { fontSize: 9, color: '#9CA3AF' },
-      axisLine:  { show: false },
-      axisTick:  { show: false },
-    },
+    xAxis: { type: 'category', data: ['0-14','15-29','30-44','45-59','60+'],
+      axisLabel: { fontSize: 9, color: '#9CA3AF' }, axisLine: { show: false }, axisTick: { show: false } },
     yAxis: { show: false },
     series: [
-      {
-        name: 'Hombres', type: 'bar', barMaxWidth: 20,
-        itemStyle: { color: '#5A9CF8', borderRadius: [3,3,0,0] },
-        data: [15.2, 13.8, 10.5, 7.8, 7.2],
-      },
-      {
-        name: 'Mujeres', type: 'bar', barMaxWidth: 20,
-        itemStyle: { color: '#D45D79', borderRadius: [3,3,0,0] },
-        data: [14.5, 13.4, 10.9, 8.3, 8.4],
-      },
+      { name: 'Hombres', type: 'bar', barMaxWidth: 20, itemStyle: { color: '#5A9CF8', borderRadius: [3,3,0,0] }, data: [15.2,13.8,10.5,7.8,7.2] },
+      { name: 'Mujeres', type: 'bar', barMaxWidth: 20, itemStyle: { color: '#D45D79', borderRadius: [3,3,0,0] }, data: [14.5,13.4,10.9,8.3,8.4] },
     ],
     animationDuration: 700,
   }));
 
-  /** Donut: Razón Hombre-Mujer */
   sexRatioOptions = computed<EChartsOption>(() => ({
     tooltip: { trigger: 'item', formatter: '{b}: <b>{d}%</b>' },
-    series: [{
-      type: 'pie',
-      radius:   ['48%','75%'],
-      center:   ['50%','50%'],
+    series: [{ type: 'pie', radius: ['48%','75%'], center: ['50%','50%'],
       data: [
         { name: 'Hombres', value: 17450120, itemStyle: { color: '#5A9CF8' } },
         { name: 'Mujeres', value: 18228558, itemStyle: { color: '#D45D79' } },
       ],
-      label:     { show: false },
-      labelLine: { show: false },
-      emphasis: {
-        itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.25)' },
-      },
+      label: { show: false }, labelLine: { show: false },
+      emphasis: { itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.25)' } },
     }],
     animationDuration: 700,
   }));
 
-  /** Línea suavizada: Tendencia Índice de Envejecimiento */
   agingTrendOptions = computed<EChartsOption>(() => ({
-    tooltip: {
-      trigger: 'axis',
-      formatter: (p: any) => `${p[0].name}: <b>${p[0].value} pts</b>`,
-    },
+    tooltip: { trigger: 'axis', formatter: (p: any) => `${p[0].name}: <b>${p[0].value} pts</b>` },
     grid: { left: 4, right: 4, top: 4, bottom: 18, containLabel: true },
-    xAxis: {
-      type: 'category',
-      data: ['1993','2005','2007','2017','2025'],
-      axisLabel: { fontSize: 9, color: '#9CA3AF' },
-      axisLine:  { show: false },
-      axisTick:  { show: false },
-    },
+    xAxis: { type: 'category', data: ['1993','2005','2007','2017','2025'],
+      axisLabel: { fontSize: 9, color: '#9CA3AF' }, axisLine: { show: false }, axisTick: { show: false } },
     yAxis: { show: false },
-    series: [{
-      type: 'line',
-      smooth: true,
-      symbol: 'circle',
-      symbolSize: 5,
-      data: [14.1, 19.8, 21.3, 29.7, 37.9],
-      lineStyle: { color: '#F59E0B', width: 2.5 },
+    series: [{ type: 'line', smooth: true, symbol: 'circle', symbolSize: 5,
+      data: [14.1,19.8,21.3,29.7,37.9], lineStyle: { color: '#F59E0B', width: 2.5 },
       itemStyle: { color: '#F59E0B' },
-      areaStyle: {
-        color: {
-          type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-          colorStops: [
-            { offset: 0, color: 'rgba(245,158,11,0.30)' },
-            { offset: 1, color: 'rgba(245,158,11,0.02)' },
-          ],
-        },
-      },
+      areaStyle: { color: { type: 'linear', x:0, y:0, x2:0, y2:1,
+        colorStops: [{ offset:0, color:'rgba(245,158,11,0.30)' },{ offset:1, color:'rgba(245,158,11,0.02)' }] } },
     }],
     animationDuration: 700,
   }));
 
-  /** Barras horizontales: Densidad Población Total */
   densityTotalOptions = computed<EChartsOption>(() => ({
-    tooltip: {
-      trigger: 'axis',
-      formatter: (p: any) => `${p[0].name}: <b>${p[0].value} hab/km²</b>`,
-    },
+    tooltip: { trigger: 'axis', formatter: (p: any) => `${p[0].name}: <b>${p[0].value} hab/km²</b>` },
     grid: { left: 8, right: 28, top: 4, bottom: 4, containLabel: true },
     xAxis: { show: false },
-    yAxis: {
-      type: 'category',
-      data: ['Selva','Sierra','Nacional','Costa'],
-      axisLabel: { fontSize: 9, color: '#9CA3AF' },
-      axisLine:  { show: false },
-      axisTick:  { show: false },
-    },
-    series: [{
-      type: 'bar', barMaxWidth: 14,
+    yAxis: { type: 'category', data: ['Selva','Sierra','Nacional','Costa'],
+      axisLabel: { fontSize: 9, color: '#9CA3AF' }, axisLine: { show: false }, axisTick: { show: false } },
+    series: [{ type: 'bar', barMaxWidth: 14,
       data: [
         { value: 3.8,   itemStyle: { color: '#FDE68A', borderRadius: [0,3,3,0] } },
         { value: 22.4,  itemStyle: { color: '#FCD34D', borderRadius: [0,3,3,0] } },
@@ -196,23 +162,13 @@ export class AppComponent implements OnInit {
     animationDuration: 700,
   }));
 
-  /** Barras horizontales: Densidad Adulto Mayor */
   densityElderlyOptions = computed<EChartsOption>(() => ({
-    tooltip: {
-      trigger: 'axis',
-      formatter: (p: any) => `${p[0].name}: <b>${p[0].value} hab/km²</b>`,
-    },
+    tooltip: { trigger: 'axis', formatter: (p: any) => `${p[0].name}: <b>${p[0].value} hab/km²</b>` },
     grid: { left: 8, right: 28, top: 4, bottom: 4, containLabel: true },
     xAxis: { show: false },
-    yAxis: {
-      type: 'category',
-      data: ['Selva','Sierra','Nacional','Costa'],
-      axisLabel: { fontSize: 9, color: '#9CA3AF' },
-      axisLine:  { show: false },
-      axisTick:  { show: false },
-    },
-    series: [{
-      type: 'bar', barMaxWidth: 14,
+    yAxis: { type: 'category', data: ['Selva','Sierra','Nacional','Costa'],
+      axisLabel: { fontSize: 9, color: '#9CA3AF' }, axisLine: { show: false }, axisTick: { show: false } },
+    series: [{ type: 'bar', barMaxWidth: 14,
       data: [
         { value: 0.8,  itemStyle: { color: '#FCA5A5', borderRadius: [0,3,3,0] } },
         { value: 4.1,  itemStyle: { color: '#F87171', borderRadius: [0,3,3,0] } },
@@ -224,7 +180,7 @@ export class AppComponent implements OnInit {
     animationDuration: 700,
   }));
 
-  // ── Menús legado ────────────────────────────────────────────────────────────
+  // ── Menús ────────────────────────────────────────────────────────────────
   isCensoMenuOpen    = signal(false);
   isResultadosOpen   = signal(false);
   isInformesMenuOpen = signal(false);
@@ -238,7 +194,7 @@ export class AppComponent implements OnInit {
   toggleResultados():   void { const s = this.isResultadosOpen();   this.closeAllMenus(); this.isResultadosOpen.set(!s); }
   toggleInformesMenu(): void { const s = this.isInformesMenuOpen(); this.closeAllMenus(); this.isInformesMenuOpen.set(!s); }
 
-  // ── GeoBot ──────────────────────────────────────────────────────────────────
+  // ── GeoBot ───────────────────────────────────────────────────────────────
   isOpen   = signal(false);
   isTyping = signal(false);
   userMessageValue = '';
