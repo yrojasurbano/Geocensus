@@ -326,7 +326,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <span class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Razón H/M</span>
+                <span class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Razón Hombre/Mujer</span>
               </div>
               <div echarts [options]="sexRatioOptions()" style="height:110px; width:100%;"></div>
               <div class="flex justify-around mt-1 pt-1 border-t border-gray-100">
@@ -449,7 +449,10 @@
 
       <!-- BLOQUE DERECHO: MAPA -->
       <div class="lg:w-[46%] flex-shrink-0 p-3 flex flex-col min-h-0">
-        <app-map-viewer class="flex-1 block min-h-[400px] lg:min-h-0"></app-map-viewer>
+        <app-map-viewer
+          class="flex-1 block min-h-[400px] lg:min-h-0"
+          [selectedDepartment]="selectedDepartment()">
+        </app-map-viewer>
       </div>
     </div>
 
@@ -458,7 +461,7 @@
     <footer class="flex-shrink-0 bg-[#3d1d45] text-white py-2 px-4 md:px-6 flex justify-between items-center z-40 border-t border-white/10">
       <div class="hidden md:block">
         <p class="text-[9px] text-purple-300 font-semibold uppercase tracking-widest">Instituto Nacional de Estadística e Informática</p>
-        <p class="text-[9px] text-purple-400">Jr. General Garzón N° 658, Jesús María — Lima, Perú | (01) 203-3000</p>
+        <p class="text-[9px] text-purple-400">Av. General Garzón N° 654-658, Jesús María — Lima, Perú | (01) 203-3000</p>
       </div>
       <div class="flex items-center gap-1.5">
         <span class="text-[8px] text-purple-400 uppercase tracking-widest hidden sm:block mr-1">Síguenos:</span>

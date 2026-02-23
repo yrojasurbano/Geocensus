@@ -109,6 +109,7 @@ export class ComparativaTerritorialComponent {
   // ── Outputs de navegación ─────────────────────────────────────────────
   goToLanding   = output<void>();
   goToDashboard = output<void>();   // Vuelve al dashboard (vista Población)
+  goToInformes  = output<void>();   // Navega a Informes y Documentos
 
   // ── Nivel ─────────────────────────────────────────────────────────────
   readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];

@@ -98,7 +98,13 @@ export class AppComponent implements OnInit {
   ];
 
   onDepartmentChange(dep: string): void {
-    this.selectedDepartment.set(dep);
+    this.selectedDepartment.set(dep);   // señal que se pasa al mapa vía @Input
+  }
+
+  /** Resetea la selección de departamento — muestra todos los polígonos */
+  clearDepartmentSelection(): void {
+    this.selectedDepartmentValue = '';
+    this.selectedDepartment.set('');
   }
 
   // ── ECharts options ──────────────────────────────────────────────────────
