@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
            </div>
         </div>
 
-        <h1 class="text-xl font-bold uppercase tracking-wide hidden md:block">Sistema de Consulta de Resultados Preliminares para los Censos Nacionales 2025</h1>
+        <h1 class="text-xl font-bold uppercase tracking-wide hidden md:block">Censos Nacionales de Población y Vivienda CPV 2025</h1>
 
         <div class="flex items-center gap-3 text-right">
             <div>
