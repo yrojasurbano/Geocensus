@@ -1,6 +1,6 @@
 <!-- RUTA: src/app/components/comparativa-territorial.component.html -->
 
-<div class="flex flex-col h-screen w-full overflow-hidden bg-[#F0EEF5] font-sans animate-fade-in"
+<div class="flex flex-col w-full bg-[#F0EEF5] font-sans animate-fade-in lg:h-screen lg:overflow-hidden"
      (click)="closeAll()">
 
   <!-- ══════════════════════════════════════════════════════════════════
@@ -9,13 +9,13 @@
   <header class="flex-shrink-0 z-40 shadow-xl">
 
     <!-- NIVEL 1 — #8B4996 : Logos + título institucional -->
-    <div class="bg-[#8B4996] text-white flex justify-between items-center px-4 md:px-6 py-2 border-b border-white/10">
+    <div class="bg-[#8B4996] text-white flex justify-between items-center px-3 md:px-6 py-2 border-b border-white/10">
       <div class="flex items-center gap-3">
         <div class="bg-white p-1.5 rounded-md shadow-md flex-shrink-0">
-          <img src="assets/images/logo.png" alt="INEI" class="h-8 w-auto object-contain">
+          <img src="assets/images/logo.png" alt="INEI" class="h-7 md:h-8 w-auto object-contain">
         </div>
         <div class="bg-white p-1.5 rounded-md shadow-md flex-shrink-0">
-          <img src="assets/images/logo-cpv.png" alt="CPV 2025" class="h-8 w-auto object-contain">
+          <img src="assets/images/logo-cpv.png" alt="CPV 2025" class="h-7 md:h-8 w-auto object-contain">
         </div>
         <div class="ml-1 hidden md:flex flex-col">
           <p class="text-[9px] text-purple-200 uppercase tracking-widest font-semibold leading-none mb-0.5">
@@ -41,7 +41,7 @@
     </div>
 
     <!-- NIVEL 2 — #72387c : Navegación secundaria -->
-    <nav class="bg-[#72387c] text-white flex items-center justify-end gap-1 px-4 md:px-6 py-1 border-b border-white/10">
+    <nav class="bg-[#72387c] text-white flex items-center justify-end gap-1 px-3 md:px-6 py-1 border-b border-white/10">
       <!-- Inicio -->
       <button (click)="goToLanding.emit()"
               class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
@@ -71,7 +71,7 @@
     </nav>
 
     <!-- NIVEL 3 — #C5328A : Tabs de vista + filtros -->
-    <div class="bg-[#C5328A] text-white flex justify-between items-center px-4 md:px-6 py-1.5"
+    <div class="bg-[#C5328A] text-white px-3 md:px-6 pt-1.5 pb-1.5 flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 md:gap-0"
          (click)="$event.stopPropagation()">
 
       <!-- Tabs: Población | Comparativo Territorial (activo) -->
@@ -93,8 +93,8 @@
         </button>
       </div>
 
-      <!-- Filtros desplegables -->
-      <div class="flex items-center gap-2">
+      <!-- Filtros desplegables (flex-wrap preserva posicionamiento absolute de paneles) -->
+      <div class="flex flex-wrap items-center gap-2">
 
         <!-- ★ Nivel -->
         <div class="relative">
@@ -258,8 +258,8 @@
   <!-- ══════════════════════════════════════════════════════════════════
        CUERPO — Tabla estadística tabular (estilo Excel/INEI)
        ══════════════════════════════════════════════════════════════════ -->
-  <main class="flex-1 overflow-hidden flex flex-col min-h-0 p-3">
-    <div class="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col min-h-0">
+  <main class="flex-1 lg:overflow-hidden flex flex-col lg:min-h-0 p-2 sm:p-3">
+    <div class="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col min-h-[300px] lg:min-h-0">
 
       <!-- Barra de estado de la tabla -->
       <div class="flex items-center justify-between px-4 py-2 bg-[#8B4996]/5 border-b border-[#8B4996]/10 flex-shrink-0">
@@ -543,7 +543,7 @@
   </main>
 
   <!-- FOOTER — idéntico al Dashboard principal -->
-  <footer class="flex-shrink-0 bg-[#3d1d45] text-white py-2 px-4 md:px-6 flex justify-between items-center z-40 border-t border-white/10">
+  <footer class="flex-shrink-0 bg-[#3d1d45] text-white py-2 px-3 md:px-6 flex justify-between items-center z-40 border-t border-white/10">
     <div class="hidden md:block">
       <p class="text-[9px] text-purple-300 font-semibold uppercase tracking-widest">Instituto Nacional de Estadística e Informática</p>
       <p class="text-[9px] text-purple-400">Av. General Garzón N° 654 - 658, Jesús María — Lima, Perú | (01) 203-3000</p>

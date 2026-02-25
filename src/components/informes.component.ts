@@ -39,7 +39,7 @@ interface Indicador {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <div class="flex flex-col h-screen w-full overflow-hidden bg-[#F0EEF5] font-sans">
+    <div class="flex flex-col w-full bg-[#F0EEF5] font-sans lg:h-screen lg:overflow-hidden">
 
       <!-- ══ HEADER NIVEL 1 — #8B4996 : Logos + título (= Dashboard) ══ -->
       <div class="bg-[#8B4996] text-white flex justify-between items-center px-4 md:px-6 py-2 border-b border-white/10 flex-shrink-0">
@@ -73,32 +73,31 @@ interface Indicador {
         </div>
       </div>
 
-      <!-- ══ HEADER NIVEL 2 — #72387c : Navegación secundaria (= Dashboard) ══ -->
-      <nav class="bg-[#72387c] text-white flex items-center justify-end gap-1 px-4 md:px-6 py-1 border-b border-white/10 flex-shrink-0">
+      <nav class="bg-[#72387c] text-white flex items-center justify-end gap-1 px-3 md:px-6 py-1 border-b border-white/10 flex-shrink-0">
         <!-- Inicio -->
         <button (click)="onGoHome()"
-                class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
+                class="flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
-          Inicio
+          <span class="hidden xs:inline">Inicio</span>
         </button>
         <div class="w-px h-3.5 bg-white/20 mx-0.5"></div>
         <!-- Primeros Resultados -->
         <button (click)="onGoDashboard()"
-                class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
+                class="flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-md text-xs font-semibold text-white/90 hover:bg-white/15 hover:text-white transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          Primeros Resultados
+          <span class="hidden sm:inline">Primeros Resultados</span>
         </button>
         <div class="w-px h-3.5 bg-white/20 mx-0.5"></div>
         <!-- Informes y Documentos — ACTIVO en esta vista -->
-        <button class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-white/20 text-white border border-white/30 cursor-default">
+        <button class="flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-md text-xs font-bold bg-white/20 text-white border border-white/30 cursor-default">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          Informes y Documentos
+          <span class="hidden sm:inline">Informes y Documentos</span>
         </button>
       </nav>
 
@@ -166,7 +165,7 @@ interface Indicador {
             @if (activeDocView() === 'cedulas') {
               <div class="animate-fade-in">
                 <p class="text-xs text-gray-500 mb-5 leading-relaxed max-w-3xl">Las cédulas censales son los instrumentos oficiales de recolección del CPV 2025. Fueron diseñadas por el INEI con el apoyo de CEPAL y UNFPA, y validadas en el Censo Piloto 2024 en las provincias de Barranca, Huanta y San Ignacio.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   @for (c of cedulas; track c.titulo) {
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
                       <div class="p-6 flex flex-col items-center border-b border-gray-100 relative"
