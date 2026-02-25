@@ -12,31 +12,41 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": {
-              "base": "./dist",
-              "browser": "."
-            },
+            "outputPath": "dist/inei-census-dashboard-2025",
             "index": "src/index.html",
-            "browser": "index.tsx",
+            "browser": "src/main.ts",
             "tsConfig": "tsconfig.json",
-            "styles": [
-              "src/styles.css"
+            "polyfills": [
+              "zone.js"
             ],
+            "inlineStyleLanguage": "css",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
               },
-              {
-                "glob": "favicon.ico",
-                "input": "src",
-                "output": "/"
-              }
-            ]
+              "src/favicon.ico"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {
@@ -45,7 +55,7 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
@@ -64,8 +74,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "a3066cba-4acf-4661-915f-6a19b649ea2c"
   }
 }
