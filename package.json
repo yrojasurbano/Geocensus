@@ -3,9 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "engines": {
-    "node": ">=22.14.0"
-  },
   "scripts": {
     "dev": "ng serve",
     "build": "node --max-old-space-size=2048 ./node_modules/@angular/cli/bin/ng build --configuration production",
