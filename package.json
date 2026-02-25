@@ -7,7 +7,7 @@
     "dev": "ng serve",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "start": "npx serve -s dist/inei-census-dashboard-2025/browser -p 3000"
+    "start": "npx serve -s dist/inei-census-dashboard-2025 -p 3000"
   },
   "dependencies": {
     "@angular/animations": "^17.3.0",
