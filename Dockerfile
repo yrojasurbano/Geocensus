@@ -1,16 +1,19 @@
-# Etapa de compilación
-FROM node:22.14.0-slim AS build
+# Etapa de compilación con Alpine
+FROM node:22.14.0-alpine AS build
 WORKDIR /app
 COPY package*.json ./
+# Instalamos dependencias
 RUN npm install
 COPY . .
+# Construimos la app
 RUN npm run build -- --configuration production
 
-# Etapa de servidor
+# Etapa de servidor con Alpine
 FROM nginx:stable-alpine
-# Ajusta esta ruta si tu proyecto se llama distinto en angular.json
+# IMPORTANTE: Verifica esta ruta en tu angular.json
 COPY --from=build /app/dist/inei-census-dashboard-2025/browser /usr/share/nginx/html
-# Configuración para Single Page Application
+
+# Configuración SPA
 RUN echo 'server { \
     listen 80; \
     location / { \
@@ -19,4 +22,5 @@ RUN echo 'server { \
         try_files $uri $uri/ /index.html; \
     } \
 }' > /etc/nginx/conf.d/default.conf
+
 EXPOSE 80

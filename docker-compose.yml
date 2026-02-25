@@ -5,11 +5,3 @@ services:
       dockerfile: Dockerfile
     container_name: geocensus-dashboard
     restart: always
-    ports:
-      - "3000:80"
-    networks:
-      - dokploy-network
-
-networks:
-  dokploy-network:
-    external: true
