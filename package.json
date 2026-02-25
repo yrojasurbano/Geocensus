@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ng serve",
     "build": "ng build",
-    "preview": "ng serve --configuration=production"
+    "preview": "ng serve --configuration=production",
+    "start": "npx serve -s dist/inei-census-dashboard-2025/browser -p 3000"
   },
   "dependencies": {
     "@angular/animations": "^21.1.5",
