@@ -14,13 +14,16 @@ import { RouterLink } from '@angular/router';
       <!-- Replicated Header -->
       <header class="absolute top-0 left-0 right-0 z-50 flex justify-between items-start px-6 py-3 md:px-12 md:py-4 text-[#343b9f] w-full">
         <div class="flex items-center gap-8 mt-1">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#343b9f] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
-              <mat-icon>account_balance</mat-icon>
-            </div>
-            <div class="flex flex-col leading-none">
-              <span class="font-bold text-lg tracking-wider hidden sm:block">INEI</span>
-              <span class="text-[9px] tracking-widest hidden sm:block opacity-80">INSTITUTO NACIONAL</span>
+          <div class="flex items-center gap-3">            
+            <div class="flex items-center">
+              <img 
+                ngSrc="logo_inei_azul.png" 
+                alt="Logo INEI" 
+                width="180" 
+                height="50"
+                priority
+                class="h-16 md:h-18 w-auto object-contain drop-shadow-md"
+              >
             </div>
           </div>
 
@@ -33,6 +36,10 @@ import { RouterLink } from '@angular/router';
               Resultados
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
+            <button routerLink=" " class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Censos 2025
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
             <button routerLink="/noticias" class="text-secondary transition-colors duration-300 uppercase relative group">
               Noticias
               <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-secondary transition-all"></span>
@@ -41,13 +48,9 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="absolute right-0 top-4 h-16 pl-8 pr-6 bg-white rounded-l-[50px] flex items-center justify-center shadow-2xl z-30 hidden md:flex">
-          <div class="flex items-center gap-2">
-            <div class="text-right leading-tight">
-              <div class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Censos Nacionales</div>
-              <div class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">2025</div>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-lg">
-               <mat-icon class="text-lg">analytics</mat-icon>
+          <div>
+            <div class="flex items-center">
+              <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45" class="h-10 w-auto object-contain">
             </div>
           </div>
         </div>
