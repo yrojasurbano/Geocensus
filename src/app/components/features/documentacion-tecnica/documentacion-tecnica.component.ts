@@ -87,7 +87,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                 [class.bg-white]="tab1() === tab.value"
                 [class.text-primary]="tab1() === tab.value"
                 [class.shadow-md]="tab1() === tab.value"
-                [class.bg-\[\#484848\]]="tab1() !== tab.value"
+                [class.bg-\[\#33b3a9\]]="tab1() !== tab.value"
                 [class.text-white]="tab1() !== tab.value"
                 [class.hover\:brightness-125]="tab1() !== tab.value">
                 <div class="flex items-center gap-2">

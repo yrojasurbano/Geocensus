@@ -46,6 +46,61 @@ interface ColorBreak {
   label: string;
 }
 
+// ── Indicadores de mapa ─────────────────────────────────────────────────────
+type MapIndicatorKey =
+  | 'poblacion' | 'edad_media' | 'edad_mediana' | 'razon_sexo'
+  | 'indice_envejecimiento' | 'dep_total' | 'dep_juvenil' | 'dep_adulta'
+  | 'densidad_total' | 'densidad_65';
+
+interface IndicatorDef {
+  key: MapIndicatorKey;
+  label: string;
+  unit: string;
+  decimals: number;
+}
+
+const INDICATORS: IndicatorDef[] = [
+  { key: 'poblacion',             label: 'Población Total',           unit: '',         decimals: 0 },
+  { key: 'edad_media',            label: 'Edad Media',                unit: ' años',    decimals: 1 },
+  { key: 'edad_mediana',          label: 'Edad Mediana',              unit: ' años',    decimals: 1 },
+  { key: 'razon_sexo',            label: 'Razón de Sexo H/M',        unit: '',         decimals: 1 },
+  { key: 'indice_envejecimiento', label: 'Índice de Envejecimiento',  unit: '%',        decimals: 1 },
+  { key: 'dep_total',             label: 'Rel. Dependencia Total',    unit: '%',        decimals: 1 },
+  { key: 'dep_juvenil',           label: 'Rel. Dependencia Juvenil',  unit: '%',        decimals: 1 },
+  { key: 'dep_adulta',            label: 'Rel. Dependencia Adulta',   unit: '%',        decimals: 1 },
+  { key: 'densidad_total',        label: 'Densidad Pob. Total',       unit: ' hab/km²', decimals: 1 },
+  { key: 'densidad_65',           label: 'Densidad Pob. 65+',        unit: ' hab/km²', decimals: 2 },
+];
+
+// Datos mock por departamento (ccdd '01'–'25')
+const MOCK_DEP: Record<string, Record<string, number>> = {
+  '01':{ edad_media:28.4,edad_mediana:25.8,razon_sexo:101.2,indice_envejecimiento:28.4,dep_total:62.1,dep_juvenil:50.3,dep_adulta:11.8,densidad_65:1.4 },
+  '02':{ edad_media:30.2,edad_mediana:27.6,razon_sexo:97.8, indice_envejecimiento:38.2,dep_total:58.4,dep_juvenil:44.6,dep_adulta:13.8,densidad_65:2.3 },
+  '03':{ edad_media:26.9,edad_mediana:24.1,razon_sexo:95.4, indice_envejecimiento:29.6,dep_total:65.3,dep_juvenil:52.8,dep_adulta:12.5,densidad_65:1.2 },
+  '04':{ edad_media:32.5,edad_mediana:29.8,razon_sexo:98.6, indice_envejecimiento:46.3,dep_total:51.8,dep_juvenil:38.4,dep_adulta:13.4,densidad_65:3.1 },
+  '05':{ edad_media:27.3,edad_mediana:24.5,razon_sexo:94.1, indice_envejecimiento:30.2,dep_total:64.7,dep_juvenil:52.1,dep_adulta:12.6,densidad_65:1.3 },
+  '06':{ edad_media:26.5,edad_mediana:23.8,razon_sexo:96.3, indice_envejecimiento:27.4,dep_total:67.2,dep_juvenil:55.4,dep_adulta:11.8,densidad_65:1.8 },
+  '07':{ edad_media:33.8,edad_mediana:31.2,razon_sexo:99.1, indice_envejecimiento:52.4,dep_total:48.6,dep_juvenil:34.8,dep_adulta:13.8,densidad_65:6.9 },
+  '08':{ edad_media:28.1,edad_mediana:25.4,razon_sexo:96.8, indice_envejecimiento:31.5,dep_total:62.8,dep_juvenil:50.4,dep_adulta:12.4,densidad_65:2.1 },
+  '09':{ edad_media:25.8,edad_mediana:23.1,razon_sexo:93.2, indice_envejecimiento:26.8,dep_total:68.4,dep_juvenil:56.8,dep_adulta:11.6,densidad_65:1.0 },
+  '10':{ edad_media:27.1,edad_mediana:24.3,razon_sexo:97.4, indice_envejecimiento:28.9,dep_total:65.8,dep_juvenil:53.4,dep_adulta:12.4,densidad_65:1.5 },
+  '11':{ edad_media:32.1,edad_mediana:29.4,razon_sexo:98.4, indice_envejecimiento:44.6,dep_total:53.2,dep_juvenil:39.8,dep_adulta:13.4,densidad_65:2.8 },
+  '12':{ edad_media:29.4,edad_mediana:26.7,razon_sexo:98.1, indice_envejecimiento:36.4,dep_total:59.6,dep_juvenil:46.2,dep_adulta:13.4,densidad_65:2.1 },
+  '13':{ edad_media:30.8,edad_mediana:28.1,razon_sexo:97.6, indice_envejecimiento:40.2,dep_total:56.4,dep_juvenil:42.8,dep_adulta:13.6,densidad_65:3.4 },
+  '14':{ edad_media:31.4,edad_mediana:28.7,razon_sexo:96.8, indice_envejecimiento:41.8,dep_total:54.8,dep_juvenil:41.2,dep_adulta:13.6,densidad_65:3.2 },
+  '15':{ edad_media:34.2,edad_mediana:31.5,razon_sexo:96.4, indice_envejecimiento:56.8,dep_total:47.2,dep_juvenil:32.8,dep_adulta:14.4,densidad_65:7.2 },
+  '16':{ edad_media:27.6,edad_mediana:24.9,razon_sexo:104.8,indice_envejecimiento:27.6,dep_total:63.4,dep_juvenil:51.8,dep_adulta:11.6,densidad_65:0.8 },
+  '17':{ edad_media:28.3,edad_mediana:25.6,razon_sexo:108.4,indice_envejecimiento:24.8,dep_total:60.8,dep_juvenil:50.4,dep_adulta:10.4,densidad_65:0.6 },
+  '18':{ edad_media:34.6,edad_mediana:32.1,razon_sexo:102.4,indice_envejecimiento:51.2,dep_total:49.4,dep_juvenil:36.2,dep_adulta:13.2,densidad_65:2.4 },
+  '19':{ edad_media:28.7,edad_mediana:26.0,razon_sexo:104.2,indice_envejecimiento:30.8,dep_total:61.4,dep_juvenil:49.8,dep_adulta:11.6,densidad_65:1.1 },
+  '20':{ edad_media:30.1,edad_mediana:27.4,razon_sexo:96.2, indice_envejecimiento:37.8,dep_total:58.8,dep_juvenil:45.4,dep_adulta:13.4,densidad_65:2.6 },
+  '21':{ edad_media:27.4,edad_mediana:24.7,razon_sexo:96.8, indice_envejecimiento:29.4,dep_total:64.2,dep_juvenil:52.4,dep_adulta:11.8,densidad_65:1.2 },
+  '22':{ edad_media:28.9,edad_mediana:26.2,razon_sexo:102.6,indice_envejecimiento:28.2,dep_total:61.8,dep_juvenil:50.6,dep_adulta:11.2,densidad_65:1.4 },
+  '23':{ edad_media:33.4,edad_mediana:30.7,razon_sexo:100.8,indice_envejecimiento:48.6,dep_total:50.4,dep_juvenil:37.2,dep_adulta:13.2,densidad_65:3.6 },
+  '24':{ edad_media:30.6,edad_mediana:27.9,razon_sexo:103.4,indice_envejecimiento:34.8,dep_total:57.6,dep_juvenil:45.2,dep_adulta:12.4,densidad_65:2.1 },
+  '25':{ edad_media:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
+};
+
 // ── Paleta coroplética: primario → secundario ───────────────────────────────
 const PALETTE = ['#0056a1', '#1a75aa', '#248cb3', '#2da3b0', '#33b3a9'];
 
@@ -101,7 +156,12 @@ const S = { w: 380, h: 550 };
         <div class="w-full md:col-span-2 bg-gradient-to-r from-primary to-secondary rounded-xl p-4 text-white flex flex-row items-center justify-center gap-6 shadow-md relative overflow-hidden group text-left">
           <div class="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
           <div class="absolute top-3 right-3 z-10 flex items-center gap-2">
-            <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+            <app-hero-icon [name]="'globe-americas'"
+              (click)="setMapIndicator('poblacion')"
+              class="w-5 h-5 cursor-pointer transition-all"
+              [class.animate-pulse]="activeIndicator() !== 'poblacion'"
+              [class.scale-125]="activeIndicator() === 'poblacion'"
+              [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'"
               matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
             <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"
               matTooltip="Población total censada a nivel nacional o por región seleccionada" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -177,7 +237,12 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
             <div class="absolute top-3 right-3 flex items-center gap-2">
-              <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('edad_media')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'edad_media'"
+                [class.scale-125]="activeIndicator() === 'edad_media'"
+                [style.color]="activeIndicator() === 'edad_media' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Promedio de edad de la población" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -195,7 +260,12 @@ const S = { w: 380, h: 550 };
             <div class="flex justify-between items-center mb-2">
               <span class="text-xs font-black text-gray-400 tracking-wide">Razón de Sexo H/M</span>
               <div class="flex items-center gap-2">
-                <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('razon_sexo')"
+                  class="w-5 h-5 cursor-pointer transition-all"
+                  [class.animate-pulse]="activeIndicator() !== 'razon_sexo'"
+                  [class.scale-125]="activeIndicator() === 'razon_sexo'"
+                  [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                   matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -218,7 +288,12 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
             <div class="absolute top-3 right-3 flex items-center gap-2">
-              <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('dep_total')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'dep_total'"
+                [class.scale-125]="activeIndicator() === 'dep_total'"
+                [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Relación dependientes (0-14 y 65+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -283,7 +358,12 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
             <div class="absolute top-3 right-3 flex items-center gap-2">
-              <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('edad_mediana')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'edad_mediana'"
+                [class.scale-125]="activeIndicator() === 'edad_mediana'"
+                [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -299,7 +379,12 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
             <div class="absolute top-3 right-3 flex items-center gap-2">
-              <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('indice_envejecimiento')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'indice_envejecimiento'"
+                [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
+                [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Relación adultos mayores (65+) por cada 100 jóvenes (0-14)" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -315,7 +400,12 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
             <div class="absolute top-3 right-3 flex items-center gap-2">
-              <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('dep_juvenil')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'dep_juvenil'"
+                [class.scale-125]="activeIndicator() === 'dep_juvenil'"
+                [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Relación niños (0-14) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -358,7 +448,12 @@ const S = { w: 380, h: 550 };
 
             <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
               <div class="absolute top-3 right-3 flex items-center gap-2">
-                <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('dep_adulta')"
+                  class="w-5 h-5 cursor-pointer transition-all"
+                  [class.animate-pulse]="activeIndicator() !== 'dep_adulta'"
+                  [class.scale-125]="activeIndicator() === 'dep_adulta'"
+                  [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                   matTooltip="Relación adultos mayores (65+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -374,7 +469,12 @@ const S = { w: 380, h: 550 };
 
             <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
               <div class="absolute top-3 right-3 flex items-center gap-2">
-                <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('densidad_total')"
+                  class="w-5 h-5 cursor-pointer transition-all"
+                  [class.animate-pulse]="activeIndicator() !== 'densidad_total'"
+                  [class.scale-125]="activeIndicator() === 'densidad_total'"
+                  [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                   matTooltip="Habitantes totales por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -390,7 +490,12 @@ const S = { w: 380, h: 550 };
 
             <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
               <div class="absolute top-3 right-3 flex items-center gap-2">
-                <app-hero-icon [name]="'globe-americas'" class="w-5 h-5 cursor-pointer transition-colors animate-pulse" style="color:#343b9f"
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('densidad_65')"
+                  class="w-5 h-5 cursor-pointer transition-all"
+                  [class.animate-pulse]="activeIndicator() !== 'densidad_65'"
+                  [class.scale-125]="activeIndicator() === 'densidad_65'"
+                  [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                   matTooltip="Habitantes de 65 años o más por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
@@ -413,8 +518,16 @@ const S = { w: 380, h: 550 };
 
             <div class="absolute top-3 left-3 z-10 pointer-events-none select-none">
               <div class="text-[10px] font-black text-primary tracking-wide mb-0.5">{{ displayedTitle() }}</div>
-              <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">{{ displayedPopulation() }}</div>
-              <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5">Población Censada</div>
+              <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">
+                @if (hoveredRegion()) {
+                  {{ getActiveValue(hoveredRegion()!) }}
+                } @else if (selectedRegion()) {
+                  {{ getActiveValue(selectedRegion()!) }}
+                } @else if (activeIndicator() === 'poblacion') {
+                  {{ displayedPopulation() }}
+                } @else { — }
+              </div>
+              <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5">{{ activeIndicatorDef().label }}</div>
             </div>
 
             <app-hero-icon
@@ -453,7 +566,7 @@ const S = { w: 380, h: 550 };
                 <div class="absolute top-2 right-2 z-20 bg-gray-900/95 text-white p-3 rounded-xl
                             shadow-2xl min-w-[190px] border border-gray-700 pointer-events-none"
                      style="animation: fadeIn 0.15s ease-out">
-                  <p class="text-[8px] text-[#33b3a9] uppercase font-black tracking-widest mb-1">Población Censada</p>
+                  <p class="text-[8px] text-[#33b3a9] uppercase font-black tracking-widest mb-1">{{ activeIndicatorDef().label }}</p>
                   <p class="text-sm font-bold text-white border-b border-gray-700 pb-1.5 mb-2 leading-tight">
                     {{ hoveredRegion()!.name }}
                   </p>
@@ -563,7 +676,7 @@ const S = { w: 380, h: 550 };
 
               @if (colorBreaks().length) {
                 <div class="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 shadow-lg border border-gray-100 pointer-events-none">
-                  <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase mb-1.5">Población Total</div>
+                  <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase mb-1.5">{{ activeIndicatorDef().label }}</div>
                   <div class="flex flex-col gap-1">
                     @for (brk of colorBreaks().slice().reverse(); track brk.min) {
                       <div class="flex items-center gap-1.5">
@@ -632,34 +745,52 @@ export class DashboardComponent implements OnInit {
 
   // ── Estado derivado (computed) ────────────────────────────────────────
 
-  /** Regiones procesadas con paths SVG y color coroplético */
-  mapRegions = computed<MapRegion[]>(() => {
+  /** Indicador activo para colorear el mapa (default: población total) */
+  activeIndicator = signal<MapIndicatorKey>('poblacion');
+
+  /** Definición del indicador activo */
+  activeIndicatorDef = computed<IndicatorDef>(
+    () => INDICATORS.find(d => d.key === this.activeIndicator())!
+  );
+
+  /** Regiones parseadas sin color (color se recalcula al cambiar indicador) */
+  private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
     const geo = this.rawGeoJson();
     if (!geo?.features) return [];
-
     return (geo.features as any[]).map((f, idx) => {
-      const p       = f.properties;
-      const total   = Number(p.POBTOTAL)  || 0;
-      const male    = Number(p.POBHOMBRE) || 0;
-      const female  = Number(p.POBMUJER)  || 0;
-      const density = Number(p.DENSIDAD)  || 0;
-      const svg     = this.project(f.geometry);
-
-      // Color por umbral cuantílico
-      let tier = 0;
-      for (let i = 0; i < THRESHOLDS.length; i++) {
-        if (total >= THRESHOLDS[i]) tier = i + 1;
-      }
-
+      const p   = f.properties;
+      const svg = this.project(f.geometry);
       return {
         id:      Number(f.id) || idx,
         ccdd:    String(p.CCDD),
         name:    String(p.NOMBDEP),
-        total, male, female, density,
+        total:   Number(p.POBTOTAL)  || 0,
+        male:    Number(p.POBHOMBRE) || 0,
+        female:  Number(p.POBMUJER)  || 0,
+        density: Number(p.DENSIDAD)  || 0,
         path:    svg.path,
         center:  svg.center,
-        color:   PALETTE[tier],
-      } as MapRegion;
+      };
+    });
+  });
+
+  /** Regiones con color coroplético según indicador activo */
+  mapRegions = computed<MapRegion[]>(() => {
+    const raws = this.parsedRegions();
+    const key  = this.activeIndicator();
+    if (!raws.length) return [];
+
+    const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
+    const sorted = [...vals].sort((a, b) => a - b);
+    const n  = sorted.length;
+    const gs = Math.floor(n / 5);
+    const thr = [1, 2, 3, 4].map(i => sorted[Math.min(i * gs, n - 1)]);
+
+    return raws.map((r, i) => {
+      const v = vals[i];
+      let tier = 0;
+      for (let t = 0; t < thr.length; t++) { if (v > thr[t]) tier = t + 1; }
+      return { ...r, color: PALETTE[tier] } as MapRegion;
     });
   });
 
@@ -670,24 +801,24 @@ export class DashboardComponent implements OnInit {
       .sort((a, b) => a.name.localeCompare(b.name, 'es'))
   );
 
-  /** 5 rangos cuantílicos para la leyenda */
+  /** 5 rangos cuantílicos para la leyenda (según indicador activo) */
   colorBreaks = computed<ColorBreak[]>(() => {
     const regions = this.mapRegions();
+    const key     = this.activeIndicator();
+    const def     = this.activeIndicatorDef();
     if (!regions.length) return [];
 
-    const sorted = regions.map(r => r.total).sort((a, b) => a - b);
+    const sorted = regions.map(r => this.getIndicatorValue(r, key)).sort((a, b) => a - b);
     const n  = sorted.length;
     const gs = Math.floor(n / 5);
+    const fmtV = (v: number) => key === 'poblacion'
+      ? this.fmt(v)
+      : v.toFixed(def.decimals) + def.unit;
 
     return Array.from({ length: 5 }, (_, i) => {
       const bMin = sorted[i * gs];
       const bMax = sorted[Math.min((i + 1) * gs - 1, n - 1)];
-      return {
-        min:   bMin,
-        max:   bMax,
-        color: PALETTE[i],
-        label: `${this.fmt(bMin)} – ${this.fmt(bMax)}`,
-      };
+      return { min: bMin, max: bMax, color: PALETTE[i], label: `${fmtV(bMin)} – ${fmtV(bMax)}` };
     });
   });
 
@@ -863,7 +994,29 @@ export class DashboardComponent implements OnInit {
     this.hoveredCCDD.set('');
   }
 
-  // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────
+  // ── Indicador de mapa ────────────────────────────────────────────────
+
+  /** Valor numérico del indicador para una región */
+  getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
+    if (key === 'poblacion')      return r.total;
+    if (key === 'densidad_total') return r.density;
+    return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
+  }
+
+  /** Valor formateado del indicador activo para mostrar en el mapa */
+  getActiveValue(r: MapRegion): string {
+    const key = this.activeIndicator();
+    const def = this.activeIndicatorDef();
+    const v   = this.getIndicatorValue(r, key);
+    return key === 'poblacion' ? this.fmt(v) : v.toFixed(def.decimals) + def.unit;
+  }
+
+  /** Activa un indicador: colorea el mapa y actualiza la leyenda */
+  setMapIndicator(key: MapIndicatorKey): void {
+    this.activeIndicator.set(key);
+  }
+
+  // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────────
   initCharts(): void {
     this.pieOptionsSex = {
       tooltip: { trigger: 'item' },
