@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="h-screen w-full flex flex-col overflow-hidden">
       
-      <!-- Replicated Header -->
+      <!-- Header -->
       <header class="absolute top-0 left-0 right-0 z-50 flex justify-between items-start px-6 py-3 md:px-12 md:py-4 text-[#343b9f] w-full">
         <div class="flex items-center gap-8 mt-1">
           <div class="flex items-center gap-3">            
@@ -36,6 +36,7 @@ import { RouterLink } from '@angular/router';
               Resultados
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
+
             <!-- ── Censos 2025 dropdown ── -->
             <div class="relative">
               <button
@@ -47,13 +48,16 @@ import { RouterLink } from '@angular/router';
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
               </button>
               @if (censosOpen()) {
-                <div class="absolute top-full left-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                      style="animation: dropdownIn 0.18s ease-out forwards">
                   <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                   <ul class="py-1">
                     @for (item of censosMenu; track item.label) {
                       <li>
-                        <button class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <button
+                          [routerLink]="item.route"
+                          (click)="censosOpen.set(false)"
+                          class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
                           <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                           {{ item.label }}
                         </button>
@@ -64,6 +68,7 @@ import { RouterLink } from '@angular/router';
               }
             </div>
             <!-- /Censos 2025 -->
+
             <button routerLink="/noticias" class="text-secondary transition-colors duration-300 uppercase relative group">
               Noticias
               <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-secondary transition-all"></span>
@@ -87,7 +92,6 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="flex-1 relative px-0 md:px-12">
-          <!-- Navigation Arrows (Hidden on mobile) -->
           <button class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-300 items-center justify-center hover:bg-white transition-colors z-10">
             <mat-icon>chevron_left</mat-icon>
           </button>
@@ -119,7 +123,6 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <div class="flex-1 relative overflow-hidden px-0 md:px-12 flex items-center justify-center">
-          <!-- Navigation Arrows -->
           <button (click)="prevVideo()" class="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/40 transition-colors z-20">
             <mat-icon class="text-white">chevron_left</mat-icon>
           </button>
@@ -148,9 +151,7 @@ import { RouterLink } from '@angular/router';
     </div>
   `,
   styles: [`
-    :host {
-      display: block;
-    }
+    :host { display: block; }
     @keyframes dropdownIn {
       from { opacity: 0; transform: translateY(-8px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -162,10 +163,10 @@ export class NewsComponent {
   censosOpen        = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales' },
-    { label: 'Organización' },
-    { label: 'Normativa' },
-    { label: 'Documentación Técnica' },
+    { label: 'Aspectos Generales',     route: '/aspectos-generales' },
+    { label: 'Organización',           route: '/organizacion' },
+    { label: 'Normativa',              route: '/normativa' },
+    { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 
   @HostListener('document:click')

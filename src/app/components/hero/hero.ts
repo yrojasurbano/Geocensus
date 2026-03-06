@@ -54,7 +54,7 @@ import { RouterLink } from '@angular/router';
             </div>
 
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide ml-8">
-              <button class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              <button routerLink="/" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
                 Inicio
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
               </button>
@@ -62,6 +62,7 @@ import { RouterLink } from '@angular/router';
                 Resultados
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
               </button>
+
               <!-- ── Censos 2025 dropdown ── -->
               <div class="relative">
                 <button
@@ -73,13 +74,16 @@ import { RouterLink } from '@angular/router';
                   <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
                 </button>
                 @if (censosOpen()) {
-                  <div class="absolute top-full left-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                  <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                        style="animation: dropdownIn 0.18s ease-out forwards">
                     <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                     <ul class="py-1">
                       @for (item of censosMenu; track item.label) {
                         <li>
-                          <button class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                          <button
+                            [routerLink]="item.route"
+                            (click)="censosOpen.set(false)"
+                            class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
                             <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                             {{ item.label }}
                           </button>
@@ -90,6 +94,7 @@ import { RouterLink } from '@angular/router';
                 }
               </div>
               <!-- /Censos 2025 -->
+
               <button routerLink="/noticias" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
                 Noticias
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
@@ -173,7 +178,6 @@ import { RouterLink } from '@angular/router';
       <div class="w-full h-[10px] bg-gradient-to-r from-primary to-secondary z-20 shrink-0"></div>
 
       <div class="bg-[#EEEEEE] flex flex-col z-20 shrink-0">
-        
         <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
           <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
             <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
@@ -195,7 +199,6 @@ import { RouterLink } from '@angular/router';
                 </div>
               </div>
             </div>
-
           </div>
         </footer>
       </div>
@@ -223,10 +226,10 @@ export class HeroComponent implements AfterViewInit {
   censosOpen  = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales' },
-    { label: 'Organización' },
-    { label: 'Normativa' },
-    { label: 'Documentación Técnica' },
+    { label: 'Aspectos Generales',     route: '/aspectos-generales' },
+    { label: 'Organización',           route: '/organizacion' },
+    { label: 'Normativa',              route: '/normativa' },
+    { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 
   @HostListener('document:click')
@@ -237,23 +240,20 @@ export class HeroComponent implements AfterViewInit {
     this.censosOpen.update(v => !v);
   }
 
-  // Señales para los valores animados (inician en 0)
-  poblacionCensada = signal(0);
+  poblacionCensada   = signal(0);
   poblacionMasculina = signal(0);
-  poblacionFemenina = signal(0);
+  poblacionFemenina  = signal(0);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // 1. Lógica del video
       const video = this.bgVideo?.nativeElement;
       if (video) {
         video.muted = true;
         const tryPlay = () => {
           video.play().catch(err => console.warn('Autoplay bloqueado:', err));
         };
-
         if (video.readyState >= 3) {
           tryPlay();
         } else {
@@ -261,10 +261,7 @@ export class HeroComponent implements AfterViewInit {
           setTimeout(tryPlay, 300);
         }
       }
-
-      // 2. Disparar animaciones de números (con un ligero retraso de medio segundo para que el usuario alcance a verlas iniciar)
       setTimeout(() => {
-        // Formato: (valor objetivo, duración en milisegundos, señal a actualizar)
         this.animateValue(36480432, 2500, this.poblacionCensada);
         this.animateValue(18480432, 2500, this.poblacionMasculina);
         this.animateValue(13480432, 2500, this.poblacionFemenina);
@@ -272,40 +269,27 @@ export class HeroComponent implements AfterViewInit {
     }
   }
 
-  // Función para dar formato a los números con puntos (ej: 36.480.432)
   formatNumber(value: number): string {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  // Motor de animación optimizado usando requestAnimationFrame
   private animateValue(target: number, duration: number, signalRef: WritableSignal<number>) {
     let startTimestamp: number | null = null;
-    
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
-      
-      // Calcular el progreso entre 0 y 1
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      
-      // Función ease-out quartic (desacelera al final)
-      const easeOut = 1 - Math.pow(1 - progress, 4);
-      
-      // Actualizar la señal con el valor interpolado
+      const easeOut  = 1 - Math.pow(1 - progress, 4);
       signalRef.set(Math.floor(easeOut * target));
-      
-      // Continuar la animación si no ha terminado
       if (progress < 1) {
         window.requestAnimationFrame(step);
       } else {
-        // Asegurar que termine exactamente en el valor objetivo
         signalRef.set(target);
       }
     };
-    
     window.requestAnimationFrame(step);
   }
 
-  toggleSearch() { 
-    this.searchOpen.update(v => !v); 
+  toggleSearch() {
+    this.searchOpen.update(v => !v);
   }
 }

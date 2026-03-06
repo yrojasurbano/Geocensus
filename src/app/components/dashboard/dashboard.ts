@@ -882,18 +882,53 @@ export class DashboardComponent implements OnInit {
     };
 
     this.pieOptionsAge = {
-      tooltip: { trigger: 'item' },
-      legend:  { show: false },
-      color:   ['#0056a1', '#33b3a9', '#f8bd13'],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'none' },
+        formatter: (params: any) => {
+          const p = params[0];
+          const pct = ['17.7%', '68.3%', '14.0%'][p.dataIndex] ?? '';
+          return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
+                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toLocaleString('es-PE')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+        },
+      },
+      grid: { top: 8, right: 6, bottom: 24, left: 6, containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: ['0–14 años', '15–64 años', '65+ años'],
+        axisTick:  { show: false },
+        axisLine:  { show: false },
+        axisLabel: {
+          fontSize: 9,
+          fontWeight: 'bold',
+          color: '#9ca3af',
+          interval: 0,
+          overflow: 'truncate',
+        },
+      },
+      yAxis: {
+        type: 'value',
+        show: false,
+        max: (val: any) => Math.round(val.max * 1.18),
+      },
       series: [{
-        name: 'Edad', type: 'pie', radius: ['50%', '80%'],
-        avoidLabelOverlap: false,
-        itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
-        label: { show: false },
+        name: 'Población',
+        type: 'bar',
+        barMaxWidth: 40,
+        barCategoryGap: '28%',
+        itemStyle: { borderRadius: [6, 6, 0, 0] },
+        label: {
+          show: true,
+          position: 'top',
+          fontSize: 9,
+          fontWeight: 'bold',
+          color: '#6b7280',
+          formatter: (p: any) => ['17.7%', '68.3%', '14.0%'][p.dataIndex] ?? '',
+        },
         data: [
-          { value: 3274648,  name: '0-14 años' },
-          { value: 12618546, name: '15-64 años' },
-          { value: 2587238,  name: '65+ años' },
+          { value: 3274648,  itemStyle: { color: '#0056a1' } },
+          { value: 12618546, itemStyle: { color: '#33b3a9' } },
+          { value: 2587238,  itemStyle: { color: '#f8bd13' } },
         ],
       }],
     };
