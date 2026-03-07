@@ -24,8 +24,8 @@ COPY --from=builder /app/package*.json ./
 RUN npm ci --omit=dev
 
 ENV NODE_ENV=production
-ENV PORT=80
+ENV PORT=3000
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["node"]
