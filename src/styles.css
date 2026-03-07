@@ -1,27 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/* Tailwind theme tokens */
 @theme {
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
-  --color-primary: #0056a1;
-  --color-secondary: #33b3a9;
+    --color-primary: #0056a1;
+    --color-secondary: #33b3a9;
 }
 
 :root {
-  --primary: #0056a1;
-  --secondary: #33b3a9;
+    --primary: #0056a1;
+    --secondary: #33b3a9;
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: #f8fafc;
-  color: #1e293b;
+    font-family: var(--font-sans);
+    background-color: #f8fafc;
+    color: #1e293b;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+h1,h2,h3,h4,h5,h6 {
+    font-family: var(--font-display);
 }
