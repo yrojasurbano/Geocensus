@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  PLATFORM_ID,
-  inject,
-  signal,
-  computed,
+    Component,
+    ChangeDetectionStrategy,
+    OnInit,
+    PLATFORM_ID,
+    inject,
+    signal,
+    computed,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -27,82 +26,105 @@ echarts.use([BarChart, PieChart, TooltipComponent, LegendComponent, GridComponen
 
 // ── Interfaces ──────────────────────────────────────────────────────────────
 interface MapRegion {
-  id: number;
-  ccdd: string;
-  name: string;
-  total: number;
-  male: number;
-  female: number;
-  density: number;
-  path: string;
-  center: { x: number; y: number };
-  color: string;   // color coroplético asignado
+    id: number;
+    ccdd: string;
+    name: string;
+    total: number;
+    male: number;
+    female: number;
+    density: number;
+    path: string;
+    center: { x: number; y: number };
+    color: string;   // color coroplético asignado
 }
 
 interface ColorBreak {
-  min: number;
-  max: number;
-  color: string;
-  label: string;
+    min: number;
+    max: number;
+    color: string;
+    label: string;
 }
 
 // ── Indicadores de mapa ─────────────────────────────────────────────────────
 type MapIndicatorKey =
-  | 'poblacion' | 'edad_media' | 'edad_mediana' | 'razon_sexo'
-  | 'indice_envejecimiento' | 'dep_total' | 'dep_juvenil' | 'dep_adulta'
-  | 'densidad_total' | 'densidad_65';
+    | 'poblacion' | 'edad_media' | 'edad_mediana' | 'razon_sexo'
+    | 'indice_envejecimiento' | 'dep_total' | 'dep_juvenil' | 'dep_adulta'
+    | 'densidad_total' | 'densidad_65';
 
 interface IndicatorDef {
-  key: MapIndicatorKey;
-  label: string;
-  unit: string;
-  decimals: number;
+    key: MapIndicatorKey;
+    label: string;
+    unit: string;
+    decimals: number;
 }
 
 const INDICATORS: IndicatorDef[] = [
-  { key: 'poblacion',             label: 'Población Total',           unit: '',         decimals: 0 },
-  { key: 'edad_media',            label: 'Edad Media',                unit: ' años',    decimals: 1 },
-  { key: 'edad_mediana',          label: 'Edad Mediana',              unit: ' años',    decimals: 1 },
-  { key: 'razon_sexo',            label: 'Razón de Sexo H/M',        unit: '',         decimals: 1 },
-  { key: 'indice_envejecimiento', label: 'Índice de Envejecimiento',  unit: '%',        decimals: 1 },
-  { key: 'dep_total',             label: 'Rel. Dependencia Total',    unit: '%',        decimals: 1 },
-  { key: 'dep_juvenil',           label: 'Rel. Dependencia Juvenil',  unit: '%',        decimals: 1 },
-  { key: 'dep_adulta',            label: 'Rel. Dependencia Adulta',   unit: '%',        decimals: 1 },
-  { key: 'densidad_total',        label: 'Densidad Pob. Total',       unit: ' hab/km²', decimals: 1 },
-  { key: 'densidad_65',           label: 'Densidad Pob. 65+',        unit: ' hab/km²', decimals: 2 },
+    { key: 'poblacion',             label: 'Población Total',           unit: '',         decimals: 0 },
+    { key: 'edad_media',            label: 'Edad Media',                unit: ' años',    decimals: 1 },
+    { key: 'edad_mediana',          label: 'Edad Mediana',              unit: ' años',    decimals: 1 },
+    { key: 'razon_sexo',            label: 'Razón de Sexo H/M',        unit: '',         decimals: 1 },
+    { key: 'indice_envejecimiento', label: 'Índice de Envejecimiento',  unit: '%',        decimals: 1 },
+    { key: 'dep_total',             label: 'Rel. Dependencia Total',    unit: '%',        decimals: 1 },
+    { key: 'dep_juvenil',           label: 'Rel. Dependencia Juvenil',  unit: '%',        decimals: 1 },
+    { key: 'dep_adulta',            label: 'Rel. Dependencia Adulta',   unit: '%',        decimals: 1 },
+    { key: 'densidad_total',        label: 'Densidad Pob. Total',       unit: ' hab/km²', decimals: 1 },
+    { key: 'densidad_65',           label: 'Densidad Pob. 65+',        unit: ' hab/km²', decimals: 2 },
 ];
 
 // Datos mock por departamento (ccdd '01'–'25')
 const MOCK_DEP: Record<string, Record<string, number>> = {
-  '01':{ edad_media:28.4,edad_mediana:25.8,razon_sexo:101.2,indice_envejecimiento:28.4,dep_total:62.1,dep_juvenil:50.3,dep_adulta:11.8,densidad_65:1.4 },
-  '02':{ edad_media:30.2,edad_mediana:27.6,razon_sexo:97.8, indice_envejecimiento:38.2,dep_total:58.4,dep_juvenil:44.6,dep_adulta:13.8,densidad_65:2.3 },
-  '03':{ edad_media:26.9,edad_mediana:24.1,razon_sexo:95.4, indice_envejecimiento:29.6,dep_total:65.3,dep_juvenil:52.8,dep_adulta:12.5,densidad_65:1.2 },
-  '04':{ edad_media:32.5,edad_mediana:29.8,razon_sexo:98.6, indice_envejecimiento:46.3,dep_total:51.8,dep_juvenil:38.4,dep_adulta:13.4,densidad_65:3.1 },
-  '05':{ edad_media:27.3,edad_mediana:24.5,razon_sexo:94.1, indice_envejecimiento:30.2,dep_total:64.7,dep_juvenil:52.1,dep_adulta:12.6,densidad_65:1.3 },
-  '06':{ edad_media:26.5,edad_mediana:23.8,razon_sexo:96.3, indice_envejecimiento:27.4,dep_total:67.2,dep_juvenil:55.4,dep_adulta:11.8,densidad_65:1.8 },
-  '07':{ edad_media:33.8,edad_mediana:31.2,razon_sexo:99.1, indice_envejecimiento:52.4,dep_total:48.6,dep_juvenil:34.8,dep_adulta:13.8,densidad_65:6.9 },
-  '08':{ edad_media:28.1,edad_mediana:25.4,razon_sexo:96.8, indice_envejecimiento:31.5,dep_total:62.8,dep_juvenil:50.4,dep_adulta:12.4,densidad_65:2.1 },
-  '09':{ edad_media:25.8,edad_mediana:23.1,razon_sexo:93.2, indice_envejecimiento:26.8,dep_total:68.4,dep_juvenil:56.8,dep_adulta:11.6,densidad_65:1.0 },
-  '10':{ edad_media:27.1,edad_mediana:24.3,razon_sexo:97.4, indice_envejecimiento:28.9,dep_total:65.8,dep_juvenil:53.4,dep_adulta:12.4,densidad_65:1.5 },
-  '11':{ edad_media:32.1,edad_mediana:29.4,razon_sexo:98.4, indice_envejecimiento:44.6,dep_total:53.2,dep_juvenil:39.8,dep_adulta:13.4,densidad_65:2.8 },
-  '12':{ edad_media:29.4,edad_mediana:26.7,razon_sexo:98.1, indice_envejecimiento:36.4,dep_total:59.6,dep_juvenil:46.2,dep_adulta:13.4,densidad_65:2.1 },
-  '13':{ edad_media:30.8,edad_mediana:28.1,razon_sexo:97.6, indice_envejecimiento:40.2,dep_total:56.4,dep_juvenil:42.8,dep_adulta:13.6,densidad_65:3.4 },
-  '14':{ edad_media:31.4,edad_mediana:28.7,razon_sexo:96.8, indice_envejecimiento:41.8,dep_total:54.8,dep_juvenil:41.2,dep_adulta:13.6,densidad_65:3.2 },
-  '15':{ edad_media:34.2,edad_mediana:31.5,razon_sexo:96.4, indice_envejecimiento:56.8,dep_total:47.2,dep_juvenil:32.8,dep_adulta:14.4,densidad_65:7.2 },
-  '16':{ edad_media:27.6,edad_mediana:24.9,razon_sexo:104.8,indice_envejecimiento:27.6,dep_total:63.4,dep_juvenil:51.8,dep_adulta:11.6,densidad_65:0.8 },
-  '17':{ edad_media:28.3,edad_mediana:25.6,razon_sexo:108.4,indice_envejecimiento:24.8,dep_total:60.8,dep_juvenil:50.4,dep_adulta:10.4,densidad_65:0.6 },
-  '18':{ edad_media:34.6,edad_mediana:32.1,razon_sexo:102.4,indice_envejecimiento:51.2,dep_total:49.4,dep_juvenil:36.2,dep_adulta:13.2,densidad_65:2.4 },
-  '19':{ edad_media:28.7,edad_mediana:26.0,razon_sexo:104.2,indice_envejecimiento:30.8,dep_total:61.4,dep_juvenil:49.8,dep_adulta:11.6,densidad_65:1.1 },
-  '20':{ edad_media:30.1,edad_mediana:27.4,razon_sexo:96.2, indice_envejecimiento:37.8,dep_total:58.8,dep_juvenil:45.4,dep_adulta:13.4,densidad_65:2.6 },
-  '21':{ edad_media:27.4,edad_mediana:24.7,razon_sexo:96.8, indice_envejecimiento:29.4,dep_total:64.2,dep_juvenil:52.4,dep_adulta:11.8,densidad_65:1.2 },
-  '22':{ edad_media:28.9,edad_mediana:26.2,razon_sexo:102.6,indice_envejecimiento:28.2,dep_total:61.8,dep_juvenil:50.6,dep_adulta:11.2,densidad_65:1.4 },
-  '23':{ edad_media:33.4,edad_mediana:30.7,razon_sexo:100.8,indice_envejecimiento:48.6,dep_total:50.4,dep_juvenil:37.2,dep_adulta:13.2,densidad_65:3.6 },
-  '24':{ edad_media:30.6,edad_mediana:27.9,razon_sexo:103.4,indice_envejecimiento:34.8,dep_total:57.6,dep_juvenil:45.2,dep_adulta:12.4,densidad_65:2.1 },
-  '25':{ edad_media:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
+    '01':{ edad_media:28.4,edad_mediana:25.8,razon_sexo:101.2,indice_envejecimiento:28.4,dep_total:62.1,dep_juvenil:50.3,dep_adulta:11.8,densidad_65:1.4 },
+    '02':{ edad_media:30.2,edad_mediana:27.6,razon_sexo:97.8, indice_envejecimiento:38.2,dep_total:58.4,dep_juvenil:44.6,dep_adulta:13.8,densidad_65:2.3 },
+    '03':{ edad_media:26.9,edad_mediana:24.1,razon_sexo:95.4, indice_envejecimiento:29.6,dep_total:65.3,dep_juvenil:52.8,dep_adulta:12.5,densidad_65:1.2 },
+    '04':{ edad_media:32.5,edad_mediana:29.8,razon_sexo:98.6, indice_envejecimiento:46.3,dep_total:51.8,dep_juvenil:38.4,dep_adulta:13.4,densidad_65:3.1 },
+    '05':{ edad_media:27.3,edad_mediana:24.5,razon_sexo:94.1, indice_envejecimiento:30.2,dep_total:64.7,dep_juvenil:52.1,dep_adulta:12.6,densidad_65:1.3 },
+    '06':{ edad_media:26.5,edad_mediana:23.8,razon_sexo:96.3, indice_envejecimiento:27.4,dep_total:67.2,dep_juvenil:55.4,dep_adulta:11.8,densidad_65:1.8 },
+    '07':{ edad_media:33.8,edad_mediana:31.2,razon_sexo:99.1, indice_envejecimiento:52.4,dep_total:48.6,dep_juvenil:34.8,dep_adulta:13.8,densidad_65:6.9 },
+    '08':{ edad_media:28.1,edad_mediana:25.4,razon_sexo:96.8, indice_envejecimiento:31.5,dep_total:62.8,dep_juvenil:50.4,dep_adulta:12.4,densidad_65:2.1 },
+    '09':{ edad_media:25.8,edad_mediana:23.1,razon_sexo:93.2, indice_envejecimiento:26.8,dep_total:68.4,dep_juvenil:56.8,dep_adulta:11.6,densidad_65:1.0 },
+    '10':{ edad_media:27.1,edad_mediana:24.3,razon_sexo:97.4, indice_envejecimiento:28.9,dep_total:65.8,dep_juvenil:53.4,dep_adulta:12.4,densidad_65:1.5 },
+    '11':{ edad_media:32.1,edad_mediana:29.4,razon_sexo:98.4, indice_envejecimiento:44.6,dep_total:53.2,dep_juvenil:39.8,dep_adulta:13.4,densidad_65:2.8 },
+    '12':{ edad_media:29.4,edad_mediana:26.7,razon_sexo:98.1, indice_envejecimiento:36.4,dep_total:59.6,dep_juvenil:46.2,dep_adulta:13.4,densidad_65:2.1 },
+    '13':{ edad_media:30.8,edad_mediana:28.1,razon_sexo:97.6, indice_envejecimiento:40.2,dep_total:56.4,dep_juvenil:42.8,dep_adulta:13.6,densidad_65:3.4 },
+    '14':{ edad_media:31.4,edad_mediana:28.7,razon_sexo:96.8, indice_envejecimiento:41.8,dep_total:54.8,dep_juvenil:41.2,dep_adulta:13.6,densidad_65:3.2 },
+    '15':{ edad_media:34.2,edad_mediana:31.5,razon_sexo:96.4, indice_envejecimiento:56.8,dep_total:47.2,dep_juvenil:32.8,dep_adulta:14.4,densidad_65:7.2 },
+    '16':{ edad_media:27.6,edad_mediana:24.9,razon_sexo:104.8,indice_envejecimiento:27.6,dep_total:63.4,dep_juvenil:51.8,dep_adulta:11.6,densidad_65:0.8 },
+    '17':{ edad_media:28.3,edad_mediana:25.6,razon_sexo:108.4,indice_envejecimiento:24.8,dep_total:60.8,dep_juvenil:50.4,dep_adulta:10.4,densidad_65:0.6 },
+    '18':{ edad_media:34.6,edad_mediana:32.1,razon_sexo:102.4,indice_envejecimiento:51.2,dep_total:49.4,dep_juvenil:36.2,dep_adulta:13.2,densidad_65:2.4 },
+    '19':{ edad_media:28.7,edad_mediana:26.0,razon_sexo:104.2,indice_envejecimiento:30.8,dep_total:61.4,dep_juvenil:49.8,dep_adulta:11.6,densidad_65:1.1 },
+    '20':{ edad_media:30.1,edad_mediana:27.4,razon_sexo:96.2, indice_envejecimiento:37.8,dep_total:58.8,dep_juvenil:45.4,dep_adulta:13.4,densidad_65:2.6 },
+    '21':{ edad_media:27.4,edad_mediana:24.7,razon_sexo:96.8, indice_envejecimiento:29.4,dep_total:64.2,dep_juvenil:52.4,dep_adulta:11.8,densidad_65:1.2 },
+    '22':{ edad_media:28.9,edad_mediana:26.2,razon_sexo:102.6,indice_envejecimiento:28.2,dep_total:61.8,dep_juvenil:50.6,dep_adulta:11.2,densidad_65:1.4 },
+    '23':{ edad_media:33.4,edad_mediana:30.7,razon_sexo:100.8,indice_envejecimiento:48.6,dep_total:50.4,dep_juvenil:37.2,dep_adulta:13.2,densidad_65:3.6 },
+    '24':{ edad_media:30.6,edad_mediana:27.9,razon_sexo:103.4,indice_envejecimiento:34.8,dep_total:57.6,dep_juvenil:45.2,dep_adulta:12.4,densidad_65:2.1 },
+    '25':{ edad_media:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
 };
 
 // ── Paleta coroplética: primario → secundario ───────────────────────────────
 const PALETTE = ['#0056a1', '#1a75aa', '#248cb3', '#2da3b0', '#33b3a9'];
+
+// ── Tipos de selección geográfica ──────────────────────────────────────────
+export type NivelGeoType = 'Regional' | 'Provincial' | 'Distrital';
+
+interface GeoItem { label: string; ccdd?: string; }
+
+// ── Provincias de referencia (Ayacucho) ─────────────────────────────────────
+const GEO_PROVS: GeoItem[] = [
+    { label: 'HUAMANGA' }, { label: 'CANGALLO' }, { label: 'HUANCA SANCOS' },
+    { label: 'HUANTA' }, { label: 'LA MAR' }, { label: 'LUCANAS' },
+    { label: 'PARINACOCHAS' }, { label: 'PÁUCAR DEL SARA SARA' },
+    { label: 'SUCRE' }, { label: 'VÍCTOR FAJARDO' }, { label: 'VILCAS HUAMÁN' },
+];
+
+// ── Distritos de referencia (Huamanga) ──────────────────────────────────────
+const GEO_DISTS: GeoItem[] = [
+    { label: 'AYACUCHO' }, { label: 'ACOCRO' }, { label: 'ACOS VINCHOS' },
+    { label: 'CARMEN ALTO' }, { label: 'CHIARA' }, { label: 'OCROS' },
+    { label: 'PACAYCASA' }, { label: 'QUINUA' }, { label: 'SAN JOSÉ DE TICLLAS' },
+    { label: 'SAN JUAN BAUTISTA' }, { label: 'SANTIAGO DE PISCHA' },
+    { label: 'SOCOS' }, { label: 'TAMBILLO' }, { label: 'VINCHOS' },
+    { label: 'JESÚS NAZARENO' }, { label: 'ANDRÉS AVELINO CÁCERES DORREGARAY' },
+];
 
 // ── Umbrales cuantílicos precomputados (25 deptos, grupos de 5) ─────────────
 const THRESHOLDS = [347639, 721047, 1083519, 1341012];
@@ -115,13 +137,14 @@ const S = { w: 380, h: 550 };
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, FormsModule, NgxEchartsDirective, RouterLink, MatTooltipModule, HeroIconComponent],
-  providers: [provideEchartsCore({ echarts })],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section class="bg-[#f4f7f9] h-auto md:h-screen flex flex-col font-sans text-gray-800 overflow-auto md:overflow-hidden">
+    selector: 'app-dashboard',
+    standalone: true,
+    imports: [CommonModule, NgxEchartsDirective, RouterLink, MatTooltipModule, HeroIconComponent],
+    providers: [provideEchartsCore({ echarts })],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
+    <section class="bg-[#f4f7f9] h-auto md:h-screen flex flex-col font-sans text-gray-800 overflow-auto md:overflow-hidden"
+             (click)="closeGeoDropdowns()">
 
       <header class="bg-white shadow-sm px-4 md:px-6 py-3 md:py-2 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 relative md:sticky top-0 z-50 h-auto md:h-16 shrink-0">
         <div class="flex items-center gap-4 md:gap-6 w-full md:w-auto justify-between md:justify-start">
@@ -176,27 +199,287 @@ const S = { w: 380, h: 550 };
           </div>
         </div>
 
-        <div class="w-full md:col-span-4 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 pl-0 md:pl-4 pt-2 md:pt-0">
-          <button (click)="resetFilters()"
-            class="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors text-sm font-black tracking-wide shrink-0 group">
-            <app-hero-icon [name]="'arrow-path'" class="w-5 h-5 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-            Restablecer Filtros
+        <!-- ── Selector geográfico multi-nivel ────────────────────────── -->
+        <div class="w-full md:col-span-4 flex flex-wrap items-center justify-end gap-2 pl-0 md:pl-2 pt-2 md:pt-0"
+             (click)="$event.stopPropagation()">
+
+          <!-- Restablecer -->
+          <button
+            (click)="resetFilters()"
+            class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1] transition-colors text-xs font-black tracking-wide shrink-0 group">
+            <app-hero-icon [name]="'arrow-path'" class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
+            <span class="hidden md:inline">Restablecer Filtros</span>
           </button>
-          <div class="hidden md:block h-10 w-px bg-gray-200 shrink-0"></div>
-          <div class="flex gap-3 w-full md:w-auto justify-center">
-            <div class="relative w-full md:w-72">
-              <select
-                class="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-100 transition-all appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20"
-                [ngModel]="selectedCCDD()"
-                (ngModelChange)="onDeptChange($event)">
-                <option value="">Región: Todos</option>
-                @for (dept of departments(); track dept.ccdd) {
-                  <option [value]="dept.ccdd">{{ dept.name }}</option>
+
+          <div class="hidden md:block h-7 w-px bg-gray-200 shrink-0"></div>
+
+          <!-- ★ Nivel -->
+          <div class="relative">
+            <button
+              (click)="toggleGeoDropdown('nivel'); $event.stopPropagation()"
+              class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#0056a1] to-[#1a75aa]
+                     text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all
+                     min-w-[130px] justify-between">
+              <span class="flex items-center gap-1.5">
+                <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 opacity-80"></app-hero-icon>
+                {{ nivelGeo() }}
+              </span>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.rotate-180]="openGeoDropdown() === 'nivel'">
+              </app-hero-icon>
+            </button>
+            @if (openGeoDropdown() === 'nivel') {
+              <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[180px] overflow-hidden"
+                   (click)="$event.stopPropagation()">
+                <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
+                </div>
+                @for (n of NIVELES_GEO; track n) {
+                  <button
+                    (click)="setNivelGeo(n)"
+                    class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                    [class.bg-gradient-to-r]="nivelGeo() === n"
+                    [class.from-\[\#0056a1\]]="nivelGeo() === n"
+                    [class.to-\[\#1a75aa\]]="nivelGeo() === n"
+                    [class.text-white]="nivelGeo() === n"
+                    [class.text-gray-700]="nivelGeo() !== n"
+                    [class.hover\:bg-blue-50]="nivelGeo() !== n">
+                    <span class="w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors"
+                      [class.border-white]="nivelGeo() === n"
+                      [class.border-gray-300]="nivelGeo() !== n">
+                      @if (nivelGeo() === n) {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <span class="font-bold">{{ n }}</span>
+                  </button>
                 }
-              </select>
-              <app-hero-icon [name]="'chevron-down'" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none"></app-hero-icon>
-            </div>
+              </div>
+            }
           </div>
+
+          <!-- ★ Región -->
+          <div class="relative">
+            <button
+              (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
+              class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                     text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
+                     min-w-[148px] justify-between">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
+                <span class="text-gray-400 mr-0.5">Reg.:</span>
+                <span class="truncate max-w-[80px]">{{ geoDepLabel() }}</span>
+              </span>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
+                [class.rotate-180]="openGeoDropdown() === 'dep'">
+              </app-hero-icon>
+            </button>
+            @if (openGeoDropdown() === 'dep') {
+              <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-60 overflow-hidden"
+                   (click)="$event.stopPropagation()">
+                <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar región</span>
+                </div>
+                <div class="max-h-60 overflow-y-auto">
+                  <button
+                    (click)="selectDep(null)"
+                    class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedCCDD() === ''"
+                    [class.from-\[\#0056a1\]]="selectedCCDD() === ''"
+                    [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
+                    [class.text-white]="selectedCCDD() === ''"
+                    [class.text-gray-700]="selectedCCDD() !== ''"
+                    [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
+                    <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                      [class.border-white]="selectedCCDD() === ''"
+                      [class.border-gray-300]="selectedCCDD() !== ''">
+                      @if (selectedCCDD() === '') {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <span class="font-bold italic text-xs">Todas las regiones</span>
+                  </button>
+                  @for (dept of departments(); track dept.ccdd) {
+                    <button
+                      (click)="selectDep(dept)"
+                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                      [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd"
+                      [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd"
+                      [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
+                      [class.text-white]="selectedCCDD() === dept.ccdd"
+                      [class.text-gray-700]="selectedCCDD() !== dept.ccdd"
+                      [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
+                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                        [class.border-white]="selectedCCDD() === dept.ccdd"
+                        [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
+                        @if (selectedCCDD() === dept.ccdd) {
+                          <span class="w-2 h-2 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-semibold">{{ dept.name }}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- ★ Provincia -->
+          <div class="relative">
+            <button
+              (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
+              class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[148px] justify-between"
+              [class.bg-gray-50]="isGeoProvActive()"
+              [class.border-gray-200]="isGeoProvActive()"
+              [class.text-gray-700]="isGeoProvActive()"
+              [class.hover\:bg-gray-100]="isGeoProvActive()"
+              [class.bg-gray-50\/50]="!isGeoProvActive()"
+              [class.border-gray-100]="!isGeoProvActive()"
+              [class.text-gray-300]="!isGeoProvActive()"
+              [class.cursor-not-allowed]="!isGeoProvActive()">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                  [class.bg-\[\#1a75aa\]]="isGeoProvActive()"
+                  [class.bg-gray-200]="!isGeoProvActive()"></span>
+                <span class="mr-0.5"
+                  [class.text-gray-400]="isGeoProvActive()"
+                  [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
+                <span class="truncate max-w-[70px]">{{ geoProvLabel() }}</span>
+              </span>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.text-gray-400]="isGeoProvActive()"
+                [class.text-gray-200]="!isGeoProvActive()"
+                [class.rotate-180]="openGeoDropdown() === 'prov'">
+              </app-hero-icon>
+            </button>
+            @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
+              <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden"
+                   (click)="$event.stopPropagation()">
+                <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
+                </div>
+                <div class="max-h-60 overflow-y-auto">
+                  <button
+                    (click)="selectProv('')"
+                    class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedProv() === ''"
+                    [class.from-\[\#0056a1\]]="selectedProv() === ''"
+                    [class.to-\[\#1a75aa\]]="selectedProv() === ''"
+                    [class.text-white]="selectedProv() === ''"
+                    [class.text-gray-700]="selectedProv() !== ''"
+                    [class.hover\:bg-blue-50]="selectedProv() !== ''">
+                    <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                      [class.border-white]="selectedProv() === ''"
+                      [class.border-gray-300]="selectedProv() !== ''">
+                      @if (selectedProv() === '') {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <span class="font-bold italic">Todas las provincias</span>
+                  </button>
+                  @for (p of GEO_PROVS_TPL; track p.label) {
+                    <button
+                      (click)="selectProv(p.label)"
+                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                      [class.bg-gradient-to-r]="selectedProv() === p.label"
+                      [class.from-\[\#0056a1\]]="selectedProv() === p.label"
+                      [class.to-\[\#1a75aa\]]="selectedProv() === p.label"
+                      [class.text-white]="selectedProv() === p.label"
+                      [class.text-gray-700]="selectedProv() !== p.label"
+                      [class.hover\:bg-blue-50]="selectedProv() !== p.label">
+                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                        [class.border-white]="selectedProv() === p.label"
+                        [class.border-gray-300]="selectedProv() !== p.label">
+                        @if (selectedProv() === p.label) {
+                          <span class="w-2 h-2 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-semibold">{{ p.label }}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- ★ Distrito -->
+          <div class="relative">
+            <button
+              (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
+              class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[140px] justify-between"
+              [class.bg-gray-50]="isGeoDistActive()"
+              [class.border-gray-200]="isGeoDistActive()"
+              [class.text-gray-700]="isGeoDistActive()"
+              [class.hover\:bg-gray-100]="isGeoDistActive()"
+              [class.bg-gray-50\/50]="!isGeoDistActive()"
+              [class.border-gray-100]="!isGeoDistActive()"
+              [class.text-gray-300]="!isGeoDistActive()"
+              [class.cursor-not-allowed]="!isGeoDistActive()">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                  [class.bg-\[\#33b3a9\]]="isGeoDistActive()"
+                  [class.bg-gray-200]="!isGeoDistActive()"></span>
+                <span class="mr-0.5"
+                  [class.text-gray-400]="isGeoDistActive()"
+                  [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
+                <span class="truncate max-w-[65px]">{{ geoDistLabel() }}</span>
+              </span>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.text-gray-400]="isGeoDistActive()"
+                [class.text-gray-200]="!isGeoDistActive()"
+                [class.rotate-180]="openGeoDropdown() === 'dist'">
+              </app-hero-icon>
+            </button>
+            @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
+              <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-80 overflow-hidden"
+                   (click)="$event.stopPropagation()">
+                <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
+                </div>
+                <div class="max-h-60 overflow-y-auto">
+                  <button
+                    (click)="selectDist('')"
+                    class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedDist() === ''"
+                    [class.from-\[\#33b3a9\]]="selectedDist() === ''"
+                    [class.to-\[\#2da3b0\]]="selectedDist() === ''"
+                    [class.text-white]="selectedDist() === ''"
+                    [class.text-gray-700]="selectedDist() !== ''"
+                    [class.hover\:bg-teal-50]="selectedDist() !== ''">
+                    <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                      [class.border-white]="selectedDist() === ''"
+                      [class.border-gray-300]="selectedDist() !== ''">
+                      @if (selectedDist() === '') {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <span class="font-bold italic">Todos los distritos</span>
+                  </button>
+                  @for (d of GEO_DISTS_TPL; track d.label) {
+                    <button
+                      (click)="selectDist(d.label)"
+                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                      [class.bg-gradient-to-r]="selectedDist() === d.label"
+                      [class.from-\[\#33b3a9\]]="selectedDist() === d.label"
+                      [class.to-\[\#2da3b0\]]="selectedDist() === d.label"
+                      [class.text-white]="selectedDist() === d.label"
+                      [class.text-gray-700]="selectedDist() !== d.label"
+                      [class.hover\:bg-teal-50]="selectedDist() !== d.label">
+                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                        [class.border-white]="selectedDist() === d.label"
+                        [class.border-gray-300]="selectedDist() !== d.label">
+                        @if (selectedDist() === d.label) {
+                          <span class="w-2 h-2 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-semibold">{{ d.label }}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
         </div>
       </div>
 
@@ -221,16 +504,16 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'man'" type="solid" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
                   <span class="text-xs font-bold text-gray-500">Hombres</span>
                 </div>
-                <span class="text-lg font-black text-gray-800 leading-none">17,596,527</span>
-                <span class="text-xs text-gray-400">48.1%</span>
+                <span class="text-lg font-black text-gray-800 leading-none">17.596.527</span>
+                <span class="text-xs text-gray-400">48,1%</span>
               </div>
               <div class="flex flex-col items-center">
                 <div class="flex items-center gap-1 mb-1">
                   <app-hero-icon [name]="'woman'" type="solid" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
                   <span class="text-xs font-bold text-gray-500">Mujeres</span>
                 </div>
-                <span class="text-lg font-black text-gray-800 leading-none">18,999,999</span>
-                <span class="text-xs text-gray-400">51.9%</span>
+                <span class="text-lg font-black text-gray-800 leading-none">18.999.999</span>
+                <span class="text-xs text-gray-400">51,9%</span>
               </div>
             </div>
           </div>
@@ -252,7 +535,7 @@ const S = { w: 380, h: 550 };
             </div>
             <div>
               <div class="text-xs font-black text-gray-400 tracking-wide">Edad Media</div>
-              <div class="text-3xl font-black text-gray-800">31.2 <span class="text-sm font-bold text-gray-400">años</span></div>
+              <div class="text-3xl font-black text-gray-800">31,2 <span class="text-sm font-bold text-gray-400">años</span></div>
             </div>
           </div>
 
@@ -274,7 +557,7 @@ const S = { w: 380, h: 550 };
             <div class="flex items-center justify-around">
               <div class="flex flex-col items-center">
                 <app-hero-icon [name]="'man'" type="solid" class="w-12 h-12 text-[#0056a1]"></app-hero-icon>
-                <span class="text-2xl font-black text-gray-800">94.3</span>
+                <span class="text-2xl font-black text-gray-800">94,3</span>
                 <span class="text-[10px] font-bold text-gray-400">Hombres</span>
               </div>
               <div class="text-sm font-bold text-gray-300">/</div>
@@ -303,7 +586,7 @@ const S = { w: 380, h: 550 };
             </div>
             <div>
               <div class="text-xs font-black text-gray-400 tracking-wide">Rel. Dependencia Total</div>
-              <div class="text-3xl font-black text-gray-800">52.1%</div>
+              <div class="text-3xl font-black text-gray-800">52,1%</div>
             </div>
           </div>
 
@@ -329,8 +612,8 @@ const S = { w: 380, h: 550 };
                   <span class="text-xs font-bold text-gray-500">0 a 14 años</span>
                 </div>
                 <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">3,274,648</span>
-                  <span class="text-xs text-gray-400">(17.7%)</span>
+                  <span class="text-base font-black text-gray-800 block">3.274.648</span>
+                  <span class="text-xs text-gray-400">(17,7%)</span>
                 </div>
               </div>
               <div class="flex items-center justify-between">
@@ -339,8 +622,8 @@ const S = { w: 380, h: 550 };
                   <span class="text-xs font-bold text-gray-500">15 a 64 años</span>
                 </div>
                 <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">12,618,546</span>
-                  <span class="text-xs text-gray-400">(68.3%)</span>
+                  <span class="text-base font-black text-gray-800 block">12.618.546</span>
+                  <span class="text-xs text-gray-400">(68,3%)</span>
                 </div>
               </div>
               <div class="flex items-center justify-between">
@@ -349,8 +632,8 @@ const S = { w: 380, h: 550 };
                   <span class="text-xs font-bold text-gray-500">65 años o más</span>
                 </div>
                 <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">2,587,238</span>
-                  <span class="text-xs text-gray-400">(14.0%)</span>
+                  <span class="text-base font-black text-gray-800 block">2.587.238</span>
+                  <span class="text-xs text-gray-400">(14,0%)</span>
                 </div>
               </div>
             </div>
@@ -373,7 +656,7 @@ const S = { w: 380, h: 550 };
             </div>
             <div>
               <div class="text-xs font-black text-gray-400 tracking-wide">Edad Mediana</div>
-              <div class="text-3xl font-black text-gray-800">29.8 <span class="text-sm font-bold text-gray-400">años</span></div>
+              <div class="text-3xl font-black text-gray-800">29,8 <span class="text-sm font-bold text-gray-400">años</span></div>
             </div>
           </div>
 
@@ -394,7 +677,7 @@ const S = { w: 380, h: 550 };
             </div>
             <div>
               <div class="text-xs font-black text-gray-400 tracking-wide">Índice de Envejecimiento</div>
-              <div class="text-3xl font-black text-gray-800">45.6%</div>
+              <div class="text-3xl font-black text-gray-800">45,6%</div>
             </div>
           </div>
 
@@ -415,7 +698,7 @@ const S = { w: 380, h: 550 };
             </div>
             <div>
               <div class="text-xs font-black text-gray-400 tracking-wide">Rel. de Dependencia Juvenil</div>
-              <div class="text-3xl font-black text-gray-800">34.2%</div>
+              <div class="text-3xl font-black text-gray-800">34,2%</div>
             </div>
           </div>
 
@@ -463,7 +746,7 @@ const S = { w: 380, h: 550 };
               </div>
               <div class="min-w-0">
                 <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Rel. Dependencia Adulta</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">17.9%</div>
+                <div class="text-2xl font-black text-gray-800 mt-1">17,9%</div>
               </div>
             </div>
 
@@ -484,7 +767,7 @@ const S = { w: 380, h: 550 };
               </div>
               <div class="min-w-0">
                 <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. Total</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">25.4 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
+                <div class="text-2xl font-black text-gray-800 mt-1">25,4 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
               </div>
             </div>
 
@@ -505,7 +788,7 @@ const S = { w: 380, h: 550 };
               </div>
               <div class="min-w-0">
                 <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 65+</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">3.6 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
+                <div class="text-2xl font-black text-gray-800 mt-1">3,6 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
               </div>
             </div>
 
@@ -582,7 +865,7 @@ const S = { w: 380, h: 550 };
                       </div>
                       <p class="text-xs font-bold">{{ fmt(hoveredRegion()!.male) }}</p>
                       <p class="text-[8px] text-gray-400">
-                        {{ hoveredRegion()!.total > 0 ? ((hoveredRegion()!.male / hoveredRegion()!.total) * 100).toFixed(1) : '0' }}%
+                        {{ hoveredRegion()!.total > 0 ? fmtPct((hoveredRegion()!.male / hoveredRegion()!.total) * 100) : '0%' }}
                       </p>
                     </div>
                     <div>
@@ -592,13 +875,13 @@ const S = { w: 380, h: 550 };
                       </div>
                       <p class="text-xs font-bold">{{ fmt(hoveredRegion()!.female) }}</p>
                       <p class="text-[8px] text-gray-400">
-                        {{ hoveredRegion()!.total > 0 ? ((hoveredRegion()!.female / hoveredRegion()!.total) * 100).toFixed(1) : '0' }}%
+                        {{ hoveredRegion()!.total > 0 ? fmtPct((hoveredRegion()!.female / hoveredRegion()!.total) * 100) : '0%' }}
                       </p>
                     </div>
                   </div>
                   <div class="flex justify-between border-t border-gray-800 pt-1.5 mt-1.5">
                     <span class="text-[8px] text-gray-400 uppercase font-bold">Densidad</span>
-                    <span class="text-xs font-bold text-yellow-400">{{ hoveredRegion()!.density }} hab/km²</span>
+                    <span class="text-xs font-bold text-yellow-400">{{ fmtD(hoveredRegion()!.density) }} hab/km²</span>
                   </div>
                 </div>
               }
@@ -694,7 +977,7 @@ const S = { w: 380, h: 550 };
         </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
       height: 100vh;
@@ -721,400 +1004,458 @@ const S = { w: 380, h: 550 };
 })
 export class DashboardComponent implements OnInit {
 
-  // ── ECharts ───────────────────────────────────────────────────────────
-  pieOptionsSex:  EChartsOption = {};
-  pieOptionsAge:  EChartsOption = {};
-  pyramidOptions: EChartsOption = {};
+    // ── ECharts ───────────────────────────────────────────────────────────
+    pieOptionsSex:  EChartsOption = {};
+    pieOptionsAge:  EChartsOption = {};
+    pyramidOptions: EChartsOption = {};
 
-  // ── Dimensiones SVG expuestas al template ─────────────────────────────
-  readonly svgW = S.w;
-  readonly svgH = S.h;
+    // ── Dimensiones SVG expuestas al template ─────────────────────────────
+    readonly svgW = S.w;
+    readonly svgH = S.h;
 
-  // ── Estado primitivo (señales manuales) ───────────────────────────────
-  isBrowser       = false;
-  selectedCCDD    = signal<string>('');
-  hoveredCCDD     = signal<string>('');
-  isMapLoading    = signal<boolean>(false);
-  mapLoadError    = signal<boolean>(false);
+    // ── Geo selector — nivel + prov + dist ───────────────────────────────
+    readonly NIVELES_GEO: NivelGeoType[] = ['Regional', 'Provincial', 'Distrital'];
+    readonly GEO_PROVS_TPL = GEO_PROVS;
+    readonly GEO_DISTS_TPL = GEO_DISTS;
 
-  // ── GeoJSON crudo ──────────────────────────────────────────────────────
-  private rawGeoJson = signal<any>(null);
+    nivelGeo         = signal<NivelGeoType>('Regional');
+    openGeoDropdown  = signal<'nivel'|'dep'|'prov'|'dist'|null>(null);
+    selectedProv     = signal<string>('');
+    selectedDist     = signal<string>('');
 
-  // ── Constantes ────────────────────────────────────────────────────────
-  private readonly TOTAL_NAC = 36_596_527;
+    isGeoProvActive  = computed(() => this.nivelGeo() !== 'Regional');
+    isGeoDistActive  = computed(() => this.nivelGeo() === 'Distrital');
 
-  // ── Estado derivado (computed) ────────────────────────────────────────
-
-  /** Indicador activo para colorear el mapa (default: población total) */
-  activeIndicator = signal<MapIndicatorKey>('poblacion');
-
-  /** Definición del indicador activo */
-  activeIndicatorDef = computed<IndicatorDef>(
-    () => INDICATORS.find(d => d.key === this.activeIndicator())!
-  );
-
-  /** Regiones parseadas sin color (color se recalcula al cambiar indicador) */
-  private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
-    const geo = this.rawGeoJson();
-    if (!geo?.features) return [];
-    return (geo.features as any[]).map((f, idx) => {
-      const p   = f.properties;
-      const svg = this.project(f.geometry);
-      return {
-        id:      Number(f.id) || idx,
-        ccdd:    String(p.CCDD),
-        name:    String(p.NOMBDEP),
-        total:   Number(p.POBTOTAL)  || 0,
-        male:    Number(p.POBHOMBRE) || 0,
-        female:  Number(p.POBMUJER)  || 0,
-        density: Number(p.DENSIDAD)  || 0,
-        path:    svg.path,
-        center:  svg.center,
-      };
+    geoDepLabel  = computed(() => {
+        const r = this.selectedRegion();
+        return r ? r.name : 'Todas';
     });
-  });
+    geoProvLabel = computed(() => this.selectedProv() || 'Todas');
+    geoDistLabel = computed(() => this.selectedDist() || 'Todos');
 
-  /** Regiones con color coroplético según indicador activo */
-  mapRegions = computed<MapRegion[]>(() => {
-    const raws = this.parsedRegions();
-    const key  = this.activeIndicator();
-    if (!raws.length) return [];
+    toggleGeoDropdown(key: 'nivel'|'dep'|'prov'|'dist'): void {
+        this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key);
+    }
+    closeGeoDropdowns(): void { this.openGeoDropdown.set(null); }
 
-    const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
-    const sorted = [...vals].sort((a, b) => a - b);
-    const n  = sorted.length;
-    const gs = Math.floor(n / 5);
-    const thr = [1, 2, 3, 4].map(i => sorted[Math.min(i * gs, n - 1)]);
-
-    return raws.map((r, i) => {
-      const v = vals[i];
-      let tier = 0;
-      for (let t = 0; t < thr.length; t++) { if (v > thr[t]) tier = t + 1; }
-      return { ...r, color: PALETTE[tier] } as MapRegion;
-    });
-  });
-
-  /** Lista de departamentos para el combo selector */
-  departments = computed(() =>
-    [...this.mapRegions()]
-      .map(r => ({ ccdd: r.ccdd, name: r.name }))
-      .sort((a, b) => a.name.localeCompare(b.name, 'es'))
-  );
-
-  /** 5 rangos cuantílicos para la leyenda (según indicador activo) */
-  colorBreaks = computed<ColorBreak[]>(() => {
-    const regions = this.mapRegions();
-    const key     = this.activeIndicator();
-    const def     = this.activeIndicatorDef();
-    if (!regions.length) return [];
-
-    const sorted = regions.map(r => this.getIndicatorValue(r, key)).sort((a, b) => a - b);
-    const n  = sorted.length;
-    const gs = Math.floor(n / 5);
-    const fmtV = (v: number) => key === 'poblacion'
-      ? this.fmt(v)
-      : v.toFixed(def.decimals) + def.unit;
-
-    return Array.from({ length: 5 }, (_, i) => {
-      const bMin = sorted[i * gs];
-      const bMax = sorted[Math.min((i + 1) * gs - 1, n - 1)];
-      return { min: bMin, max: bMax, color: PALETTE[i], label: `${fmtV(bMin)} – ${fmtV(bMax)}` };
-    });
-  });
-
-  /** Región sobre la que está el cursor */
-  hoveredRegion = computed<MapRegion | null>(() => {
-    const ccdd = this.hoveredCCDD();
-    if (!ccdd) return null;
-    return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
-  });
-
-  /** Región seleccionada desde el combo o click */
-  selectedRegion = computed<MapRegion | null>(() => {
-    const ccdd = this.selectedCCDD();
-    if (!ccdd) return null;
-    return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
-  });
-
-  /**
-   * Título de la cabecera: hover > seleccionado > Nacional.
-   * Computed puro — se actualiza automáticamente.
-   */
-  displayedTitle = computed<string>(() => {
-    const hov = this.hoveredRegion();
-    if (hov) return hov.name;
-    const sel = this.selectedRegion();
-    if (sel) return sel.name;
-    return 'Perú (Nacional)';
-  });
-
-  /**
-   * Población de la cabecera: hover > seleccionado > Nacional.
-   */
-  displayedPopulation = computed<string>(() => {
-    const hov = this.hoveredRegion();
-    if (hov) return this.fmt(hov.total);
-    const sel = this.selectedRegion();
-    if (sel) return this.fmt(sel.total);
-    return this.fmt(this.TOTAL_NAC);
-  });
-
-  // ── Inyecciones ───────────────────────────────────────────────────────
-  private platformId = inject(PLATFORM_ID);
-  private http       = inject(HttpClient);
-
-  constructor() {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
-
-  // ── Ciclo de vida ─────────────────────────────────────────────────────
-  ngOnInit(): void {
-    this.initCharts();
-    // Cargar GeoJSON en cualquier plataforma (SSR safe: solo HTTP)
-    this.loadGeoJson();
-  }
-
-  // ── Carga del GeoJSON ─────────────────────────────────────────────────
-  loadGeoJson(): void {
-    this.isMapLoading.set(true);
-    this.mapLoadError.set(false);
-    this.rawGeoJson.set(null);
-
-    this.http.get<any>('/departamento_geometria.json').subscribe({
-      next:  data => { this.rawGeoJson.set(data); this.isMapLoading.set(false); },
-      error: ()   => { this.isMapLoading.set(false); this.mapLoadError.set(true); },
-    });
-  }
-
-  // ── Formateador de números (público para uso en template) ─────────────
-  fmt(n: number): string {
-    return Number(n).toLocaleString('es-PE');
-  }
-
-  // ── Proyección GeoJSON → SVG ──────────────────────────────────────────
-  private project(geom: any): { path: string; center: { x: number; y: number } } {
-    if (!geom) return { path: '', center: { x: 0, y: 0 } };
-
-    let path = '';
-    let sx = 0, sy = 0, n = 0;
-
-    /** Convierte [lng, lat] a coordenadas SVG */
-    const pt = (c: number[]) => ({
-      x: ((c[0] - B.minLon) / (B.maxLon - B.minLon)) * S.w,
-      y: (1 - (c[1] - B.minLat) / (B.maxLat - B.minLat)) * S.h,
-    });
-
-    const ring = (coords: number[][]) => {
-      let s = '';
-      coords.forEach((c, i) => {
-        const p = pt(c);
-        s += (i === 0 ? 'M' : 'L') + `${p.x.toFixed(1)},${p.y.toFixed(1)} `;
-        sx += p.x; sy += p.y; n++;
-      });
-      return s + 'Z ';
-    };
-
-    if (geom.type === 'Polygon') {
-      geom.coordinates.forEach((r: number[][]) => (path += ring(r)));
-    } else if (geom.type === 'MultiPolygon') {
-      geom.coordinates.forEach((poly: number[][][]) =>
-        poly.forEach((r: number[][]) => (path += ring(r)))
-      );
+    setNivelGeo(n: NivelGeoType): void {
+        this.nivelGeo.set(n);
+        if (n === 'Regional') { this.selectedProv.set(''); this.selectedDist.set(''); }
+        if (n === 'Provincial') { this.selectedDist.set(''); }
+        this.openGeoDropdown.set(null);
     }
 
-    return {
-      path,
-      center: { x: n ? sx / n : 0, y: n ? sy / n : 0 },
-    };
-  }
-
-  // ── Helpers de estilo SVG ─────────────────────────────────────────────
-
-  getRegionFill(r: MapRegion): string {
-    // Seleccionado → ámbar; hover → amarillo; default → color coroplético
-    if (this.selectedRegion()?.ccdd === r.ccdd && !this.hoveredRegion()) {
-      return '#f8bd13'; // amarillo selección
+    selectDep(dept: { ccdd: string; name: string } | null): void {
+        this.selectedCCDD.set(dept?.ccdd ?? '');
+        this.selectedProv.set('');
+        this.selectedDist.set('');
+        this.openGeoDropdown.set(null);
     }
-    if (this.hoveredRegion()?.ccdd === r.ccdd) {
-      return '#f8bd13'; // amarillo hover
+
+    selectProv(label: string): void {
+        this.selectedProv.set(label);
+        this.selectedDist.set('');
+        this.openGeoDropdown.set(null);
     }
-    return r.color;
-  }
 
-  getRegionOpacity(r: MapRegion): string {
-    const hov = this.hoveredRegion();
-    const sel = this.selectedRegion();
-
-    if (hov) return hov.ccdd === r.ccdd ? '1' : '0.30';
-    if (sel) return sel.ccdd === r.ccdd ? '1' : '0.35';
-    return '0.88';
-  }
-
-  getStrokeWidth(r: MapRegion): string {
-    if (this.hoveredRegion()?.ccdd === r.ccdd)  return '2.5';
-    if (this.selectedRegion()?.ccdd === r.ccdd) return '3';
-    return '1.5';
-  }
-
-  getLabelOpacity(r: MapRegion): string {
-    const hov = this.hoveredRegion();
-    const sel = this.selectedRegion();
-    if (hov) return hov.ccdd === r.ccdd ? '1' : '0.12';
-    if (sel) return sel.ccdd === r.ccdd ? '1' : '0.15';
-    return '1';
-  }
-
-  // ── Eventos del mapa SVG ──────────────────────────────────────────────
-
-  onHover(r: MapRegion): void {
-    this.hoveredCCDD.set(r.ccdd);
-  }
-
-  onLeave(): void {
-    this.hoveredCCDD.set('');
-  }
-
-  onRegionClick(r: MapRegion): void {
-    // Toggle: doble click deselecciona
-    if (this.selectedCCDD() === r.ccdd) {
-      this.selectedCCDD.set('');
-    } else {
-      this.selectedCCDD.set(r.ccdd);
+    selectDist(label: string): void {
+        this.selectedDist.set(label);
+        this.openGeoDropdown.set(null);
     }
-  }
 
-  // ── Combo selector ────────────────────────────────────────────────────
-  onDeptChange(ccdd: string): void {
-    this.selectedCCDD.set(ccdd);
-  }
+    // ── Estado primitivo (señales manuales) ───────────────────────────────
+    isBrowser       = false;
+    selectedCCDD    = signal<string>('');
+    hoveredCCDD     = signal<string>('');
+    isMapLoading    = signal<boolean>(false);
+    mapLoadError    = signal<boolean>(false);
 
-  // ── Botón Restablecer ─────────────────────────────────────────────────
-  resetFilters(): void {
-    this.selectedCCDD.set('');
-    this.hoveredCCDD.set('');
-  }
+    // ── GeoJSON crudo ──────────────────────────────────────────────────────
+    private rawGeoJson = signal<any>(null);
 
-  // ── Indicador de mapa ────────────────────────────────────────────────
+    // ── Constantes ────────────────────────────────────────────────────────
+    private readonly TOTAL_NAC = 36_596_527;
 
-  /** Valor numérico del indicador para una región */
-  getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
-    if (key === 'poblacion')      return r.total;
-    if (key === 'densidad_total') return r.density;
-    return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
-  }
+    // ── Estado derivado (computed) ────────────────────────────────────────
 
-  /** Valor formateado del indicador activo para mostrar en el mapa */
-  getActiveValue(r: MapRegion): string {
-    const key = this.activeIndicator();
-    const def = this.activeIndicatorDef();
-    const v   = this.getIndicatorValue(r, key);
-    return key === 'poblacion' ? this.fmt(v) : v.toFixed(def.decimals) + def.unit;
-  }
+    /** Indicador activo para colorear el mapa (default: población total) */
+    activeIndicator = signal<MapIndicatorKey>('poblacion');
 
-  /** Activa un indicador: colorea el mapa y actualiza la leyenda */
-  setMapIndicator(key: MapIndicatorKey): void {
-    this.activeIndicator.set(key);
-  }
+    /** Definición del indicador activo */
+    activeIndicatorDef = computed<IndicatorDef>(
+        () => INDICATORS.find(d => d.key === this.activeIndicator())!
+    );
 
-  // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────────
-  initCharts(): void {
-    this.pieOptionsSex = {
-      tooltip: { trigger: 'item' },
-      legend:  { show: false },
-      color:   ['#0056a1', '#33b3a9'],
-      series: [{
-        name: 'Sexo', type: 'pie', radius: ['50%', '80%'],
-        avoidLabelOverlap: false,
-        itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
-        label: { show: false },
-        data: [
-          { value: 17596527, name: 'Hombres' },
-          { value: 18999999, name: 'Mujeres' },
-        ],
-      }],
-    };
+    /** Regiones parseadas sin color (color se recalcula al cambiar indicador) */
+    private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
+        const geo = this.rawGeoJson();
+        if (!geo?.features) return [];
+        return (geo.features as any[]).map((f, idx) => {
+            const p   = f.properties;
+            const svg = this.project(f.geometry);
+            return {
+                id:      Number(f.id) || idx,
+                ccdd:    String(p.CCDD),
+                name:    String(p.NOMBDEP),
+                total:   Number(p.POBTOTAL)  || 0,
+                male:    Number(p.POBHOMBRE) || 0,
+                female:  Number(p.POBMUJER)  || 0,
+                density: Number(p.DENSIDAD)  || 0,
+                path:    svg.path,
+                center:  svg.center,
+            };
+        });
+    });
 
-    this.pieOptionsAge = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'none' },
-        formatter: (params: any) => {
-          const p = params[0];
-          const pct = ['17.7%', '68.3%', '14.0%'][p.dataIndex] ?? '';
-          return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
-                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toLocaleString('es-PE')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
-        },
-      },
-      grid: { top: 8, right: 6, bottom: 24, left: 6, containLabel: true },
-      xAxis: {
-        type: 'category',
-        data: ['0–14 años', '15–64 años', '65+ años'],
-        axisTick:  { show: false },
-        axisLine:  { show: false },
-        axisLabel: {
-          fontSize: 9,
-          fontWeight: 'bold',
-          color: '#9ca3af',
-          interval: 0,
-          overflow: 'truncate',
-        },
-      },
-      yAxis: {
-        type: 'value',
-        show: false,
-        max: (val: any) => Math.round(val.max * 1.18),
-      },
-      series: [{
-        name: 'Población',
-        type: 'bar',
-        barMaxWidth: 40,
-        barCategoryGap: '28%',
-        itemStyle: { borderRadius: [6, 6, 0, 0] },
-        label: {
-          show: true,
-          position: 'top',
-          fontSize: 9,
-          fontWeight: 'bold',
-          color: '#6b7280',
-          formatter: (p: any) => ['17.7%', '68.3%', '14.0%'][p.dataIndex] ?? '',
-        },
-        data: [
-          { value: 3274648,  itemStyle: { color: '#0056a1' } },
-          { value: 12618546, itemStyle: { color: '#33b3a9' } },
-          { value: 2587238,  itemStyle: { color: '#f8bd13' } },
-        ],
-      }],
-    };
+    /** Regiones con color coroplético según indicador activo */
+    mapRegions = computed<MapRegion[]>(() => {
+        const raws = this.parsedRegions();
+        const key  = this.activeIndicator();
+        if (!raws.length) return [];
 
-    const ageGroups  = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80+'];
-    const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5];
-    const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4];
+        const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
+        const sorted = [...vals].sort((a, b) => a - b);
+        const n  = sorted.length;
+        const gs = Math.floor(n / 5);
+        const thr = [1, 2, 3, 4].map(i => sorted[Math.min(i * gs, n - 1)]);
 
-    this.pyramidOptions = {
-      tooltip: {
-        trigger: 'axis', axisPointer: { type: 'shadow' },
-        formatter(params: any): string {
-          let html = `<div style="font-weight:900;font-size:10px;margin-bottom:4px">${params[0].name} años</div>`;
-          params.forEach((p: any) => {
-            html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px">
+        return raws.map((r, i) => {
+            const v = vals[i];
+            let tier = 0;
+            for (let t = 0; t < thr.length; t++) { if (v > thr[t]) tier = t + 1; }
+            return { ...r, color: PALETTE[tier] } as MapRegion;
+        });
+    });
+
+    /** Lista de departamentos para el combo selector */
+    departments = computed(() =>
+        [...this.mapRegions()]
+            .map(r => ({ ccdd: r.ccdd, name: r.name }))
+            .sort((a, b) => a.name.localeCompare(b.name, 'es'))
+    );
+
+    /** 5 rangos cuantílicos para la leyenda (según indicador activo) */
+    colorBreaks = computed<ColorBreak[]>(() => {
+        const regions = this.mapRegions();
+        const key     = this.activeIndicator();
+        const def     = this.activeIndicatorDef();
+        if (!regions.length) return [];
+
+        const sorted = regions.map(r => this.getIndicatorValue(r, key)).sort((a, b) => a - b);
+        const n  = sorted.length;
+        const gs = Math.floor(n / 5);
+        const fmtV = (v: number) => key === 'poblacion'
+            ? this.fmt(v)
+            : this.fmtD(v, def.decimals) + def.unit;
+
+        return Array.from({ length: 5 }, (_, i) => {
+            const bMin = sorted[i * gs];
+            const bMax = sorted[Math.min((i + 1) * gs - 1, n - 1)];
+            return { min: bMin, max: bMax, color: PALETTE[i], label: `${fmtV(bMin)} – ${fmtV(bMax)}` };
+        });
+    });
+
+    /** Región sobre la que está el cursor */
+    hoveredRegion = computed<MapRegion | null>(() => {
+        const ccdd = this.hoveredCCDD();
+        if (!ccdd) return null;
+        return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
+    });
+
+    /** Región seleccionada desde el combo o click */
+    selectedRegion = computed<MapRegion | null>(() => {
+        const ccdd = this.selectedCCDD();
+        if (!ccdd) return null;
+        return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
+    });
+
+    /**
+     * Título de la cabecera: hover > seleccionado > Nacional.
+     * Computed puro — se actualiza automáticamente.
+     */
+    displayedTitle = computed<string>(() => {
+        const hov = this.hoveredRegion();
+        if (hov) return hov.name;
+        const sel = this.selectedRegion();
+        if (sel) return sel.name;
+        return 'Perú (Nacional)';
+    });
+
+    /**
+     * Población de la cabecera: hover > seleccionado > Nacional.
+     */
+    displayedPopulation = computed<string>(() => {
+        const hov = this.hoveredRegion();
+        if (hov) return this.fmt(hov.total);
+        const sel = this.selectedRegion();
+        if (sel) return this.fmt(sel.total);
+        return this.fmt(this.TOTAL_NAC);
+    });
+
+    // ── Inyecciones ───────────────────────────────────────────────────────
+    private platformId = inject(PLATFORM_ID);
+    private http       = inject(HttpClient);
+
+    constructor() {
+        this.isBrowser = isPlatformBrowser(this.platformId);
+    }
+
+    // ── Ciclo de vida ─────────────────────────────────────────────────────
+    ngOnInit(): void {
+        this.initCharts();
+        // Cargar GeoJSON en cualquier plataforma (SSR safe: solo HTTP)
+        this.loadGeoJson();
+    }
+
+    // ── Carga del GeoJSON ─────────────────────────────────────────────────
+    loadGeoJson(): void {
+        this.isMapLoading.set(true);
+        this.mapLoadError.set(false);
+        this.rawGeoJson.set(null);
+
+        this.http.get<any>('/departamento_geometria.json').subscribe({
+            next:  data => { this.rawGeoJson.set(data); this.isMapLoading.set(false); },
+            error: ()   => { this.isMapLoading.set(false); this.mapLoadError.set(true); },
+        });
+    }
+
+    // ── Formateadores de números (estilo INEI Perú) ──────────────────────
+    /** Enteros grandes: punto como separador de miles  → 1.234.567 */
+    fmt(n: number): string {
+        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    /** Decimales con coma como separador decimal → 94,3  |  25,4 */
+    fmtD(n: number, dec = 1): string {
+        return n.toFixed(dec).replace('.', ',');
+    }
+    /** Porcentajes con coma decimal → 48,1% */
+    fmtPct(n: number, dec = 1): string {
+        return n.toFixed(dec).replace('.', ',') + '%';
+    }
+
+    // ── Proyección GeoJSON → SVG ──────────────────────────────────────────
+    private project(geom: any): { path: string; center: { x: number; y: number } } {
+        if (!geom) return { path: '', center: { x: 0, y: 0 } };
+
+        let path = '';
+        let sx = 0, sy = 0, n = 0;
+
+        /** Convierte [lng, lat] a coordenadas SVG */
+        const pt = (c: number[]) => ({
+            x: ((c[0] - B.minLon) / (B.maxLon - B.minLon)) * S.w,
+            y: (1 - (c[1] - B.minLat) / (B.maxLat - B.minLat)) * S.h,
+        });
+
+        const ring = (coords: number[][]) => {
+            let s = '';
+            coords.forEach((c, i) => {
+                const p = pt(c);
+                s += (i === 0 ? 'M' : 'L') + `${p.x.toFixed(1)},${p.y.toFixed(1)} `;
+                sx += p.x; sy += p.y; n++;
+            });
+            return s + 'Z ';
+        };
+
+        if (geom.type === 'Polygon') {
+            geom.coordinates.forEach((r: number[][]) => (path += ring(r)));
+        } else if (geom.type === 'MultiPolygon') {
+            geom.coordinates.forEach((poly: number[][][]) =>
+                poly.forEach((r: number[][]) => (path += ring(r)))
+            );
+        }
+
+        return {
+            path,
+            center: { x: n ? sx / n : 0, y: n ? sy / n : 0 },
+        };
+    }
+
+    // ── Helpers de estilo SVG ─────────────────────────────────────────────
+
+    getRegionFill(r: MapRegion): string {
+        // Seleccionado → ámbar; hover → amarillo; default → color coroplético
+        if (this.selectedRegion()?.ccdd === r.ccdd && !this.hoveredRegion()) {
+            return '#f8bd13'; // amarillo selección
+        }
+        if (this.hoveredRegion()?.ccdd === r.ccdd) {
+            return '#f8bd13'; // amarillo hover
+        }
+        return r.color;
+    }
+
+    getRegionOpacity(r: MapRegion): string {
+        const hov = this.hoveredRegion();
+        const sel = this.selectedRegion();
+
+        if (hov) return hov.ccdd === r.ccdd ? '1' : '0.30';
+        if (sel) return sel.ccdd === r.ccdd ? '1' : '0.35';
+        return '0.88';
+    }
+
+    getStrokeWidth(r: MapRegion): string {
+        if (this.hoveredRegion()?.ccdd === r.ccdd)  return '2.5';
+        if (this.selectedRegion()?.ccdd === r.ccdd) return '3';
+        return '1.5';
+    }
+
+    getLabelOpacity(r: MapRegion): string {
+        const hov = this.hoveredRegion();
+        const sel = this.selectedRegion();
+        if (hov) return hov.ccdd === r.ccdd ? '1' : '0.12';
+        if (sel) return sel.ccdd === r.ccdd ? '1' : '0.15';
+        return '1';
+    }
+
+    // ── Eventos del mapa SVG ──────────────────────────────────────────────
+
+    onHover(r: MapRegion): void {
+        this.hoveredCCDD.set(r.ccdd);
+    }
+
+    onLeave(): void {
+        this.hoveredCCDD.set('');
+    }
+
+    onRegionClick(r: MapRegion): void {
+        // Toggle: doble click deselecciona
+        if (this.selectedCCDD() === r.ccdd) {
+            this.selectedCCDD.set('');
+        } else {
+            this.selectedCCDD.set(r.ccdd);
+        }
+    }
+
+    // ── Botón Restablecer ─────────────────────────────────────────────────
+    resetFilters(): void {
+        this.selectedCCDD.set('');
+        this.hoveredCCDD.set('');
+        this.selectedProv.set('');
+        this.selectedDist.set('');
+        this.nivelGeo.set('Regional');
+        this.openGeoDropdown.set(null);
+    }
+
+    // ── Indicador de mapa ────────────────────────────────────────────────
+
+    /** Valor numérico del indicador para una región */
+    getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
+        if (key === 'poblacion')      return r.total;
+        if (key === 'densidad_total') return r.density;
+        return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
+    }
+
+    /** Valor formateado del indicador activo para mostrar en el mapa */
+    getActiveValue(r: MapRegion): string {
+        const key = this.activeIndicator();
+        const def = this.activeIndicatorDef();
+        const v   = this.getIndicatorValue(r, key);
+        return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
+    }
+
+    /** Activa un indicador: colorea el mapa y actualiza la leyenda */
+    setMapIndicator(key: MapIndicatorKey): void {
+        this.activeIndicator.set(key);
+    }
+
+    // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────────
+    initCharts(): void {
+        this.pieOptionsSex = {
+            tooltip: { trigger: 'item' },
+            legend:  { show: false },
+            color:   ['#0056a1', '#33b3a9'],
+            series: [{
+                name: 'Sexo', type: 'pie', radius: ['50%', '80%'],
+                avoidLabelOverlap: false,
+                itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
+                label: { show: false },
+                data: [
+                    { value: 17596527, name: 'Hombres' },
+                    { value: 18999999, name: 'Mujeres' },
+                ],
+            }],
+        };
+
+        this.pieOptionsAge = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'none' },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    const pct = ['17,7%', '68,3%', '14,0%'][p.dataIndex] ?? '';
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
+                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, '.')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+                },
+            },
+            grid: { top: 8, right: 6, bottom: 24, left: 6, containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['0–14 años', '15–64 años', '65+ años'],
+                axisTick:  { show: false },
+                axisLine:  { show: false },
+                axisLabel: {
+                    fontSize: 9,
+                    fontWeight: 'bold',
+                    color: '#9ca3af',
+                    interval: 0,
+                    overflow: 'truncate',
+                },
+            },
+            yAxis: {
+                type: 'value',
+                show: false,
+                max: (val: any) => Math.round(val.max * 1.18),
+            },
+            series: [{
+                name: 'Población',
+                type: 'bar',
+                barMaxWidth: 40,
+                barCategoryGap: '28%',
+                itemStyle: { borderRadius: [6, 6, 0, 0] },
+                label: {
+                    show: true,
+                    position: 'top',
+                    fontSize: 9,
+                    fontWeight: 'bold',
+                    color: '#6b7280',
+                    formatter: (p: any) => ['17,7%', '68,3%', '14,0%'][p.dataIndex] ?? '',
+                },
+                data: [
+                    { value: 3274648,  itemStyle: { color: '#0056a1' } },
+                    { value: 12618546, itemStyle: { color: '#33b3a9' } },
+                    { value: 2587238,  itemStyle: { color: '#f8bd13' } },
+                ],
+            }],
+        };
+
+        const ageGroups  = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80+'];
+        const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5];
+        const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4];
+
+        this.pyramidOptions = {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter(params: any): string {
+                    let html = `<div style="font-weight:900;font-size:10px;margin-bottom:4px">${params[0].name} años</div>`;
+                    params.forEach((p: any) => {
+                        html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px">
               <span style="color:#9ca3af;font-weight:600">${p.seriesName}</span>
               <span style="font-weight:900">${Math.abs(p.value)}%</span>
             </div>`;
-          });
-          return html;
-        },
-      },
-      grid: { left: '2%', right: '2%', bottom: '0%', top: '5%', containLabel: true },
-      xAxis: [{ type: 'value', axisLabel: { show: false }, splitLine: { show: false } }],
-      yAxis: [{
-        type: 'category', axisTick: { show: false }, axisLine: { show: false },
-        data: ageGroups,
-        axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#999' },
-      }],
-      series: [
-        { name: 'Hombres', type: 'bar', stack: 'Total', data: maleData,   itemStyle: { color: '#0056a1', borderRadius: [4,0,0,4] } },
-        { name: 'Mujeres', type: 'bar', stack: 'Total', data: femaleData, itemStyle: { color: '#33b3a9', borderRadius: [0,4,4,0] } },
-      ],
-    };
-  }
+                    });
+                    return html;
+                },
+            },
+            grid: { left: '2%', right: '2%', bottom: '0%', top: '5%', containLabel: true },
+            xAxis: [{ type: 'value', axisLabel: { show: false }, splitLine: { show: false } }],
+            yAxis: [{
+                type: 'category', axisTick: { show: false }, axisLine: { show: false },
+                data: ageGroups,
+                axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#999' },
+            }],
+            series: [
+                { name: 'Hombres', type: 'bar', stack: 'Total', data: maleData,   itemStyle: { color: '#0056a1', borderRadius: [4,0,0,4] } },
+                { name: 'Mujeres', type: 'bar', stack: 'Total', data: femaleData, itemStyle: { color: '#33b3a9', borderRadius: [0,4,4,0] } },
+            ],
+        };
+    }
 }
