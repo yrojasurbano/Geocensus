@@ -787,7 +787,7 @@ const S = { w: 380, h: 550 };
                 <app-hero-icon [name]="'squares-2x2'" class="w-7 h-7"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 65+</div>
+                <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
                 <div class="text-2xl font-black text-gray-800 mt-1">3,6 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
               </div>
             </div>

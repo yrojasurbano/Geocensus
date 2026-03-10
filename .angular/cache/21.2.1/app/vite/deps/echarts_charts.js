@@ -1,4 +1,12 @@
 import {
+  createSeriesData_default,
+  getLabelLineStatesModels,
+  limitSurfaceAngle,
+  limitTurnAngle,
+  prepareSeriesDataSchema,
+  setLabelLineStyle
+} from "./chunk-Z64HLYG6.js";
+import {
   LineDraw_default,
   LinePath_default,
   Line_default as Line_default2,
@@ -30,14 +38,6 @@ import {
   updateViewOnZoom,
   warnDeprecated
 } from "./chunk-4EZO23FA.js";
-import {
-  createSeriesData_default,
-  getLabelLineStatesModels,
-  limitSurfaceAngle,
-  limitTurnAngle,
-  prepareSeriesDataSchema,
-  setLabelLineStyle
-} from "./chunk-Z64HLYG6.js";
 import {
   BezierCurve_default,
   Chart_default,
