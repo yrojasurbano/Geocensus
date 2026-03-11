@@ -18,11 +18,11 @@ import { HeroIconComponent } from '../ui/hero-icon.component';
 
 // ECharts — únicamente para gráficos de pie y pirámide
 import * as echarts from 'echarts/core';
-import { BarChart, PieChart } from 'echarts/charts';
+import { BarChart, PieChart, LineChart } from 'echarts/charts';
 import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 
-echarts.use([BarChart, PieChart, TooltipComponent, LegendComponent, GridComponent, CanvasRenderer]);
+echarts.use([BarChart, PieChart, LineChart, TooltipComponent, LegendComponent, GridComponent, CanvasRenderer]);
 
 // ── Interfaces ──────────────────────────────────────────────────────────────
 interface MapRegion {
@@ -59,7 +59,7 @@ interface IndicatorDef {
 }
 
 const INDICATORS: IndicatorDef[] = [
-    { key: 'poblacion',             label: 'Población Total',           unit: '',         decimals: 0 },
+    { key: 'poblacion',             label: 'Población Censada',           unit: '',         decimals: 0 },
     { key: 'edad_media',            label: 'Edad Media',                unit: ' años',    decimals: 1 },
     { key: 'edad_mediana',          label: 'Edad Mediana',              unit: ' años',    decimals: 1 },
     { key: 'razon_sexo',            label: 'Razón de Sexo H/M',        unit: '',         decimals: 1 },
@@ -67,8 +67,8 @@ const INDICATORS: IndicatorDef[] = [
     { key: 'dep_total',             label: 'Rel. Dependencia Total',    unit: '%',        decimals: 1 },
     { key: 'dep_juvenil',           label: 'Rel. Dependencia Juvenil',  unit: '%',        decimals: 1 },
     { key: 'dep_adulta',            label: 'Rel. Dependencia Adulta',   unit: '%',        decimals: 1 },
-    { key: 'densidad_total',        label: 'Densidad Pob. Total',       unit: ' hab/km²', decimals: 1 },
-    { key: 'densidad_65',           label: 'Densidad Pob. 65+',        unit: ' hab/km²', decimals: 2 },
+    { key: 'densidad_total',        label: 'Densidad Pob. Censada',       unit: ' hab/km²', decimals: 1 },
+    { key: 'densidad_65',           label: 'Densidad Pob. 60+',        unit: ' hab/km²', decimals: 2 },
 ];
 
 // Datos mock por departamento (ccdd '01'–'25')
@@ -104,7 +104,7 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
 const PALETTE = ['#0056a1', '#1a75aa', '#248cb3', '#2da3b0', '#33b3a9'];
 
 // ── Tipos de selección geográfica ──────────────────────────────────────────
-export type NivelGeoType = 'Regional' | 'Provincial' | 'Distrital';
+export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
 
 interface GeoItem { label: string; ccdd?: string; }
 
@@ -146,25 +146,25 @@ const S = { w: 380, h: 550 };
     <section class="bg-[#f4f7f9] h-auto md:h-screen flex flex-col font-sans text-gray-800 overflow-auto md:overflow-hidden"
              (click)="closeGeoDropdowns()">
 
-      <header class="bg-white shadow-sm px-4 md:px-6 py-3 md:py-2 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 relative md:sticky top-0 z-50 h-auto md:h-16 shrink-0">
+      <header class="bg-white shadow-sm px-4 md:px-6 2xl:px-8 py-3 md:py-2 2xl:py-3 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 relative md:sticky top-0 z-50 h-auto md:h-16 2xl:h-[72px] shrink-0">
         <div class="flex items-center gap-4 md:gap-6 w-full md:w-auto justify-between md:justify-start">
           <div class="flex items-center cursor-pointer" routerLink="/">
-            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 w-auto object-contain">
+            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 2xl:h-14 w-auto object-contain">
           </div>
           <div class="h-6 md:h-8 w-px bg-gray-200 mx-1 md:mx-2"></div>
           <div class="flex items-center">
-            <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-10 md:h-12 w-auto object-contain">
+            <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-10 md:h-12 2xl:h-14 w-auto object-contain">
           </div>
         </div>
         <div class="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-center md:justify-end">
           <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
             <button
-              class="px-4 py-1.5 rounded-lg text-sm font-bold transition-all shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
-              Resultados Preliminares
+              class="px-4 py-1.5 2xl:px-6 2xl:py-2 rounded-lg text-sm 2xl:text-base font-bold transition-all shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
+              Primeros Resultados
             </button>
             <button
               routerLink="/comparativa"
-              class="px-4 py-1.5 rounded-lg text-sm font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
+              class="px-4 py-1.5 2xl:px-6 2xl:py-2 rounded-lg text-sm 2xl:text-base font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
               Comparativo Territorial
             </button>
           </div>
@@ -174,7 +174,7 @@ const S = { w: 380, h: 550 };
         </div>
       </header>
 
-      <div class="flex flex-col md:grid md:grid-cols-6 gap-3 px-4 py-3 bg-white border-b border-gray-100 shadow-sm sticky top-0 md:top-16 z-40 shrink-0">
+      <div class="flex flex-col md:grid md:grid-cols-6 gap-3 px-4 md:px-6 2xl:px-8 py-3 2xl:py-4 bg-white border-b border-gray-100 shadow-sm sticky top-0 md:top-16 2xl:top-[72px] z-40 shrink-0">
 
         <div class="w-full md:col-span-2 bg-gradient-to-r from-primary to-secondary rounded-xl p-4 text-white flex flex-row items-center justify-center gap-6 shadow-md relative overflow-hidden group text-left">
           <div class="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
@@ -187,14 +187,14 @@ const S = { w: 380, h: 550 };
               [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'"
               matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
             <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"
-              matTooltip="Población total censada a nivel nacional o por región seleccionada" matTooltipClass="custom-tooltip"></app-hero-icon>
+              matTooltip="Población censada a nivel nacional o por departamento seleccionado" matTooltipClass="custom-tooltip"></app-hero-icon>
           </div>
           <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm relative z-10">
             <app-hero-icon [name]="'users'" class="w-8 h-8"></app-hero-icon>
           </div>
           <div class="relative z-10 flex flex-col min-w-0">
             <div class="text-xs font-bold opacity-80 tracking-wide mb-0.5 truncate">{{ displayedTitle() }}</div>
-            <div class="text-3xl md:text-4xl font-black tracking-tighter">{{ displayedPopulation() }}</div>
+            <div class="text-3xl md:text-4xl 2xl:text-5xl font-black tracking-tighter">{{ displayedPopulation() }}</div>
             <div class="text-[10px] font-semibold opacity-70 tracking-wide mt-0.5">Población Censada</div>
           </div>
         </div>
@@ -258,7 +258,7 @@ const S = { w: 380, h: 550 };
             }
           </div>
 
-          <!-- ★ Región -->
+          <!-- ★ Departamento -->
           <div class="relative">
             <button
               (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
@@ -267,7 +267,7 @@ const S = { w: 380, h: 550 };
                      min-w-[148px] justify-between">
               <span class="flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                <span class="text-gray-400 mr-0.5">Reg.:</span>
+                <span class="text-gray-400 mr-0.5">Dep.:</span>
                 <span class="truncate max-w-[80px]">{{ geoDepLabel() }}</span>
               </span>
               <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
@@ -278,7 +278,7 @@ const S = { w: 380, h: 550 };
               <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-60 overflow-hidden"
                    (click)="$event.stopPropagation()">
                 <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar región</span>
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
                 </div>
                 <div class="max-h-60 overflow-y-auto">
                   <button
@@ -297,7 +297,7 @@ const S = { w: 380, h: 550 };
                         <span class="w-2 h-2 bg-white rounded-full block"></span>
                       }
                     </span>
-                    <span class="font-bold italic text-xs">Todas las regiones</span>
+                    <span class="font-bold italic text-xs">Todos los departamentos</span>
                   </button>
                   @for (dept of departments(); track dept.ccdd) {
                     <button
@@ -483,7 +483,7 @@ const S = { w: 380, h: 550 };
         </div>
       </div>
 
-      <div class="flex-1 p-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 md:grid-rows-[1fr] gap-3 overflow-y-auto md:overflow-hidden min-h-0">
+      <div class="flex-1 p-3 2xl:p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 md:grid-rows-[1fr] gap-3 2xl:gap-4 overflow-y-auto md:overflow-hidden min-h-0">
 
         <div class="col-span-1 flex flex-col gap-3 min-h-0 overflow-hidden">
 
@@ -493,7 +493,7 @@ const S = { w: 380, h: 550 };
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Distribución de la población según sexo" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="flex-1 min-h-[100px]">
+            <div class="flex-1 min-h-[80px]">
               @if (isBrowser) {
                 <div echarts [options]="pieOptionsSex" class="w-full h-full"></div>
               }
@@ -504,7 +504,7 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'man'" type="solid" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
                   <span class="text-xs font-bold text-gray-500">Hombres</span>
                 </div>
-                <span class="text-lg font-black text-gray-800 leading-none">17.596.527</span>
+                <span class="text-lg 2xl:text-xl font-black text-gray-800 leading-none">17 596 527</span>
                 <span class="text-xs text-gray-400">48,1%</span>
               </div>
               <div class="flex flex-col items-center">
@@ -512,81 +512,82 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'woman'" type="solid" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
                   <span class="text-xs font-bold text-gray-500">Mujeres</span>
                 </div>
-                <span class="text-lg font-black text-gray-800 leading-none">18.999.999</span>
+                <span class="text-lg 2xl:text-xl font-black text-gray-800 leading-none">18 999 999</span>
                 <span class="text-xs text-gray-400">51,9%</span>
               </div>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
-            <div class="absolute top-3 right-3 flex items-center gap-2">
+          <!-- Fila B compact: Edad Media -->
+          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[62px] shrink-0 relative">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'calculator'" class="w-4 h-4"></app-hero-icon>
+              </div>
+              <div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-0.5">Edad Media</div>
+                <div class="text-xl font-black text-gray-800 leading-none">31,2 <span class="text-[10px] font-bold text-gray-400">años</span></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('edad_media')"
-                class="w-5 h-5 cursor-pointer transition-all"
-                [class.animate-pulse]="activeIndicator() !== 'edad_media'"
+                class="w-4 h-4 cursor-pointer transition-all"
                 [class.scale-125]="activeIndicator() === 'edad_media'"
                 [style.color]="activeIndicator() === 'edad_media' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Promedio de edad de la población" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <app-hero-icon [name]="'calculator'" class="w-8 h-8"></app-hero-icon>
+          </div>
+
+          <!-- Fila B compact: Razón H/M -->
+          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[62px] shrink-0 relative">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <div class="flex gap-0.5">
+                  <app-hero-icon [name]="'man'" type="solid" class="w-3.5 h-3.5 text-[#0056a1]"></app-hero-icon>
+                  <app-hero-icon [name]="'woman'" type="solid" class="w-3.5 h-3.5 text-[#33b3a9]"></app-hero-icon>
+                </div>
+              </div>
+              <div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-0.5">Razón H/M</div>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-xl font-black text-[#0056a1] leading-none">94,3</span>
+                  <span class="text-[10px] font-bold text-gray-400">/ 100M</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="text-xs font-black text-gray-400 tracking-wide">Edad Media</div>
-              <div class="text-3xl font-black text-gray-800">31,2 <span class="text-sm font-bold text-gray-400">años</span></div>
+            <div class="flex items-center gap-1.5">
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('razon_sexo')"
+                class="w-4 h-4 cursor-pointer transition-all"
+                [class.scale-125]="activeIndicator() === 'razon_sexo'"
+                [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
+                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center h-[140px] relative">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-black text-gray-400 tracking-wide">Razón de Sexo H/M</span>
-              <div class="flex items-center gap-2">
-                <app-hero-icon [name]="'globe-americas'"
-                  (click)="setMapIndicator('razon_sexo')"
-                  class="w-5 h-5 cursor-pointer transition-all"
-                  [class.animate-pulse]="activeIndicator() !== 'razon_sexo'"
-                  [class.scale-125]="activeIndicator() === 'razon_sexo'"
-                  [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
-                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
-                  matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
-              </div>
-            </div>
-            <div class="flex items-center justify-around">
-              <div class="flex flex-col items-center">
-                <app-hero-icon [name]="'man'" type="solid" class="w-12 h-12 text-[#0056a1]"></app-hero-icon>
-                <span class="text-2xl font-black text-gray-800">94,3</span>
-                <span class="text-[10px] font-bold text-gray-400">Hombres</span>
-              </div>
-              <div class="text-sm font-bold text-gray-300">/</div>
-              <div class="flex flex-col items-center">
-                <app-hero-icon [name]="'woman'" type="solid" class="w-12 h-12 text-[#33b3a9]"></app-hero-icon>
-                <span class="text-2xl font-black text-gray-800">100</span>
-                <span class="text-[10px] font-bold text-gray-400">Mujeres</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
-            <div class="absolute top-3 right-3 flex items-center gap-2">
+          <!-- Fila A: Rel. Dependencia Total -->
+          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-3 h-[76px] shrink-0 relative">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('dep_total')"
-                class="w-5 h-5 cursor-pointer transition-all"
-                [class.animate-pulse]="activeIndicator() !== 'dep_total'"
+                class="w-4 h-4 cursor-pointer transition-all"
                 [class.scale-125]="activeIndicator() === 'dep_total'"
                 [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
-                matTooltip="Relación dependientes (0-14 y 65+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación dependientes (0-14 y 60+) respecto a población activa (15-59)" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <app-hero-icon [name]="'user-group'" class="w-8 h-8"></app-hero-icon>
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <app-hero-icon [name]="'user-group'" class="w-5 h-5"></app-hero-icon>
             </div>
             <div>
-              <div class="text-xs font-black text-gray-400 tracking-wide">Rel. Dependencia Total</div>
-              <div class="text-3xl font-black text-gray-800">52,1%</div>
+              <div class="text-[10px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dependencia Total</div>
+              <div class="text-2xl font-black text-gray-800 leading-none mt-0.5">52,1%</div>
             </div>
           </div>
 
@@ -594,111 +595,110 @@ const S = { w: 380, h: 550 };
 
         <div class="col-span-1 flex flex-col gap-3 min-h-0 overflow-hidden">
 
+          <!-- Prioridad 1: Grandes Grupos de Edad — expanded, compact legend -->
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex-1 flex flex-col relative overflow-hidden min-h-0">
             <div class="flex justify-between items-center mb-2">
-              <h4 class="text-xs font-black text-gray-400 tracking-wide">Grupos de Edad</h4>
+              <h4 class="text-xs font-black text-gray-400 tracking-wide">Grandes Grupos de Edad</h4>
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
                 matTooltip="Distribución de la población por grandes grupos de edad" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="flex-1 min-h-[100px]">
+            <div class="flex-1 min-h-[80px]">
               @if (isBrowser) {
                 <div echarts [options]="pieOptionsAge" class="w-full h-full"></div>
               }
             </div>
-            <div class="flex flex-col gap-3 mt-2 px-2">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-[#0056a1]"></div>
-                  <span class="text-xs font-bold text-gray-500">0 a 14 años</span>
+            <div class="grid grid-cols-3 gap-1 mt-1.5 border-t border-gray-50 pt-1.5 shrink-0">
+              <div class="flex flex-col items-center">
+                <div class="flex items-center gap-1 mb-0.5">
+                  <div class="w-2 h-2 rounded-full bg-[#0056a1] shrink-0"></div>
+                  <span class="text-[9px] font-bold text-gray-400">0–14 años</span>
                 </div>
-                <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">3.274.648</span>
-                  <span class="text-xs text-gray-400">(17,7%)</span>
-                </div>
+                <span class="text-sm font-black text-gray-800 leading-none">3 274 648</span>
+                <span class="text-[9px] text-gray-400">(17,7%)</span>
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-[#33b3a9]"></div>
-                  <span class="text-xs font-bold text-gray-500">15 a 64 años</span>
+              <div class="flex flex-col items-center">
+                <div class="flex items-center gap-1 mb-0.5">
+                  <div class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></div>
+                  <span class="text-[9px] font-bold text-gray-400">15–59 años</span>
                 </div>
-                <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">12.618.546</span>
-                  <span class="text-xs text-gray-400">(68,3%)</span>
-                </div>
+                <span class="text-sm font-black text-gray-800 leading-none">12 618 546</span>
+                <span class="text-[9px] text-gray-400">(68,3%)</span>
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-[#facc15]"></div>
-                  <span class="text-xs font-bold text-gray-500">65 años o más</span>
+              <div class="flex flex-col items-center">
+                <div class="flex items-center gap-1 mb-0.5">
+                  <div class="w-2 h-2 rounded-full bg-[#facc15] shrink-0"></div>
+                  <span class="text-[9px] font-bold text-gray-400">60+ años</span>
                 </div>
-                <div class="text-right leading-none">
-                  <span class="text-base font-black text-gray-800 block">2.587.238</span>
-                  <span class="text-xs text-gray-400">(14,0%)</span>
-                </div>
+                <span class="text-sm font-black text-gray-800 leading-none">2 587 238</span>
+                <span class="text-[9px] text-gray-400">(14,0%)</span>
               </div>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
-            <div class="absolute top-3 right-3 flex items-center gap-2">
+          <!-- Fila B compact: Edad Mediana -->
+          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[62px] shrink-0 relative">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'scale'" class="w-4 h-4"></app-hero-icon>
+              </div>
+              <div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-0.5">Edad Mediana</div>
+                <div class="text-xl font-black text-gray-800 leading-none">29,8 <span class="text-[10px] font-bold text-gray-400">años</span></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('edad_mediana')"
-                class="w-5 h-5 cursor-pointer transition-all"
-                [class.animate-pulse]="activeIndicator() !== 'edad_mediana'"
+                class="w-4 h-4 cursor-pointer transition-all"
                 [class.scale-125]="activeIndicator() === 'edad_mediana'"
                 [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <app-hero-icon [name]="'scale'" class="w-8 h-8"></app-hero-icon>
-            </div>
-            <div>
-              <div class="text-xs font-black text-gray-400 tracking-wide">Edad Mediana</div>
-              <div class="text-3xl font-black text-gray-800">29,8 <span class="text-sm font-bold text-gray-400">años</span></div>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
-            <div class="absolute top-3 right-3 flex items-center gap-2">
+          <!-- Fila B compact: Índice de Envejecimiento -->
+          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[62px] shrink-0 relative">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'clock'" class="w-4 h-4"></app-hero-icon>
+              </div>
+              <div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-0.5">Índice de Envejecimiento</div>
+                <div class="text-xl font-black text-gray-800 leading-none">45,6%</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('indice_envejecimiento')"
-                class="w-5 h-5 cursor-pointer transition-all"
-                [class.animate-pulse]="activeIndicator() !== 'indice_envejecimiento'"
+                class="w-4 h-4 cursor-pointer transition-all"
                 [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
                 [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
-                matTooltip="Relación adultos mayores (65+) por cada 100 jóvenes (0-14)" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <app-hero-icon [name]="'clock'" class="w-8 h-8"></app-hero-icon>
-            </div>
-            <div>
-              <div class="text-xs font-black text-gray-400 tracking-wide">Índice de Envejecimiento</div>
-              <div class="text-3xl font-black text-gray-800">45,6%</div>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación adultos mayores (60+) por cada 100 jóvenes (0-14)" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 h-[140px] relative">
-            <div class="absolute top-3 right-3 flex items-center gap-2">
+          <!-- Fila A: Rel. Dependencia Juvenil -->
+          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-3 h-[76px] shrink-0 relative">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('dep_juvenil')"
-                class="w-5 h-5 cursor-pointer transition-all"
-                [class.animate-pulse]="activeIndicator() !== 'dep_juvenil'"
+                class="w-4 h-4 cursor-pointer transition-all"
                 [class.scale-125]="activeIndicator() === 'dep_juvenil'"
                 [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Relación niños (0-14) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <app-hero-icon [name]="'face-smile'" class="w-8 h-8"></app-hero-icon>
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <app-hero-icon [name]="'face-smile'" class="w-5 h-5"></app-hero-icon>
             </div>
             <div>
-              <div class="text-xs font-black text-gray-400 tracking-wide">Rel. de Dependencia Juvenil</div>
-              <div class="text-3xl font-black text-gray-800">34,2%</div>
+              <div class="text-[10px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dependencia Juvenil</div>
+              <div class="text-2xl font-black text-gray-800 leading-none mt-0.5">34,2%</div>
             </div>
           </div>
 
@@ -727,68 +727,66 @@ const S = { w: 380, h: 550 };
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-3">
+          <!-- Fila A: Dep. Adulta | Densidad | Pob 60+ — altura uniforme h-[76px] -->
+          <div class="grid grid-cols-3 gap-3 shrink-0">
 
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
-              <div class="absolute top-3 right-3 flex items-center gap-2">
+            <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2.5 h-[76px] relative">
+              <div class="absolute top-2 right-2 flex items-center gap-1">
                 <app-hero-icon [name]="'globe-americas'"
                   (click)="setMapIndicator('dep_adulta')"
-                  class="w-5 h-5 cursor-pointer transition-all"
-                  [class.animate-pulse]="activeIndicator() !== 'dep_adulta'"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all"
                   [class.scale-125]="activeIndicator() === 'dep_adulta'"
                   [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
-                  matTooltip="Relación adultos mayores (65+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
+                  matTooltip="Relación adultos mayores (60+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <app-hero-icon [name]="'briefcase'" class="w-7 h-7"></app-hero-icon>
+              <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'briefcase'" class="w-5 h-5"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Rel. Dependencia Adulta</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">17,9%</div>
+                <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Adulta</div>
+                <div class="text-xl font-black text-gray-800 leading-none mt-0.5">17,9%</div>
               </div>
             </div>
 
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
-              <div class="absolute top-3 right-3 flex items-center gap-2">
+            <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2.5 h-[76px] relative">
+              <div class="absolute top-2 right-2 flex items-center gap-1">
                 <app-hero-icon [name]="'globe-americas'"
                   (click)="setMapIndicator('densidad_total')"
-                  class="w-5 h-5 cursor-pointer transition-all"
-                  [class.animate-pulse]="activeIndicator() !== 'densidad_total'"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all"
                   [class.scale-125]="activeIndicator() === 'densidad_total'"
                   [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
                   matTooltip="Habitantes totales por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <app-hero-icon [name]="'squares-2x2'" class="w-7 h-7"></app-hero-icon>
+              <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'squares-2x2'" class="w-5 h-5"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. Total</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">25,4 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
+                <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. Censada</div>
+                <div class="text-xl font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
               </div>
             </div>
 
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 h-[140px] relative">
-              <div class="absolute top-3 right-3 flex items-center gap-2">
+            <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2.5 h-[76px] relative">
+              <div class="absolute top-2 right-2 flex items-center gap-1">
                 <app-hero-icon [name]="'globe-americas'"
                   (click)="setMapIndicator('densidad_65')"
-                  class="w-5 h-5 cursor-pointer transition-all"
-                  [class.animate-pulse]="activeIndicator() !== 'densidad_65'"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all"
                   [class.scale-125]="activeIndicator() === 'densidad_65'"
                   [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
                   matTooltip="Habitantes de 65 años o más por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
-              <div class="w-12 h-12 rounded-xl bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
-                <app-hero-icon [name]="'squares-2x2'" class="w-7 h-7"></app-hero-icon>
+              <div class="w-9 h-9 rounded-xl bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
+                <app-hero-icon [name]="'squares-2x2'" class="w-5 h-5"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
-                <div class="text-2xl font-black text-gray-800 mt-1">3,6 <span class="text-xs font-bold text-gray-400">hab/km²</span></div>
+                <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
+                <div class="text-xl font-black text-gray-800 leading-none mt-0.5">3,6 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
               </div>
             </div>
 
@@ -918,7 +916,7 @@ const S = { w: 380, h: 550 };
               }
 
               <svg
-                [attr.viewBox]="'0 0 ' + svgW + ' ' + svgH"
+                [attr.viewBox]="svgViewBox()"
                 class="w-full h-full max-h-full"
                 preserveAspectRatio="xMidYMid meet"
                 style="display:block;">
@@ -1014,16 +1012,16 @@ export class DashboardComponent implements OnInit {
     readonly svgH = S.h;
 
     // ── Geo selector — nivel + prov + dist ───────────────────────────────
-    readonly NIVELES_GEO: NivelGeoType[] = ['Regional', 'Provincial', 'Distrital'];
+    readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
     readonly GEO_PROVS_TPL = GEO_PROVS;
     readonly GEO_DISTS_TPL = GEO_DISTS;
 
-    nivelGeo         = signal<NivelGeoType>('Regional');
+    nivelGeo         = signal<NivelGeoType>('Departamental');
     openGeoDropdown  = signal<'nivel'|'dep'|'prov'|'dist'|null>(null);
     selectedProv     = signal<string>('');
     selectedDist     = signal<string>('');
 
-    isGeoProvActive  = computed(() => this.nivelGeo() !== 'Regional');
+    isGeoProvActive  = computed(() => this.nivelGeo() !== 'Departamental');
     isGeoDistActive  = computed(() => this.nivelGeo() === 'Distrital');
 
     geoDepLabel  = computed(() => {
@@ -1040,7 +1038,7 @@ export class DashboardComponent implements OnInit {
 
     setNivelGeo(n: NivelGeoType): void {
         this.nivelGeo.set(n);
-        if (n === 'Regional') { this.selectedProv.set(''); this.selectedDist.set(''); }
+        if (n === 'Departamental') { this.selectedProv.set(''); this.selectedDist.set(''); }
         if (n === 'Provincial') { this.selectedDist.set(''); }
         this.openGeoDropdown.set(null);
     }
@@ -1077,6 +1075,10 @@ export class DashboardComponent implements OnInit {
     private readonly TOTAL_NAC = 36_596_527;
 
     // ── Estado derivado (computed) ────────────────────────────────────────
+
+    /** ViewBox dinámica del mapa SVG — animada en fitBounds */
+    svgViewBox = signal<string>(`0 0 ${S.w} ${S.h}`);
+    private svgAnimFrame: number | null = null;
 
     /** Indicador activo para colorear el mapa (default: población total) */
     activeIndicator = signal<MapIndicatorKey>('poblacion');
@@ -1222,7 +1224,7 @@ export class DashboardComponent implements OnInit {
     // ── Formateadores de números (estilo INEI Perú) ──────────────────────
     /** Enteros grandes: punto como separador de miles  → 1.234.567 */
     fmt(n: number): string {
-        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
     /** Decimales con coma como separador decimal → 94,3  |  25,4 */
     fmtD(n: number, dec = 1): string {
@@ -1317,11 +1319,16 @@ export class DashboardComponent implements OnInit {
     }
 
     onRegionClick(r: MapRegion): void {
-        // Toggle: doble click deselecciona
+        // Toggle: doble click deselecciona y restaura la vista
         if (this.selectedCCDD() === r.ccdd) {
             this.selectedCCDD.set('');
+            this.animateViewBox(
+                this.parseViewBox(this.svgViewBox()),
+                { x: 0, y: 0, w: S.w, h: S.h }
+            );
         } else {
             this.selectedCCDD.set(r.ccdd);
+            this.fitRegion(r);
         }
     }
 
@@ -1331,8 +1338,13 @@ export class DashboardComponent implements OnInit {
         this.hoveredCCDD.set('');
         this.selectedProv.set('');
         this.selectedDist.set('');
-        this.nivelGeo.set('Regional');
+        this.nivelGeo.set('Departamental');
         this.openGeoDropdown.set(null);
+        // Restaurar vista completa del mapa
+        this.animateViewBox(
+            this.parseViewBox(this.svgViewBox()),
+            { x: 0, y: 0, w: S.w, h: S.h }
+        );
     }
 
     // ── Indicador de mapa ────────────────────────────────────────────────
@@ -1355,6 +1367,119 @@ export class DashboardComponent implements OnInit {
     /** Activa un indicador: colorea el mapa y actualiza la leyenda */
     setMapIndicator(key: MapIndicatorKey): void {
         this.activeIndicator.set(key);
+    }
+
+    // ── SVG fitBounds — zoom suave al departamento seleccionado ─────────────────
+
+    /**
+     * Calcula el bounding box SVG del polígono y ejecuta animateViewBox
+     * con un padding de 50 unidades SVG, emulando map.fitBounds de Mapbox.
+     */
+    private fitRegion(r: MapRegion): void {
+        const geo = this.rawGeoJson();
+        if (!geo?.features) return;
+
+        const feature = geo.features.find((f: any) => String(f.properties.CCDD) === r.ccdd);
+        if (!feature) return;
+
+        // 1. Calcular bounding box geográfico (lng/lat)
+        const bb = this.getGeoBBox(feature.geometry);
+
+        // 2. Proyectar a coordenadas SVG
+        const toLon = (lon: number) => ((lon - B.minLon) / (B.maxLon - B.minLon)) * S.w;
+        const toLat = (lat: number) => (1 - (lat - B.minLat) / (B.maxLat - B.minLat)) * S.h;
+
+        const svgMinX = toLon(bb.minLon);
+        const svgMaxX = toLon(bb.maxLon);
+        const svgMinY = toLat(bb.maxLat); // lat máximo → Y mínimo (SVG invertido)
+        const svgMaxY = toLat(bb.minLat);
+
+        // 3. Aplicar padding de 50px SVG para animación suave tipo fitBounds
+        const PAD = 50;
+        const target = {
+            x: svgMinX - PAD,
+            y: svgMinY - PAD,
+            w: (svgMaxX - svgMinX) + PAD * 2,
+            h: (svgMaxY - svgMinY) + PAD * 2,
+        };
+
+        // 4. Animar desde la viewBox actual hacia el target
+        this.animateViewBox(this.parseViewBox(this.svgViewBox()), target);
+    }
+
+    /**
+     * Extrae el bounding box (minLon, maxLon, minLat, maxLat) de una geometría GeoJSON.
+     */
+    private getGeoBBox(geom: any): { minLon: number; maxLon: number; minLat: number; maxLat: number } {
+        let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
+
+        const processCoord = (c: number[]) => {
+            if (c[0] < minLon) minLon = c[0];
+            if (c[0] > maxLon) maxLon = c[0];
+            if (c[1] < minLat) minLat = c[1];
+            if (c[1] > maxLat) maxLat = c[1];
+        };
+
+        const processRing = (ring: number[][]) => ring.forEach(processCoord);
+
+        if (geom.type === 'Polygon') {
+            geom.coordinates.forEach((ring: number[][]) => processRing(ring));
+        } else if (geom.type === 'MultiPolygon') {
+            geom.coordinates.forEach((poly: number[][][]) =>
+                poly.forEach((ring: number[][]) => processRing(ring))
+            );
+        }
+
+        return { minLon, maxLon, minLat, maxLat };
+    }
+
+    /**
+     * Parsea el string de viewBox "x y w h" a un objeto numérico.
+     */
+    private parseViewBox(vb: string): { x: number; y: number; w: number; h: number } {
+        const [x, y, w, h] = vb.split(' ').map(Number);
+        return { x, y, w, h };
+    }
+
+    /**
+     * Anima la viewBox del SVG desde `from` hasta `to` con easing easeInOut
+     * en 500ms, produciendo el efecto suave equivalente a map.fitBounds.
+     */
+    private animateViewBox(
+        from: { x: number; y: number; w: number; h: number },
+        to:   { x: number; y: number; w: number; h: number },
+        duration = 500
+    ): void {
+        if (!this.isBrowser) return;
+
+        if (this.svgAnimFrame !== null) {
+            cancelAnimationFrame(this.svgAnimFrame);
+            this.svgAnimFrame = null;
+        }
+
+        const start = performance.now();
+
+        const tick = (now: number) => {
+            const elapsed = now - start;
+            const t = Math.min(elapsed / duration, 1);
+            // easeInOutQuad
+            const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+            const x = from.x + (to.x - from.x) * ease;
+            const y = from.y + (to.y - from.y) * ease;
+            const w = from.w + (to.w - from.w) * ease;
+            const h = from.h + (to.h - from.h) * ease;
+
+            this.svgViewBox.set(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);
+
+            if (t < 1) {
+                this.svgAnimFrame = requestAnimationFrame(tick);
+            } else {
+                this.svgAnimFrame = null;
+            }
+        };
+
+        this.svgAnimFrame = requestAnimationFrame(tick);
     }
 
     // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────────
@@ -1383,13 +1508,13 @@ export class DashboardComponent implements OnInit {
                     const p = params[0];
                     const pct = ['17,7%', '68,3%', '14,0%'][p.dataIndex] ?? '';
                     return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
-                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, '.')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
                 },
             },
-            grid: { top: 8, right: 6, bottom: 24, left: 6, containLabel: true },
+            grid: { top: 26, right: 6, bottom: 22, left: 6, containLabel: true },
             xAxis: {
                 type: 'category',
-                data: ['0–14 años', '15–64 años', '65+ años'],
+                data: ['0–14 años', '15–59 años', '60+ años'],
                 axisTick:  { show: false },
                 axisLine:  { show: false },
                 axisLabel: {
@@ -1403,10 +1528,10 @@ export class DashboardComponent implements OnInit {
             yAxis: {
                 type: 'value',
                 show: false,
-                max: (val: any) => Math.round(val.max * 1.18),
+                max: (val: any) => Math.round(val.max * 1.40),
             },
             series: [{
-                name: 'Población',
+                name: 'Población Censada',
                 type: 'bar',
                 barMaxWidth: 40,
                 barCategoryGap: '28%',
@@ -1431,30 +1556,85 @@ export class DashboardComponent implements OnInit {
         const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5];
         const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4];
 
+        // Valores absolutos estimados sobre el total de población censada
+        const TOTAL = this.TOTAL_NAC;
+        const maleAbs   = maleData.map(v  => Math.round(Math.abs(v) / 100 * TOTAL));
+        const femaleAbs = femaleData.map(v => Math.round(v           / 100 * TOTAL));
+
         this.pyramidOptions = {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
                 formatter(params: any): string {
                     let html = `<div style="font-weight:900;font-size:10px;margin-bottom:4px">${params[0].name} años</div>`;
                     params.forEach((p: any) => {
-                        html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px">
+                        const absVal = Number(p.data?.abs ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                        const pct    = Math.abs(p.value).toFixed(1).replace('.', ',');
+                        html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px;margin-top:2px">
               <span style="color:#9ca3af;font-weight:600">${p.seriesName}</span>
-              <span style="font-weight:900">${Math.abs(p.value)}%</span>
+              <span style="font-weight:900">${absVal} <span style="color:#9ca3af;font-weight:500">(${pct}%)</span></span>
             </div>`;
                     });
                     return html;
                 },
             },
-            grid: { left: '2%', right: '2%', bottom: '0%', top: '5%', containLabel: true },
-            xAxis: [{ type: 'value', axisLabel: { show: false }, splitLine: { show: false } }],
+            grid: { left: '3%', right: '3%', bottom: '14%', top: '5%', containLabel: true },
+            xAxis: [{
+                type: 'value',
+                // Eje X simétrico: negativo (Hombres) ← 0 → positivo (Mujeres)
+                min: -5,
+                max:  5,
+                interval: 1,
+                axisLine: { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
+                axisTick: { show: true, lineStyle: { color: '#d1d5db' } },
+                splitLine: {
+                    show: true,
+                    lineStyle: { color: '#f3f4f6', type: 'dashed' },
+                },
+                // Línea vertical central en 0 más destacada
+                axisLabel: {
+                    show: true,
+                    fontSize: 8,
+                    fontWeight: 'bold',
+                    color: '#9ca3af',
+                    // Muestra valor absoluto + símbolo %
+                    formatter: (v: number) => v === 0 ? '0' : Math.abs(v) + '%',
+                },
+            }],
             yAxis: [{
-                type: 'category', axisTick: { show: false }, axisLine: { show: false },
+                type: 'category',
                 data: ageGroups,
-                axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#999' },
+                axisTick:  { show: false },
+                axisLine:  { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
+                axisLabel: { fontSize: 8.5, fontWeight: 'bold', color: '#6b7280', margin: 6 },
+                splitLine: { show: false },
             }],
             series: [
-                { name: 'Hombres', type: 'bar', stack: 'Total', data: maleData,   itemStyle: { color: '#0056a1', borderRadius: [4,0,0,4] } },
-                { name: 'Mujeres', type: 'bar', stack: 'Total', data: femaleData, itemStyle: { color: '#33b3a9', borderRadius: [0,4,4,0] } },
+                {
+                    name: 'Hombres', type: 'bar', stack: 'Total',
+                    data: maleData.map((v, i) => ({ value: v, abs: maleAbs[i] })),
+                    itemStyle: { color: '#0056a1', borderRadius: [4, 0, 0, 4] },
+                    // Etiqueta inline con valor absoluto del porcentaje (sin signo)
+                    label: {
+                        show: false, // se muestran en tooltip; activar si se desea inline
+                    },
+                },
+                {
+                    name: 'Mujeres', type: 'bar', stack: 'Total',
+                    data: femaleData.map((v, i) => ({ value: v, abs: femaleAbs[i] })),
+                    itemStyle: { color: '#33b3a9', borderRadius: [0, 4, 4, 0] },
+                    label: { show: false },
+                },
+                // Serie auxiliar invisible que dibuja la línea central (x=0)
+                {
+                    name: '_center',
+                    type: 'line',
+                    data: ageGroups.map(() => 0),
+                    symbol: 'none',
+                    lineStyle: { color: '#9ca3af', width: 1.5, type: 'solid' },
+                    tooltip: { show: false },
+                    silent: true,
+                    z: 10,
+                },
             ],
         };
     }

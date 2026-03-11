@@ -14,7 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeroIconComponent } from '../ui/hero-icon.component';
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
-export type NivelType = 'Regional' | 'Provincial' | 'Distrital';
+export type NivelType = 'Departamental' | 'Provincial' | 'Distrital';
 
 export interface FilaDep {
     departamento: string;
@@ -35,7 +35,7 @@ export type FilaTabla = FilaDep | FilaProv | FilaDist;
 
 interface DropdownItem { label: string; checked: boolean; }
 
-// ── DATA — Regional (25 depts) ───────────────────────────────────────────────
+// ── DATA — Departamental (25 depts + Lima split) ────────────────────────────
 const MOCK_DEP: FilaDep[] = [
     { departamento:'AMAZONAS',        superficie:  39_249, poblacion:  426_806, hombres:  218_643, mujeres:  208_163, razon:105.0, densidad:   10.9, pctUrbano: 41.2, edadMediana:25.1, p65:  28_882, pct65: 6.8 },
     { departamento:'ÁNCASH',          superficie:  35_915, poblacion:1_180_638, hombres:  582_219, mujeres:  598_419, razon: 97.3, densidad:   32.9, pctUrbano: 69.8, edadMediana:27.8, p65:  99_174, pct65: 8.4 },
@@ -51,7 +51,8 @@ const MOCK_DEP: FilaDep[] = [
     { departamento:'JUNÍN',           superficie:  44_197, poblacion:1_370_274, hombres:  683_244, mujeres:  687_030, razon: 99.4, densidad:   31.0, pctUrbano: 72.2, edadMediana:28.0, p65: 104_141, pct65: 7.6 },
     { departamento:'LA LIBERTAD',     superficie:  25_500, poblacion:2_016_771, hombres:  990_040, mujeres:1_026_731, razon: 96.4, densidad:   79.1, pctUrbano: 78.4, edadMediana:27.8, p65: 151_258, pct65: 7.5 },
     { departamento:'LAMBAYEQUE',      superficie:  14_231, poblacion:1_362_689, hombres:  655_024, mujeres:  707_665, razon: 92.6, densidad:   95.8, pctUrbano: 81.7, edadMediana:29.1, p65: 113_103, pct65: 8.3 },
-    { departamento:'LIMA',            superficie:  34_802, poblacion:10_126_052, hombres:4_929_843, mujeres:5_196_209, razon: 94.9, densidad:  291.0, pctUrbano: 98.1, edadMediana:31.6, p65: 931_597, pct65: 9.2 },
+    { departamento:'LIMA METROPOLITANA', superficie:   2_672, poblacion: 9_485_405, hombres:4_617_742, mujeres:4_867_663, razon: 94.9, densidad:3_550.1, pctUrbano:100.0, edadMediana:32.1, p65: 873_281, pct65: 9.2 },
+    { departamento:'LIMA REGIÓN',        superficie:  32_130, poblacion:   640_647, hombres:  312_101, mujeres:  328_546, razon: 95.0, densidad:   19.9, pctUrbano: 73.5, edadMediana:27.4, p65:  58_316, pct65: 9.1 },
     { departamento:'LORETO',          superficie: 368_852, poblacion:1_027_559, hombres:  527_346, mujeres:  500_213, razon:105.4, densidad:    2.8, pctUrbano: 65.2, edadMediana:22.9, p65:  49_323, pct65: 4.8 },
     { departamento:'MADRE DE DIOS',   superficie:  85_183, poblacion:  173_811, hombres:   95_596, mujeres:   78_215, razon:122.2, densidad:    2.0, pctUrbano: 71.4, edadMediana:24.5, p65:   6_782, pct65: 3.9 },
     { departamento:'MOQUEGUA',        superficie:  15_734, poblacion:  192_740, hombres:   98_455, mujeres:   94_285, razon:104.4, densidad:   12.2, pctUrbano: 86.0, edadMediana:32.1, p65:  18_310, pct65: 9.5 },
@@ -115,22 +116,22 @@ function allChecked(labels: string[]): DropdownItem[] {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <section
-                class="bg-[#f4f7f9] min-h-screen flex flex-col font-sans text-gray-800"
+                class="bg-[#f4f7f9] h-full flex flex-col font-sans text-gray-800"
                 (click)="closeAll()">
 
             <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-            <header class="bg-white shadow-sm px-4 md:px-6 py-3 md:py-2 flex flex-col md:flex-row
+            <header class="bg-white shadow-sm px-4 md:px-6 xl:px-10 2xl:px-16 py-3 md:py-2 flex flex-col md:flex-row
                  justify-between items-center gap-4 md:gap-0
-                 sticky top-0 z-50 shrink-0 h-auto md:h-16">
+                 sticky top-0 z-50 shrink-0 h-auto md:h-16 xl:h-20">
 
                 <!-- Logos -->
                 <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
                     <div class="flex items-center cursor-pointer" routerLink="/">
-                        <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 w-auto object-contain">
+                        <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 xl:h-14 w-auto object-contain">
                     </div>
-                    <div class="h-6 md:h-8 w-px bg-gray-200 mx-1 md:mx-2"></div>
+                    <div class="h-6 md:h-8 xl:h-10 w-px bg-gray-200 mx-1 md:mx-2"></div>
                     <div class="flex items-center">
-                        <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-10 md:h-12 w-auto object-contain">
+                        <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-10 md:h-12 xl:h-14 w-auto object-contain">
                     </div>
                 </div>
 
@@ -139,26 +140,26 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
                         <button
                                 routerLink="/dashboard"
-                                class="px-3 py-1.5 rounded-lg text-sm font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
-                            Resultados Preliminares
+                                class="px-3 xl:px-5 py-1.5 xl:py-2 rounded-lg text-sm xl:text-base font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
+                            Primeros Resultados
                         </button>
                         <button
-                                class="px-3 py-1.5 rounded-lg text-sm font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
+                                class="px-3 xl:px-5 py-1.5 xl:py-2 rounded-lg text-sm xl:text-base font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
                             Comparativo Territorial
                         </button>
                     </div>
                     <button routerLink="/"
-                            class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0">
-                        <app-hero-icon [name]="'x-mark'" class="w-6 h-6"></app-hero-icon>
+                            class="w-10 h-10 xl:w-12 xl:h-12 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0">
+                        <app-hero-icon [name]="'x-mark'" class="w-6 h-6 xl:w-7 xl:h-7"></app-hero-icon>
                     </button>
                 </div>
             </header>
 
             <!-- ══ FILTER BAR ═══════════════════════════════════════════════════════ -->
             <div
-                    class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 py-2.5
-           flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3
-           sticky top-16 z-40 shrink-0"
+                    class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 xl:px-10 2xl:px-16 py-2.5 xl:py-3
+           flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 xl:gap-4
+           sticky top-16 xl:top-20 z-40 shrink-0"
                     (click)="$event.stopPropagation()">
 
                 <!-- Icono Filtros -->
@@ -222,7 +223,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <!-- Separador -->
                     <div class="h-7 w-px bg-gray-200 hidden md:block shrink-0"></div>
 
-                    <!-- ★ Región (antes Departamento) -->
+                    <!-- ★ Departamento -->
                     <div class="relative">
                         <button
                                 (click)="toggleDropdown('dep'); $event.stopPropagation()"
@@ -231,7 +232,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                  min-w-[160px] justify-between">
           <span class="flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-            <span class="text-gray-400 mr-0.5">Reg.:</span>{{ regLabel() }}
+            <span class="text-gray-400 mr-0.5">Dep.:</span>{{ depLabel() }}
           </span>
                             <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                                            [class.rotate-180]="openDropdown() === 'dep'">
@@ -364,15 +365,15 @@ function allChecked(labels: string[]): DropdownItem[] {
             </div>
 
             <!-- ══ CUERPO ════════════════════════════════════════════════════════════ -->
-            <main class="flex-1 flex flex-col min-h-0 p-2 md:p-3">
-                <div class="flex-1 bg-white rounded-xl border border-gray-100 shadow-sm
-                overflow-hidden flex flex-col min-h-[300px]">
+            <main class="flex-1 h-0 flex flex-col min-h-0 p-2 md:p-3 xl:p-4 2xl:p-6">
+                <div class="flex-1 h-0 bg-white rounded-xl border border-gray-100 shadow-sm
+                overflow-hidden flex flex-col">
 
                     <!-- Barra de estado -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between
-                  px-3 md:px-4 py-2 bg-[#0056a1]/5 border-b border-[#0056a1]/10 shrink-0 gap-2 sm:gap-0">
+                  px-3 md:px-4 xl:px-6 py-2 xl:py-3 bg-[#0056a1]/5 border-b border-[#0056a1]/10 shrink-0 gap-2 sm:gap-0">
                         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-          <span class="flex items-center gap-1.5 text-[10px] font-black text-[#0056a1] uppercase tracking-widest">
+          <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1] uppercase tracking-widest">
             <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round"
                     d="M3 10h18M3 14h18M10 3v18M6 3h12a1 1 0 011 1v16a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/>
@@ -380,7 +381,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             Cuadro {{ nivelActivo() }}
           </span>
                             <span class="h-3 w-px bg-gray-300 hidden sm:block"></span>
-                            <span class="text-[10px] text-gray-500 hidden sm:inline">CPV 2025 — Resultados Preliminares</span>
+                            <span class="text-[10px] text-gray-500 hidden sm:inline">CPV 2025 — Primeros Resultados</span>
                             <span class="h-3 w-px bg-gray-300 hidden sm:block"></span>
                             <span class="text-[10px] text-gray-500 font-bold">
             {{ filasTabla().length }} registro{{ filasTabla().length !== 1 ? 's' : '' }}
@@ -396,7 +397,7 @@ function allChecked(labels: string[]): DropdownItem[] {
 
                     <!-- ── Tabla con scroll horizontal ── -->
                     <div class="overflow-auto flex-1 min-h-0 -webkit-overflow-scrolling-touch">
-                        <table class="w-full text-[13px] border-collapse" style="min-width:600px">
+                        <table class="w-full text-[13px] xl:text-[14px] 2xl:text-[15px] border-collapse" style="min-width:600px">
 
                             <!-- ── THEAD ── -->
                             <thead class="sticky top-0 z-10">
@@ -405,8 +406,8 @@ function allChecked(labels: string[]): DropdownItem[] {
                             <tr>
                                 <!-- Ubicación Geográfica -->
                                 <th
-                                        class="bg-[#002d5c] text-white px-3 py-1.5 text-left font-bold uppercase tracking-wider text-[11px] border-r border-white/20"
-                                        [attr.colspan]="nivelActivo() === 'Regional' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
+                                        class="bg-[#002d5c] text-white px-3 xl:px-5 py-1.5 xl:py-2 text-left font-bold uppercase tracking-wider text-[11px] xl:text-[12px] border-r border-white/20"
+                                        [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
                                     Ubicación Geográfica
                                 </th>
                                 <!-- Población Censada (3 cols: Total, H, M) -->
@@ -417,9 +418,9 @@ function allChecked(labels: string[]): DropdownItem[] {
                                 <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="2">
                                     Indicadores Demográficos
                                 </th>
-                                <!-- Adultos Mayores (2 cols: Personas 65+, % 65+) -->
+                                <!-- Adultos Mayores (2 cols: Personas 60+, % 60+) -->
                                 <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="2">
-                                    Adultos Mayores (65+)
+                                    Adultos Mayores (60+)
                                 </th>
                             </tr>
 
@@ -427,7 +428,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                             <tr>
                                 <!-- Departamento siempre visible -->
                                 <th class="bg-[#0056a1] text-white px-3 py-2 text-left font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
-                                    Región
+                                    Departamento
                                 </th>
                                 @if (nivelActivo() === 'Provincial' || nivelActivo() === 'Distrital') {
                                     <th class="bg-[#0056a1] text-white px-3 py-2 text-left font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
@@ -458,10 +459,10 @@ function allChecked(labels: string[]): DropdownItem[] {
                                 </th>
                                 <!-- Adultos mayores -->
                                 <th class="bg-[#33b3a9] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
-                                    Personas 65+
+                                    Personas 60+
                                 </th>
                                 <th class="bg-[#33b3a9] text-white px-3 py-2 text-right font-semibold whitespace-nowrap text-[12px]">
-                                    % 65+
+                                    % 60+
                                 </th>
                             </tr>
                             </thead>
@@ -538,12 +539,12 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         {{ fmtR(fila.edadMediana) }}
                                     </td>
 
-                                    <!-- Personas 65+ -->
+                                    <!-- Personas 60+ -->
                                     <td class="px-3 py-2 text-right font-mono text-[#1a75aa] whitespace-nowrap border-r border-gray-100 text-[13px] font-semibold">
                                         {{ fmtN(fila.p65) }}
                                     </td>
 
-                                    <!-- % 65+ -->
+                                    <!-- % 60+ -->
                                     <td class="px-3 py-2 text-right whitespace-nowrap">
                   <span
                           class="inline-block px-2 py-0.5 rounded-md text-[12px] font-bold"
@@ -565,7 +566,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                                     <!-- Colspan dinámico según nivel (sin cols de territorio) -->
                                     <td
                                             class="px-3 py-2.5 text-[#002d5c] text-[12px] font-black uppercase tracking-wider border-r border-gray-200"
-                                            [attr.colspan]="nivelActivo() === 'Regional' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
+                                            [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
                                         TOTAL / PROMEDIO
                                     </td>
 
@@ -589,11 +590,11 @@ function allChecked(labels: string[]): DropdownItem[] {
                                     </td>
                                     <!-- Edad mediana (promedio no aplica) -->
                                     <td class="px-3 py-2.5 text-center text-gray-400 border-r border-gray-200 text-[13px]">—</td>
-                                    <!-- Personas 65+ total -->
+                                    <!-- Personas 60+ total -->
                                     <td class="px-3 py-2.5 text-right font-mono text-[#1a75aa] font-bold text-[13px] border-r border-gray-200">
                                         {{ fmtN(totales().p65) }}
                                     </td>
-                                    <!-- % 65+ total -->
+                                    <!-- % 60+ total -->
                                     <td class="px-3 py-2.5 text-right">
                   <span class="inline-block px-2 py-0.5 rounded-md text-[12px] font-bold bg-gray-200 text-gray-700">
                     {{ fmtPct(totales().pct65) }}
@@ -607,13 +608,13 @@ function allChecked(labels: string[]): DropdownItem[] {
                     </div><!-- /overflow-auto -->
 
                     <!-- Nota metodológica -->
-                    <div class="flex items-start gap-2 px-3 md:px-4 py-2.5 bg-amber-50 border-t border-amber-100 shrink-0">
+                    <div class="flex items-start gap-2 px-3 md:px-4 xl:px-6 py-2.5 xl:py-3 bg-amber-50 border-t border-amber-100 shrink-0">
                         <svg class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-px" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                   d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                                   clip-rule="evenodd"/>
                         </svg>
-                        <p class="text-[10px] text-amber-800 leading-relaxed">
+                        <p class="text-[10px] xl:text-[11px] text-amber-800 leading-relaxed">
                             <strong>Nota metodológica:</strong> Resultados preliminares del Censo de Población y Vivienda 2025 (CPV 2025).
                             Razón H/M expresada por cada 100 mujeres.
                             Datos de nivel provincial y distrital corresponden a Ayacucho–Huamanga (datos de referencia).
@@ -629,7 +630,8 @@ function allChecked(labels: string[]): DropdownItem[] {
         :host {
             display: block;
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
         /* Tabla con scroll horizontal suave en móvil */
         .overflow-auto {
@@ -642,14 +644,23 @@ function allChecked(labels: string[]): DropdownItem[] {
             background: #cbd5e1;
             border-radius: 3px;
         }
-        /* Bloquear sticky header en desktop */
-        @media (min-width: 768px) {
-            :host {
-                height: 100vh;
-                overflow: hidden;
+        /* Bloquear scroll en desktop — ya manejado por :host */
+        /* Optimización 1920×1080 */
+        @media (min-width: 1280px) {
+            table td, table th {
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
-            main {
-                overflow: hidden;
+        }
+        @media (min-width: 1920px) {
+            table {
+                font-size: 15px;
+            }
+            table td, table th {
+                padding-top: 0.625rem;
+                padding-bottom: 0.625rem;
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
             }
         }
     `],
@@ -657,8 +668,8 @@ function allChecked(labels: string[]): DropdownItem[] {
 export class ComparativaTerritorialComponent {
 
     // ── Nivel ─────────────────────────────────────────────────────────────────
-    readonly NIVELES: NivelType[] = ['Regional', 'Provincial', 'Distrital'];
-    nivelActivo = signal<NivelType>('Regional');
+    readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];
+    nivelActivo = signal<NivelType>('Departamental');
 
     setNivel(n: NivelType): void {
         this.nivelActivo.set(n);
@@ -697,9 +708,9 @@ export class ComparativaTerritorialComponent {
     toggleAllProvs()      { this._toggleAll(this.provsItems); }
     toggleAllDists()      { this._toggleAll(this.distItems); }
 
-    // ── Restablecer: vuelve a Regional ────────────────────────────────────────
+    // ── Restablecer: vuelve a Departamental ──────────────────────────────────
     resetFiltros(): void {
-        this.nivelActivo.set('Regional');
+        this.nivelActivo.set('Departamental');
         this.depsItems.set(allChecked(DEPS_LIST));
         this.provsItems.set(allChecked(PROVS_LIST));
         this.distItems.set(allChecked(DISTS_LIST));
@@ -715,11 +726,11 @@ export class ComparativaTerritorialComponent {
     cntProvs = computed(() => this.provsItems().filter(x => x.checked).length);
     cntDists = computed(() => this.distItems().filter(x => x.checked).length);
 
-    isProvActive = computed(() => this.nivelActivo() !== 'Regional');
+    isProvActive = computed(() => this.nivelActivo() !== 'Departamental');
     isDistActive = computed(() => this.nivelActivo() === 'Distrital');
 
-    // Label con terminología "Reg." en lugar de "dep."
-    regLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas las reg.' : `${this.cntDeps()} reg. sel.`);
+    // Label con terminología "Dep." para Departamento
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todos los dep.' : `${this.cntDeps()} dep. sel.`);
     provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas las prov.' : `${this.cntProvs()} prov. sel.`);
     distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos los dist.' : `${this.cntDists()} dist. sel.`);
 
@@ -733,7 +744,7 @@ export class ComparativaTerritorialComponent {
         const deps  = this.selDeps();
         const provs = this.selProvs();
         const dists = this.selDists();
-        if (nivel === 'Regional')    return MOCK_DEP.filter(r => deps.has(r.departamento));
+        if (nivel === 'Departamental') return MOCK_DEP.filter(r => deps.has(r.departamento));
         if (nivel === 'Provincial')  return MOCK_PROV.filter(r => deps.has(r.departamento) && provs.has(r.provincia));
         return MOCK_DIST.filter(r => deps.has(r.departamento) && provs.has(r.provincia) && dists.has(r.distrito));
     });
@@ -756,8 +767,8 @@ export class ComparativaTerritorialComponent {
     asProv(f: FilaTabla): FilaProv { return f as FilaProv; }
     asDist(f: FilaTabla): FilaDist { return f as FilaDist; }
 
-    /** Enteros grandes: punto como separador de miles → 1.234.567 */
-    fmtN(n: number): string   { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+    /** Enteros grandes: espacio como separador de miles → 1 234 567 */
+    fmtN(n: number): string   { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
     /** Decimal con coma → 25,4 */
     fmtD(n: number): string   { return n.toFixed(1).replace('.', ','); }
     /** Porcentaje con coma decimal → 8,4% */

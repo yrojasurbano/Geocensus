@@ -39,21 +39,21 @@ import { RouterLink } from '@angular/router';
           <div class="absolute inset-0 bg-black/50"></div>
         </div>
 
-        <header class="relative z-20 flex justify-between items-start px-6 py-3 md:px-12 md:py-4 text-white w-full shrink-0">
+        <header class="relative z-20 flex justify-between items-start px-6 py-3 md:px-12 md:py-4 2xl:px-24 2xl:py-6 text-white w-full shrink-0">
           <div class="flex items-center gap-8 mt-1">
             
             <div class="flex items-center">
               <img 
                 ngSrc="logo_inei_white.png" 
                 alt="Logo INEI" 
-                width="180" 
-                height="50"
+                width="240" 
+                height="70"
                 priority
-                class="h-16 md:h-18 w-auto object-contain drop-shadow-md"
+                class="h-16 md:h-18 2xl:h-24 w-auto object-contain drop-shadow-md"
               >
             </div>
 
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide ml-8">
+            <nav class="hidden md:flex items-center gap-6 2xl:gap-10 text-sm 2xl:text-base font-medium tracking-wide ml-8 2xl:ml-12">
               <button routerLink="/" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
                 Inicio
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
@@ -63,18 +63,17 @@ import { RouterLink } from '@angular/router';
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
               </button>
 
-              <!-- ── Censos 2025 dropdown ── -->
               <div class="relative">
                 <button
                   (click)="toggleCensos($event)"
                   class="hover:text-secondary transition-colors duration-300 uppercase relative group flex items-center gap-1">
                   Censos 2025
-                  <mat-icon class="!text-base !w-4 !h-4 transition-transform duration-200"
+                  <mat-icon class="!text-base 2xl:!text-lg !w-4 !h-4 2xl:!w-5 2xl:!h-5 transition-transform duration-200"
                     [class.rotate-180]="censosOpen()">expand_more</mat-icon>
                   <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
                 </button>
                 @if (censosOpen()) {
-                  <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                  <div class="absolute top-full left-0 mt-3 w-64 2xl:w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                        style="animation: dropdownIn 0.18s ease-out forwards">
                     <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                     <ul class="py-1">
@@ -83,7 +82,7 @@ import { RouterLink } from '@angular/router';
                           <button
                             [routerLink]="item.route"
                             (click)="censosOpen.set(false)"
-                            class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                            class="w-full text-left px-4 py-2.5 2xl:px-5 2xl:py-3 text-sm 2xl:text-base font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
                             <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                             {{ item.label }}
                           </button>
@@ -93,8 +92,6 @@ import { RouterLink } from '@angular/router';
                   </div>
                 }
               </div>
-              <!-- /Censos 2025 -->
-
               <button routerLink="/noticias" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
                 Noticias
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
@@ -103,15 +100,15 @@ import { RouterLink } from '@angular/router';
             </nav>
           </div>
 
-          <div class="absolute right-0 top-4 h-16 pl-8 pr-6 bg-white rounded-l-[50px] flex items-center justify-center shadow-2xl z-30 hidden md:flex">
+          <div class="absolute right-0 top-4 2xl:top-8 h-20 2xl:h-28 pl-10 2xl:pl-14 pr-8 2xl:pr-10 bg-white rounded-l-[60px] flex items-center justify-center shadow-2xl z-30 hidden md:flex">
             <div class="flex items-center">
-              <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45" class="h-10 w-auto object-contain">
+              <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="220" height="70" class="h-14 2xl:h-20 w-auto object-contain">
             </div>
           </div>
         </header>
 
-        <div class="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-24">
-          <div class="max-w-5xl animate-fade-in-up relative w-full">
+        <div class="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-24 2xl:px-40">
+          <div class="max-w-5xl 2xl:max-w-7xl animate-fade-in-up relative w-full">
             <div class="absolute -top-20 -left-20 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-20 blur-3xl -z-10"></div>
             
             <div class="absolute top-20 left-[340px] transform -translate-x-1/2 -translate-y-1/2 -z-10">
@@ -119,53 +116,55 @@ import { RouterLink } from '@angular/router';
                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-100"></div>
             </div>
 
-            <div class="w-16 h-1 bg-white mb-3 ml-1"></div>
+            <div class="w-16 2xl:w-20 h-1 2xl:h-1.5 bg-white mb-3 2xl:mb-5 ml-1"></div>
 
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6 drop-shadow-xl relative z-10">
+            <h1 class="text-4xl md:text-6xl 2xl:text-[5.5rem] font-black text-white leading-tight mb-6 2xl:mb-10 drop-shadow-xl relative z-10">
               CENSOS <br/>
               NACIONALES 
-              <span class="text-white inline-flex items-center gap-2">
+              <span class="text-white inline">
                 2025
-                <div class="w-3 h-3 bg-secondary rounded-sm"></div>
+                <div class="inline-block w-3 h-3 2xl:w-4 2xl:h-4 bg-secondary rounded-sm align-baseline ml-1"></div>
               </span>
             </h1>
             
             <div class="flex flex-col sm:flex-row gap-4 relative z-10">
               <button 
                 routerLink="/resultados"
-                class="bg-gradient-to-br from-primary to-secondary hover:brightness-110 text-white font-bold py-3 px-8 rounded-[30px] shadow-lg shadow-primary/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-base tracking-wide w-max"
+                class="bg-gradient-to-br from-primary to-secondary hover:brightness-110 text-white font-bold py-3 px-8 2xl:py-4 2xl:px-10 rounded-[30px] shadow-lg shadow-primary/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-base 2xl:text-lg tracking-wide w-max"
               >
                 <mat-icon>bar_chart</mat-icon>
                 RESULTADOS
               </button>              
             </div>
 
-            <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 mt-16 relative z-10 w-full bg-black/20 backdrop-blur-sm p-6 rounded-3xl border border-white/10 shadow-2xl">
+            <div class="flex flex-col md:flex-row items-center justify-between mt-16 2xl:mt-24 relative z-10 w-full bg-black/20 backdrop-blur-sm p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-2xl">
               
-              <div class="flex flex-col items-center text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-12 !h-12 !text-[3rem] mb-2 drop-shadow-md text-primary-light">groups</mat-icon>
-                <span class="text-sm md:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md">Población Censada</span>
-                <span class="text-4xl md:text-5xl font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300">
+              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">groups</mat-icon>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
                   {{ formatNumber(poblacionCensada()) }}
                 </span>
               </div>
 
-              <div class="hidden md:block w-px h-20 bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
+              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
-              <div class="flex flex-col items-center text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-8 !h-8 !text-[2rem] mb-2 drop-shadow-md">man</mat-icon>
-                <span class="text-xs md:text-sm font-medium tracking-widest uppercase opacity-90 drop-shadow-md">Población Masculina</span>
-                <span class="text-2xl md:text-3xl font-bold mt-1 drop-shadow-lg">
+              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
                   {{ formatNumber(poblacionMasculina()) }}
                 </span>
               </div>
 
-              <div class="hidden md:block w-px h-20 bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
+              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
-              <div class="flex flex-col items-center text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-8 !h-8 !text-[2rem] mb-2 drop-shadow-md">woman</mat-icon>
-                <span class="text-xs md:text-sm font-medium tracking-widest uppercase opacity-90 drop-shadow-md">Población Femenina</span>
-                <span class="text-2xl md:text-3xl font-bold mt-1 drop-shadow-lg">
+              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">woman</mat-icon>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
                   {{ formatNumber(poblacionFemenina()) }}
                 </span>
               </div>
@@ -178,13 +177,13 @@ import { RouterLink } from '@angular/router';
       <div class="w-full h-[10px] bg-gradient-to-r from-primary to-secondary z-20 shrink-0"></div>
 
       <div class="bg-[#EEEEEE] flex flex-col z-20 shrink-0">
-        <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
-          <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
+        <footer class="bg-[#484848] text-white py-6 2xl:py-10 px-6 md:px-12 lg:px-24 2xl:px-40">
+          <div class="max-w-7xl 2xl:max-w-[1600px] mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
             <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
-              <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
-              <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
+              <p class="font-bold text-base 2xl:text-lg">Instituto Nacional de Estadística e Informática – INEI</p>
+              <p class="text-sm 2xl:text-base mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
               <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
-                <span class="text-sm text-gray-300">Síguenos:</span>
+                <span class="text-sm 2xl:text-base text-gray-300">Síguenos:</span>
                 <div class="flex gap-3">
                   <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
                   <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
@@ -270,7 +269,7 @@ export class HeroComponent implements AfterViewInit {
   }
 
   formatNumber(value: number): string {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
   }
 
   private animateValue(target: number, duration: number, signalRef: WritableSignal<number>) {
