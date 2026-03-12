@@ -485,23 +485,25 @@ const S = { w: 380, h: 550 };
 
       <div class="flex-1 p-3 2xl:p-5 overflow-y-auto md:overflow-hidden min-h-0 flex flex-col">
 
-        <!-- ══ GRID PRINCIPAL: 6 cols, 2 filas — mapa ocupa col 5-6 en ambas filas ══ -->
-        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 xl:grid-rows-[1fr_auto] gap-3 2xl:gap-4 min-h-0 md:overflow-hidden">
+        <!-- ══ GRID PRINCIPAL: 6 cols — col1, col2, col3-4 (pirámide), col5-6 (mapa) ══ -->
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3 2xl:gap-4 min-h-0 md:overflow-hidden">
 
-        <div class="col-span-1 flex flex-col gap-3 min-h-0 overflow-hidden">
+        <!-- ══ COL 1: chart=13fr cards=10fr cada uno → chart 30% más alto ══ -->
+        <div class="col-span-1 xl:row-span-2 grid grid-rows-[13fr_10fr_10fr_10fr] gap-3 min-h-0 overflow-hidden">
 
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex-1 flex flex-col relative overflow-hidden min-h-0">
-            <div class="flex justify-between items-center mb-2">
+          <!-- Población por Sexo -->
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="flex justify-between items-center mb-2 shrink-0">
               <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por Sexo</h4>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
                 matTooltip="Distribución de la población según sexo" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="flex-1 min-h-[40px]">
+            <div class="flex-1 min-h-0">
               @if (isBrowser) {
                 <div echarts [options]="pieOptionsSex" class="w-full h-full"></div>
               }
             </div>
-            <div class="flex justify-center gap-6 mt-2">
+            <div class="flex justify-center gap-6 mt-2 shrink-0">
               <div class="flex flex-col items-center">
                 <div class="flex items-center gap-1 mb-1">
                   <app-hero-icon [name]="'man'" type="solid" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
@@ -521,18 +523,9 @@ const S = { w: 380, h: 550 };
             </div>
           </div>
 
-          <!-- Fila B compact: Edad Media -->
-          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[186px] shrink-0 relative">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <app-hero-icon [name]="'calculator'" class="w-7 h-7"></app-hero-icon>
-              </div>
-              <div>
-                <div class="text-sm font-black text-gray-400 tracking-wide leading-none mb-1">Edad Media</div>
-                <div class="text-3xl font-black text-gray-800 leading-none">31,2 <span class="text-sm font-bold text-gray-400">años</span></div>
-              </div>
-            </div>
-            <div class="flex items-center gap-1.5">
+          <!-- Edad Media -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('edad_media')"
                 class="w-4 h-4 cursor-pointer transition-all animate-pulse"
@@ -543,64 +536,93 @@ const S = { w: 380, h: 550 };
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Promedio de edad de la población" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-          </div>
-
-          <!-- Fila B compact: Razón H/M -->
-          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex flex-col justify-between h-[186px] shrink-0 relative">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <div class="flex gap-1">
-                    <app-hero-icon [name]="'man'" type="solid" class="w-5 h-5 text-[#0056a1]"></app-hero-icon>
-                    <app-hero-icon [name]="'woman'" type="solid" class="w-5 h-5 text-[#33b3a9]"></app-hero-icon>
-                  </div>
-                </div>
-                <div class="text-sm font-black text-gray-400 tracking-wide leading-none">Razón H/M</div>
+            <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'calculator'" class="w-6 h-6"></app-hero-icon>
               </div>
-              <div class="flex items-center gap-1.5">
-                <app-hero-icon [name]="'globe-americas'"
-                  (click)="setMapIndicator('razon_sexo')"
-                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                  [class.animate-none]="activeIndicator() === 'razon_sexo'"
-                  [class.scale-125]="activeIndicator() === 'razon_sexo'"
-                  [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
-                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                  matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <div class="min-w-0">
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad Media</div>
+                <div class="text-2xl font-black text-gray-800 leading-none">31,2 <span class="text-xs font-bold text-gray-400">años</span></div>
               </div>
             </div>
-            <div class="flex flex-col gap-2 pb-2">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="text-sm font-bold text-gray-500 leading-none">Hay</span>
-                <!-- Ícono hombre SVG -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0056a1" class="w-7 h-7 shrink-0">
+          </div>
+
+          <!-- Razón H/M -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('razon_sexo')"
+                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                [class.animate-none]="activeIndicator() === 'razon_sexo'"
+                [class.scale-125]="activeIndicator() === 'razon_sexo'"
+                [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
+                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
+            </div>
+            <div class="flex items-center gap-3 mb-1.5 shrink-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <div class="flex gap-0.5">
+                  <app-hero-icon [name]="'man'" type="solid" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
+                  <app-hero-icon [name]="'woman'" type="solid" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
+                </div>
+              </div>
+              <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none">Razón H/M</div>
+            </div>
+            <div class="flex-1 flex flex-col justify-center gap-1 min-h-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-bold text-gray-500 leading-none shrink-0">Hay</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0056a1" class="w-5 h-5 shrink-0">
                   <path d="M12 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM8.25 9.75A.75.75 0 0 1 9 9h6a.75.75 0 0 1 .74.63l.76 5.25a.75.75 0 0 1-1.49.17L14.5 12.5H14v7.25a.75.75 0 0 1-1.5 0V16h-1v3.75a.75.75 0 0 1-1.5 0V12.5h-.5l-.5 2.55a.75.75 0 1 1-1.48-.2l.75-5.08z"/>
                 </svg>
-                <span class="text-3xl font-black text-[#0056a1] leading-none">94,3</span>
+                <span class="text-2xl font-black text-[#0056a1] leading-none">94,3</span>
               </div>
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="text-sm font-bold text-gray-500 leading-none">Por Cada</span>
-                <!-- Ícono mujer SVG -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#33b3a9" class="w-7 h-7 shrink-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-bold text-gray-500 leading-none shrink-0">Por cada</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#33b3a9" class="w-5 h-5 shrink-0">
                   <path d="M12 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM9 9.75a.75.75 0 0 0-.72.97l.75 2.5a.75.75 0 0 0 .72.53h.5v6a.75.75 0 0 0 1.5 0v-2.5h.5v2.5a.75.75 0 0 0 1.5 0v-6h.5a.75.75 0 0 0 .72-.53l.75-2.5a.75.75 0 0 0-.72-.97H9z"/>
                 </svg>
-                <span class="text-3xl font-black text-[#33b3a9] leading-none">100 Mujeres</span>
+                <span class="text-2xl font-black text-[#33b3a9] leading-none">100 Mujeres</span>
               </div>
             </div>
           </div>
 
-        </div>
+          <!-- Rel. Dep. Total -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('dep_total')"
+                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                [class.animate-none]="activeIndicator() === 'dep_total'"
+                [class.scale-125]="activeIndicator() === 'dep_total'"
+                [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
+                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación dependientes (0-14 y 60+) respecto a población activa (15-59)" matTooltipClass="custom-tooltip"></app-hero-icon>
+            </div>
+            <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'user-group'" class="w-6 h-6"></app-hero-icon>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. Dep. Total</div>
+                <div class="text-2xl font-black text-gray-800 leading-none">52,1%</div>
+              </div>
+            </div>
+          </div>
 
-        <div class="col-span-1 flex flex-col gap-3 min-h-0 overflow-hidden">
+        </div><!-- /col 1 -->
+        <!-- ══ COL 2: chart=13fr cards=10fr cada uno → chart 30% más alto ══ -->
+        <div class="col-span-1 xl:row-span-2 grid grid-rows-[13fr_10fr_10fr_10fr] gap-3 min-h-0 overflow-hidden">
 
-          <!-- Prioridad 1: Grandes Grupos de Edad — expanded, compact legend -->
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex-1 flex flex-col relative overflow-hidden min-h-0">
-            <div class="flex justify-between items-center mb-2">
+          <!-- Grandes Grupos de Edad -->
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="flex justify-between items-center mb-2 shrink-0">
               <h4 class="text-xs font-black text-gray-400 tracking-wide">Grandes Grupos de Edad</h4>
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-gray-400"
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
                 matTooltip="Distribución de la población por grandes grupos de edad" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-            <div class="flex-1 min-h-[40px]">
+            <div class="flex-1 min-h-0">
               @if (isBrowser) {
                 <div echarts [options]="pieOptionsAge" class="w-full h-full"></div>
               }
@@ -633,18 +655,9 @@ const S = { w: 380, h: 550 };
             </div>
           </div>
 
-          <!-- Fila B compact: Edad Mediana -->
-          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[186px] shrink-0 relative">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <app-hero-icon [name]="'scale'" class="w-7 h-7"></app-hero-icon>
-              </div>
-              <div>
-                <div class="text-sm font-black text-gray-400 tracking-wide leading-none mb-1">Edad Mediana</div>
-                <div class="text-3xl font-black text-gray-800 leading-none">29,8 <span class="text-sm font-bold text-gray-400">años</span></div>
-              </div>
-            </div>
-            <div class="flex items-center gap-1.5">
+          <!-- Edad Mediana -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('edad_mediana')"
                 class="w-4 h-4 cursor-pointer transition-all animate-pulse"
@@ -655,20 +668,20 @@ const S = { w: 380, h: 550 };
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
-          </div>
-
-          <!-- Fila B compact: Índice de Envejecimiento -->
-          <div class="bg-white rounded-xl px-3 py-2 shadow-sm border border-gray-100 flex items-center justify-between h-[186px] shrink-0 relative">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <app-hero-icon [name]="'clock'" class="w-7 h-7"></app-hero-icon>
+            <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'scale'" class="w-6 h-6"></app-hero-icon>
               </div>
-              <div>
-                <div class="text-sm font-black text-gray-400 tracking-wide leading-none mb-1">Índice de Envejecimiento</div>
-                <div class="text-3xl font-black text-gray-800 leading-none">45,6%</div>
+              <div class="min-w-0">
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad Mediana</div>
+                <div class="text-2xl font-black text-gray-800 leading-none">29,8 <span class="text-xs font-bold text-gray-400">años</span></div>
               </div>
             </div>
-            <div class="flex items-center gap-1.5">
+          </div>
+
+          <!-- Índice de Envejecimiento -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('indice_envejecimiento')"
                 class="w-4 h-4 cursor-pointer transition-all animate-pulse"
@@ -679,11 +692,44 @@ const S = { w: 380, h: 550 };
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
                 matTooltip="Relación adultos mayores (60+) por cada 100 jóvenes (0-14)" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
+            <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'clock'" class="w-6 h-6"></app-hero-icon>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Índice de Envejecimiento</div>
+                <div class="text-2xl font-black text-gray-800 leading-none">45,6%</div>
+              </div>
+            </div>
           </div>
 
-        </div>
+          <!-- Rel. Dep. Juvenil -->
+          <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('dep_juvenil')"
+                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                [class.animate-none]="activeIndicator() === 'dep_juvenil'"
+                [class.scale-125]="activeIndicator() === 'dep_juvenil'"
+                [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
+                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
+                matTooltip="Relación niños (0-14) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+            </div>
+            <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <app-hero-icon [name]="'face-smile'" class="w-6 h-6"></app-hero-icon>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. Dep. Juvenil</div>
+                <div class="text-2xl font-black text-gray-800 leading-none">34,2%</div>
+              </div>
+            </div>
+          </div>
 
-        <div class="col-span-1 md:col-span-2 flex flex-col gap-3 min-h-0 overflow-hidden">
+        </div><!-- /col 2 -->
+        <!-- ══ COL 3-4: Pirámide (flex-1) + 3 indicadores (h-[76px]) ══ -->
+        <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2 flex flex-col gap-3 min-h-0 overflow-hidden">
 
           <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex-1 flex flex-col overflow-hidden min-h-0 relative">
             <div class="flex justify-between items-center mb-4">
@@ -706,7 +752,81 @@ const S = { w: 380, h: 550 };
             </div>
           </div>
 
-        </div><!-- /col pirámide -->
+          <!-- Fila inferior col3-4: Rel. Dep. Adulta · Densidad Censada · Densidad 60+ -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 shrink-0">
+
+            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
+              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('dep_adulta')"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'dep_adulta'"
+                  [class.scale-125]="activeIndicator() === 'dep_adulta'"
+                  [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
+                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
+                  matTooltip="Relación adultos mayores (60+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+              </div>
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                  <app-hero-icon [name]="'briefcase'" class="w-4 h-4"></app-hero-icon>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Adulta</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">17,9%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
+              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('densidad_total')"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'densidad_total'"
+                  [class.scale-125]="activeIndicator() === 'densidad_total'"
+                  [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
+                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
+                  matTooltip="Habitantes totales por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+              </div>
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                  <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. Censada</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
+              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('densidad_65')"
+                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'densidad_65'"
+                  [class.scale-125]="activeIndicator() === 'densidad_65'"
+                  [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
+                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
+                  matTooltip="Habitantes de 60 años o más por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+              </div>
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
+                  <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">3,6 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /fila inferior col3-4 -->
+
+        </div><!-- /col 3-4 -->
 
         <!-- ══ MAPA — col-span-2, row-span-2 (ocupa toda la altura) ══ -->
         <div class="col-span-1 md:col-span-2 xl:row-span-2 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden min-h-[420px] md:min-h-0">
@@ -889,121 +1009,6 @@ const S = { w: 380, h: 550 };
           </div>
 
         </div><!-- /map col -->
-
-        <!-- ══ FILA INFERIOR: 5 indicadores empaquetados en col-span-4 ══ -->
-        <div class="col-span-1 md:col-span-2 xl:col-span-4 grid grid-cols-2 md:grid-cols-5 gap-3 shrink-0">
-
-          <!-- 1. Rel. Dependencia Total -->
-          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2.5 h-[76px] relative">
-            <div class="absolute top-2 right-2 flex items-center gap-1">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('dep_total')"
-                class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'dep_total'"
-                [class.scale-125]="activeIndicator() === 'dep_total'"
-                [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                matTooltip="Relación dependientes (0-14 y 60+) respecto a población activa (15-59)" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <app-hero-icon [name]="'user-group'" class="w-5 h-5"></app-hero-icon>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Total</div>
-              <div class="text-xl font-black text-gray-800 leading-none mt-0.5">52,1%</div>
-            </div>
-          </div>
-
-          <!-- 2. Rel. Dependencia Juvenil -->
-          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2.5 h-[76px] relative">
-            <div class="absolute top-2 right-2 flex items-center gap-1">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('dep_juvenil')"
-                class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'dep_juvenil'"
-                [class.scale-125]="activeIndicator() === 'dep_juvenil'"
-                [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                matTooltip="Relación niños (0-14) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <app-hero-icon [name]="'face-smile'" class="w-5 h-5"></app-hero-icon>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Juvenil</div>
-              <div class="text-xl font-black text-gray-800 leading-none mt-0.5">34,2%</div>
-            </div>
-          </div>
-
-          <!-- 3. Rel. Dep. Adulta -->
-          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2 h-[76px] relative">
-            <div class="absolute top-2 right-2 flex items-center gap-1">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('dep_adulta')"
-                class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'dep_adulta'"
-                [class.scale-125]="activeIndicator() === 'dep_adulta'"
-                [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                matTooltip="Relación adultos mayores (60+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <app-hero-icon [name]="'briefcase'" class="w-5 h-5"></app-hero-icon>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Adulta</div>
-              <div class="text-xl font-black text-gray-800 leading-none mt-0.5">17,9%</div>
-            </div>
-          </div>
-
-          <!-- 4. Densidad Pob. Censada -->
-          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2 h-[76px] relative">
-            <div class="absolute top-2 right-2 flex items-center gap-1">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('densidad_total')"
-                class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'densidad_total'"
-                [class.scale-125]="activeIndicator() === 'densidad_total'"
-                [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                matTooltip="Habitantes totales por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-              <app-hero-icon [name]="'squares-2x2'" class="w-5 h-5"></app-hero-icon>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Censada</div>
-              <div class="text-xl font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
-            </div>
-          </div>
-
-          <!-- 5. Densidad Pob. 60+ -->
-          <div class="bg-white rounded-xl px-3 py-2.5 shadow-sm border border-gray-100 flex items-center gap-2 h-[76px] relative">
-            <div class="absolute top-2 right-2 flex items-center gap-1">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('densidad_65')"
-                class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'densidad_65'"
-                [class.scale-125]="activeIndicator() === 'densidad_65'"
-                [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                matTooltip="Habitantes de 60 años o más por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
-            </div>
-            <div class="w-9 h-9 rounded-xl bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
-              <app-hero-icon [name]="'squares-2x2'" class="w-5 h-5"></app-hero-icon>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
-              <div class="text-xl font-black text-gray-800 leading-none mt-0.5">3,6 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
-            </div>
-          </div>
-
-        </div><!-- /fila inferior 5 indicadores -->
 
         </div><!-- /charts row grid -->
 
