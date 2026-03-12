@@ -49,7 +49,7 @@ import { RouterLink } from '@angular/router';
                 width="180" 
                 height="50"
                 priority
-                class="h-16 md:h-18 w-auto object-contain drop-shadow-md"
+                class="h-22 md:h-24 w-auto object-contain drop-shadow-md"
               >
             </div>
 
