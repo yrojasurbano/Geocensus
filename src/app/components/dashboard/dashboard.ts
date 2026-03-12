@@ -1330,8 +1330,8 @@ export class DashboardComponent implements OnInit {
     }
 
     getStrokeWidth(r: MapRegion): string {
-        if (this.hoveredRegion()?.ccdd === r.ccdd)  return '2.5';
-        if (this.selectedRegion()?.ccdd === r.ccdd) return '3';
+        if (this.hoveredRegion()?.ccdd === r.ccdd)  return '1.5';
+        if (this.selectedRegion()?.ccdd === r.ccdd) return '2';
         return '1.5';
     }
 
