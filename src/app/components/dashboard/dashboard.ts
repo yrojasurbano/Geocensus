@@ -584,7 +584,7 @@ const S = { w: 380, h: 550 };
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#33b3a9" class="w-7 h-7 shrink-0">
                   <path d="M12 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM9 9.75a.75.75 0 0 0-.72.97l.75 2.5a.75.75 0 0 0 .72.53h.5v6a.75.75 0 0 0 1.5 0v-2.5h.5v2.5a.75.75 0 0 0 1.5 0v-6h.5a.75.75 0 0 0 .72-.53l.75-2.5a.75.75 0 0 0-.72-.97H9z"/>
                 </svg>
-                <span class="text-3xl font-black text-[#33b3a9] leading-none">100 M</span>
+                <span class="text-3xl font-black text-[#33b3a9] leading-none">100 Mujeres</span>
               </div>
             </div>
           </div>
@@ -1587,9 +1587,9 @@ export class DashboardComponent implements OnInit {
             }],
         };
 
-        const ageGroups  = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','85+'];
-        const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5];
-        const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4];
+        const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80 - 84 años','85+'];
+        const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5,-0.5];
+        const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4,0.4];
 
         // Valores absolutos estimados sobre el total de población censada
         const TOTAL = this.TOTAL_NAC;
@@ -1642,6 +1642,18 @@ export class DashboardComponent implements OnInit {
                 axisLine:  { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
                 axisLabel: { fontSize: 8.5, fontWeight: 'bold', color: '#6b7280', margin: 6 },
                 splitLine: { show: false },
+            }],
+            graphic: [{
+                type: 'text',
+                left: 4,
+                top: 2,
+                style: {
+                    text: 'Edad',
+                    fontSize: 8.5,
+                    fontWeight: 'bold',
+                    fill: '#6b7280',
+                    fontFamily: '-apple-system, sans-serif',
+                },
             }],
             series: [
                 {
