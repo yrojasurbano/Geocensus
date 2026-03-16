@@ -14,6 +14,7 @@ WORKDIR /app
 
 # Servidor estático ligero
 RUN npm install -g serve
+RUN rm -rf ./dist
 
 # Copiamos la carpeta compilada correcta
 COPY --from=builder /app/dist/app/browser ./dist
