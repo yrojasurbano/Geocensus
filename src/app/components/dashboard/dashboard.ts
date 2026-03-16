@@ -27,7 +27,11 @@ echarts.use([BarChart, PieChart, LineChart, TooltipComponent, LegendComponent, G
 // ── Interfaces ──────────────────────────────────────────────────────────────
 interface MapRegion {
     id: number;
-    ccdd: string;
+    /** Clave única según nivel: ccdd(2) | ccdd+ccpp(4) | ubigeo(6) */
+    geoKey: string;
+    ccdd: string;    // siempre el código de departamento (2 dígitos)
+    ccpp: string;    // código de provincia (2 dígitos; vacío en nivel dept)
+    ccdi: string;    // código de distrito (2 dígitos; vacío en nivel dept/prov)
     name: string;
     total: number;
     male: number;
@@ -36,6 +40,12 @@ interface MapRegion {
     path: string;
     center: { x: number; y: number };
     color: string;   // color coroplético asignado
+}
+
+/** Opción de selección en los dropdowns de provincia y distrito */
+interface GeoOption {
+    code: string;    // ccpp para provincias; ubigeo para distritos
+    name: string;
 }
 
 interface ColorBreak {
@@ -105,29 +115,6 @@ const PALETTE = ['#0056a1', '#1a75aa', '#248cb3', '#2da3b0', '#33b3a9'];
 
 // ── Tipos de selección geográfica ──────────────────────────────────────────
 export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
-
-interface GeoItem { label: string; ccdd?: string; }
-
-// ── Provincias de referencia (Ayacucho) ─────────────────────────────────────
-const GEO_PROVS: GeoItem[] = [
-    { label: 'HUAMANGA' }, { label: 'CANGALLO' }, { label: 'HUANCA SANCOS' },
-    { label: 'HUANTA' }, { label: 'LA MAR' }, { label: 'LUCANAS' },
-    { label: 'PARINACOCHAS' }, { label: 'PÁUCAR DEL SARA SARA' },
-    { label: 'SUCRE' }, { label: 'VÍCTOR FAJARDO' }, { label: 'VILCAS HUAMÁN' },
-];
-
-// ── Distritos de referencia (Huamanga) ──────────────────────────────────────
-const GEO_DISTS: GeoItem[] = [
-    { label: 'AYACUCHO' }, { label: 'ACOCRO' }, { label: 'ACOS VINCHOS' },
-    { label: 'CARMEN ALTO' }, { label: 'CHIARA' }, { label: 'OCROS' },
-    { label: 'PACAYCASA' }, { label: 'QUINUA' }, { label: 'SAN JOSÉ DE TICLLAS' },
-    { label: 'SAN JUAN BAUTISTA' }, { label: 'SANTIAGO DE PISCHA' },
-    { label: 'SOCOS' }, { label: 'TAMBILLO' }, { label: 'VINCHOS' },
-    { label: 'JESÚS NAZARENO' }, { label: 'ANDRÉS AVELINO CÁCERES DORREGARAY' },
-];
-
-// ── Umbrales cuantílicos precomputados (25 deptos, grupos de 5) ─────────────
-const THRESHOLDS = [347639, 721047, 1083519, 1341012];
 
 // ── Bounds geográficos de Perú ──────────────────────────────────────────────
 const B = { minLon: -81.5, maxLon: -68.5, minLat: -18.5, maxLat: 0.3 };
@@ -377,24 +364,24 @@ const S = { w: 380, h: 550 };
                     </span>
                     <span class="font-bold italic">Todas las provincias</span>
                   </button>
-                  @for (p of GEO_PROVS_TPL; track p.label) {
+                  @for (p of provinces(); track p.code) {
                     <button
-                      (click)="selectProv(p.label)"
+                      (click)="selectProv(p.code)"
                       class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedProv() === p.label"
-                      [class.from-\[\#0056a1\]]="selectedProv() === p.label"
-                      [class.to-\[\#1a75aa\]]="selectedProv() === p.label"
-                      [class.text-white]="selectedProv() === p.label"
-                      [class.text-gray-700]="selectedProv() !== p.label"
-                      [class.hover\:bg-blue-50]="selectedProv() !== p.label">
+                      [class.bg-gradient-to-r]="selectedProv() === p.code"
+                      [class.from-\[\#0056a1\]]="selectedProv() === p.code"
+                      [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
+                      [class.text-white]="selectedProv() === p.code"
+                      [class.text-gray-700]="selectedProv() !== p.code"
+                      [class.hover\:bg-blue-50]="selectedProv() !== p.code">
                       <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedProv() === p.label"
-                        [class.border-gray-300]="selectedProv() !== p.label">
-                        @if (selectedProv() === p.label) {
+                        [class.border-white]="selectedProv() === p.code"
+                        [class.border-gray-300]="selectedProv() !== p.code">
+                        @if (selectedProv() === p.code) {
                           <span class="w-2 h-2 bg-white rounded-full block"></span>
                         }
                       </span>
-                      <span class="font-semibold">{{ p.label }}</span>
+                      <span class="font-semibold">{{ p.name }}</span>
                     </button>
                   }
                 </div>
@@ -441,11 +428,11 @@ const S = { w: 380, h: 550 };
                     (click)="selectDist('')"
                     class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
                     [class.bg-gradient-to-r]="selectedDist() === ''"
-                    [class.from-\[\#33b3a9\]]="selectedDist() === ''"
-                    [class.to-\[\#2da3b0\]]="selectedDist() === ''"
+                    [class.from-\[\#0056a1\]]="selectedDist() === ''"
+                    [class.to-\[\#1a75aa\]]="selectedDist() === ''"
                     [class.text-white]="selectedDist() === ''"
                     [class.text-gray-700]="selectedDist() !== ''"
-                    [class.hover\:bg-teal-50]="selectedDist() !== ''">
+                    [class.hover\:bg-blue-50]="selectedDist() !== ''">
                     <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
                       [class.border-white]="selectedDist() === ''"
                       [class.border-gray-300]="selectedDist() !== ''">
@@ -455,24 +442,24 @@ const S = { w: 380, h: 550 };
                     </span>
                     <span class="font-bold italic">Todos los distritos</span>
                   </button>
-                  @for (d of GEO_DISTS_TPL; track d.label) {
+                  @for (d of districts(); track d.code) {
                     <button
-                      (click)="selectDist(d.label)"
+                      (click)="selectDist(d.code)"
                       class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedDist() === d.label"
-                      [class.from-\[\#33b3a9\]]="selectedDist() === d.label"
-                      [class.to-\[\#2da3b0\]]="selectedDist() === d.label"
-                      [class.text-white]="selectedDist() === d.label"
-                      [class.text-gray-700]="selectedDist() !== d.label"
-                      [class.hover\:bg-teal-50]="selectedDist() !== d.label">
+                      [class.bg-gradient-to-r]="selectedDist() === d.code"
+                      [class.from-\[\#0056a1\]]="selectedDist() === d.code"
+                      [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
+                      [class.text-white]="selectedDist() === d.code"
+                      [class.text-gray-700]="selectedDist() !== d.code"
+                      [class.hover\:bg-blue-50]="selectedDist() !== d.code">
                       <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedDist() === d.label"
-                        [class.border-gray-300]="selectedDist() !== d.label">
-                        @if (selectedDist() === d.label) {
+                        [class.border-white]="selectedDist() === d.code"
+                        [class.border-gray-300]="selectedDist() !== d.code">
+                        @if (selectedDist() === d.code) {
                           <span class="w-2 h-2 bg-white rounded-full block"></span>
                         }
                       </span>
-                      <span class="font-semibold">{{ d.label }}</span>
+                      <span class="font-semibold">{{ d.name }}</span>
                     </button>
                   }
                 </div>
@@ -491,10 +478,10 @@ const S = { w: 380, h: 550 };
         <!-- ══ COL 1: chart=13fr cards=10fr cada uno → chart 30% más alto ══ -->
         <div class="col-span-1 xl:row-span-2 grid grid-rows-[13fr_10fr_10fr_10fr] gap-3 min-h-0 overflow-hidden">
 
-          <!-- Población por Sexo -->
+          <!-- Población por sexo -->
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="flex justify-between items-center mb-2 shrink-0">
-              <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por Sexo</h4>
+              <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por sexo</h4>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
                 matTooltip="Distribución de la población según sexo" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
@@ -558,7 +545,7 @@ const S = { w: 380, h: 550 };
                 [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Relación de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
+                matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
             <div class="flex items-center gap-3 mb-1.5 shrink-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -567,23 +554,31 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'woman'" type="solid" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
                 </div>
               </div>
-              <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none">Razón H/M</div>
+              <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none">Razón hombre - mujer</div>
             </div>
-            <div class="flex-1 flex flex-col justify-center gap-1 min-h-0">
+
+            <div class="flex-1 grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1 min-h-0">
+
+              <!-- Fila 1: etiqueta -->
+              <span class="text-[10px] font-bold text-gray-500 leading-none">Hay</span>
+              <!-- Fila 1: icono + valor -->
               <div class="flex items-center gap-1.5">
-                <span class="text-[10px] font-bold text-gray-500 leading-none shrink-0">Hay</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0056a1" class="w-5 h-5 shrink-0">
                   <path d="M12 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM8.25 9.75A.75.75 0 0 1 9 9h6a.75.75 0 0 1 .74.63l.76 5.25a.75.75 0 0 1-1.49.17L14.5 12.5H14v7.25a.75.75 0 0 1-1.5 0V16h-1v3.75a.75.75 0 0 1-1.5 0V12.5h-.5l-.5 2.55a.75.75 0 1 1-1.48-.2l.75-5.08z"/>
                 </svg>
                 <span class="text-2xl font-black text-[#0056a1] leading-none">94,3</span>
               </div>
+
+              <!-- Fila 2: etiqueta -->
+              <span class="text-[10px] font-bold text-gray-500 leading-none">Por cada</span>
+              <!-- Fila 2: icono + valor -->
               <div class="flex items-center gap-1.5">
-                <span class="text-[10px] font-bold text-gray-500 leading-none shrink-0">Por cada</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#33b3a9" class="w-5 h-5 shrink-0">
                   <path d="M12 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM9 9.75a.75.75 0 0 0-.72.97l.75 2.5a.75.75 0 0 0 .72.53h.5v6a.75.75 0 0 0 1.5 0v-2.5h.5v2.5a.75.75 0 0 0 1.5 0v-6h.5a.75.75 0 0 0 .72-.53l.75-2.5a.75.75 0 0 0-.72-.97H9z"/>
                 </svg>
                 <span class="text-2xl font-black text-[#33b3a9] leading-none">100 Mujeres</span>
               </div>
+
             </div>
           </div>
 
@@ -598,14 +593,15 @@ const S = { w: 380, h: 550 };
                 [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Relación dependientes (0-14 y 60+) respecto a población activa (15-59)" matTooltipClass="custom-tooltip"></app-hero-icon>
+                matTooltip="Número de personas de 0 a 14 años y de 60 y más 
+años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <app-hero-icon [name]="'user-group'" class="w-6 h-6"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. Dep. Total</div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia total</div>
                 <div class="text-2xl font-black text-gray-800 leading-none">52,1%</div>
               </div>
             </div>
@@ -618,7 +614,7 @@ const S = { w: 380, h: 550 };
           <!-- Grandes Grupos de Edad -->
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="flex justify-between items-center mb-2 shrink-0">
-              <h4 class="text-xs font-black text-gray-400 tracking-wide">Grandes Grupos de Edad</h4>
+              <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por grandes grupos de edad</h4>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
                 matTooltip="Distribución de la población por grandes grupos de edad" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
@@ -647,7 +643,7 @@ const S = { w: 380, h: 550 };
               <div class="flex flex-col items-center">
                 <div class="flex items-center gap-1 mb-0.5">
                   <div class="w-2 h-2 rounded-full bg-[#facc15] shrink-0"></div>
-                  <span class="text-[9px] font-bold text-gray-400">60+ años</span>
+                  <span class="text-[9px] font-bold text-gray-400">60 y más años</span>
                 </div>
                 <span class="text-sm font-black text-gray-800 leading-none">2 587 238</span>
                 <span class="text-[9px] text-gray-400">(14,0%)</span>
@@ -690,7 +686,8 @@ const S = { w: 380, h: 550 };
                 [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Relación adultos mayores (60+) por cada 100 jóvenes (0-14)" matTooltipClass="custom-tooltip"></app-hero-icon>
+                matTooltip="Número de personas de 60 y más años, por cada 100 
+personas de 0 a 14 años" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -714,14 +711,15 @@ const S = { w: 380, h: 550 };
                 [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
                 matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
               <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Relación niños (0-14) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+                matTooltip="Número de personas de 0 a 14 años, por cada 100 
+              personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <app-hero-icon [name]="'face-smile'" class="w-6 h-6"></app-hero-icon>
               </div>
               <div class="min-w-0">
-                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. Dep. Juvenil</div>
+                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia juvenil</div>
                 <div class="text-2xl font-black text-gray-800 leading-none">34,2%</div>
               </div>
             </div>
@@ -733,7 +731,7 @@ const S = { w: 380, h: 550 };
 
           <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex-1 flex flex-col overflow-hidden min-h-0 relative">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="text-base font-black text-gray-800 tracking-wide">Pirámide Poblacional</h3>
+              <h3 class="text-base font-black text-gray-800 tracking-wide">Pirámide poblacional</h3>
               <div class="flex gap-4 text-xs font-bold">
                 <div class="flex items-center gap-1.5">
                   <app-hero-icon [name]="'man'" type="solid" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
@@ -765,14 +763,15 @@ const S = { w: 380, h: 550 };
                   [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Relación adultos mayores (60+) respecto a población activa (15-64)" matTooltipClass="custom-tooltip"></app-hero-icon>
+                  matTooltip="Número de personas de 60 y más años, por cada 100 
+personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                   <app-hero-icon [name]="'briefcase'" class="w-4 h-4"></app-hero-icon>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. Dep. Adulta</div>
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. de dependencia adulta</div>
                   <div class="text-lg font-black text-gray-800 leading-none mt-0.5">17,9%</div>
                 </div>
               </div>
@@ -788,7 +787,7 @@ const S = { w: 380, h: 550 };
                   [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Habitantes totales por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+                  matTooltip="Habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -811,14 +810,14 @@ const S = { w: 380, h: 550 };
                   [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
                   matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
                 <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Habitantes de 60 años o más por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+                  matTooltip="Habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
                   <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. 60+</div>
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad de la población adulta mayor</div>
                   <div class="text-lg font-black text-gray-800 leading-none mt-0.5">3,6 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
                 </div>
               </div>
@@ -850,28 +849,31 @@ const S = { w: 380, h: 550 };
             <app-hero-icon
               [name]="'information-circle'"
               class="absolute top-3 right-3 z-20 w-5 h-5 text-gray-400"
-              matTooltip="Hover para ver datos del departamento. Click para seleccionar."
+              [matTooltip]="nivelGeo() === 'Departamental'
+                ? 'Hover para ver datos del departamento. Click para seleccionar.'
+                : nivelGeo() === 'Provincial'
+                  ? 'Hover para ver datos de la provincia. Click para seleccionar.'
+                  : 'Hover para ver datos del distrito. Click para seleccionar.'"
               matTooltipClass="custom-tooltip">
             </app-hero-icon>
 
-            @if (isMapLoading()) {
+            @if (isMapLoading() || isMapLoadingProv() || isMapLoadingDist()) {
               <div class="flex flex-col items-center gap-3 text-gray-400">
                 <div class="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
                 <span class="text-sm font-bold tracking-wide">Cargando mapa...</span>
               </div>
             }
 
-            @if (mapLoadError() && !isMapLoading()) {
+            @if ((mapLoadError() || mapLoadErrorProv() || mapLoadErrorDist()) && !isMapLoading() && !isMapLoadingProv() && !isMapLoadingDist()) {
               <div class="flex flex-col items-center gap-3 p-6 text-center">
                 <div class="w-10 h-10 text-red-400">
-
                   <app-hero-icon [name]="'exclamation-triangle'" class="w-10 h-10"></app-hero-icon>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-gray-700">No se pudo cargar el mapa</p>
-                  <p class="text-xs text-gray-400 mt-1">Verifica que <code class="bg-gray-100 px-1 rounded">departamento_geometria.json</code> esté en <code class="bg-gray-100 px-1 rounded">public/</code></p>
+                  <p class="text-xs text-gray-400 mt-1">Verifica que los archivos de geometría estén en <code class="bg-gray-100 px-1 rounded">public/</code></p>
                 </div>
-                <button (click)="loadGeoJson()"
+                <button (click)="reloadActiveGeoJson()"
                   class="text-xs px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-semibold">
                   Reintentar
                 </button>
@@ -889,7 +891,7 @@ const S = { w: 380, h: 550 };
                     {{ hoveredRegion()!.name }}
                   </p>
                   <div class="flex justify-between mb-2">
-                    <span class="text-[8px] text-gray-400 uppercase font-bold">Total</span>
+                    <span class="text-[8px] text-gray-400 uppercase font-bold">Pob. Censada</span>
                     <span class="text-sm font-black">{{ fmt(hoveredRegion()!.total) }}</span>
                   </div>
                   <div class="grid grid-cols-2 gap-2 border-t border-gray-800 pt-1.5">
@@ -960,7 +962,7 @@ const S = { w: 380, h: 550 };
 
                 <rect width="100%" height="100%" fill="#ffffff" rx="0"/>
 
-                @for (r of mapRegions(); track r.id) {
+                @for (r of mapRegions(); track r.geoKey) {
                   <path
                     [attr.d]="r.path"
                     [attr.fill]="getRegionFill(r)"
@@ -974,21 +976,23 @@ const S = { w: 380, h: 550 };
                   />
                 }
 
-                @for (r of mapRegions(); track r.id) {
-                  <text
-                    [attr.x]="r.center.x"
-                    [attr.y]="r.center.y"
-                    text-anchor="middle"
-                    dominant-baseline="middle"
-                    font-size="5.5"
-                    font-weight="700"
-                    fill="#000000"
-                    stroke="#ffffff"
-                    stroke-width="2"
-                    paint-order="stroke fill"
-                    [attr.opacity]="getLabelOpacity(r)"
-                    style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
-                  >{{ r.name }}</text>
+                @if (nivelGeo() !== 'Distrital') {
+                  @for (r of mapRegions(); track r.geoKey) {
+                    <text
+                      [attr.x]="r.center.x"
+                      [attr.y]="r.center.y"
+                      text-anchor="middle"
+                      dominant-baseline="middle"
+                      font-size="5.5"
+                      font-weight="700"
+                      fill="#000000"
+                      stroke="#ffffff"
+                      stroke-width="2"
+                      paint-order="stroke fill"
+                      [attr.opacity]="getLabelOpacity(r)"
+                      style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
+                    >{{ r.name }}</text>
+                  }
                 }
               </svg>
 
@@ -1053,23 +1057,59 @@ export class DashboardComponent implements OnInit {
 
     // ── Geo selector — nivel + prov + dist ───────────────────────────────
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
-    readonly GEO_PROVS_TPL = GEO_PROVS;
-    readonly GEO_DISTS_TPL = GEO_DISTS;
 
     nivelGeo         = signal<NivelGeoType>('Departamental');
     openGeoDropdown  = signal<'nivel'|'dep'|'prov'|'dist'|null>(null);
+    /** Almacena código CCPP (2 dígitos) de la provincia seleccionada */
     selectedProv     = signal<string>('');
+    /** Almacena UBIGEO (6 dígitos) del distrito seleccionado */
     selectedDist     = signal<string>('');
 
     isGeoProvActive  = computed(() => this.nivelGeo() !== 'Departamental');
     isGeoDistActive  = computed(() => this.nivelGeo() === 'Distrital');
 
-    geoDepLabel  = computed(() => {
-        const r = this.selectedRegion();
-        return r ? r.name : 'Todas';
+    /** Lista dinámica de provincias — si hay departamento seleccionado, filtra por él */
+    provinces = computed<GeoOption[]>(() => {
+        const geo  = this.rawGeoJsonProv();
+        if (!geo?.features) return [];
+        const ccdd = this.selectedCCDD();
+        const features = ccdd
+            ? (geo.features as any[]).filter(f => String(f.properties.CCDD) === ccdd)
+            : (geo.features as any[]);
+        return features
+            .map(f => ({ code: String(f.properties.CCPP), name: String(f.properties.NOMBPROV) }))
+            .sort((a, b) => a.name.localeCompare(b.name, 'es'));
     });
-    geoProvLabel = computed(() => this.selectedProv() || 'Todas');
-    geoDistLabel = computed(() => this.selectedDist() || 'Todos');
+
+    /** Lista dinámica de distritos — si hay provincia seleccionada filtra por ccdd+ccpp; si solo dept, filtra por ccdd */
+    districts = computed<GeoOption[]>(() => {
+        const geo  = this.rawGeoJsonDist();
+        if (!geo?.features) return [];
+        const ccdd = this.selectedCCDD();
+        const ccpp = this.selectedProv();
+        let features = geo.features as any[];
+        if (ccdd) features = features.filter(f => String(f.properties.CCDD) === ccdd);
+        if (ccpp) features = features.filter(f => String(f.properties.CCPP) === ccpp);
+        return features
+            .map(f => ({ code: String(f.properties.UBIGEO), name: String(f.properties.NOMBDIST) }))
+            .sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    });
+
+    geoDepLabel  = computed(() => {
+        const ccdd = this.selectedCCDD();
+        if (!ccdd) return 'Todas';
+        return this.departments().find(d => d.ccdd === ccdd)?.name ?? ccdd;
+    });
+    geoProvLabel = computed(() => {
+        const code = this.selectedProv();
+        if (!code) return 'Todas';
+        return this.provinces().find(p => p.code === code)?.name ?? code;
+    });
+    geoDistLabel = computed(() => {
+        const code = this.selectedDist();
+        if (!code) return 'Todos';
+        return this.districts().find(d => d.code === code)?.name ?? code;
+    });
 
     toggleGeoDropdown(key: 'nivel'|'dep'|'prov'|'dist'): void {
         this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key);
@@ -1079,7 +1119,11 @@ export class DashboardComponent implements OnInit {
     setNivelGeo(n: NivelGeoType): void {
         this.nivelGeo.set(n);
         if (n === 'Departamental') { this.selectedProv.set(''); this.selectedDist.set(''); }
-        if (n === 'Provincial') { this.selectedDist.set(''); }
+        if (n === 'Provincial')    { this.selectedDist.set(''); }
+        this.selectedMapGeoKey.set('');
+        // Carga diferida del GeoJSON correspondiente
+        if (n !== 'Departamental') this.loadGeoJsonProv();
+        if (n === 'Distrital')     this.loadGeoJsonDist();
         this.openGeoDropdown.set(null);
     }
 
@@ -1087,29 +1131,43 @@ export class DashboardComponent implements OnInit {
         this.selectedCCDD.set(dept?.ccdd ?? '');
         this.selectedProv.set('');
         this.selectedDist.set('');
+        this.selectedMapGeoKey.set('');
         this.openGeoDropdown.set(null);
+        // Volver a vista completa al cambiar departamento
+        this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
     }
 
-    selectProv(label: string): void {
-        this.selectedProv.set(label);
+    selectProv(code: string): void {
+        this.selectedProv.set(code);
         this.selectedDist.set('');
+        this.selectedMapGeoKey.set('');
         this.openGeoDropdown.set(null);
     }
 
-    selectDist(label: string): void {
-        this.selectedDist.set(label);
+    selectDist(code: string): void {
+        this.selectedDist.set(code);
+        this.selectedMapGeoKey.set('');
         this.openGeoDropdown.set(null);
     }
 
     // ── Estado primitivo (señales manuales) ───────────────────────────────
-    isBrowser       = false;
-    selectedCCDD    = signal<string>('');
-    hoveredCCDD     = signal<string>('');
-    isMapLoading    = signal<boolean>(false);
-    mapLoadError    = signal<boolean>(false);
+    isBrowser             = false;
+    selectedCCDD          = signal<string>('');
+    /** Clave geoKey de la región sobre la que está el cursor */
+    hoveredGeoKey         = signal<string>('');
+    /** Clave geoKey de la región seleccionada en el mapa (click) */
+    selectedMapGeoKey     = signal<string>('');
+    isMapLoading          = signal<boolean>(false);
+    mapLoadError          = signal<boolean>(false);
+    isMapLoadingProv      = signal<boolean>(false);
+    mapLoadErrorProv      = signal<boolean>(false);
+    isMapLoadingDist      = signal<boolean>(false);
+    mapLoadErrorDist      = signal<boolean>(false);
 
-    // ── GeoJSON crudo ──────────────────────────────────────────────────────
-    private rawGeoJson = signal<any>(null);
+    // ── GeoJSON crudo por nivel ────────────────────────────────────────────
+    private rawGeoJson     = signal<any>(null);
+    private rawGeoJsonProv = signal<any>(null);
+    private rawGeoJsonDist = signal<any>(null);
 
     // ── Constantes ────────────────────────────────────────────────────────
     private readonly TOTAL_NAC = 36_596_527;
@@ -1128,17 +1186,80 @@ export class DashboardComponent implements OnInit {
         () => INDICATORS.find(d => d.key === this.activeIndicator())!
     );
 
-    /** Regiones parseadas sin color (color se recalcula al cambiar indicador) */
+    /** Regiones parseadas sin color (recalculado al cambiar nivel o selección) */
     private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
-        const geo = this.rawGeoJson();
+        const nivel = this.nivelGeo();
+
+        // ── Nivel Departamental ──────────────────────────────────────────
+        if (nivel === 'Departamental') {
+            const geo = this.rawGeoJson();
+            if (!geo?.features) return [];
+            return (geo.features as any[]).map((f, idx) => {
+                const p   = f.properties;
+                const svg = this.project(f.geometry);
+                return {
+                    id:      Number(f.id) || idx,
+                    geoKey:  String(p.CCDD),
+                    ccdd:    String(p.CCDD),
+                    ccpp:    '',
+                    ccdi:    '',
+                    name:    String(p.NOMBDEP),
+                    total:   Number(p.POBTOTAL)  || 0,
+                    male:    Number(p.POBHOMBRE) || 0,
+                    female:  Number(p.POBMUJER)  || 0,
+                    density: Number(p.DENSIDAD)  || 0,
+                    path:    svg.path,
+                    center:  svg.center,
+                };
+            });
+        }
+
+        // ── Nivel Provincial ─────────────────────────────────────────────
+        if (nivel === 'Provincial') {
+            const geo = this.rawGeoJsonProv();
+            if (!geo?.features) return [];
+            const ccdd     = this.selectedCCDD();
+            const features = ccdd
+                ? (geo.features as any[]).filter(f => String(f.properties.CCDD) === ccdd)
+                : (geo.features as any[]);
+            return features.map((f, idx) => {
+                const p   = f.properties;
+                const svg = this.project(f.geometry);
+                return {
+                    id:      Number(f.id) || idx,
+                    geoKey:  String(p.CCDD) + String(p.CCPP),
+                    ccdd:    String(p.CCDD),
+                    ccpp:    String(p.CCPP),
+                    ccdi:    '',
+                    name:    String(p.NOMBPROV),
+                    total:   Number(p.POBTOTAL)  || 0,
+                    male:    Number(p.POBHOMBRE) || 0,
+                    female:  Number(p.POBMUJER)  || 0,
+                    density: Number(p.DENSIDAD)  || 0,
+                    path:    svg.path,
+                    center:  svg.center,
+                };
+            });
+        }
+
+        // ── Nivel Distrital ──────────────────────────────────────────────
+        const geo = this.rawGeoJsonDist();
         if (!geo?.features) return [];
-        return (geo.features as any[]).map((f, idx) => {
+        const ccdd = this.selectedCCDD();
+        const ccpp = this.selectedProv();
+        let features = geo.features as any[];
+        if (ccdd) features = features.filter(f => String(f.properties.CCDD) === ccdd);
+        if (ccpp) features = features.filter(f => String(f.properties.CCPP) === ccpp);
+        return features.map((f, idx) => {
             const p   = f.properties;
             const svg = this.project(f.geometry);
             return {
                 id:      Number(f.id) || idx,
+                geoKey:  String(p.UBIGEO),
                 ccdd:    String(p.CCDD),
-                name:    String(p.NOMBDEP),
+                ccpp:    String(p.CCPP),
+                ccdi:    String(p.CCDI),
+                name:    String(p.NOMBDIST),
                 total:   Number(p.POBTOTAL)  || 0,
                 male:    Number(p.POBHOMBRE) || 0,
                 female:  Number(p.POBMUJER)  || 0,
@@ -1158,7 +1279,7 @@ export class DashboardComponent implements OnInit {
         const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
         const sorted = [...vals].sort((a, b) => a - b);
         const n  = sorted.length;
-        const gs = Math.floor(n / 5);
+        const gs = Math.max(1, Math.floor(n / 5));
         const thr = [1, 2, 3, 4].map(i => sorted[Math.min(i * gs, n - 1)]);
 
         return raws.map((r, i) => {
@@ -1169,14 +1290,16 @@ export class DashboardComponent implements OnInit {
         });
     });
 
-    /** Lista de departamentos para el combo selector */
-    departments = computed(() =>
-        [...this.mapRegions()]
-            .map(r => ({ ccdd: r.ccdd, name: r.name }))
-            .sort((a, b) => a.name.localeCompare(b.name, 'es'))
-    );
+    /** Lista de departamentos para el combo selector — siempre desde el JSON de deptos */
+    departments = computed(() => {
+        const geo = this.rawGeoJson();
+        if (!geo?.features) return [];
+        return (geo.features as any[])
+            .map((f: any) => ({ ccdd: String(f.properties.CCDD), name: String(f.properties.NOMBDEP) }))
+            .sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    });
 
-    /** 5 rangos cuantílicos para la leyenda (según indicador activo) */
+    /** 5 rangos cuantílicos para la leyenda */
     colorBreaks = computed<ColorBreak[]>(() => {
         const regions = this.mapRegions();
         const key     = this.activeIndicator();
@@ -1185,7 +1308,7 @@ export class DashboardComponent implements OnInit {
 
         const sorted = regions.map(r => this.getIndicatorValue(r, key)).sort((a, b) => a - b);
         const n  = sorted.length;
-        const gs = Math.floor(n / 5);
+        const gs = Math.max(1, Math.floor(n / 5));
         const fmtV = (v: number) => key === 'poblacion'
             ? this.fmt(v)
             : this.fmtD(v, def.decimals) + def.unit;
@@ -1199,32 +1322,33 @@ export class DashboardComponent implements OnInit {
 
     /** Región sobre la que está el cursor */
     hoveredRegion = computed<MapRegion | null>(() => {
-        const ccdd = this.hoveredCCDD();
-        if (!ccdd) return null;
-        return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
+        const key = this.hoveredGeoKey();
+        if (!key) return null;
+        return this.mapRegions().find(r => r.geoKey === key) ?? null;
     });
 
-    /** Región seleccionada desde el combo o click */
+    /** Región seleccionada desde el mapa (click) */
     selectedRegion = computed<MapRegion | null>(() => {
-        const ccdd = this.selectedCCDD();
-        if (!ccdd) return null;
-        return this.mapRegions().find(r => r.ccdd === ccdd) ?? null;
+        const key = this.selectedMapGeoKey();
+        if (!key) return null;
+        return this.mapRegions().find(r => r.geoKey === key) ?? null;
     });
 
     /**
-     * Título de la cabecera: hover > seleccionado > Nacional.
-     * Computed puro — se actualiza automáticamente.
+     * Título de la cabecera: hover > seleccionado en mapa > dept seleccionado > Nacional.
      */
     displayedTitle = computed<string>(() => {
         const hov = this.hoveredRegion();
         if (hov) return hov.name;
         const sel = this.selectedRegion();
         if (sel) return sel.name;
+        const ccdd = this.selectedCCDD();
+        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
         return 'Perú (Nacional)';
     });
 
     /**
-     * Población de la cabecera: hover > seleccionado > Nacional.
+     * Población de la cabecera: hover > seleccionado > dept seleccionado > Nacional.
      */
     displayedPopulation = computed<string>(() => {
         const hov = this.hoveredRegion();
@@ -1249,16 +1373,50 @@ export class DashboardComponent implements OnInit {
         this.loadGeoJson();
     }
 
-    // ── Carga del GeoJSON ─────────────────────────────────────────────────
+    // ── Carga del GeoJSON por nivel ───────────────────────────────────────
     loadGeoJson(): void {
+        if (this.rawGeoJson()) return; // ya cargado
         this.isMapLoading.set(true);
         this.mapLoadError.set(false);
-        this.rawGeoJson.set(null);
-
         this.http.get<any>('/departamento_geometria.json').subscribe({
             next:  data => { this.rawGeoJson.set(data); this.isMapLoading.set(false); },
             error: ()   => { this.isMapLoading.set(false); this.mapLoadError.set(true); },
         });
+    }
+
+    loadGeoJsonProv(): void {
+        if (this.rawGeoJsonProv()) return; // ya cargado
+        this.isMapLoadingProv.set(true);
+        this.mapLoadErrorProv.set(false);
+        this.http.get<any>('/provincia_geometria.json').subscribe({
+            next:  data => { this.rawGeoJsonProv.set(data); this.isMapLoadingProv.set(false); },
+            error: ()   => { this.isMapLoadingProv.set(false); this.mapLoadErrorProv.set(true); },
+        });
+    }
+
+    loadGeoJsonDist(): void {
+        if (this.rawGeoJsonDist()) return; // ya cargado
+        this.isMapLoadingDist.set(true);
+        this.mapLoadErrorDist.set(false);
+        this.http.get<any>('/distrito_geometria.json').subscribe({
+            next:  data => { this.rawGeoJsonDist.set(data); this.isMapLoadingDist.set(false); },
+            error: ()   => { this.isMapLoadingDist.set(false); this.mapLoadErrorDist.set(true); },
+        });
+    }
+
+    /** Reintenta cargar el GeoJSON del nivel activo (botón de error) */
+    reloadActiveGeoJson(): void {
+        const nivel = this.nivelGeo();
+        if (nivel === 'Departamental') {
+            this.rawGeoJson.set(null);
+            this.loadGeoJson();
+        } else if (nivel === 'Provincial') {
+            this.rawGeoJsonProv.set(null);
+            this.loadGeoJsonProv();
+        } else {
+            this.rawGeoJsonDist.set(null);
+            this.loadGeoJsonDist();
+        }
     }
 
     // ── Formateadores de números (estilo INEI Perú) ──────────────────────
@@ -1315,67 +1473,73 @@ export class DashboardComponent implements OnInit {
     // ── Helpers de estilo SVG ─────────────────────────────────────────────
 
     getRegionFill(r: MapRegion): string {
-        // Seleccionado → ámbar; hover → amarillo; default → color coroplético
-        if (this.selectedRegion()?.ccdd === r.ccdd && !this.hoveredRegion()) {
-            return '#f8bd13'; // amarillo selección
-        }
-        if (this.hoveredRegion()?.ccdd === r.ccdd) {
-            return '#f8bd13'; // amarillo hover
-        }
+        const hovKey = this.hoveredRegion()?.geoKey;
+        const selKey = this.selectedRegion()?.geoKey;
+        if (hovKey === r.geoKey) return '#f8bd13';
+        if (selKey === r.geoKey && !hovKey) return '#f8bd13';
         return r.color;
     }
 
     getRegionOpacity(r: MapRegion): string {
         const hov = this.hoveredRegion();
         const sel = this.selectedRegion();
-
-        if (hov) return hov.ccdd === r.ccdd ? '1' : '0.30';
-        if (sel) return sel.ccdd === r.ccdd ? '1' : '0.35';
+        if (hov) return hov.geoKey === r.geoKey ? '1' : '0.30';
+        if (sel) return sel.geoKey === r.geoKey ? '1' : '0.35';
         return '0.88';
     }
 
     getStrokeWidth(r: MapRegion): string {
-        if (this.hoveredRegion()?.ccdd === r.ccdd)  return '1.5';
-        if (this.selectedRegion()?.ccdd === r.ccdd) return '2';
+        if (this.hoveredRegion()?.geoKey === r.geoKey)  return '1.5';
+        if (this.selectedRegion()?.geoKey === r.geoKey) return '2';
         return '1.5';
     }
 
     getLabelOpacity(r: MapRegion): string {
         const hov = this.hoveredRegion();
         const sel = this.selectedRegion();
-        if (hov) return hov.ccdd === r.ccdd ? '1' : '0.12';
-        if (sel) return sel.ccdd === r.ccdd ? '1' : '0.15';
+        if (hov) return hov.geoKey === r.geoKey ? '1' : '0.12';
+        if (sel) return sel.geoKey === r.geoKey ? '1' : '0.15';
         return '1';
     }
 
     // ── Eventos del mapa SVG ──────────────────────────────────────────────
 
     onHover(r: MapRegion): void {
-        this.hoveredCCDD.set(r.ccdd);
+        this.hoveredGeoKey.set(r.geoKey);
     }
 
     onLeave(): void {
-        this.hoveredCCDD.set('');
+        this.hoveredGeoKey.set('');
     }
 
     onRegionClick(r: MapRegion): void {
         // Toggle: doble click deselecciona y restaura la vista
-        if (this.selectedCCDD() === r.ccdd) {
-            this.selectedCCDD.set('');
+        if (this.selectedMapGeoKey() === r.geoKey) {
+            this.selectedMapGeoKey.set('');
             this.animateViewBox(
                 this.parseViewBox(this.svgViewBox()),
                 { x: 0, y: 0, w: S.w, h: S.h }
             );
         } else {
-            this.selectedCCDD.set(r.ccdd);
+            this.selectedMapGeoKey.set(r.geoKey);
             this.fitRegion(r);
+            // Sincronizar con el selector de nivel correspondiente
+            const nivel = this.nivelGeo();
+            if (nivel === 'Departamental') {
+                this.selectedCCDD.set(r.ccdd);
+            } else if (nivel === 'Provincial') {
+                this.selectedProv.set(r.ccpp);
+            } else {
+                this.selectedDist.set(r.geoKey); // ubigeo
+            }
         }
     }
 
     // ── Botón Restablecer ─────────────────────────────────────────────────
     resetFilters(): void {
         this.selectedCCDD.set('');
-        this.hoveredCCDD.set('');
+        this.hoveredGeoKey.set('');
+        this.selectedMapGeoKey.set('');
         this.selectedProv.set('');
         this.selectedDist.set('');
         this.nivelGeo.set('Departamental');
@@ -1393,6 +1557,7 @@ export class DashboardComponent implements OnInit {
     getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
         if (key === 'poblacion')      return r.total;
         if (key === 'densidad_total') return r.density;
+        // Para indicadores derivados se usa el mock por departamento como fallback
         return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
     }
 
@@ -1416,10 +1581,23 @@ export class DashboardComponent implements OnInit {
      * con un padding de 50 unidades SVG, emulando map.fitBounds de Mapbox.
      */
     private fitRegion(r: MapRegion): void {
-        const geo = this.rawGeoJson();
-        if (!geo?.features) return;
+        const nivel = this.nivelGeo();
+        let geo: any;
+        let matchFn: (f: any) => boolean;
 
-        const feature = geo.features.find((f: any) => String(f.properties.CCDD) === r.ccdd);
+        if (nivel === 'Departamental') {
+            geo = this.rawGeoJson();
+            matchFn = (f) => String(f.properties.CCDD) === r.geoKey;
+        } else if (nivel === 'Provincial') {
+            geo = this.rawGeoJsonProv();
+            matchFn = (f) => String(f.properties.CCDD) + String(f.properties.CCPP) === r.geoKey;
+        } else {
+            geo = this.rawGeoJsonDist();
+            matchFn = (f) => String(f.properties.UBIGEO) === r.geoKey;
+        }
+
+        if (!geo?.features) return;
+        const feature = geo.features.find((f: any) => matchFn(f));
         if (!feature) return;
 
         // 1. Calcular bounding box geográfico (lng/lat)
@@ -1525,7 +1703,15 @@ export class DashboardComponent implements OnInit {
     // ── Gráficos ECharts (pie + pirámide) ─────────────────────────────────────
     initCharts(): void {
         this.pieOptionsSex = {
-            tooltip: { trigger: 'item' },
+            tooltip: {
+                trigger: 'item',
+                formatter: (params: any) => {
+                    const val = Number(params.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                    const pct = Number(params.percent).toFixed(1).replace('.', ',') + '%';
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${params.name}</div>
+                  <div style="font-size:12px;font-weight:700;color:${params.color}">${val} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+                },
+            },
             legend:  { show: false },
             color:   ['#0056a1', '#33b3a9'],
             series: [{
@@ -1548,13 +1734,13 @@ export class DashboardComponent implements OnInit {
                     const p = params[0];
                     const pct = ['17,7%', '68,3%', '14,0%'][p.dataIndex] ?? '';
                     return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
-                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+                  <div style="font-size:12px;font-weight:700;color:${p.color}">${Number(p.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
                 },
             },
             grid: { top: 26, right: 6, bottom: 22, left: 6, containLabel: true },
             xAxis: {
                 type: 'category',
-                data: ['0–14 años', '15–59 años', '60+ años'],
+                data: ['0–14 años', '15–59 años', '60 y más años'],
                 axisTick:  { show: false },
                 axisLine:  { show: false },
                 axisLabel: {
@@ -1592,7 +1778,7 @@ export class DashboardComponent implements OnInit {
             }],
         };
 
-        const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80-84 años','85+'];
+        const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80-84 años','85 y más'];
         const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5,-0.5];
         const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4,0.4];
 
