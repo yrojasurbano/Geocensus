@@ -1791,7 +1791,7 @@ export class DashboardComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
                 formatter(params: any): string {
-                    let html = `<div style="font-weight:900;font-size:10px;margin-bottom:4px">${params[0].name} años</div>`;
+                    let html = `<div style="font-weight:900;font-size:10px;margin-bottom:4px">${params[0].name}</div>`;
                     params.forEach((p: any) => {
                         const absVal = Number(p.data?.abs ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
                         const pct    = Math.abs(p.value).toFixed(1).replace('.', ',');

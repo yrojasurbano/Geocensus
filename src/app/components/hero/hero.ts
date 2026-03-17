@@ -39,109 +39,123 @@ import { RouterLink } from '@angular/router';
           <div class="absolute inset-0 bg-black/50"></div>
         </div>
 
-        <header class="relative z-20 flex justify-between items-start px-6 py-3 md:px-12 md:py-4 text-white w-full shrink-0">
-          <div class="flex items-center gap-8 mt-1">
-            
-            <div class="flex items-center">
-              <img 
-                ngSrc="logo_inei_white.png" 
-                alt="Logo INEI" 
-                width="180" 
-                height="50"
-                priority
-                class="h-22 md:h-24 w-auto object-contain drop-shadow-md"
-              >
-            </div>
+        <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+        <!-- Izquierda: logos INEI + CPV | Derecha: nav -->
+        <header class="relative z-20 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 text-white w-full shrink-0">
 
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide ml-8">
-              <button routerLink="/" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
-                Inicio
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-              </button>
-              <button routerLink="/resultados" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
-                Resultados
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-              </button>
-
-              <!-- ── Censos 2025 dropdown ── -->
-              <div class="relative">
-                <button
-                  (click)="toggleCensos($event)"
-                  class="hover:text-secondary transition-colors duration-300 uppercase relative group flex items-center gap-1">
-                  Censos 2025
-                  <mat-icon class="!text-base !w-4 !h-4 transition-transform duration-200"
-                    [class.rotate-180]="censosOpen()">expand_more</mat-icon>
-                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                </button>
-                @if (censosOpen()) {
-                  <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
-                       style="animation: dropdownIn 0.18s ease-out forwards">
-                    <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
-                    <ul class="py-1">
-                      @for (item of censosMenu; track item.label) {
-                        <li>
-                          <button
-                            [routerLink]="item.route"
-                            (click)="censosOpen.set(false)"
-                            class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                            <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
-                            {{ item.label }}
-                          </button>
-                        </li>
-                      }
-                    </ul>
-                  </div>
-                }
-              </div>
-              <!-- /Censos 2025 -->
-
-              <button routerLink="/noticias" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
-                Noticias
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-              </button>              
-              
-            </nav>
+          <!-- ── Logos (izquierda) ────────────────────────────────────────── -->
+          <div class="flex items-center gap-4 md:gap-6">
+            <img 
+              ngSrc="logo_inei_white.png" 
+              alt="Logo INEI" 
+              width="180" 
+              height="50"
+              priority
+              class="h-10 md:h-12 2xl:h-14 w-auto object-contain drop-shadow-md"
+            >
+            <div class="w-px h-8 md:h-10 bg-white/30"></div>
+            <img 
+              ngSrc="logo_cpv_white.svg" 
+              alt="Logo CPV 2025" 
+              width="160" 
+              height="50"
+              priority
+              class="h-16 md:h-18 2xl:h-20 w-auto object-contain drop-shadow-md"
+            >
           </div>
 
-          <div class="absolute right-0 top-4 2xl:top-8 h-20 2xl:h-28 pl-10 2xl:pl-14 pr-8 2xl:pr-10 bg-white rounded-l-[60px] flex items-center justify-center shadow-2xl z-30 hidden md:flex">
-            <div class="flex items-center">
-              <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="220" height="70" class="h-14 2xl:h-20 w-auto object-contain">
+          <!-- ── Nav (derecha) ────────────────────────────────────────────── -->
+          <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide">
+            <button routerLink="/" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Inicio
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            <button routerLink="/resultados" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Resultados
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+
+            <!-- ── Censos 2025 dropdown ── -->
+            <div class="relative">
+              <button
+                (click)="toggleCensos($event)"
+                class="hover:text-secondary transition-colors duration-300 uppercase relative group flex items-center gap-1">
+                Censos 2025
+                <mat-icon class="!text-base !w-4 !h-4 transition-transform duration-200"
+                  [class.rotate-180]="censosOpen()">expand_more</mat-icon>
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+              </button>
+              @if (censosOpen()) {
+                <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                     style="animation: dropdownIn 0.18s ease-out forwards">
+                  <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
+                  <ul class="py-1">
+                    @for (item of censosMenu; track item.label) {
+                      <li>
+                        <button
+                          [routerLink]="item.route"
+                          (click)="censosOpen.set(false)"
+                          class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                          <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                          {{ item.label }}
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
             </div>
-          </div>
+            <!-- /Censos 2025 -->
+
+            <button routerLink="/noticias" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Noticias
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+          </nav>
+
         </header>
+        <!-- /HEADER -->
 
-        <div class="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-24">
-          <div class="max-w-5xl animate-fade-in-up relative w-full">
-            <div class="absolute -top-20 -left-20 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-20 blur-3xl -z-10"></div>
-            
-            <div class="absolute top-20 left-[340px] transform -translate-x-1/2 -translate-y-1/2 -z-10">
-               <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-15"></div>
-               <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-100"></div>
-            </div>
+        <!-- ══ CUERPO ══════════════════════════════════════════════════════════ -->
+        <div class="relative z-10 flex-1 flex flex-col justify-center min-h-0">
 
-            <div class="w-16 h-1 bg-white mb-3 ml-1"></div>
-
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6 drop-shadow-xl relative z-10">
-              CENSOS <br/>
-              NACIONALES 
-              <span class="text-white inline">
-                2025
-                <div class="inline-block w-3 h-3 2xl:w-4 2xl:h-4 bg-secondary rounded-sm align-baseline ml-1"></div>
-              </span>
-            </h1>
-            
-            <div class="flex flex-col sm:flex-row gap-4 relative z-10">
-              <button 
-                routerLink="/resultados"
-                class="bg-gradient-to-br from-primary to-secondary hover:brightness-110 text-white font-bold py-3 px-8 rounded-[30px] shadow-lg shadow-primary/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-base tracking-wide w-max"
-              >
-                <mat-icon>bar_chart</mat-icon>
-                RESULTADOS
-              </button>              
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center justify-between mt-16 2xl:mt-24 relative z-10 w-full bg-black/20 backdrop-blur-sm p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-2xl">
+          <!-- Título y botón — alineados a la izquierda -->
+          <div class="px-6 md:px-12 lg:px-24">
+            <div class="max-w-5xl animate-fade-in-up relative w-full">
+              <div class="absolute -top-20 -left-20 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-20 blur-3xl -z-10"></div>
               
+              <div class="absolute top-20 left-[340px] transform -translate-x-1/2 -translate-y-1/2 -z-10">
+                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-15"></div>
+                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-100"></div>
+              </div>
+
+              <div class="w-16 h-1 bg-white mb-3 ml-1"></div>
+
+              <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6 drop-shadow-xl relative z-10">
+                CENSOS <br/>
+                NACIONALES 
+                <span class="text-white inline">
+                  2025
+                  <div class="inline-block w-3 h-3 2xl:w-4 2xl:h-4 bg-secondary rounded-sm align-baseline ml-1"></div>
+                </span>
+              </h1>
+              
+              <div class="flex flex-col sm:flex-row gap-4 relative z-10">
+                <button 
+                  routerLink="/resultados"
+                  class="bg-gradient-to-br from-primary to-secondary hover:brightness-110 text-white font-bold py-3 px-8 rounded-[30px] shadow-lg shadow-primary/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-base tracking-wide w-max"
+                >
+                  <mat-icon>bar_chart</mat-icon>
+                  RESULTADOS
+                </button>              
+              </div>
+            </div>
+          </div>
+
+          <!-- ★ Cards — centradas en todo el ancho de pantalla -->
+          <div class="w-full px-6 md:px-12 lg:px-16 mt-12 2xl:mt-16 relative z-10">
+            <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center bg-black/20 backdrop-blur-sm p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-2xl">
+
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">groups</mat-icon>
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
@@ -150,8 +164,8 @@ import { RouterLink } from '@angular/router';
                 </span>
               </div>
 
-              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
-              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/20 to-transparent mx-4 2xl:mx-8"></div>
+              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-2"></div>
 
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
@@ -173,8 +187,12 @@ import { RouterLink } from '@angular/router';
               </div>
 
             </div>
-            </div>
+          </div>
+          <!-- /Cards -->
+
         </div>
+        <!-- /CUERPO -->
+
       </div>
 
       <div class="w-full h-[10px] bg-gradient-to-r from-primary to-secondary z-20 shrink-0"></div>
