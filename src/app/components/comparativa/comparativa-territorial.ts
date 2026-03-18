@@ -7,6 +7,7 @@ import {
     computed,
     PLATFORM_ID,
     inject,
+    HostListener,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -120,47 +121,83 @@ function allChecked(labels: string[]): DropdownItem[] {
                 (click)="closeAll()">
 
             <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-            <header class="bg-white shadow-sm px-4 md:px-6 xl:px-10 2xl:px-16 py-3 md:py-2 flex flex-col md:flex-row
-                 justify-between items-center gap-4 md:gap-0
-                 sticky top-0 z-50 shrink-0 h-auto md:h-16 xl:h-20">
-
-                <!-- Logos -->
-                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
+            <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full shrink-0">
+                <!-- Logos izquierda -->
+                <div class="flex items-center gap-4 md:gap-5">
                     <div class="flex items-center cursor-pointer" routerLink="/">
-                        <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 xl:h-14 w-auto object-contain">
+                        <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 w-auto object-contain">
                     </div>
-                    <div class="h-6 md:h-8 xl:h-10 w-px bg-gray-200 mx-1 md:mx-2"></div>
-                    <div class="flex items-center">
-                        <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-10 md:h-12 xl:h-14 w-auto object-contain">
-                    </div>
+                    <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
+                    <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-8 md:h-10 w-auto object-contain hidden md:block">
                 </div>
-
-                <!-- Tabs -->
-                <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
-                    <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
-                        <button
-                                routerLink="/dashboard"
-                                class="px-3 xl:px-5 py-1.5 xl:py-2 rounded-lg text-sm xl:text-base font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
-                            Primeros Resultados
-                        </button>
-                        <button
-                                class="px-3 xl:px-5 py-1.5 xl:py-2 rounded-lg text-sm xl:text-base font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
-                            Comparativo Territorial
-                        </button>
-                    </div>
-                    <button routerLink="/"
-                            class="w-10 h-10 xl:w-12 xl:h-12 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors shrink-0">
-                        <app-hero-icon [name]="'x-mark'" class="w-6 h-6 xl:w-7 xl:h-7"></app-hero-icon>
+                <!-- Nav derecha -->
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
+                    <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
+                        Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
                     </button>
-                </div>
+                    <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
+                        Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+                    </button>
+                    <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+                        Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+                    </button>
+                    <div class="relative">
+                        <button (click)="toggleCensos($event)"
+                            class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
+                            Censos 2025
+                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                                [class.rotate-180]="censosOpen()"></app-hero-icon>
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+                        </button>
+                        @if (censosOpen()) {
+                            <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                                 style="animation: dropdownIn 0.18s ease-out forwards"
+                                 (click)="$event.stopPropagation()">
+                                <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
+                                <ul class="py-1">
+                                    @for (item of censosMenu; track item.label) {
+                                        <li>
+                                            <button [routerLink]="item.route" (click)="censosOpen.set(false)"
+                                                class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                                                {{ item.label }}
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
+                        Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+                    </button>
+                </nav>
             </header>
 
             <!-- ══ FILTER BAR ═══════════════════════════════════════════════════════ -->
             <div
-                    class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 xl:px-10 2xl:px-16 py-2.5 xl:py-3
-           flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 xl:gap-4
-           sticky top-16 xl:top-20 z-40 shrink-0"
+                    class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 xl:px-10 2xl:px-16
+           flex flex-col gap-2 py-2 xl:py-2.5
+           sticky top-[57px] md:top-[65px] z-40 shrink-0"
                     (click)="$event.stopPropagation()">
+
+                <!-- ── Fila superior: botones de vista ──────────────────────────── -->
+                <div class="flex justify-end">
+                    <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
+                        <button
+                                routerLink="/dashboard"
+                                class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
+                            Primeros Resultados
+                        </button>
+                        <button
+                                class="px-4 py-1.5 rounded-lg text-xs font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
+                            Comparativo Territorial
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ── Fila inferior: filtros geográficos ────────────────────────── -->
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 xl:gap-4 pb-1">
 
                 <!-- Icono Filtros -->
                 <div class="flex items-center gap-2 shrink-0">
@@ -361,8 +398,9 @@ function allChecked(labels: string[]): DropdownItem[] {
                         Restablecer Filtros
                     </button>
 
-                </div>
-            </div>
+                </div><!-- /controles -->
+                </div><!-- /fila inferior filtros -->
+            </div><!-- /filter bar -->
 
             <!-- ══ CUERPO ════════════════════════════════════════════════════════════ -->
             <main class="flex-1 h-0 flex flex-col min-h-0 p-2 md:p-3 xl:p-4 2xl:p-6">
@@ -720,6 +758,10 @@ Huaura, Oyón y Yauyos.
             height: 100vh;
             overflow: hidden;
         }
+        @keyframes dropdownIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
         /* Tabla con scroll horizontal suave en móvil */
         .overflow-auto {
             -webkit-overflow-scrolling: touch;
@@ -758,6 +800,22 @@ Huaura, Oyón y Yauyos.
     `],
 })
 export class ComparativaTerritorialComponent {
+
+    // ── Header nav ────────────────────────────────────────────────────────────
+    censosOpen = signal(false);
+
+    censosMenu = [
+        { label: 'Características del censo', route: '/aspectos-generales' },
+        { label: 'Innovaciones censales',      route: '/innovaciones' },
+        { label: 'Etapas censales',            route: '/organizacion' },
+        { label: 'Normatividad censal',        route: '/normativa' },
+        { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
+    ];
+
+    @HostListener('document:click')
+    onDocumentClick() { this.censosOpen.set(false); }
+
+    toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
 
     // ── Nivel ─────────────────────────────────────────────────────────────────
     readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];
