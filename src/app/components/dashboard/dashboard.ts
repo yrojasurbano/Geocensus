@@ -1363,11 +1363,10 @@ export class DashboardComponent implements OnInit {
     });
 
     /**
-     * Título de la cabecera: hover > seleccionado en mapa > dept seleccionado > Nacional.
+     * Título de la cabecera: seleccionado en mapa > dept seleccionado > Nacional.
+     * El hover NO modifica el card; solo afecta el tooltip negro del mapa.
      */
     displayedTitle = computed<string>(() => {
-        const hov = this.hoveredRegion();
-        if (hov) return hov.name;
         const sel = this.selectedRegion();
         if (sel) return sel.name;
         const ccdd = this.selectedCCDD();
@@ -1376,11 +1375,10 @@ export class DashboardComponent implements OnInit {
     });
 
     /**
-     * Población de la cabecera: hover > seleccionado > dept seleccionado > Nacional.
+     * Población de la cabecera: seleccionado en mapa > dept seleccionado > Nacional.
+     * El hover NO modifica el card; solo afecta el tooltip negro del mapa.
      */
     displayedPopulation = computed<string>(() => {
-        const hov = this.hoveredRegion();
-        if (hov) return this.fmt(hov.total);
         const sel = this.selectedRegion();
         if (sel) return this.fmt(sel.total);
         return this.fmt(this.TOTAL_NAC);

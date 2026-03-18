@@ -139,7 +139,7 @@ import { RouterLink } from '@angular/router';
                 NACIONALES 
                 <span class="text-white inline">
                   2025
-                  <div class="inline-block w-3 h-3 2xl:w-4 2xl:h-4 bg-secondary rounded-sm align-baseline ml-1"></div>
+                  
                 </span>
               </h1>
               
@@ -175,7 +175,7 @@ import { RouterLink } from '@angular/router';
               <!-- Hombres — valor fijo -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionMasculina) }}
                 </span>
@@ -187,7 +187,7 @@ import { RouterLink } from '@angular/router';
               <!-- Mujeres — valor fijo -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">woman</mat-icon>
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionFemenina) }}
                 </span>
@@ -206,8 +206,31 @@ import { RouterLink } from '@angular/router';
 
       <div class="bg-[#EEEEEE] flex flex-col z-20 shrink-0">
         <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
-          <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
-            <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
+          <div class="max-w-7xl mx-auto flex flex-row items-center justify-between w-full gap-6">
+
+            <!-- ★ Contador de visitas web — izquierda, alineado al texto del instituto ── -->
+            <div class="flex items-center gap-2 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#33b3a9] shrink-0"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Visitas al sitio</span>
+              <span class="text-[11px] font-black text-[#33b3a9] tabular-nums tracking-wide">
+                {{ formatNumber(visitasContador()) }}
+              </span>
+              <!-- Indicador pulsante de actividad en vivo -->
+              <span class="relative flex h-2 w-2 ml-0.5 shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#33b3a9] opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#33b3a9]"></span>
+              </span>
+            </div>
+            <!-- /Contador de visitas web -->
+
+            <!-- Instituto + dirección + redes — derecha ──────────────────────── -->
+            <div class="flex flex-col items-center md:items-end text-center md:text-right">
               <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
               <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
               <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
@@ -244,6 +267,8 @@ import { RouterLink } from '@angular/router';
                 </div>
               </div>
             </div>
+            <!-- /Instituto + redes -->
+
           </div>
         </footer>
       </div>
@@ -291,10 +316,20 @@ export class HeroComponent implements AfterViewInit {
   readonly poblacionMasculina = 18_480_432;
   readonly poblacionFemenina  = 13_480_432;
 
+  // ★ Contador de visitas web ─────────────────────────────────────────────────
+  // Parte de una base de 1 532 visitas.
+  // Usa localStorage para que el valor persista entre sesiones y cada
+  // recarga / refresh incremente el contador en +1.
+  readonly visitasContador = signal<number>(1_532);
+  private readonly VISITAS_KEY = 'geocensus_visitas';
+  private readonly VISITAS_BASE = 1_532;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+
+      // ── Video autoplay ─────────────────────────────────────────────────────
       const video = this.bgVideo?.nativeElement;
       if (video) {
         video.muted = true;
@@ -308,6 +343,16 @@ export class HeroComponent implements AfterViewInit {
           setTimeout(tryPlay, 300);
         }
       }
+
+      // ── Contador de visitas ────────────────────────────────────────────────
+      // Lee el valor persistido en localStorage; si no existe arranca en
+      // VISITAS_BASE (1 532). Incrementa en 1 en cada carga / refresh y
+      // guarda el nuevo total para que persista entre sesiones.
+      const stored  = localStorage.getItem(this.VISITAS_KEY);
+      const current = stored ? parseInt(stored, 10) : this.VISITAS_BASE;
+      const updated = current + 1;
+      localStorage.setItem(this.VISITAS_KEY, String(updated));
+      this.visitasContador.set(updated);
     }
   }
 
