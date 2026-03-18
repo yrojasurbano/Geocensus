@@ -12,18 +12,26 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen w-full flex flex-col bg-white font-sans">
-
       <!-- HEADER -->
       <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full">
-        <div class="flex items-center gap-8">
+        <!-- Logos izquierda -->
+        <div class="flex items-center gap-4 md:gap-5">
           <img ngSrc="logo_inei_azul.png" alt="Logo INEI" width="180" height="50" priority
                class="h-10 md:h-12 w-auto object-contain">
-          <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
+          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
+          <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45"
+               class="h-8 md:h-10 w-auto object-contain hidden md:block">
+        </div>
+        <!-- Nav derecha -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
             <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
               Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+              Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <div class="relative">
               <button (click)="toggleCensos($event)"
@@ -33,7 +41,7 @@ import { RouterLink } from '@angular/router';
                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"></span>
               </button>
               @if (censosOpen()) {
-                <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                      style="animation: dropdownIn 0.18s ease-out forwards">
                   <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                   <ul class="py-1">
@@ -53,9 +61,7 @@ import { RouterLink } from '@angular/router';
             <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
               Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-          </nav>
-        </div>
-        <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45" class="h-9 w-auto object-contain hidden md:block">
+        </nav>
       </header>
 
       <!-- HERO STRIP -->
@@ -65,7 +71,7 @@ import { RouterLink } from '@angular/router';
             <div class="w-10 h-1 bg-white/60 rounded-full"></div>
             <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Censos 2025</span>
           </div>
-          <h1 class="text-3xl md:text-4xl font-black text-white">Aspectos Generales</h1>
+          <h1 class="text-3xl md:text-4xl font-black text-white">Características del censo</h1>
           <p class="text-white/80 mt-2 text-sm md:text-base max-w-2xl">Historia, antecedentes y fundamentos del proceso censal en el Perú.</p>
         </div>
       </div>
@@ -171,18 +177,21 @@ import { RouterLink } from '@angular/router';
 
         </div>
       </main>
-
+      <!-- FOOTER -->
       <!-- FOOTER -->
       <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
-        <div class="max-w-7xl mx-auto flex flex-col items-center md:items-end gap-4 w-full">
-          <p class="font-bold text-base text-center md:text-right">Instituto Nacional de Estadística e Informática – INEI</p>
-          <p class="text-sm text-gray-300 text-center md:text-right">Av. General Garzón 658. Jesús María. Lima - Perú</p>
-          <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-300">Síguenos:</span>
-            <div class="flex gap-3">
-              <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-              <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
-              <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+        <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
+          <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
+            <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
+            <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
+            <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
+              <span class="text-sm text-gray-300">Síguenos:</span>
+              <div class="flex gap-3">
+                <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                <a href="#" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/><path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg></a>
+              </div>
             </div>
           </div>
         </div>
@@ -202,10 +211,11 @@ export class AspectosGeneralesComponent {
   censosOpen = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales',    route: '/aspectos-generales' },
-    { label: 'Organización',          route: '/organizacion' },
-    { label: 'Normativa',             route: '/normativa' },
-    { label: 'Documentación Técnica', route: '/documentacion-tecnica' },
+    { label: 'Características del censo',     route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',           route: '/innovaciones' },
+    { label: 'Etapas Censales',           route: '/organizacion' },
+    { label: 'Normatividad censal',              route: '/normativa' },
+    { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 
   @HostListener('document:click')

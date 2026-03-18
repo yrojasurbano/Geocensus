@@ -7,7 +7,6 @@ import {
   AfterViewInit, 
   PLATFORM_ID, 
   Inject,
-  WritableSignal,
   HostListener
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage, isPlatformBrowser } from '@angular/common';
@@ -40,7 +39,6 @@ import { RouterLink } from '@angular/router';
         </div>
 
         <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-        <!-- Izquierda: logos INEI + CPV | Derecha: nav -->
         <header class="relative z-20 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 text-white w-full shrink-0">
 
           <!-- ── Logos (izquierda) ────────────────────────────────────────── -->
@@ -51,7 +49,7 @@ import { RouterLink } from '@angular/router';
               width="180" 
               height="50"
               priority
-              class="h-10 md:h-12 2xl:h-14 w-auto object-contain drop-shadow-md"
+              class="h-20 md:h-22 2xl:h-24 w-auto object-contain drop-shadow-md"
             >
             <div class="w-px h-8 md:h-10 bg-white/30"></div>
             <img 
@@ -60,7 +58,7 @@ import { RouterLink } from '@angular/router';
               width="160" 
               height="50"
               priority
-              class="h-16 md:h-18 2xl:h-20 w-auto object-contain drop-shadow-md"
+              class="h-24 md:h-28 2xl:h-28 w-auto object-contain drop-shadow-md"
             >
           </div>
 
@@ -72,6 +70,11 @@ import { RouterLink } from '@angular/router';
             </button>
             <button routerLink="/resultados" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
               Resultados
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            <!-- ★ Botón Publicaciones -->
+            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Publicaciones
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
 
@@ -119,7 +122,7 @@ import { RouterLink } from '@angular/router';
         <!-- ══ CUERPO ══════════════════════════════════════════════════════════ -->
         <div class="relative z-10 flex-1 flex flex-col justify-center min-h-0">
 
-          <!-- Título y botón — alineados a la izquierda -->
+          <!-- Título y botón -->
           <div class="px-6 md:px-12 lg:px-24">
             <div class="max-w-5xl animate-fade-in-up relative w-full">
               <div class="absolute -top-20 -left-20 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-primary to-secondary opacity-20 blur-3xl -z-10"></div>
@@ -152,37 +155,41 @@ import { RouterLink } from '@angular/router';
             </div>
           </div>
 
-          <!-- ★ Cards — centradas en todo el ancho de pantalla -->
+          <!-- ★ Cards — bg-black/10 + backdrop-blur-[3px] para menos distorsión -->
           <div class="w-full px-6 md:px-12 lg:px-16 mt-12 2xl:mt-16 relative z-10">
-            <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center bg-black/20 backdrop-blur-sm p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-2xl">
+            <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center
+                        bg-black/10 backdrop-blur-[3px] p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-lg">
 
+              <!-- Población Censada — valor fijo, sin contador -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">groups</mat-icon>
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
-                  {{ formatNumber(poblacionCensada()) }}
-                </span>
-              </div>
-
-              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/20 to-transparent mx-4 2xl:mx-8"></div>
-              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-2"></div>
-
-              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
-                  {{ formatNumber(poblacionMasculina()) }}
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                  {{ formatNumber(poblacionCensada) }}
                 </span>
               </div>
 
               <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
               <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
+              <!-- Hombres — valor fijo -->
+              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                  {{ formatNumber(poblacionMasculina) }}
+                </span>
+              </div>
+
+              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+
+              <!-- Mujeres — valor fijo -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                 <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">woman</mat-icon>
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center truncate w-full">
-                  {{ formatNumber(poblacionFemenina()) }}
+                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                  {{ formatNumber(poblacionFemenina) }}
                 </span>
               </div>
 
@@ -206,13 +213,31 @@ import { RouterLink } from '@angular/router';
               <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
                 <span class="text-sm text-gray-300">Síguenos:</span>
                 <div class="flex gap-3">
-                  <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-                  <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
-                  <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                  <!-- Facebook -->
+                  <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                  </a>
+                  <!-- ★ X (ex Twitter) — icono actualizado -->
+                  <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </a>
+                  <!-- Instagram -->
+                  <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                    </svg>
+                  </a>
+                  <!-- WhatsApp -->
                   <a href="#" class="hover:text-secondary transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
-                      <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" /> 
+                      <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
                       <path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
                     </svg>
                   </a>
@@ -242,13 +267,14 @@ import { RouterLink } from '@angular/router';
 })
 export class HeroComponent implements AfterViewInit {
   @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
-  searchOpen  = signal(false);
-  censosOpen  = signal(false);
+  searchOpen = signal(false);
+  censosOpen = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales',     route: '/aspectos-generales' },
-    { label: 'Organización',           route: '/organizacion' },
-    { label: 'Normativa',              route: '/normativa' },
+    { label: 'Características del censo',     route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',     route: '/innovaciones' },
+    { label: 'Etapas censales',           route: '/organizacion' },
+    { label: 'Normatividad censal',              route: '/normativa' },
     { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 
@@ -260,9 +286,10 @@ export class HeroComponent implements AfterViewInit {
     this.censosOpen.update(v => !v);
   }
 
-  poblacionCensada   = signal(0);
-  poblacionMasculina = signal(0);
-  poblacionFemenina  = signal(0);
+  // ★ Valores estáticos — se eliminó el efecto contador animado
+  readonly poblacionCensada   = 36_480_432;
+  readonly poblacionMasculina = 18_480_432;
+  readonly poblacionFemenina  = 13_480_432;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -281,32 +308,11 @@ export class HeroComponent implements AfterViewInit {
           setTimeout(tryPlay, 300);
         }
       }
-      setTimeout(() => {
-        this.animateValue(36480432, 2500, this.poblacionCensada);
-        this.animateValue(18480432, 2500, this.poblacionMasculina);
-        this.animateValue(13480432, 2500, this.poblacionFemenina);
-      }, 500);
     }
   }
 
   formatNumber(value: number): string {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
-  }
-
-  private animateValue(target: number, duration: number, signalRef: WritableSignal<number>) {
-    let startTimestamp: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const easeOut  = 1 - Math.pow(1 - progress, 4);
-      signalRef.set(Math.floor(easeOut * target));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      } else {
-        signalRef.set(target);
-      }
-    };
-    window.requestAnimationFrame(step);
   }
 
   toggleSearch() {

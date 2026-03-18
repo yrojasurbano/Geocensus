@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
 type Tab1 = 'informes' | 'metodologicos' | 'consultas';
-type Tab2Met = 'cedulas' | 'manuales';
+type Tab2Met = 'cedulas' | 'manuales' | 'programa';
 type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
 
 @Component({
@@ -100,54 +100,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
 
           <!-- ── Contenedor de contenido (blanco sobre degradado) ────────────── -->
           <div class="bg-white rounded-2xl rounded-tl-none shadow-2xl overflow-hidden">
-
-            <!-- ════ TAB 1: INFORMES TÉCNICOS ════════════════════════════════ -->
-            @if (tab1() === 'informes') {
-              <div class="p-6 md:p-8">
-                <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-                  <div>
-                    <h2 class="text-xl font-black text-gray-800">Informes Técnicos</h2>
-                    <p class="text-xs text-gray-500 mt-0.5">Documentos de análisis y resultados oficiales del CPV 2025</p>
-                  </div>
-                  <a href="#" class="inline-flex items-center gap-2 bg-[#0056a1] text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-[#0056a1]/90 transition-colors">
-                    <mat-icon class="!text-base !w-4 !h-4">download</mat-icon>
-                    Descargar todos
-                  </a>
-                </div>
-                <div class="overflow-x-auto rounded-xl border border-gray-100">
-                  <table class="w-full text-sm border-collapse" style="min-width:560px">
-                    <thead>
-                      <tr>
-                        <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Nombre</th>
-                        <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Descripción</th>
-                        <th class="bg-[#0056a1] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Tamaño</th>
-                        <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Descarga</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (doc of informesTecnicos; track doc.id; let even = $even) {
-                        <tr class="border-b border-gray-50 hover:bg-[#0056a1]/4 transition-colors"
-                            [class.bg-white]="!even" [class.bg-gray-50/50]="even">
-                          <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
-                          <td class="px-4 py-3 text-xs text-gray-500 max-w-xs">{{ doc.descripcion }}</td>
-                          <td class="px-4 py-3 text-center text-xs font-mono text-gray-400">{{ doc.tamano }}</td>
-                          <td class="px-4 py-3 text-center">
-                            <a href="#" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
-                              <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
-                                <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
-                                <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
-                                <text x="12" y="14.5" font-family="Arial,sans-serif" font-size="6" font-weight="900" fill="#e53e3e" text-anchor="middle">PDF</text>
-                              </svg>
-                            </a>
-                          </td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            }
-
+            
             <!-- ════ TAB 2: DOCUMENTOS METODOLÓGICOS ═════════════════════════ -->
             @if (tab1() === 'metodologicos') {
               <div class="p-6 md:p-8">
@@ -239,9 +192,88 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                     </div>
                   </div>
                 }
+
+                <!-- Sub-tab: Programa Censal -->
+                @if (tab2Met() === 'programa') {
+                  <div>
+                    <p class="text-xs text-gray-500 mb-4">Programas censales que organizan y coordinan los operativos del CPV 2025.</p>
+                    <div class="overflow-x-auto rounded-xl border border-gray-100">
+                      <table class="w-full text-sm border-collapse" style="min-width:480px">
+                        <thead>
+                          <tr>
+                            <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Nombre</th>
+                            <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Descripción</th>
+                            <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Descarga</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (doc of programa; track doc.id; let even = $even) {
+                            <tr class="border-b border-gray-50 hover:bg-[#0056a1]/4 transition-colors"
+                                [class.bg-white]="!even" [class.bg-gray-50/50]="even">
+                              <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
+                              <td class="px-4 py-3 text-xs text-gray-500">{{ doc.descripcion }}</td>
+                              <td class="px-4 py-3 text-center">
+                                <a href="#" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
+                                  <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
+                                    <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
+                                    <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
+                                    <text x="12" y="14.5" font-family="Arial,sans-serif" font-size="6" font-weight="900" fill="#e53e3e" text-anchor="middle">PDF</text>
+                                  </svg>
+                                </a>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                }
               </div>
             }
-
+            <!-- ════ TAB 1: INFORMES TÉCNICOS ════════════════════════════════ -->
+            @if (tab1() === 'informes') {
+              <div class="p-6 md:p-8">
+                <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+                  <div>
+                    <h2 class="text-xl font-black text-gray-800">Informes Técnicos</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Documentos de análisis y resultados oficiales del CPV 2025</p>
+                  </div>
+                  <a href="#" class="inline-flex items-center gap-2 bg-[#0056a1] text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-[#0056a1]/90 transition-colors">
+                    <mat-icon class="!text-base !w-4 !h-4">download</mat-icon>
+                    Descargar todos
+                  </a>
+                </div>
+                <div class="overflow-x-auto rounded-xl border border-gray-100">
+                  <table class="w-full text-sm border-collapse" style="min-width:560px">
+                    <thead>
+                      <tr>
+                        <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Nombre</th>
+                        <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Descripción</th>
+                        <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Descarga</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (doc of informesTecnicos; track doc.id; let even = $even) {
+                        <tr class="border-b border-gray-50 hover:bg-[#0056a1]/4 transition-colors"
+                            [class.bg-white]="!even" [class.bg-gray-50/50]="even">
+                          <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
+                          <td class="px-4 py-3 text-xs text-gray-500 max-w-xs">{{ doc.descripcion }}</td>
+                          <td class="px-4 py-3 text-center">
+                            <a href="#" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
+                              <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
+                                <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
+                                <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
+                                <text x="12" y="14.5" font-family="Arial,sans-serif" font-size="6" font-weight="900" fill="#e53e3e" text-anchor="middle">PDF</text>
+                              </svg>
+                            </a>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            }
             <!-- ════ TAB 3: CONSULTAS ════════════════════════════════════════ -->
             @if (tab1() === 'consultas') {
               <div class="p-6 md:p-8">
@@ -372,16 +404,20 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
       </main>
 
       <!-- ══ FOOTER ══════════════════════════════════════════════════════════════ -->
+      <!-- FOOTER -->
       <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
-        <div class="max-w-7xl mx-auto flex flex-col items-center md:items-end gap-4 w-full">
-          <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
-          <p class="text-sm text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
-          <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-300">Síguenos:</span>
-            <div class="flex gap-3">
-              <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-              <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
-              <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+        <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
+          <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
+            <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
+            <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
+            <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
+              <span class="text-sm text-gray-300">Síguenos:</span>
+              <div class="flex gap-3">
+                <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                <a href="#" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/><path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg></a>
+              </div>
             </div>
           </div>
         </div>
@@ -400,7 +436,7 @@ export class DocumentacionTecnicaComponent {
 
   // ── State ──────────────────────────────────────────────────────────────────
   censosOpen = signal(false);
-  tab1       = signal<Tab1>('informes');
+  tab1       = signal<Tab1>('metodologicos');
   tab2Met    = signal<Tab2Met>('cedulas');
   tab2Con    = signal<Tab2Con>('interpretar');
 
@@ -410,21 +446,23 @@ export class DocumentacionTecnicaComponent {
 
   // ── Nav ────────────────────────────────────────────────────────────────────
   censosMenu = [
-    { label: 'Aspectos Generales',    route: '/aspectos-generales' },
-    { label: 'Organización',          route: '/organizacion' },
-    { label: 'Normativa',             route: '/normativa' },
-    { label: 'Documentación Técnica', route: '/documentacion-tecnica' },
+    { label: 'Características del censo',     route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',           route: '/innovaciones' },
+    { label: 'Etapas Censales',           route: '/organizacion' },
+    { label: 'Normatividad censal',              route: '/normativa' },
+    { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 
   // ── Tabs ───────────────────────────────────────────────────────────────────
   tabs1 = [
-    { label: 'Informes Técnicos',          value: 'informes'       as Tab1, icon: 'assessment' },
     { label: 'Documentos Metodológicos',   value: 'metodologicos'  as Tab1, icon: 'description' },
+    { label: 'Informes Técnicos',          value: 'informes'       as Tab1, icon: 'assessment' },
     { label: 'Consultas',                  value: 'consultas'      as Tab1, icon: 'help_outline' },
   ];
   subTabsMet = [
     { label: 'Cédulas',  value: 'cedulas'  as Tab2Met },
     { label: 'Manuales', value: 'manuales' as Tab2Met },
+    { label: 'Programa Censal', value: 'programa' as Tab2Met },
   ];
   subTabsCon = [
     { label: '¿Cómo interpretar los datos?', value: 'interpretar' as Tab2Con },
@@ -443,21 +481,34 @@ export class DocumentacionTecnicaComponent {
 
   // ── Datos: Cédulas ─────────────────────────────────────────────────────────
   cedulas = [
-    { id:1, nombre:'Cédula 01 — Vivienda y Hogar',         descripcion:'Características de la vivienda, servicios básicos y composición del hogar.' },
-    { id:2, nombre:'Cédula 02 — Personas',                 descripcion:'Datos demográficos, educación, empleo y salud de cada miembro del hogar.' },
-    { id:3, nombre:'Cédula 03 — Comunidades Indígenas',    descripcion:'Cuestionario especial para pueblos originarios de la Amazonía y los Andes.' },
-    { id:4, nombre:'Cédula 04 — Viviendas Colectivas',     descripcion:'Hoteles, asilos, hospitales, cuarteles, cárceles y otros establecimientos.' },
-    { id:5, nombre:'Cédula Resumen de Manzana',            descripcion:'Conteo de viviendas, hogares y personas por manzana censal.' },
-  ];
+    { id:1, nombre:'Cédula Censal de Población y Vivienda',         descripcion:'Cuestionario utilizado para registrar información de la vivienda, el hogar y las personas durante el censo.' },
+    { id:2, nombre:'Cédula de Comunidades Indígenas',               descripcion:'Cuestionario aplicado para recoger información de las comunidades indígenas durante el censo.' },
+   ];
 
   // ── Datos: Manuales ────────────────────────────────────────────────────────
   manuales = [
-    { id:1, nombre:'Manual del Empadronador',             descripcion:'Instrucciones para el llenado correcto de las cédulas y trato al entrevistado.' },
-    { id:2, nombre:'Manual del Jefe de Zona',             descripcion:'Procedimientos de cobertura, control y reporte de avance distrital.' },
-    { id:3, nombre:'Manual del Supervisor Provincial',    descripcion:'Supervisión de brigadas, solución de incidencias y control de calidad.' },
-    { id:4, nombre:'Manual del Coordinador Regional',     descripcion:'Gestión logística, comunicación institucional y rendición de cuentas.' },
-    { id:5, nombre:'Manual de Uso del Dispositivo Móvil', descripcion:'Operación de tablets, aplicación de campo y sincronización de datos.' },
+    { id:1, nombre:'Manual del Coordinador Departamental Censal - Población y Vivienda',             descripcion:'Guía para organizar y supervisar el operativo censal de población y vivienda a nivel departamental.' },
+    { id:2, nombre:'Manual del Coordinador Departamental - Comunidades Indígenas',             descripcion:'Guía para coordinar y supervisar el operativo censal en comunidades indígenas a nivel departamental. ' },
+    { id:3, nombre:'Manual del Coordinador de Subsede Departamental Censal de Población y Vivienda',    descripcion:'Guía para apoyar la coordinación y supervisión del censo de población y vivienda desde la subsede departamental.' },
+    { id:4, nombre:'Manual del Supervisor del Sector Censal - Población y Vivienda',     descripcion:'Guía para supervisar y orientar el levantamiento de información en los sectores censales de población y vivienda.' },
+    { id:5, nombre:'Manual del Jefe de Sección Censal - Población de Vivienda', descripcion:'Documento que establece las funciones y procedimientos para la organización y control del trabajo censal en la sección.' },
+    { id:6, nombre:'Manual del Jefe de Brigada Censal - Comunidades Indígenas', descripcion:'Documento que establece las funciones y procedimientos para la organización y supervisión del operativo censal en comunidades indígenas.' },
+    { id:7, nombre:'Manual del Censista - Población y Vivienda', descripcion:'Documento que establece las instrucciones para la recolección de información de población y vivienda durante el censo nacional. ' },
+    { id:8, nombre:'Manual del Censista - Comunidades Indígenas', descripcion:'Documento que establece las instrucciones para la recolección de información en comunidades indígenas durante el empadronamiento censal.' },
+    { id:9, nombre:'Manual de Reasignación - Población y Vivienda', descripcion:'Documento que establece los procedimientos para la reasignación de cargas de trabajo en el operativo censal de población y vivienda.' },
+    { id:10, nombre:'Instructivo del Uso de la Tableta (Tableta Lenovo)', descripcion:'Documento que describe el uso y manejo de la tableta para el registro de información durante el trabajo censal. ' },
+    { id:11, nombre:'Instructivo del Censo en Línea para el Personal Operativo', descripcion:'Documento que establece las instrucciones para el registro y gestión de información en el sistema de censo en línea.' },
+    { id:12, nombre:'Instructivo del Asistente Virtual Yanapaq 2025', descripcion:'Documento que describe el uso del asistente virtual Yanapaq como apoyo al operativo censal.' },
+    { id:13, nombre:'Instructivo de Módulo del Jefe de Sección - Población y Vivienda', descripcion:'Documento que establece las instrucciones para el uso del módulo a utilizar el jefe de sección durante el operativo censal.' },
+    { id:14, nombre:'Instructivo del Operativo de Viviendas Colectivas', descripcion:'Documento que describe los procedimientos para el registro de información en viviendas colectivas durante el censo.' },
+    { id:15, nombre:'Instructivo del Operativo de Personas sin Vivienda', descripcion:'Documento que establece los procedimientos para registrar información de personas sin vivienda (vivencia en calle).' },
   ];
+
+   // ── Datos: programa ────────────────────────────────────────────────────────
+  programa = [
+    { id:1, nombre:'Programa Censal - Población y Vivienda',             descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
+    { id:2, nombre:'Programa Censal - Población y Vivienda',             descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
+    ];
 
   // ── Datos: Interpretar ─────────────────────────────────────────────────────
   conceptosClave = [

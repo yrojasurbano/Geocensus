@@ -13,58 +13,55 @@ import { RouterLink } from '@angular/router';
 
       <!-- ═══════════════════════ HEADER ═══════════════════════ -->
       <header class="news-header">
-        <div class="header-left">
-          <img
-            ngSrc="logo_inei_azul.png"
-            alt="Logo INEI"
-            width="240"
-            height="70"
-            priority
-            class="logo-inei"
-          >
-
-          <nav class="main-nav">
-            <button routerLink="/" class="nav-btn">
-              Inicio
-              <span class="nav-underline"></span>
-            </button>
-            <button routerLink="/resultados" class="nav-btn">
-              Resultados
-              <span class="nav-underline"></span>
-            </button>
-
-            <div class="dropdown-wrapper">
-              <button (click)="toggleCensos($event)" class="nav-btn nav-btn--dropdown">
-                Censos 2025
-                <mat-icon class="dropdown-icon" [class.rotate-180]="censosOpen()">expand_more</mat-icon>
-                <span class="nav-underline"></span>
-              </button>
-              @if (censosOpen()) {
-                <div class="dropdown-menu">
-                  <div class="dropdown-bar"></div>
-                  <ul class="dropdown-list">
-                    @for (item of censosMenu; track item.label) {
-                      <li>
-                        <button [routerLink]="item.route" (click)="censosOpen.set(false)" class="dropdown-item">
-                          {{ item.label }}
-                        </button>
-                      </li>
-                    }
-                  </ul>
-                </div>
-              }
-            </div>
-
-            <button routerLink="/noticias" class="nav-btn nav-btn--active">
-              Noticias
-              <span class="nav-underline nav-underline--active"></span>
-            </button>
-          </nav>
+        <!-- Logos izquierda -->
+        <div class="header-logos">
+          <img ngSrc="logo_inei_azul.png" alt="Logo INEI" width="240" height="70" priority class="logo-inei">
+          <div class="logo-divider"></div>
+          <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="200" height="60" class="logo-cpv-inline">
         </div>
 
-        <div class="header-logo-cpv">
-          <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="200" height="60" class="logo-cpv">
-        </div>
+        <!-- Nav derecha -->
+        <nav class="main-nav">
+          <button routerLink="/" class="nav-btn">
+            Inicio
+            <span class="nav-underline"></span>
+          </button>
+          <button routerLink="/resultados" class="nav-btn">
+            Resultados
+            <span class="nav-underline"></span>
+          </button>
+          <button routerLink="/publicaciones" class="nav-btn">
+            Publicaciones
+            <span class="nav-underline"></span>
+          </button>
+
+          <div class="dropdown-wrapper">
+            <button (click)="toggleCensos($event)" class="nav-btn nav-btn--dropdown">
+              Censos 2025
+              <mat-icon class="dropdown-icon" [class.rotate-180]="censosOpen()">expand_more</mat-icon>
+              <span class="nav-underline"></span>
+            </button>
+            @if (censosOpen()) {
+              <div class="dropdown-menu">
+                <div class="dropdown-bar"></div>
+                <ul class="dropdown-list">
+                  @for (item of censosMenu; track item.label) {
+                    <li>
+                      <button [routerLink]="item.route" (click)="censosOpen.set(false)" class="dropdown-item">
+                        {{ item.label }}
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+
+          <button routerLink="/noticias" class="nav-btn nav-btn--active">
+            Noticias
+            <span class="nav-underline nav-underline--active"></span>
+          </button>
+        </nav>
       </header>
 
       <!-- ═══════════════════════ NOTICIAS ═══════════════════════ -->
@@ -156,6 +153,24 @@ import { RouterLink } from '@angular/router';
         </div>
       </section>
 
+      <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-info">
+            <p class="footer-name">Instituto Nacional de Estadística e Informática – INEI</p>
+            <p class="footer-address">Av. General Garzón 658. Jesús María. Lima - Perú</p>
+            <div class="footer-social">
+              <span class="footer-social__label">Síguenos:</span>
+              <div class="footer-social__icons">
+                <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="social-link"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="https://x.com/INEI_oficial?lang=es" class="social-link"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.instagram.com/inei_peru/?hl=es" class="social-link"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                <a href="#" class="social-link"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/><path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   `,
   styles: [`
@@ -567,38 +582,6 @@ import { RouterLink } from '@angular/router';
     }
 
     /* ══════════════════════════════════════════════════════
-       RESPONSIVE — tablet  ≥ 768px
-    ══════════════════════════════════════════════════════ */
-    @media (min-width: 768px) {
-      .news-header { padding: 0.75rem 3rem; }
-      .logo-inei   { height: 4rem; }
-      .main-nav    { display: flex; }
-      .header-logo-cpv { display: block; }
-
-      .news-section { padding: 6.5rem 3rem 2rem; }
-      .video-section { padding: 2.5rem 3rem 2rem; }
-
-      /* En tablet mostramos 2 cards visibles con gap */
-      .news-carousel-track {
-        /* Desactivamos la transformación de carrusel en tablet+ */
-        transform: none !important;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-        flex: 1;
-      }
-      /* Cada card vuelve a ocupar el 100% de su celda grid */
-      .news-card { flex: none; }
-
-      /* Ocultamos controles en tablet+ */
-      .news-controls { display: none; }
-
-      .video-nav { width: 3rem; height: 3rem; }
-      .play-btn  { width: 5rem; height: 5rem; }
-      .play-btn mat-icon { font-size: 2.5rem !important; }
-    }
-
-    /* ══════════════════════════════════════════════════════
        RESPONSIVE — desktop  ≥ 1024px
     ══════════════════════════════════════════════════════ */
     @media (min-width: 1024px) {
@@ -615,8 +598,85 @@ import { RouterLink } from '@angular/router';
       .video-nav { width: 3rem; height: 3rem; }
     }
 
+
+    /* ── Logos izquierda en header ─────────────────────── */
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-divider {
+      display: none;
+      width: 1px;
+      height: 2.5rem;
+      background: #e5e7eb;
+    }
+    .logo-cpv-inline {
+      display: none;
+      height: 2.5rem;
+      width: auto;
+      object-fit: contain;
+    }
+
     /* ══════════════════════════════════════════════════════
-       RESPONSIVE — 2xl  ≥ 1536px
+       FOOTER
+    ══════════════════════════════════════════════════════ */
+    .site-footer {
+      background: #484848;
+      color: white;
+      padding: 1.5rem;
+      flex-shrink: 0;
+    }
+    .footer-inner {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .footer-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.25rem;
+    }
+    .footer-name    { font-weight: 700; font-size: 0.95rem; }
+    .footer-address { font-size: 0.875rem; color: #d1d5db; }
+    .footer-social  { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center; }
+    .footer-social__label { font-size: 0.875rem; color: #d1d5db; }
+    .footer-social__icons { display: flex; gap: 0.75rem; }
+    .social-link { color: white; transition: color 0.2s; }
+    .social-link:hover { color: var(--secondary, #038dd3); }
+
+    @media (min-width: 768px) {
+      .news-header { padding: 0.75rem 3rem; }
+      .logo-inei   { height: 4rem; }
+      .logo-divider    { display: block; }
+      .logo-cpv-inline { display: block; }
+      .main-nav    { display: flex; }
+
+      .footer-inner { align-items: flex-end; }
+      .footer-info  { align-items: flex-end; text-align: right; }
+      .footer-social { justify-content: flex-end; }
+
+      .news-section { padding: 6.5rem 3rem 2rem; }
+      .video-section { padding: 2.5rem 3rem 2rem; }
+      .news-carousel-track {
+        transform: none !important;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        flex: 1;
+      }
+      .news-card { flex: none; }
+      .news-controls { display: none; }
+      .video-nav { width: 3rem; height: 3rem; }
+      .play-btn  { width: 5rem; height: 5rem; }
+      .play-btn mat-icon { font-size: 2.5rem !important; }
+    }
+
+    /* ══ RESPONSIVE — 2xl  ≥ 1536px
     ══════════════════════════════════════════════════════ */
     @media (min-width: 1536px) {
       .news-header  { padding: 1.25rem 6rem; }
@@ -646,9 +706,10 @@ export class NewsComponent {
   censosOpen        = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales',     route: '/aspectos-generales' },
-    { label: 'Organización',           route: '/organizacion' },
-    { label: 'Normativa',              route: '/normativa' },
+    { label: 'Características del censo',     route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',           route: '/innovaciones' },
+    { label: 'Etapas Censales',           route: '/organizacion' },
+    { label: 'Normatividad censal',              route: '/normativa' },
     { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];
 

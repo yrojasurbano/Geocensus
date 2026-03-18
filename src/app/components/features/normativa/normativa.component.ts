@@ -12,18 +12,26 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen w-full flex flex-col bg-white font-sans">
-
-      <!-- HEADER con Normativa activa -->
+      <!-- HEADER -->
       <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full">
-        <div class="flex items-center gap-8">
+        <!-- Logos izquierda -->
+        <div class="flex items-center gap-4 md:gap-5">
           <img ngSrc="logo_inei_azul.png" alt="Logo INEI" width="180" height="50" priority
                class="h-10 md:h-12 w-auto object-contain">
-          <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
+          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
+          <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45"
+               class="h-8 md:h-10 w-auto object-contain hidden md:block">
+        </div>
+        <!-- Nav derecha -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
             <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
               Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+              Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <div class="relative">
               <button (click)="toggleCensos($event)"
@@ -33,34 +41,16 @@ import { RouterLink } from '@angular/router';
                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"></span>
               </button>
               @if (censosOpen()) {
-                <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                      style="animation: dropdownIn 0.18s ease-out forwards">
                   <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                   <ul class="py-1">
                     @for (item of censosMenu; track item.label) {
                       <li>
                         <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                          class="w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-2 group/item transition-all"
-                          [class.text-primary]="item.active"
-                          [class.font-black]="item.active"
-                          [class.bg-primary\/5]="item.active"
-                          [class.text-gray-700]="!item.active"
-                          [class.hover\:bg-gradient-to-r]="!item.active"
-                          [class.hover\:from-primary\/10]="!item.active"
-                          [class.hover\:to-secondary\/10]="!item.active"
-                          [class.hover\:text-primary]="!item.active">
-                          <span class="w-1.5 h-1.5 rounded-full shrink-0 transition-opacity"
-                                [class.bg-primary]="item.active"
-                                [class.bg-gradient-to-br]="!item.active"
-                                [class.from-primary]="!item.active"
-                                [class.to-secondary]="!item.active"
-                                [class.opacity-100]="item.active"
-                                [class.opacity-0]="!item.active"
-                                [class.group-hover\/item\:opacity-100]="!item.active"></span>
+                          class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                          <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                           {{ item.label }}
-                          @if (item.active) {
-                            <mat-icon class="!text-sm !w-4 !h-4 ml-auto text-primary">check_circle</mat-icon>
-                          }
                         </button>
                       </li>
                     }
@@ -71,9 +61,7 @@ import { RouterLink } from '@angular/router';
             <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
               Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-          </nav>
-        </div>
-        <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45" class="h-9 w-auto object-contain hidden md:block">
+        </nav>
       </header>
 
       <!-- HERO STRIP — activo en Normativa -->
@@ -84,12 +72,8 @@ import { RouterLink } from '@angular/router';
             <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Censos 2025</span>
           </div>
           <div class="flex items-center gap-3">
-            <h1 class="text-3xl md:text-4xl font-black text-white">Normativa</h1>
-            <!-- Indicador visual de sección activa -->
-            <span class="hidden md:inline-flex items-center gap-1 bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
-              <span class="w-2 h-2 rounded-full bg-[#f8bd13] animate-pulse"></span>
-              Sección activa
-            </span>
+            <h1 class="text-3xl md:text-4xl font-black text-white">Normatividad censal</h1>
+            <!-- Indicador visual de sección activa -->            
           </div>
           <p class="text-white/80 mt-2 text-sm md:text-base max-w-2xl">Marco legal, disposiciones y resoluciones que regulan la realización del CPV 2025.</p>
         </div>
@@ -99,65 +83,28 @@ import { RouterLink } from '@angular/router';
       <main class="flex-1 py-12 px-6 md:px-12 lg:px-24">
         <div class="max-w-5xl mx-auto">
 
-          <!-- Indicador de sección activa -->
-          <div class="flex items-center gap-3 mb-8 p-4 bg-[#0056a1]/5 rounded-2xl border border-[#0056a1]/10">
-            <mat-icon class="text-[#0056a1]">bookmark</mat-icon>
-            <div>
-              <div class="text-sm font-black text-[#0056a1]">Normativa — Sección activa</div>
-              <div class="text-xs text-gray-500">Marco jurídico y regulatorio del Censo de Población y Vivienda 2025</div>
-            </div>
-          </div>
-
-          <!-- Filtros de tipo de documento -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            @for (tipo of tiposFiltro; track tipo.label) {
-              <button
-                (click)="filtroActivo.set(tipo.value)"
-                class="px-4 py-1.5 rounded-full text-xs font-bold transition-all"
-                [class.bg-primary]="filtroActivo() === tipo.value"
-                [class.text-white]="filtroActivo() === tipo.value"
-                [class.shadow-md]="filtroActivo() === tipo.value"
-                [class.bg-gray-100]="filtroActivo() !== tipo.value"
-                [class.text-gray-600]="filtroActivo() !== tipo.value"
-                [class.hover\:bg-gray-200]="filtroActivo() !== tipo.value">
-                {{ tipo.label }}
-              </button>
-            }
-          </div>
-
           <!-- Data Table -->
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-              <table class="w-full text-sm border-collapse" style="min-width:600px">
+              <table class="w-full text-sm border-collapse" style="min-width:520px">
                 <thead>
                   <tr>
-                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider w-14">N°</th>
-                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Descripción del Documento</th>
-                    <th class="bg-[#0056a1] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-28">Tipo</th>
-                    <th class="bg-[#0056a1] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Tamaño</th>
-                    <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Descarga</th>
+                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Normativa</th>
+                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider w-44">Fecha</th>
+                    <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-28">Descarga</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @for (doc of documentosFiltrados(); track doc.id; let even = $even; let i = $index) {
-                    <tr class="border-b border-gray-50 transition-colors hover:bg-[#0056a1]/4"
-                        [class.bg-white]="!even" [class.bg-gray-50/50]="even">
-                      <td class="px-4 py-3 text-xs font-black text-gray-400 text-center">{{ doc.id }}</td>
-                      <td class="px-4 py-3">
-                        <div class="font-semibold text-gray-800 text-sm leading-snug">{{ doc.titulo }}</div>
-                        <div class="text-xs text-gray-400 mt-0.5">{{ doc.referencia }}</div>
+                  @for (doc of documentos; track doc.id; let even = $even) {
+                    <tr class="border-b border-gray-100 transition-colors hover:bg-[#0056a1]/4"
+                        [class.bg-white]="!even" [class.bg-gray-50/30]="even">
+                      <td class="px-4 py-3 max-w-md">
+                        <div class="font-bold text-gray-900 text-sm leading-snug">{{ doc.titulo }}</div>
+                        <div class="text-xs text-gray-600 mt-0.5 leading-relaxed">{{ doc.descripcion }}</div>
                       </td>
-                      <td class="px-4 py-3 text-center">
-                        <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold"
-                              [style.background]="doc.tipoColor + '18'"
-                              [style.color]="doc.tipoColor">
-                          {{ doc.tipo }}
-                        </span>
-                      </td>
-                      <td class="px-4 py-3 text-center text-xs font-mono text-gray-500">{{ doc.tamano }}</td>
+                      <td class="px-4 py-3 text-xs text-gray-700 whitespace-nowrap">{{ doc.fecha }}</td>
                       <td class="px-4 py-3 text-center">
                         <a href="#" class="inline-flex items-center justify-center gap-1 text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
-                          <!-- Icono PDF SVG -->
                           <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
                             <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
                             <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
@@ -175,8 +122,8 @@ import { RouterLink } from '@angular/router';
 
             <!-- Footer de tabla -->
             <div class="px-4 py-3 border-t border-gray-100 flex items-center justify-between bg-gray-50">
-              <span class="text-xs text-gray-400">{{ documentosFiltrados().length }} documentos encontrados</span>
-              <span class="text-xs text-gray-400">Última actualización: junio 2025</span>
+              <span class="text-xs text-gray-400">{{ documentos.length }} documentos encontrados</span>
+              <span class="text-xs text-gray-400">Última actualización: setiembre 2025</span>
             </div>
           </div>
 
@@ -193,18 +140,21 @@ import { RouterLink } from '@angular/router';
 
         </div>
       </main>
-
+      <!-- FOOTER -->
       <!-- FOOTER -->
       <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
-        <div class="max-w-7xl mx-auto flex flex-col items-center md:items-end gap-4 w-full">
-          <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
-          <p class="text-sm text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
-          <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-300">Síguenos:</span>
-            <div class="flex gap-3">
-              <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-              <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
-              <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+        <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
+          <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
+            <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
+            <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
+            <div class="flex items-center justify-center md:justify-end gap-4 mt-2">
+              <span class="text-sm text-gray-300">Síguenos:</span>
+              <div class="flex gap-3">
+                <a href="https://www.facebook.com/INEIpaginaOficial/?locale=es_LA" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.instagram.com/inei_peru/?hl=es" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                <a href="#" class="hover:text-secondary transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/><path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg></a>
+              </div>
             </div>
           </div>
         </div>
@@ -220,22 +170,14 @@ import { RouterLink } from '@angular/router';
   `]
 })
 export class NormativaComponent {
-  censosOpen   = signal(false);
-  filtroActivo = signal<string>('todos');
+  censosOpen = signal(false);
 
   censosMenu = [
-    { label: 'Aspectos Generales',    route: '/aspectos-generales', active: false },
-    { label: 'Organización',          route: '/organizacion',        active: false },
-    { label: 'Normativa',             route: '/normativa',           active: true  },
-    { label: 'Documentación Técnica', route: '/documentacion-tecnica', active: false },
-  ];
-
-  tiposFiltro = [
-    { label: 'Todos',          value: 'todos' },
-    { label: 'Ley',            value: 'Ley' },
-    { label: 'Decreto',        value: 'Decreto' },
-    { label: 'Resolución',     value: 'Resolución' },
-    { label: 'Directiva',      value: 'Directiva' },
+    { label: 'Características del censo', route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',      route: '/innovaciones' },
+    { label: 'Etapas censales',            route: '/organizacion' },
+    { label: 'Normatividad censal',        route: '/normativa' },
+    { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
   ];
 
   @HostListener('document:click')
@@ -243,22 +185,77 @@ export class NormativaComponent {
   toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
 
   documentos = [
-    { id:  1, titulo: 'Ley Nº 17532 — Ley Orgánica del INEI',                                                         referencia: 'Diario Oficial El Peruano, 1969',   tipo: 'Ley',        tipoColor: '#343b9f', tamano: '1.2 MB' },
-    { id:  2, titulo: 'Ley Nº 25129 — Ley del Sistema Nacional de Estadística',                                        referencia: 'Diario Oficial El Peruano, 1990',   tipo: 'Ley',        tipoColor: '#343b9f', tamano: '890 KB' },
-    { id:  3, titulo: 'Decreto Supremo Nº 003-2025-PCM — Aprobación de los Censos Nacionales 2025',                    referencia: 'PCM, enero 2025',                   tipo: 'Decreto',    tipoColor: '#0056a1', tamano: '2.1 MB' },
-    { id:  4, titulo: 'Decreto Supremo Nº 019-2025-PCM — Reglamento Operativo del CPV 2025',                           referencia: 'PCM, marzo 2025',                   tipo: 'Decreto',    tipoColor: '#0056a1', tamano: '3.4 MB' },
-    { id:  5, titulo: 'Resolución Jefatural Nº 015-2025-INEI — Metodología censal',                                    referencia: 'INEI, febrero 2025',                tipo: 'Resolución', tipoColor: '#038dd3', tamano: '1.8 MB' },
-    { id:  6, titulo: 'Resolución Jefatural Nº 032-2025-INEI — Manual de instrucciones para empadronadores',           referencia: 'INEI, marzo 2025',                  tipo: 'Resolución', tipoColor: '#038dd3', tamano: '5.2 MB' },
-    { id:  7, titulo: 'Directiva Nº 001-2025-INEI/DTDES — Normas para el procesamiento de cédulas censales',           referencia: 'INEI, abril 2025',                  tipo: 'Directiva',  tipoColor: '#33b3a9', tamano: '2.7 MB' },
-    { id:  8, titulo: 'Directiva Nº 002-2025-INEI/DTDES — Procedimiento de crítica y codificación',                    referencia: 'INEI, abril 2025',                  tipo: 'Directiva',  tipoColor: '#33b3a9', tamano: '1.4 MB' },
-    { id:  9, titulo: 'Resolución Ministerial Nº 085-2025-PCM — Conformación de la Comisión Interinstitucional',       referencia: 'PCM, enero 2025',                   tipo: 'Resolución', tipoColor: '#038dd3', tamano: '760 KB' },
-    { id: 10, titulo: 'Decreto Supremo Nº 041-2025-PCM — Medidas de seguridad de datos censales',                      referencia: 'PCM, abril 2025',                   tipo: 'Decreto',    tipoColor: '#0056a1', tamano: '1.1 MB' },
-    { id: 11, titulo: 'Directiva Nº 003-2025-INEI/DTDES — Protocolo de supervisión y control de calidad en campo',    referencia: 'INEI, marzo 2025',                  tipo: 'Directiva',  tipoColor: '#33b3a9', tamano: '3.0 MB' },
-    { id: 12, titulo: 'Resolución Jefatural Nº 048-2025-INEI — Plan de difusión y comunicación CPV 2025',              referencia: 'INEI, febrero 2025',                tipo: 'Resolución', tipoColor: '#038dd3', tamano: '980 KB' },
+    {
+      id:  1,
+      titulo: 'Ley Nº 13248',
+      descripcion: 'Ley de Censos',
+      fecha: '24 de agosto de 1959',
+    },
+    {
+      id:  2,
+      titulo: 'Ley Nº 21372',
+      descripcion: 'Ley del Sistema Estadístico Nacional',
+      fecha: '30 de diciembre de 1975',
+    },
+    {
+      id:  3,
+      titulo: 'Decreto Supremo Nº 063-2024-PCM',
+      descripcion: 'Declaran de interés y prioridad nacional la ejecución de los Censos Nacionales 2025',
+      fecha: '25 de junio de 2024',
+    },
+    {
+      id:  4,
+      titulo: 'Decreto Supremo Nº 003-2025-PCM',
+      descripcion: 'Aprobación de los Censos Nacionales',
+      fecha: '03 de enero de 2025',
+    },
+    {
+      id:  5,
+      titulo: 'Decreto Supremo Nº 604',
+      descripcion: 'Ley De Organización y Funciones del Instituto Nacional de Estadística e Informática',
+      fecha: '30 de abril de 1990',
+    },
+    {
+      id:  6,
+      titulo: 'Resolución Jefatural Nº 167-2013-INEI',
+      descripcion: 'Conformación del CTIEE',
+      fecha: '25 de junio de 2013',
+    },
+    {
+      id:  7,
+      titulo: 'Resolución Jefatural Nº 043-2025-INEI',
+      descripcion: 'Encargan a los/las Directores/as Departamentales el desarrollo de los Censos Nacionales 2025',
+      fecha: '25 de febrero de 2025',
+    },
+    {
+      id:  8,
+      titulo: 'Resolución Suprema Nº 042-2025-PCM',
+      descripcion: 'Creación de la Comisión Multisectorial de los Censos Nacionales 2025',
+      fecha: '05 de marzo de 2025',
+    },
+    {
+      id:  9,
+      titulo: 'Resolución Jefatural Nº 015-2025-INEI',
+      descripcion: 'Aprobación del Plan de Estrategia Publicitaria',
+      fecha: '24 de marzo de 2025',
+    },
+    {
+      id: 10,
+      titulo: 'Resolución Jefatural Nº 104-2025-INEI',
+      descripcion: 'Norma Técnica Censal N° 001-2025-INEI: Metodología censal y obligatoriedad de brindar información veraz en los Censos Nacionales 2025: XIII de Población, VIII de Vivienda y IV de Comunidades Indígenas',
+      fecha: '14 de mayo de 2025',
+    },
+    {
+      id: 11,
+      titulo: 'Resolución Jefatural Nº 173-2025-INEI',
+      descripcion: 'Norma Técnica Censal N° 002-2025-INEI: Organización censal y Comités de Coordinación y apoyo a los Censos Nacionales 2025: XIII de Población, VIII de Vivienda y IV de Comunidades Indígenas',
+      fecha: '24 de julio de 2025',
+    },
+    {
+      id: 12,
+      titulo: 'Resolución Jefatural Nº 200-2025-INEI',
+      descripcion: 'Norma Técnica Censal N° 003-2025-INEI: Censo en Viviendas Colectivas y Personas sin Vivienda',
+      fecha: '01 de setiembre de 2025',
+    },
   ];
-
-  documentosFiltrados = () => {
-    const filtro = this.filtroActivo();
-    return filtro === 'todos' ? this.documentos : this.documentos.filter(d => d.tipo === filtro);
-  };
 }

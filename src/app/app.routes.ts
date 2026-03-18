@@ -3,6 +3,11 @@ import { HeroComponent }                  from './components/hero/hero';
 import { NewsComponent }                  from './components/news/news';
 import { DashboardComponent }             from './components/dashboard/dashboard';
 import { ComparativaTerritorialComponent } from './components/comparativa/comparativa-territorial';
+import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
+// app.routes.ts
+
+
+
 
 export const routes: Routes = [
   { path: '',            component: HeroComponent },
@@ -10,6 +15,8 @@ export const routes: Routes = [
   { path: 'resultados', component: DashboardComponent },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'comparativa', component: ComparativaTerritorialComponent },
+  {path: 'publicaciones', component: PublicacionesComponent},
+
 
   // ── Censos 2025 ──────────────────────────────────────────────────────────────
   {

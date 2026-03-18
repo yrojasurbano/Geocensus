@@ -166,15 +166,18 @@ const S = { w: 380, h: 550 };
         <div class="w-full md:col-span-2 bg-gradient-to-r from-primary to-secondary rounded-xl p-4 text-white flex flex-row items-center justify-center gap-6 shadow-md relative overflow-hidden group text-left">
           <div class="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
           <div class="absolute top-3 right-3 z-10 flex items-center gap-2">
-            <app-hero-icon [name]="'globe-americas'"
-              (click)="setMapIndicator('poblacion')"
-              class="w-5 h-5 cursor-pointer transition-all"
-              [class.animate-pulse]="activeIndicator() !== 'poblacion'"
-              [class.scale-125]="activeIndicator() === 'poblacion'"
-              [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'"
-              matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-            <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"
-              matTooltip="Población censada a nivel nacional o por departamento seleccionado" matTooltipClass="custom-tooltip"></app-hero-icon>
+            <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+              <app-hero-icon [name]="'globe-americas'"
+                (click)="setMapIndicator('poblacion')"
+                class="w-5 h-5 cursor-pointer transition-all"
+                [class.animate-pulse]="activeIndicator() !== 'poblacion'"
+                [class.scale-125]="activeIndicator() === 'poblacion'"
+                [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'">
+              </app-hero-icon>
+            </span>
+            <span matTooltip="Población censada a nivel nacional o por departamento seleccionado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"></app-hero-icon>
+            </span>
           </div>
           <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm relative z-10">
             <app-hero-icon [name]="'users'" class="w-8 h-8"></app-hero-icon>
@@ -482,8 +485,9 @@ const S = { w: 380, h: 550 };
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="flex justify-between items-center mb-2 shrink-0">
               <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por sexo</h4>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
-                matTooltip="Distribución de la población según sexo" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Distribución de la población según sexo" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"></app-hero-icon>
+              </span>
             </div>
             <div class="flex-1 min-h-0">
               @if (isBrowser) {
@@ -513,15 +517,18 @@ const S = { w: 380, h: 550 };
           <!-- Edad Media -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('edad_media')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'edad_media'"
-                [class.scale-125]="activeIndicator() === 'edad_media'"
-                [style.color]="activeIndicator() === 'edad_media' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Promedio de edad de la población" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('edad_media')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'edad_media'"
+                  [class.scale-125]="activeIndicator() === 'edad_media'"
+                  [style.color]="activeIndicator() === 'edad_media' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Promedio de edad de la población" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -537,15 +544,18 @@ const S = { w: 380, h: 550 };
           <!-- Razón H/M -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('razon_sexo')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'razon_sexo'"
-                [class.scale-125]="activeIndicator() === 'razon_sexo'"
-                [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('razon_sexo')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'razon_sexo'"
+                  [class.scale-125]="activeIndicator() === 'razon_sexo'"
+                  [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 mb-1.5 shrink-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -585,16 +595,18 @@ const S = { w: 380, h: 550 };
           <!-- Rel. Dep. Total -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('dep_total')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'dep_total'"
-                [class.scale-125]="activeIndicator() === 'dep_total'"
-                [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Número de personas de 0 a 14 años y de 60 y más 
-años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('dep_total')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'dep_total'"
+                  [class.scale-125]="activeIndicator() === 'dep_total'"
+                  [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -615,8 +627,9 @@ años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip">
           <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="flex justify-between items-center mb-2 shrink-0">
               <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por grandes grupos de edad</h4>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"
-                matTooltip="Distribución de la población por grandes grupos de edad" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Distribución de la población por grandes grupos de edad" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"></app-hero-icon>
+              </span>
             </div>
             <div class="flex-1 min-h-0">
               @if (isBrowser) {
@@ -654,15 +667,18 @@ años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip">
           <!-- Edad Mediana -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('edad_mediana')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'edad_mediana'"
-                [class.scale-125]="activeIndicator() === 'edad_mediana'"
-                [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('edad_mediana')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'edad_mediana'"
+                  [class.scale-125]="activeIndicator() === 'edad_mediana'"
+                  [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -678,16 +694,18 @@ años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip">
           <!-- Índice de Envejecimiento -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('indice_envejecimiento')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
-                [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
-                [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Número de personas de 60 y más años, por cada 100 
-personas de 0 a 14 años" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('indice_envejecimiento')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
+                  [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
+                  [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -703,16 +721,18 @@ personas de 0 a 14 años" matTooltipClass="custom-tooltip"></app-hero-icon>
           <!-- Rel. Dep. Juvenil -->
           <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
             <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-              <app-hero-icon [name]="'globe-americas'"
-                (click)="setMapIndicator('dep_juvenil')"
-                class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                [class.animate-none]="activeIndicator() === 'dep_juvenil'"
-                [class.scale-125]="activeIndicator() === 'dep_juvenil'"
-                [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'"
-                matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"
-                matTooltip="Número de personas de 0 a 14 años, por cada 100 
-              personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
+              <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'globe-americas'"
+                  (click)="setMapIndicator('dep_juvenil')"
+                  class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                  [class.animate-none]="activeIndicator() === 'dep_juvenil'"
+                  [class.scale-125]="activeIndicator() === 'dep_juvenil'"
+                  [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'">
+                </app-hero-icon>
+              </span>
+              <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+              </span>
             </div>
             <div class="flex items-center gap-3 flex-1 min-h-0">
               <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -755,16 +775,18 @@ personas de 0 a 14 años" matTooltipClass="custom-tooltip"></app-hero-icon>
 
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <app-hero-icon [name]="'globe-americas'"
-                  (click)="setMapIndicator('dep_adulta')"
-                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                  [class.animate-none]="activeIndicator() === 'dep_adulta'"
-                  [class.scale-125]="activeIndicator() === 'dep_adulta'"
-                  [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'"
-                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Número de personas de 60 y más años, por cada 100 
-personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'globe-americas'"
+                    (click)="setMapIndicator('dep_adulta')"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    [class.animate-none]="activeIndicator() === 'dep_adulta'"
+                    [class.scale-125]="activeIndicator() === 'dep_adulta'"
+                    [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'">
+                  </app-hero-icon>
+                </span>
+                <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -779,15 +801,18 @@ personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
 
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <app-hero-icon [name]="'globe-americas'"
-                  (click)="setMapIndicator('densidad_total')"
-                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                  [class.animate-none]="activeIndicator() === 'densidad_total'"
-                  [class.scale-125]="activeIndicator() === 'densidad_total'"
-                  [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'"
-                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'globe-americas'"
+                    (click)="setMapIndicator('densidad_total')"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    [class.animate-none]="activeIndicator() === 'densidad_total'"
+                    [class.scale-125]="activeIndicator() === 'densidad_total'"
+                    [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'">
+                  </app-hero-icon>
+                </span>
+                <span matTooltip="Habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -802,15 +827,18 @@ personas de 15 a 59 años" matTooltipClass="custom-tooltip"></app-hero-icon>
 
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden h-[76px]">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <app-hero-icon [name]="'globe-americas'"
-                  (click)="setMapIndicator('densidad_65')"
-                  class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                  [class.animate-none]="activeIndicator() === 'densidad_65'"
-                  [class.scale-125]="activeIndicator() === 'densidad_65'"
-                  [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'"
-                  matTooltip="Ver en mapa" matTooltipClass="custom-tooltip"></app-hero-icon>
-                <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"
-                  matTooltip="Habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip"></app-hero-icon>
+                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'globe-americas'"
+                    (click)="setMapIndicator('densidad_65')"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    [class.animate-none]="activeIndicator() === 'densidad_65'"
+                    [class.scale-125]="activeIndicator() === 'densidad_65'"
+                    [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'">
+                  </app-hero-icon>
+                </span>
+                <span matTooltip="Habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
