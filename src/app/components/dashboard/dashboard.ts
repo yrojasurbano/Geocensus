@@ -912,9 +912,7 @@ const S = { w: 380, h: 550 };
                         </div>
                       </div>
                     } @else {
-                      <div class="bg-gray-900/80 text-gray-300 px-3 py-2 rounded-xl text-[9px] font-semibold border border-gray-700/50">
-                        Seleccionar un departamento para ver datos
-                      </div>
+                    
                     }
                   </div>
 
