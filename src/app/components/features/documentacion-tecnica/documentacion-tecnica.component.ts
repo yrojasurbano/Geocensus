@@ -507,7 +507,7 @@ export class DocumentacionTecnicaComponent {
    // ── Datos: programa ────────────────────────────────────────────────────────
   programa = [
     { id:1, nombre:'Programa Censal - Población y Vivienda',             descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
-    { id:2, nombre:'Programa Censal - Población y Vivienda',             descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
+    { id:2, nombre:'Programa Censal - Comunidades Indígenas',             descripcion:'Plan que organiza y coordina el operativo censal de Comunidades Indígenas.' },
     ];
 
   // ── Datos: Interpretar ─────────────────────────────────────────────────────
