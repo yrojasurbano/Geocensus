@@ -203,8 +203,8 @@ const S = { w: 380, h: 550 };
               <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"></app-hero-icon>
             </span>
           </div>
-          <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm relative z-10">
-            <app-hero-icon [name]="'users'" class="w-8 h-8"></app-hero-icon>
+          <div class="p-3 rounded-full relative z-10">
+            <img src="pobcensada.svg" class="w-16 h-16">
           </div>
           <div class="relative z-10 flex flex-col min-w-0">
             <div class="text-xs font-bold opacity-80 tracking-wide mb-0.5 truncate">{{ displayedTitle() }}</div>
@@ -506,7 +506,7 @@ const S = { w: 380, h: 550 };
               <div class="flex justify-center gap-6 mt-2 shrink-0">
                 <div class="flex flex-col items-center">
                   <div class="flex items-center gap-1 mb-1">
-                    <app-hero-icon [name]="'man'" type="solid" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
+                    <img src="hombre.svg" class="w-8 h-8">
                     <span class="text-xs font-bold text-gray-500">Hombres</span>
                   </div>
                   <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">17 596 527</span>
@@ -514,7 +514,7 @@ const S = { w: 380, h: 550 };
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="flex items-center gap-1 mb-1">
-                    <app-hero-icon [name]="'woman'" type="solid" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
+                    <img src="mujer.svg" class="w-8 h-8" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
                     <span class="text-xs font-bold text-gray-500">Mujeres</span>
                   </div>
                   <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">18 999 999</span>
@@ -560,8 +560,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'calculator'" class="w-6 h-6"></app-hero-icon>
+                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="epromedio.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
                   <!-- REQ 1: Edad Media → Edad Promedio -->
@@ -588,8 +588,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'scale'" class="w-6 h-6"></app-hero-icon>
+                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="emediana.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad mediana</div>
@@ -617,8 +617,8 @@ const S = { w: 380, h: 550 };
               <div class="flex items-center gap-2 mb-1 shrink-0">
                 <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <div class="flex gap-0.5">
-                    <app-hero-icon [name]="'man'" type="solid" class="w-3.5 h-3.5 text-[#0056a1]"></app-hero-icon>
-                    <app-hero-icon [name]="'woman'" type="solid" class="w-3.5 h-3.5 text-[#33b3a9]"></app-hero-icon>
+                    <img src="hombre.svg" class="w-3.5 h-3.5">
+                    <img src="mujer.svg" class="w-3.5 h-3.5">
                   </div>
                 </div>
                 <!-- REQ 1: Título estandarizado con guion largo -->
@@ -651,8 +651,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'clock'" class="w-6 h-6"></app-hero-icon>
+                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="envejecimiento.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Índice de envejecimiento</div>
@@ -679,8 +679,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'user-group'" class="w-6 h-6"></app-hero-icon>
+                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_total.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia total</div>
@@ -707,8 +707,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'face-smile'" class="w-6 h-6"></app-hero-icon>
+                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_juvenil.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia juvenil</div>
@@ -735,8 +735,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'briefcase'" class="w-4 h-4"></app-hero-icon>
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_adulta.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. de dependencia adulta</div>
@@ -763,8 +763,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                  <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad pob. Censada</div>
@@ -791,8 +791,8 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg bg-[#33b3a9]/10 flex items-center justify-center text-[#33b3a9] shrink-0">
-                  <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad de la población adulta mayor</div>
@@ -811,11 +811,11 @@ const S = { w: 380, h: 550 };
                 <h3 class="text-base font-black text-gray-800 tracking-wide">Pirámide poblacional</h3>
                 <div class="flex gap-4 text-xs font-bold">
                   <div class="flex items-center gap-1.5">
-                    <app-hero-icon [name]="'man'" type="solid" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                    <img src="hombre.svg" class="w-6 h-6">
                     <span class="text-gray-500">Hombres</span>
                   </div>
                   <div class="flex items-center gap-1.5">
-                    <app-hero-icon [name]="'woman'" type="solid" class="w-3 h-3 text-[#33b3a9]"></app-hero-icon>
+                    <img src="mujer.svg" class="w-6 h-6" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
                     <span class="text-gray-500">Mujeres</span>
                   </div>
                 </div>
