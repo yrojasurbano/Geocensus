@@ -204,7 +204,7 @@ const S = { w: 380, h: 550 };
             </span>
           </div>
           <div class="p-3 rounded-full relative z-10">
-            <img src="pobcensada.svg" class="w-16 h-16">
+            <img src="pobcensada.svg" class="w-16 h-16" style="filter: brightness(0) invert(1);">
           </div>
           <div class="relative z-10 flex flex-col min-w-0">
             <div class="text-xs font-bold opacity-80 tracking-wide mb-0.5 truncate">{{ displayedTitle() }}</div>
@@ -615,10 +615,10 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 mb-1 shrink-0">
-                <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
                   <div class="flex gap-0.5">
-                    <img src="hombre.svg" class="w-3.5 h-3.5">
-                    <img src="mujer.svg" class="w-3.5 h-3.5">
+                    <img src="hombre.svg" class="w-5 h-5">
+                    <img src="mujer.svg" class="w-5 h-5" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
                   </div>
                 </div>
                 <!-- REQ 1: Título estandarizado con guion largo -->
@@ -902,13 +902,45 @@ const S = { w: 380, h: 550 };
                         <p class="text-sm font-bold text-white border-b border-gray-700 pb-1.5 mb-2 leading-tight">
                           {{ (hoveredRegion() ?? selectedRegion())!.name }}
                         </p>
-                        <div class="flex justify-between items-center py-0.5 bg-amber-500/10 rounded px-1">
+                        <!-- Indicador activo -->
+                        <div class="flex justify-between items-center py-0.5 bg-amber-500/10 rounded px-1 mb-2">
                           <span class="text-[8px] font-bold uppercase text-amber-300">
                             {{ activeIndicatorDef().label }}
                           </span>
                           <span class="text-sm font-black text-amber-200">
                             {{ getActiveValueByKey((hoveredRegion() ?? selectedRegion())!, activeIndicator()) }}
                           </span>
+                        </div>
+                        <!-- Población por sexo -->
+                        <div class="border-t border-gray-700 pt-1.5 mb-1.5">
+                          <div class="text-[7px] font-black uppercase text-gray-400 tracking-widest mb-1">Población por sexo</div>
+                          <div class="flex justify-between items-center mb-0.5">
+                            <span class="text-[8px] font-bold text-[#6fa8d4]">Hombres</span>
+                            <span class="text-[8px] font-black text-white">
+                              {{ fmt((hoveredRegion() ?? selectedRegion())!.male) }}
+                              <span class="text-[7px] font-semibold text-gray-400">
+                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0 ? (hoveredRegion() ?? selectedRegion())!.male / (hoveredRegion() ?? selectedRegion())!.total * 100 : 0, 1) }}%)
+                              </span>
+                            </span>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <span class="text-[8px] font-bold text-[#33b3a9]">Mujeres</span>
+                            <span class="text-[8px] font-black text-white">
+                              {{ fmt((hoveredRegion() ?? selectedRegion())!.female) }}
+                              <span class="text-[7px] font-semibold text-gray-400">
+                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0 ? (hoveredRegion() ?? selectedRegion())!.female / (hoveredRegion() ?? selectedRegion())!.total * 100 : 0, 1) }}%)
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <!-- Densidad poblacional total -->
+                        <div class="border-t border-gray-700 pt-1.5">
+                          <div class="flex justify-between items-center">
+                            <span class="text-[8px] font-bold uppercase text-gray-400">Densidad pob.</span>
+                            <span class="text-[8px] font-black text-white">
+                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }} <span class="text-[7px] text-gray-400">hab/km²</span>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     } @else {
@@ -950,6 +982,24 @@ const S = { w: 380, h: 550 };
                           fill="#000000"
                           stroke="#ffffff"
                           stroke-width="2"
+                          paint-order="stroke fill"
+                          [attr.opacity]="getLabelOpacity(r)"
+                          style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
+                        >{{ r.name }}</text>
+                      }
+                    }
+                    @if (nivelGeo() === 'Distrital') {
+                      @for (r of mapRegions(); track r.geoKey) {
+                        <text
+                          [attr.x]="r.center.x"
+                          [attr.y]="r.center.y"
+                          text-anchor="middle"
+                          dominant-baseline="middle"
+                          font-size="3.5"
+                          font-weight="700"
+                          fill="#000000"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
                           paint-order="stroke fill"
                           [attr.opacity]="getLabelOpacity(r)"
                           style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
