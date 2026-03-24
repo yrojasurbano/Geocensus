@@ -35,7 +35,7 @@ import { RouterLink } from '@angular/router';
             <source src="video_web.mp4" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
           </video>
-          <div class="absolute inset-0 bg-black/50"></div>
+          <div class="absolute inset-0 bg-black/10"></div>
         </div>
 
         <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->

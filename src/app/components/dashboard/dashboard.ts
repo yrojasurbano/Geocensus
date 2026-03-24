@@ -73,16 +73,16 @@ interface IndicatorDef {
 
 // REQ 1: Reemplazos globales de labels y unidades
 const INDICATORS: IndicatorDef[] = [
-    { key: 'poblacion',             label: 'Población Censada',           unit: '',         decimals: 0 },
-    { key: 'edad_promedio',         label: 'Edad Promedio',               unit: ' años',    decimals: 1 }, // REQ 1
-    { key: 'edad_mediana',          label: 'Edad Mediana',                unit: ' años',    decimals: 1 },
+    { key: 'poblacion',             label: 'Población censada',           unit: '',         decimals: 0 },
+    { key: 'edad_promedio',         label: 'Edad promedio',               unit: ' años',    decimals: 1 }, // REQ 1
+    { key: 'edad_mediana',          label: 'Edad mediana',                unit: ' años',    decimals: 1 },
     { key: 'razon_sexo',            label: 'Razón hombre – mujer',        unit: '',         decimals: 1 }, // REQ 1
-    { key: 'indice_envejecimiento', label: 'Índice de Envejecimiento',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_total',             label: 'Rel. Dependencia Total',      unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_juvenil',           label: 'Rel. Dependencia Juvenil',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_adulta',            label: 'Rel. Dependencia Adulta',     unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'densidad_total',        label: 'Densidad Pob. Censada',       unit: ' hab/km²', decimals: 1 },
-    { key: 'densidad_65',           label: 'Densidad Pob. 60+',           unit: ' hab/km²', decimals: 2 },
+    { key: 'indice_envejecimiento', label: 'Índice de envejecimiento',    unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'dep_total',             label: 'Rel. de dependencia total',      unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'dep_juvenil',           label: 'Rel. dependencia juvenil',    unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'dep_adulta',            label: 'Rel. dependencia adulta',     unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'densidad_total',        label: 'Densidad pob. censada',       unit: ' hab/km²', decimals: 1 },
+    { key: 'densidad_65',           label: 'Densidad pob. 60+',           unit: ' hab/km²', decimals: 2 },
 ];
 
 // REQ 1: clave renombrada a edad_promedio
@@ -565,7 +565,7 @@ const S = { w: 380, h: 550 };
                 </div>
                 <div class="min-w-0">
                   <!-- REQ 1: Edad Media → Edad Promedio -->
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad Promedio</div>
+                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad promedio</div>
                   <div class="text-2xl font-black text-gray-800 leading-none">31,2 <span class="text-xs font-bold text-gray-400">años</span></div>
                 </div>
               </div>
@@ -592,7 +592,7 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'scale'" class="w-6 h-6"></app-hero-icon>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad Mediana</div>
+                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad mediana</div>
                   <div class="text-2xl font-black text-gray-800 leading-none">29,8 <span class="text-xs font-bold text-gray-400">años</span></div>
                 </div>
               </div>
@@ -655,7 +655,7 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'clock'" class="w-6 h-6"></app-hero-icon>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Índice de Envejecimiento</div>
+                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Índice de envejecimiento</div>
                   <!-- REQ 1: Eliminar símbolo % → número absoluto -->
                   <div class="text-2xl font-black text-gray-800 leading-none">45,6</div>
                 </div>
@@ -767,7 +767,7 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'squares-2x2'" class="w-4 h-4"></app-hero-icon>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad Pob. Censada</div>
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad pob. Censada</div>
                   <div class="text-lg font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
                 </div>
               </div>
@@ -1547,14 +1547,15 @@ export class DashboardComponent implements OnInit {
     }
 
     resetFilters(): void {
-        this.selectedCCDD.set('');
-        this.selectedMapGeoKey.set('');
-        this.selectedProv.set('');
-        this.selectedDist.set('');
-        this.nivelGeo.set('Departamental');
-        this.openGeoDropdown.set(null);
-        this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-    }
+    this.selectedCCDD.set('');
+    this.selectedMapGeoKey.set('');
+    this.selectedProv.set('');
+    this.selectedDist.set('');
+    this.nivelGeo.set('Departamental');
+    this.openGeoDropdown.set(null);
+    this.activeIndicator.set('poblacion');
+    this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
+}
 
     // ── Indicador de mapa ────────────────────────────────────────────────
 
