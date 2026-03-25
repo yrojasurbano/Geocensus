@@ -786,7 +786,7 @@ const S = { w: 380, h: 550 };
                   </app-hero-icon>
                 </span>
                 <!-- REQ 6: tooltip de densidad adulta mayor -->
-                <span matTooltip="Cantidad de habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
