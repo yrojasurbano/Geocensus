@@ -758,7 +758,7 @@ const S = { w: 380, h: 550 };
                     [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <span matTooltip="Cantidad de habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
@@ -767,7 +767,7 @@ const S = { w: 380, h: 550 };
                   <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad pob. Censada</div>
+                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad de población censada</div>
                   <div class="text-lg font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
                 </div>
               </div>
