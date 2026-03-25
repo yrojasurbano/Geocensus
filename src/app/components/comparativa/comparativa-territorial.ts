@@ -656,7 +656,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                                   clip-rule="evenodd"/>
                         </svg>
                         <p class="text-[10px] xl:text-[11px] text-amber-800 leading-relaxed">
-                            <strong>Nota metodológica:</strong> 1/ Comprende los 43 distritos de la provincia de Lima.
+                            <strong>Nota:</strong> 1/ Comprende los 43 distritos de la provincia de Lima.
                             <br>2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí,
                                 Huaura, Oyón y Yauyos.
                         </p>

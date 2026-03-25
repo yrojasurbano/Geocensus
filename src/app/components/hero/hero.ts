@@ -35,7 +35,7 @@ import { RouterLink } from '@angular/router';
             <source src="video_web.mp4" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
           </video>
-          <div class="absolute inset-0 bg-black/10"></div>
+          <div class="absolute inset-0 bg-black/15"></div>
         </div>
 
         <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
@@ -49,7 +49,7 @@ import { RouterLink } from '@angular/router';
               width="180" 
               height="50"
               priority
-              class="h-20 md:h-22 2xl:h-24 w-auto object-contain drop-shadow-md"
+              class="h-24 md:h-26 2xl:h-28 w-auto object-contain drop-shadow-md"
             >
             <div class="w-px h-8 md:h-10 bg-white/30"></div>
             <img 
@@ -58,7 +58,7 @@ import { RouterLink } from '@angular/router';
               width="160" 
               height="50"
               priority
-              class="h-24 md:h-28 2xl:h-28 w-auto object-contain drop-shadow-md"
+              class="h-28 md:h-32 2xl:h-32 w-auto object-contain drop-shadow-md"
             >
           </div>
 
@@ -73,10 +73,10 @@ import { RouterLink } from '@angular/router';
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <!-- ★ Botón Publicaciones -->
-            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+            <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
               Publicaciones
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button>
+            </button> -->
 
             <!-- ── Censos 2025 dropdown ── -->
             <div class="relative">

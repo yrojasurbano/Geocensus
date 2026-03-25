@@ -78,11 +78,11 @@ const INDICATORS: IndicatorDef[] = [
     { key: 'edad_mediana',          label: 'Edad mediana',                unit: ' años',    decimals: 1 },
     { key: 'razon_sexo',            label: 'Razón hombre – mujer',        unit: '',         decimals: 1 }, // REQ 1
     { key: 'indice_envejecimiento', label: 'Índice de envejecimiento',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_total',             label: 'Rel. de dependencia total',      unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_juvenil',           label: 'Rel. dependencia juvenil',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_adulta',            label: 'Rel. dependencia adulta',     unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'densidad_total',        label: 'Densidad pob. censada',       unit: ' hab/km²', decimals: 1 },
-    { key: 'densidad_65',           label: 'Densidad pob. 60+',           unit: ' hab/km²', decimals: 2 },
+    { key: 'dep_total',             label: 'Relación de dependencia total',      unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'dep_juvenil',           label: 'Relación dependencia juvenil',    unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'dep_adulta',            label: 'Relación dependencia adulta',     unit: '',         decimals: 1 }, // REQ 1: sin %
+    { key: 'densidad_total',        label: 'Densidad población censada',       unit: ' hab/km²', decimals: 1 },
+    { key: 'densidad_65',           label: 'Densidad población 60 años y más',           unit: ' hab/km²', decimals: 2 },
 ];
 
 // REQ 1: clave renombrada a edad_promedio
@@ -115,7 +115,7 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
 };
 
 // REQ 4: Paleta coroplética actualizada
-const PALETTE = ['#0055a0', '#8383fc', '#038dd2', '#33b3a9', '#c9eae3'];
+const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
 
 export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
 
@@ -141,7 +141,7 @@ const S = { w: 380, h: 550 };
           <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
           <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-8 md:h-10 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-black">
           <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
@@ -485,7 +485,7 @@ const S = { w: 380, h: 550 };
             <!-- REQ 3: Card Población por Sexo — tooltip e info icon eliminados -->
             <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="flex justify-between items-center mb-2 shrink-0">
-                <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por sexo</h4>
+                <h4 class="text-xs font-black text-black tracking-wide">Población por sexo</h4>
                 <!-- REQ 6: Eliminar por completo el tooltip e icono de info del gráfico de sexo -->
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
@@ -509,16 +509,16 @@ const S = { w: 380, h: 550 };
                     <img src="hombre.svg" class="w-8 h-8">
                     <span class="text-xs font-bold text-gray-500">Hombres</span>
                   </div>
-                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">17 596 527</span>
-                  <span class="text-xs text-gray-400">48,1%</span>
+                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().male) }}</span>
+                  <span class="text-xs text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().male / cardData().total * 100 : 0, 1) }}%</span>
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="flex items-center gap-1 mb-1">
                     <img src="mujer.svg" class="w-8 h-8" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
                     <span class="text-xs font-bold text-gray-500">Mujeres</span>
                   </div>
-                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">18 999 999</span>
-                  <span class="text-xs text-gray-400">51,9%</span>
+                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().female) }}</span>
+                  <span class="text-xs text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().female / cardData().total * 100 : 0, 1) }}%</span>
                 </div>
               </div>
             </div>
@@ -526,7 +526,7 @@ const S = { w: 380, h: 550 };
             <!-- REQ 3: Card Grandes Grupos de Edad — sin leyenda inferior, colores y etiquetas actualizadas -->
             <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="flex justify-between items-center mb-2 shrink-0">
-                <h4 class="text-xs font-black text-gray-400 tracking-wide">Población por grandes grupos de edad</h4>
+                <h4 class="text-xs font-black text-black tracking-wide">Población por grandes grupos de edad</h4>
                 <!-- REQ 6: tooltip actualizado para redondeo -->
                 <span matTooltip="Por efecto del redondeo de cifras a un decimal, los porcentajes pueden no sumar exactamente 100%" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"></app-hero-icon>
@@ -565,8 +565,8 @@ const S = { w: 380, h: 550 };
                 </div>
                 <div class="min-w-0">
                   <!-- REQ 1: Edad Media → Edad Promedio -->
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad promedio</div>
-                  <div class="text-2xl font-black text-gray-800 leading-none">31,2 <span class="text-xs font-bold text-gray-400">años</span></div>
+                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Edad promedio</div>
+                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['edad_promedio'], 1) }} <span class="text-xs font-bold text-gray-400">años</span></div>
                 </div>
               </div>
             </div>
@@ -592,8 +592,8 @@ const S = { w: 380, h: 550 };
                   <img src="emediana.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Edad mediana</div>
-                  <div class="text-2xl font-black text-gray-800 leading-none">29,8 <span class="text-xs font-bold text-gray-400">años</span></div>
+                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Edad mediana</div>
+                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['edad_mediana'], 1) }} <span class="text-xs font-bold text-gray-400">años</span></div>
                 </div>
               </div>
             </div>
@@ -614,23 +614,26 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-2 mb-1 shrink-0">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
-                  <div class="flex gap-0.5">
-                    <img src="hombre.svg" class="w-5 h-5">
-                    <img src="mujer.svg" class="w-5 h-5" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+              <!-- Título -->
+              <div class="text-[10px] font-black text-black tracking-wide leading-none mb-2 shrink-0">Razón hombre – mujer</div>
+              <!-- Contenido principal -->
+              <div class="flex-1 flex items-center min-h-0">
+                <!-- Bloque hombre -->
+                <div class="flex items-center gap-2 shrink-0">
+                  <img src="hombre.svg" class="w-10 h-10 shrink-0">
+                  <div class="flex flex-col leading-tight">
+                    <span class="text-[10px] font-semibold text-gray-500">Hay</span>
+                    <span class="text-2xl font-black text-[#0056a1] leading-none">{{ fmtD(cardMock()['razon_sexo'], 1) }}</span>
                   </div>
                 </div>
-                <!-- REQ 1: Título estandarizado con guion largo -->
-                <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none">Razón hombre – mujer</div>
-              </div>
-              <!-- REQ 1: Frase exacta: "Hay 94,3 hombres por cada 100 mujeres" -->
-              <div class="flex-1 flex items-center min-h-0">
-                <p class="text-[11px] text-gray-600 leading-snug font-semibold">
-                  Hay <span class="text-xl font-black text-[#0056a1]">94,3</span>
-                  hombres por cada
-                  <span class="text-lg font-black text-[#33b3a9]">100</span> mujeres
-                </p>
+                <!-- Separador + bloque mujer -->
+                <div class="flex items-center gap-2 ml-2 shrink-0">
+                  <img src="mujer.svg" class="w-10 h-10 shrink-0" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+                  <div class="flex flex-col leading-tight">
+                    <span class="text-[10px] font-semibold text-gray-500">por cada</span>
+                    <span class="text-2xl font-black text-[#33b3a9] leading-none">100 <span class="text-[10px] font-semibold text-gray-500">mujeres</span></span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -655,9 +658,9 @@ const S = { w: 380, h: 550 };
                   <img src="envejecimiento.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Índice de envejecimiento</div>
+                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Índice de envejecimiento</div>
                   <!-- REQ 1: Eliminar símbolo % → número absoluto -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">45,6</div>
+                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['indice_envejecimiento'], 1) }}</div>
                 </div>
               </div>
             </div>
@@ -683,9 +686,9 @@ const S = { w: 380, h: 550 };
                   <img src="rel_dep_total.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia total</div>
+                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Relación de dependencia total</div>
                   <!-- REQ 1: sin % -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">52,1</div>
+                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['dep_total'], 1) }}</div>
                 </div>
               </div>
             </div>
@@ -711,9 +714,9 @@ const S = { w: 380, h: 550 };
                   <img src="rel_dep_juvenil.svg" class="w-12 h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-gray-400 tracking-wide leading-none mb-1">Rel. de dependencia juvenil</div>
+                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Relación de dependencia juvenil</div>
                   <!-- REQ 1: sin % -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">34,2</div>
+                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['dep_juvenil'], 1) }}</div>
                 </div>
               </div>
             </div>
@@ -739,9 +742,9 @@ const S = { w: 380, h: 550 };
                   <img src="rel_dep_adulta.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Rel. de dependencia adulta</div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
                   <!-- REQ 1: sin % -->
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">17,9</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_adulta'], 1) }}</div>
                 </div>
               </div>
             </div>
@@ -767,8 +770,8 @@ const S = { w: 380, h: 550 };
                   <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad de población censada</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">25,4 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardData().density, 1) }} <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
                 </div>
               </div>
             </div>
@@ -795,8 +798,8 @@ const S = { w: 380, h: 550 };
                   <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-gray-400 tracking-wide leading-tight">Densidad de la población adulta mayor</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">3,6 <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['densidad_65'], 2) }} <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
                 </div>
               </div>
             </div>
@@ -903,11 +906,11 @@ const S = { w: 380, h: 550 };
                           {{ (hoveredRegion() ?? selectedRegion())!.name }}
                         </p>
                         <!-- Indicador activo -->
-                        <div class="flex justify-between items-center py-0.5 bg-amber-500/10 rounded px-1 mb-2">
-                          <span class="text-[8px] font-bold uppercase text-amber-300">
+                        <div class="flex flex-col py-0.5 bg-amber-500/10 rounded px-1 mb-2 gap-0.5">
+                          <span class="text-[8px] font-bold uppercase text-amber-300 leading-tight">
                             {{ activeIndicatorDef().label }}
                           </span>
-                          <span class="text-sm font-black text-amber-200">
+                          <span class="text-sm font-black text-amber-200 leading-none">
                             {{ getActiveValueByKey((hoveredRegion() ?? selectedRegion())!, activeIndicator()) }}
                           </span>
                         </div>
@@ -1027,7 +1030,7 @@ const S = { w: 380, h: 550 };
 
             <!-- REQ 4: Nota metodológica al pie del mapa -->
             <div class="shrink-0 bg-white/90 border border-gray-100 rounded-xl px-3 py-2 text-[10px] text-gray-500 leading-relaxed shadow-sm">
-              <span class="font-black text-gray-600">Nota metodológica:</span>
+              <span class="font-black text-gray-600">Nota:</span>
               1/ Comprende los 43 distritos de la provincia de Lima.
               <br>
               2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí, Huaura, Oyón y Yauyos.
@@ -1177,12 +1180,56 @@ export class DashboardComponent implements OnInit {
             // REQ 4: Al seleccionar dept → cambiar a nivel Provincial y cargar provincias
             this.nivelGeo.set('Provincial');
             this.loadGeoJsonProv();
-            this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
+            // Zoom al bbox del departamento seleccionado
+            this.fitRegionByCCDD(dept.ccdd);
         } else {
             // Restablecer a nivel Departamental
             this.nivelGeo.set('Departamental');
             this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
         }
+    }
+
+    /** Zoom al bbox de todas las provincias de un departamento */
+    private fitRegionByCCDD(ccdd: string): void {
+        const tryFit = () => {
+            const geo = this.rawGeoJsonProv();
+            if (!geo?.features) {
+                // GeoJSON aún no cargado — reintentar en 200ms
+                setTimeout(() => tryFit(), 200);
+                return;
+            }
+            const features = (geo.features as any[]).filter(
+                f => String(f.properties.CCDD) === ccdd
+            );
+            if (!features.length) return;
+
+            let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
+            features.forEach(f => {
+                const bb = this.getGeoBBox(f.geometry);
+                if (bb.minLon < minLon) minLon = bb.minLon;
+                if (bb.maxLon > maxLon) maxLon = bb.maxLon;
+                if (bb.minLat < minLat) minLat = bb.minLat;
+                if (bb.maxLat > maxLat) maxLat = bb.maxLat;
+            });
+
+            const toLon = (lon: number) => ((lon - B.minLon) / (B.maxLon - B.minLon)) * S.w;
+            const toLat = (lat: number) => (1 - (lat - B.minLat) / (B.maxLat - B.minLat)) * S.h;
+
+            const svgMinX = toLon(minLon);
+            const svgMaxX = toLon(maxLon);
+            const svgMinY = toLat(maxLat);
+            const svgMaxY = toLat(minLat);
+
+            const PAD = 20;
+            const target = {
+                x: svgMinX - PAD,
+                y: svgMinY - PAD,
+                w: (svgMaxX - svgMinX) + PAD * 2,
+                h: (svgMaxY - svgMinY) + PAD * 2,
+            };
+            this.animateViewBox(this.parseViewBox(this.svgViewBox()), target);
+        };
+        tryFit();
     }
 
     // REQ 4: Al seleccionar prov → cambiar a nivel Distrital y cargar distritos
@@ -1426,18 +1473,71 @@ export class DashboardComponent implements OnInit {
         return this.mapRegions().find(r => r.geoKey === key) ?? null;
     });
 
+    /** Datos de población del contexto actual (región seleccionada, dep, prov, dist o nacional) */
+    cardData = computed<{ total: number; male: number; female: number; density: number; ccdd: string }>(() => {
+        // 1. Región seleccionada en el mapa
+        const sel = this.selectedRegion();
+        if (sel) return { total: sel.total, male: sel.male, female: sel.female, density: sel.density, ccdd: sel.ccdd };
+
+        // 2. Distrito seleccionado desde dropdown
+        const dist = this.selectedDist();
+        if (dist) {
+            const geo = this.rawGeoJsonDist();
+            const feat = geo?.features?.find((f: any) => String(f.properties.UBIGEO) === dist);
+            if (feat) {
+                const p = feat.properties;
+                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+            }
+        }
+
+        // 3. Provincia seleccionada desde dropdown
+        const prov = this.selectedProv();
+        if (prov) {
+            const geo = this.rawGeoJsonProv();
+            const ccdd = this.selectedCCDD();
+            const feat = geo?.features?.find((f: any) => String(f.properties.CCDD) === ccdd && String(f.properties.CCPP) === prov);
+            if (feat) {
+                const p = feat.properties;
+                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+            }
+        }
+
+        // 4. Departamento seleccionado desde dropdown
+        const ccdd = this.selectedCCDD();
+        if (ccdd) {
+            const geo = this.rawGeoJson();
+            const feat = geo?.features?.find((f: any) => String(f.properties.CCDD) === ccdd);
+            if (feat) {
+                const p = feat.properties;
+                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+            }
+        }
+
+        // 5. Nacional
+        return { total: this.TOTAL_NAC, male: 17_596_527, female: 18_999_999, density: 25.4, ccdd: '' };
+    });
+
+    /** Indicadores derivados (MOCK_DEP) para el contexto actual */
+    cardMock = computed<Record<string, number>>(() => {
+        const ccdd = this.cardData().ccdd;
+        if (ccdd && MOCK_DEP[ccdd]) return MOCK_DEP[ccdd];
+        return { edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3, indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2, dep_adulta: 17.9, densidad_65: 3.6 };
+    });
+
     displayedTitle = computed<string>(() => {
         const sel = this.selectedRegion();
         if (sel) return sel.name;
+        const dist = this.selectedDist();
+        if (dist) return this.districts().find(d => d.code === dist)?.name ?? dist;
+        const prov = this.selectedProv();
+        if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
         const ccdd = this.selectedCCDD();
         if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
         return 'Perú (Nacional)';
     });
 
     displayedPopulation = computed<string>(() => {
-        const sel = this.selectedRegion();
-        if (sel) return this.fmt(sel.total);
-        return this.fmt(this.TOTAL_NAC);
+        return this.fmt(this.cardData().total);
     });
 
     // ── Inyecciones ───────────────────────────────────────────────────────
@@ -1558,6 +1658,8 @@ export class DashboardComponent implements OnInit {
 
     getStrokeWidth(r: MapRegion): string {
         if (this.selectedRegion()?.geoKey === r.geoKey) return '1.2';
+        const nivel = this.nivelGeo();
+        if (nivel === 'Provincial' || nivel === 'Distrital') return '0.5';
         return '0.8';
     }
 
@@ -1979,8 +2081,8 @@ export class DashboardComponent implements OnInit {
                         label: { show: false },
                         lineStyle: { color: '#000000', width: 1.5, type: 'dashed', opacity: 0.8 },
                         data: [
-                            { yAxis: '10-14 años' },
-                            { yAxis: '55-59 años' },
+                            { yAxis: 2 },
+                            { yAxis: 11  },
                         ],
                     },
                 },
