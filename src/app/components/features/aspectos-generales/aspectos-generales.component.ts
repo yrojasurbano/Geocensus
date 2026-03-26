@@ -213,7 +213,7 @@ export class AspectosGeneralesComponent {
   censosMenu = [
     { label: 'Características del censo',     route: '/aspectos-generales' },
     { label: 'Innovaciones censales',           route: '/innovaciones' },
-    { label: 'Etapas Censales',           route: '/organizacion' },
+    //{ label: 'Etapas Censales',           route: '/organizacion' },
     { label: 'Normatividad censal',              route: '/normativa' },
     { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];

@@ -157,7 +157,7 @@ export class OrganizacionComponent {
   censosMenu = [
     { label: 'Características del censo',     route: '/aspectos-generales' },
     { label: 'Innovaciones censales',     route: '/innovaciones' },
-    { label: 'Etapas censales',           route: '/organizacion' },
+    //{ label: 'Etapas censales',           route: '/organizacion' },
     { label: 'Normatividad censal',              route: '/normativa' },
     { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];

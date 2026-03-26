@@ -256,14 +256,7 @@ import { RouterLink } from '@angular/router';
                       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                     </svg>
                   </a>
-                  <!-- WhatsApp -->
-                  <a href="#" class="hover:text-secondary transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
-                      <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
-                      <path d="M17.49 14.38c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
-                    </svg>
-                  </a>
+                  
                 </div>
               </div>
             </div>
@@ -298,7 +291,7 @@ export class HeroComponent implements AfterViewInit {
   censosMenu = [
     { label: 'Características del censo',     route: '/aspectos-generales' },
     { label: 'Innovaciones censales',     route: '/innovaciones' },
-    { label: 'Etapas censales',           route: '/organizacion' },
+    //{ label: 'Etapas censales',           route: '/organizacion' },
     { label: 'Normatividad censal',              route: '/normativa' },
     { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
   ];

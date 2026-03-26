@@ -136,21 +136,21 @@ const S = { w: 380, h: 550 };
       <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full shrink-0">
         <div class="flex items-center gap-4 md:gap-5">
           <div class="flex items-center cursor-pointer" routerLink="/">
-            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 w-auto object-contain">
+            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-12 md:h-14 w-auto object-contain">
           </div>
           <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
-          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-8 md:h-10 w-auto object-contain hidden md:block">
+          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-12 md:h-12 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-black">
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
           <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+          <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
             Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-          </button>
+          </button> -->
           <div class="relative">
             <button (click)="toggleCensos($event)"
               class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
@@ -475,7 +475,7 @@ const S = { w: 380, h: 550 };
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3 2xl:gap-4 min-h-0 md:overflow-hidden">
 
           <!-- ══ COL 1–2: Grid interno de indicadores ══════════════════════════ -->
-          <!-- REQ 2: Layout 2 cols, 6 filas (50% + 4×10% + 10%) -->
+          <!-- Layout 2 cols, 6 filas (50% + 1×10% col-span-2 + 4×10% + 1×10%) -->
           <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2
                       grid grid-cols-2 grid-rows-[5fr_1fr_1fr_1fr_1fr_1fr]
                       gap-3 min-h-0 overflow-hidden">
@@ -540,7 +540,7 @@ const S = { w: 380, h: 550 };
               </div>
             </div>
 
-            <!-- ── FILAS 2–5 (4 × 10%): 8 indicadores menores ───────────── -->
+            <!-- ── FILA 2 (10%): Edad Promedio + Edad Mediana ───────────── -->
 
             <!-- Fila 2 Col 1: Edad Promedio (REQ 1: renombrado) -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
@@ -548,7 +548,7 @@ const S = { w: 380, h: 550 };
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('edad_promedio')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'edad_promedio'"
                     [class.scale-125]="activeIndicator() === 'edad_promedio'"
                     [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
@@ -556,17 +556,17 @@ const S = { w: 380, h: 550 };
                 </span>
                 <!-- REQ 6: tooltip Edad Promedio -->
                 <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="epromedio.svg" class="w-12 h-12">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="epromedio.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
                   <!-- REQ 1: Edad Media → Edad Promedio -->
-                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Edad promedio</div>
-                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['edad_promedio'], 1) }} <span class="text-xs font-bold text-gray-400">años</span></div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Edad promedio</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['edad_promedio'], 1) }} <span class="text-[9px] font-bold text-gray-400">años</span></div>
                 </div>
               </div>
             </div>
@@ -577,151 +577,153 @@ const S = { w: 380, h: 550 };
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('edad_mediana')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'edad_mediana'"
                     [class.scale-125]="activeIndicator() === 'edad_mediana'"
                     [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
                 <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="emediana.svg" class="w-12 h-12">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="emediana.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Edad mediana</div>
-                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['edad_mediana'], 1) }} <span class="text-xs font-bold text-gray-400">años</span></div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Edad mediana</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['edad_mediana'], 1) }} <span class="text-[9px] font-bold text-gray-400">años</span></div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 3 Col 1: Razón hombre – mujer (REQ 1: estandarizar título y texto) -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <!-- ── FILA 3 (10%) col-span-2: Razón hombre – mujer centrado ── -->
+
+            <!-- Fila 3: Razón hombre – mujer (ocupa columnas 1 y 2, contenido centrado) -->
+            <div class="col-span-2 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('razon_sexo')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'razon_sexo'"
                     [class.scale-125]="activeIndicator() === 'razon_sexo'"
                     [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
                 <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <!-- Título -->
-              <div class="text-[10px] font-black text-black tracking-wide leading-none mb-2 shrink-0">Razón hombre – mujer</div>
-              <!-- Contenido principal -->
-              <div class="flex-1 flex items-center min-h-0">
+              <!-- Título centrado -->
+              <div class="text-[9px] font-black text-black tracking-wide leading-none mb-2 shrink-0 text-center">Razón hombre – mujer</div>
+              <!-- Contenido principal centrado -->
+              <div class="flex-1 flex items-center justify-center gap-4 min-h-0">
                 <!-- Bloque hombre -->
                 <div class="flex items-center gap-2 shrink-0">
-                  <img src="hombre.svg" class="w-10 h-10 shrink-0">
-                  <div class="flex flex-col leading-tight">
-                    <span class="text-[10px] font-semibold text-gray-500">Hay</span>
-                    <span class="text-2xl font-black text-[#0056a1] leading-none">{{ fmtD(cardMock()['razon_sexo'], 1) }}</span>
+                  <img src="hombre.svg" class="w-8 h-8 shrink-0">
+                  <div class="flex flex-col leading-tight items-center">
+                    <span class="text-[9px] font-semibold text-gray-500">Hay</span>
+                    <span class="text-lg font-black text-[#000000] leading-none">{{ fmtD(cardMock()['razon_sexo'], 1) }}</span>
                   </div>
                 </div>
                 <!-- Separador + bloque mujer -->
-                <div class="flex items-center gap-2 ml-2 shrink-0">
-                  <img src="mujer.svg" class="w-10 h-10 shrink-0" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
-                  <div class="flex flex-col leading-tight">
-                    <span class="text-[10px] font-semibold text-gray-500">por cada</span>
-                    <span class="text-2xl font-black text-[#33b3a9] leading-none">100 <span class="text-[10px] font-semibold text-gray-500">mujeres</span></span>
+                <div class="flex items-center gap-2 shrink-0">
+                  <img src="mujer.svg" class="w-8 h-8 shrink-0" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+                  <div class="flex flex-col leading-tight items-center">
+                    <span class="text-[9px] font-semibold text-gray-500">por cada</span>
+                    <span class="text-lg font-black text-[#000000] leading-none">100 <span class="text-[9px] font-semibold text-gray-500">mujeres</span></span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 3 Col 2: Índice de Envejecimiento -->
+            <!-- Fila 4 Col 1: Índice de Envejecimiento -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('indice_envejecimiento')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
                     [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
                     [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="envejecimiento.svg" class="w-12 h-12">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="envejecimiento.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Índice de envejecimiento</div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Índice de envejecimiento</div>
                   <!-- REQ 1: Eliminar símbolo % → número absoluto -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['indice_envejecimiento'], 1) }}</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['indice_envejecimiento'], 1) }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 4 Col 1: Rel. Dependencia Total -->
+            <!-- Fila 4 Col 2: Rel. Dependencia Total -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('dep_total')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_total'"
                     [class.scale-125]="activeIndicator() === 'dep_total'"
                     [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_total.svg" class="w-12 h-12">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_total.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Relación de dependencia total</div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia total</div>
                   <!-- REQ 1: sin % -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['dep_total'], 1) }}</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_total'], 1) }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 4 Col 2: Rel. Dependencia Juvenil -->
+            <!-- Fila 5 Col 1: Rel. Dependencia Juvenil -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('dep_juvenil')"
-                    class="w-4 h-4 cursor-pointer transition-all animate-pulse"
+                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_juvenil'"
                     [class.scale-125]="activeIndicator() === 'dep_juvenil'"
                     [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
-                <div class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_juvenil.svg" class="w-12 h-12">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_juvenil.svg" class="w-8 h-8">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] font-black text-black tracking-wide leading-none mb-1">Relación de dependencia juvenil</div>
+                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia juvenil</div>
                   <!-- REQ 1: sin % -->
-                  <div class="text-2xl font-black text-gray-800 leading-none">{{ fmtD(cardMock()['dep_juvenil'], 1) }}</div>
+                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_juvenil'], 1) }}</div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 5 Col 1: Rel. Dependencia Adulta -->
+            <!-- Fila 5 Col 2: Rel. Dependencia Adulta -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -749,7 +751,7 @@ const S = { w: 380, h: 550 };
               </div>
             </div>
 
-            <!-- Fila 5 Col 2: Densidad Pob. Censada -->
+            <!-- Fila 6 Col 1: Densidad Pob. Censada -->
             <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -776,8 +778,8 @@ const S = { w: 380, h: 550 };
               </div>
             </div>
 
-            <!-- REQ 2: Fila 6 — col-span-2: Densidad Pob. Adulta Mayor -->
-            <div class="col-span-2 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <!-- Fila 6 Col 2: Densidad Pob. Adulta Mayor (1 columna) -->
+            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
@@ -793,7 +795,7 @@ const S = { w: 380, h: 550 };
                   <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
-              <div class="flex items-center gap-3 flex-1 min-h-0">
+              <div class="flex items-center gap-2 flex-1 min-h-0">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
                   <img src="densidad_pobtotal.svg" class="w-8 h-8">
                 </div>
@@ -938,11 +940,14 @@ const S = { w: 380, h: 550 };
                         </div>
                         <!-- Densidad poblacional total -->
                         <div class="border-t border-gray-700 pt-1.5">
-                          <div class="flex justify-between items-center">
-                            <span class="text-[8px] font-bold uppercase text-gray-400">Densidad pob.</span>
-                            <span class="text-[8px] font-black text-white">
-                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }} <span class="text-[7px] text-gray-400">hab/km²</span>
+                          <div class="flex flex-col gap-0.5">
+                            <span class="text-[8px] font-bold uppercase text-gray-400">
+                              Densidad de la población censada
                             </span>
+                            <span class="text-[8px] font-black text-white">
+                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }} 
+                            <span class="text-[7px] text-gray-400">hab/km²</span>
+                          </span>
                           </div>
                         </div>
                       </div>
@@ -1013,7 +1018,12 @@ const S = { w: 380, h: 550 };
 
                   @if (colorBreaks().length) {
                     <div class="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 shadow-lg border border-gray-100 pointer-events-none">
-                      <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase mb-1.5">{{ activeIndicatorDef().label }}</div>
+                      <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase leading-tight">{{ activeIndicatorDef().label }}</div>
+                      @if (activeIndicatorDef().unit) {
+                        <div class="text-[8px] font-semibold text-gray-400 mb-1.5">({{ activeIndicatorDef().unit.trim() }})</div>
+                      } @else {
+                        <div class="mb-1.5"></div>
+                      }
                       <div class="flex flex-col gap-1">
                         @for (brk of colorBreaks().slice().reverse(); track brk.min) {
                           <div class="flex items-center gap-1.5">
@@ -1080,7 +1090,7 @@ export class DashboardComponent implements OnInit {
     censosMenu = [
         { label: 'Características del censo', route: '/aspectos-generales' },
         { label: 'Innovaciones censales',      route: '/innovaciones' },
-        { label: 'Etapas censales',            route: '/organizacion' },
+        //{ label: 'Etapas censales',            route: '/organizacion' },
         { label: 'Normatividad censal',        route: '/normativa' },
         { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
     ];
@@ -1442,17 +1452,9 @@ export class DashboardComponent implements OnInit {
         const sorted = [...vals].sort((a, b) => a - b);
         const n      = sorted.length;
 
-        // Indicadores que usan "años" como sufijo
-        const isAgeIndicator = key === 'edad_promedio' || key === 'edad_mediana';
-
-        const fmtVal = (v: number, isMax: boolean): string => {
+        const fmtVal = (v: number): string => {
             if (key === 'poblacion') return this.fmt(v);
-            const num = this.fmtD(v, def.decimals);
-            if (isAgeIndicator) {
-                // REQ 4: solo "años" al cierre del rango (no en el mínimo)
-                return isMax ? `${num} años` : num;
-            }
-            return num + def.unit;
+            return this.fmtD(v, def.decimals);
         };
 
         return Array.from({ length: 5 }, (_, i) => {
@@ -1460,9 +1462,9 @@ export class DashboardComponent implements OnInit {
             const endIdx   = Math.min(Math.floor((i + 1) * n / 5) - 1, n - 1);
             const bMin     = sorted[startIdx];
             const bMax     = sorted[endIdx];
-            // Conteo de elementos en el rango
+            // Conteo de elementos en el rango — sin unidad, solo números
             const count    = vals.filter(v => v >= bMin && v <= bMax).length;
-            const label    = `${fmtVal(bMin, false)} – ${fmtVal(bMax, true)} (${count})`;
+            const label    = `${fmtVal(bMin)} – ${fmtVal(bMax)} (${count})`;
             return { min: bMin, max: bMax, color: PALETTE[i], label, count };
         });
     });
@@ -2005,7 +2007,7 @@ export class DashboardComponent implements OnInit {
             }],
         };
 
-        const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80-84 años','85 y más'];
+        const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80-84 años','85 y más años'];
         const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5,-0.5];
         const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4, 0.4];
 
@@ -2079,10 +2081,10 @@ export class DashboardComponent implements OnInit {
                         silent: true,
                         symbol: ['none', 'none'],
                         label: { show: false },
-                        lineStyle: { color: '#000000', width: 1.5, type: 'dashed', opacity: 0.8 },
+                        lineStyle: { color: '#a5a3a3ff', width: 1, type: 'dashed', opacity: 0.8 },
                         data: [
                             { yAxis: 2 },
-                            { yAxis: 11  },
+                            { yAxis: 10 },
                         ],
                     },
                 },
