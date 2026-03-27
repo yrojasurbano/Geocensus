@@ -35,7 +35,7 @@ import { RouterLink } from '@angular/router';
             <source src="video_web.mp4" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
           </video>
-          <div class="absolute inset-0 bg-black/15"></div>
+          <div class="absolute inset-0 bg-black/20"></div>
         </div>
 
         <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
@@ -72,11 +72,6 @@ import { RouterLink } from '@angular/router';
               Resultados
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-            <!-- ★ Botón Publicaciones -->
-            <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
-              Publicaciones
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button> -->
 
             <!-- ── Censos 2025 dropdown ── -->
             <div class="relative">
@@ -139,7 +134,6 @@ import { RouterLink } from '@angular/router';
                 NACIONALES 
                 <span class="text-white inline">
                   2025
-                  
                 </span>
               </h1>
               
@@ -155,14 +149,25 @@ import { RouterLink } from '@angular/router';
             </div>
           </div>
 
-          <!-- ★ Cards — bg-black/10 + backdrop-blur-[3px] para menos distorsión -->
+          <!-- ★ Cards -->
           <div class="w-full px-6 md:px-12 lg:px-16 mt-12 2xl:mt-16 relative z-10">
             <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center
                         bg-black/10 backdrop-blur-[3px] p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-lg">
 
-              <!-- Población Censada — valor fijo, sin contador -->
+              <!-- Población Censada -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">groups</mat-icon>
+                <!--
+                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">groups</mat-icon>
+                  Por: imagen SVG desde public/pobcensada.svg
+                  - w-10 h-10 / 2xl:w-12 2xl:h-12 → mantiene las mismas dimensiones que el mat-icon original
+                  - brightness-0 invert → fuerza el SVG a color blanco puro
+                  - drop-shadow-md → conserva la sombra del icono original
+                -->
+                <img
+                  src="pobcensada.svg"
+                  alt="Población Censada"
+                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                >
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionCensada) }}
@@ -172,9 +177,17 @@ import { RouterLink } from '@angular/router';
               <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
               <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
-              <!-- Hombres — valor fijo -->
+              <!-- Hombres -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">man</mat-icon>
+                <!--
+                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">man</mat-icon>
+                  Por: imagen SVG desde public/hombre.svg
+                -->
+                <img
+                  src="hombre.svg"
+                  alt="Hombres"
+                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                >
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionMasculina) }}
@@ -184,9 +197,17 @@ import { RouterLink } from '@angular/router';
               <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
               <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
-              <!-- Mujeres — valor fijo -->
+              <!-- Mujeres -->
               <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 !text-[2.5rem] 2xl:!text-[3rem] mb-2 2xl:mb-3 drop-shadow-md text-primary-light">woman</mat-icon>
+                <!--
+                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">woman</mat-icon>
+                  Por: imagen SVG desde public/mujer.svg
+                -->
+                <img
+                  src="mujer.svg"
+                  alt="Mujeres"
+                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                >
                 <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionFemenina) }}
@@ -208,7 +229,7 @@ import { RouterLink } from '@angular/router';
         <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
           <div class="max-w-7xl mx-auto flex flex-row items-center justify-between w-full gap-6">
 
-            <!-- ★ Contador de visitas web — izquierda, alineado al texto del instituto ── -->
+            <!-- ★ Contador de visitas web -->
             <div class="flex items-center gap-2 shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#33b3a9] shrink-0"
                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -221,15 +242,13 @@ import { RouterLink } from '@angular/router';
               <span class="text-[11px] font-black text-[#33b3a9] tabular-nums tracking-wide">
                 {{ formatNumber(visitasContador()) }}
               </span>
-              <!-- Indicador pulsante de actividad en vivo -->
               <span class="relative flex h-2 w-2 ml-0.5 shrink-0">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#33b3a9] opacity-60"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-[#33b3a9]"></span>
               </span>
             </div>
-            <!-- /Contador de visitas web -->
 
-            <!-- Instituto + dirección + redes — derecha ──────────────────────── -->
+            <!-- Instituto + dirección + redes -->
             <div class="flex flex-col items-center md:items-end text-center md:text-right">
               <p class="font-bold text-base">Instituto Nacional de Estadística e Informática – INEI</p>
               <p class="text-sm mt-1 text-gray-300">Av. General Garzón 658. Jesús María. Lima - Perú</p>
@@ -242,7 +261,7 @@ import { RouterLink } from '@angular/router';
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                     </svg>
                   </a>
-                  <!-- ★ X (ex Twitter) — icono actualizado -->
+                  <!-- X (ex Twitter) -->
                   <a href="https://x.com/INEI_oficial?lang=es" class="hover:text-secondary transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -256,11 +275,9 @@ import { RouterLink } from '@angular/router';
                       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                     </svg>
                   </a>
-                  
                 </div>
               </div>
             </div>
-            <!-- /Instituto + redes -->
 
           </div>
         </footer>
@@ -289,11 +306,10 @@ export class HeroComponent implements AfterViewInit {
   censosOpen = signal(false);
 
   censosMenu = [
-    { label: 'Características del censo',     route: '/aspectos-generales' },
-    { label: 'Innovaciones censales',     route: '/innovaciones' },
-    //{ label: 'Etapas censales',           route: '/organizacion' },
-    { label: 'Normatividad censal',              route: '/normativa' },
-    { label: 'Documentación Técnica',  route: '/documentacion-tecnica' },
+    { label: 'Características del censo',  route: '/aspectos-generales' },
+    { label: 'Innovaciones censales',      route: '/innovaciones' },
+    { label: 'Normatividad censal',        route: '/normativa' },
+    { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
   ];
 
   @HostListener('document:click')
@@ -304,17 +320,12 @@ export class HeroComponent implements AfterViewInit {
     this.censosOpen.update(v => !v);
   }
 
-  // ★ Valores estáticos — se eliminó el efecto contador animado
   readonly poblacionCensada   = 36_480_432;
   readonly poblacionMasculina = 18_480_432;
   readonly poblacionFemenina  = 13_480_432;
 
-  // ★ Contador de visitas web ─────────────────────────────────────────────────
-  // Parte de una base de 1 532 visitas.
-  // Usa localStorage para que el valor persista entre sesiones y cada
-  // recarga / refresh incremente el contador en +1.
   readonly visitasContador = signal<number>(1_532);
-  private readonly VISITAS_KEY = 'geocensus_visitas';
+  private readonly VISITAS_KEY  = 'geocensus_visitas';
   private readonly VISITAS_BASE = 1_532;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -322,7 +333,7 @@ export class HeroComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
 
-      // ── Video autoplay ─────────────────────────────────────────────────────
+      // ── Video autoplay ──────────────────────────────────────────────────
       const video = this.bgVideo?.nativeElement;
       if (video) {
         video.muted = true;
@@ -337,10 +348,7 @@ export class HeroComponent implements AfterViewInit {
         }
       }
 
-      // ── Contador de visitas ────────────────────────────────────────────────
-      // Lee el valor persistido en localStorage; si no existe arranca en
-      // VISITAS_BASE (1 532). Incrementa en 1 en cada carga / refresh y
-      // guarda el nuevo total para que persista entre sesiones.
+      // ── Contador de visitas ─────────────────────────────────────────────
       const stored  = localStorage.getItem(this.VISITAS_KEY);
       const current = stored ? parseInt(stored, 10) : this.VISITAS_BASE;
       const updated = current + 1;

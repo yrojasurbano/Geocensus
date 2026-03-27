@@ -123,55 +123,55 @@ function allChecked(labels: string[]): DropdownItem[] {
 
             <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
             <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full shrink-0">
-                <div class="flex items-center gap-4 md:gap-5">
-                    <div class="flex items-center cursor-pointer" routerLink="/">
-                        <img src="logo_inei_azul.png" alt="Logo INEI" class="h-10 md:h-12 w-auto object-contain">
-                    </div>
-                    <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
-                    <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-8 md:h-10 w-auto object-contain hidden md:block">
-                </div>
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
-                    <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
-                        Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                    </button>
-                    <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
-                        Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                    </button>
-                    <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
-                        Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                    </button>
-                    <div class="relative">
-                        <button (click)="toggleCensos($event)"
-                            class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
-                            Censos 2025
-                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                                [class.rotate-180]="censosOpen()"></app-hero-icon>
-                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                        </button>
-                        @if (censosOpen()) {
-                            <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
-                                 style="animation: dropdownIn 0.18s ease-out forwards"
-                                 (click)="$event.stopPropagation()">
-                                <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
-                                <ul class="py-1">
-                                    @for (item of censosMenu; track item.label) {
-                                        <li>
-                                            <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                                                class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
-                                                {{ item.label }}
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-                    </div>
-                    <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
-                        Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-                    </button>
-                </nav>
-            </header>
+        <div class="flex items-center gap-4 md:gap-5">
+          <div class="flex items-center cursor-pointer" routerLink="/">
+            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-12 md:h-14 w-auto object-contain">
+          </div>
+          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
+          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-12 md:h-12 w-auto object-contain hidden md:block">
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
+          <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
+            Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+          </button>
+          <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+            Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+          </button>
+          <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+            Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+          </button> -->
+          <div class="relative">
+            <button (click)="toggleCensos($event)"
+              class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
+              Censos 2025
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.rotate-180]="censosOpen()"></app-hero-icon>
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            @if (censosOpen()) {
+              <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                   style="animation: dropdownIn 0.18s ease-out forwards"
+                   (click)="$event.stopPropagation()">
+                <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
+                <ul class="py-1">
+                  @for (item of censosMenu; track item.label) {
+                    <li>
+                      <button [routerLink]="item.route" (click)="censosOpen.set(false)"
+                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        {{ item.label }}
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+          <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
+            Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+          </button>
+        </nav>
+      </header>
 
             <!-- ══ FILTER BAR ═══════════════════════════════════════════════════════ -->
             <div class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 xl:px-10 2xl:px-16

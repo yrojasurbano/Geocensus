@@ -58,7 +58,6 @@ interface ColorBreak {
 }
 
 // ── Indicadores de mapa ─────────────────────────────────────────────────────
-// REQ 1: edad_media → edad_promedio en todo el sistema
 type MapIndicatorKey =
     | 'poblacion' | 'edad_promedio' | 'edad_mediana' | 'razon_sexo'
     | 'indice_envejecimiento' | 'dep_total' | 'dep_juvenil' | 'dep_adulta'
@@ -71,21 +70,19 @@ interface IndicatorDef {
     decimals: number;
 }
 
-// REQ 1: Reemplazos globales de labels y unidades
 const INDICATORS: IndicatorDef[] = [
-    { key: 'poblacion',             label: 'Población censada',           unit: '',         decimals: 0 },
-    { key: 'edad_promedio',         label: 'Edad promedio',               unit: ' años',    decimals: 1 }, // REQ 1
-    { key: 'edad_mediana',          label: 'Edad mediana',                unit: ' años',    decimals: 1 },
-    { key: 'razon_sexo',            label: 'Razón hombre – mujer',        unit: '',         decimals: 1 }, // REQ 1
-    { key: 'indice_envejecimiento', label: 'Índice de envejecimiento',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_total',             label: 'Relación de dependencia total',      unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_juvenil',           label: 'Relación dependencia juvenil',    unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'dep_adulta',            label: 'Relación dependencia adulta',     unit: '',         decimals: 1 }, // REQ 1: sin %
-    { key: 'densidad_total',        label: 'Densidad población censada',       unit: ' hab/km²', decimals: 1 },
-    { key: 'densidad_65',           label: 'Densidad población 60 años y más',           unit: ' hab/km²', decimals: 2 },
+    { key: 'poblacion',             label: 'Población censada',                    unit: '',         decimals: 0 },
+    { key: 'edad_promedio',         label: 'Edad promedio',                        unit: ' años',    decimals: 1 },
+    { key: 'edad_mediana',          label: 'Edad mediana',                         unit: ' años',    decimals: 1 },
+    { key: 'razon_sexo',            label: 'Razón hombre – mujer',                 unit: '',         decimals: 1 },
+    { key: 'indice_envejecimiento', label: 'Índice de envejecimiento',             unit: '',         decimals: 1 },
+    { key: 'dep_total',             label: 'Relación de dependencia total',        unit: '',         decimals: 1 },
+    { key: 'dep_juvenil',           label: 'Relación dependencia juvenil',         unit: '',         decimals: 1 },
+    { key: 'dep_adulta',            label: 'Relación dependencia adulta',          unit: '',         decimals: 1 },
+    { key: 'densidad_total',        label: 'Densidad población censada',           unit: ' hab/km²', decimals: 1 },
+    { key: 'densidad_65',           label: 'Densidad población 60 años y más',    unit: ' hab/km²', decimals: 2 },
 ];
 
-// REQ 1: clave renombrada a edad_promedio
 const MOCK_DEP: Record<string, Record<string, number>> = {
     '01':{ edad_promedio:28.4,edad_mediana:25.8,razon_sexo:101.2,indice_envejecimiento:28.4,dep_total:62.1,dep_juvenil:50.3,dep_adulta:11.8,densidad_65:1.4 },
     '02':{ edad_promedio:30.2,edad_mediana:27.6,razon_sexo:97.8, indice_envejecimiento:38.2,dep_total:58.4,dep_juvenil:44.6,dep_adulta:13.8,densidad_65:2.3 },
@@ -114,7 +111,6 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
     '25':{ edad_promedio:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
 };
 
-// REQ 4: Paleta coroplética actualizada
 const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
 
 export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
@@ -130,27 +126,45 @@ const S = { w: 380, h: 550 };
     providers: [provideEchartsCore({ echarts })],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="bg-[#f4f7f9] h-screen w-full flex flex-col font-sans text-gray-800 overflow-auto md:overflow-hidden"
-             (click)="closeGeoDropdowns()">
 
-      <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full shrink-0">
-        <div class="flex items-center gap-4 md:gap-5">
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECCIÓN RAÍZ
+         • Móvil/Tablet  : scroll vertical libre (overflow-auto, altura auto)
+         • Desktop xl+   : pantalla completa fija (h-screen, overflow-hidden)
+    ══════════════════════════════════════════════════════════════════════ -->
+    <section
+      class="bg-[#f4f7f9] w-full flex flex-col font-sans text-gray-800
+             overflow-auto xl:h-screen xl:overflow-hidden"
+      (click)="closeGeoDropdowns()">
+
+      <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+      <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50
+                     flex justify-between items-center
+                     px-4 py-2 sm:px-6 sm:py-3 md:px-10 md:py-3 lg:px-12 lg:py-4
+                     w-full shrink-0">
+
+        <!-- Logos -->
+        <div class="flex items-center gap-3 md:gap-4 lg:gap-5">
           <div class="flex items-center cursor-pointer" routerLink="/">
-            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-12 md:h-14 w-auto object-contain">
+            <img src="logo_inei_azul.png" alt="Logo INEI"
+                 class="h-9 sm:h-10 md:h-11 lg:h-14 w-auto object-contain">
           </div>
-          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
-          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-12 md:h-12 w-auto object-contain hidden md:block">
+          <div class="w-px h-7 md:h-9 bg-gray-200 hidden md:block"></div>
+          <img src="logo_cpv.png" alt="Logo CPV 2025"
+               class="h-9 sm:h-10 md:h-11 lg:h-12 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
-          <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
+
+        <!-- Nav desktop -->
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium tracking-wide"
+             style="color:#0056a1">
+          <button routerLink="/"
+            class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+          <button routerLink="/resultados"
+            class="hover:text-secondary transition-colors uppercase relative group font-black underline">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
-            Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-          </button> -->
           <div class="relative">
             <button (click)="toggleCensos($event)"
               class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
@@ -168,8 +182,11 @@ const S = { w: 380, h: 550 };
                   @for (item of censosMenu; track item.label) {
                     <li>
                       <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700
+                               hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10
+                               hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary
+                                     opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                         {{ item.label }}
                       </button>
                     </li>
@@ -178,70 +195,150 @@ const S = { w: 380, h: 550 };
               </div>
             }
           </div>
-          <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/noticias"
+            class="hover:text-secondary transition-colors uppercase relative group">
             Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
         </nav>
+
+        <!-- Hamburger — solo visible en móvil/tablet (<lg) -->
+        <button
+          (click)="toggleMobileMenu($event)"
+          class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg
+                 hover:bg-gray-100 transition-colors gap-1.5"
+          aria-label="Menú">
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.rotate-45]="mobileMenuOpen()"
+                [class.translate-y-2]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.opacity-0]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.-rotate-45]="mobileMenuOpen()"
+                [class.-translate-y-2]="mobileMenuOpen()"></span>
+        </button>
       </header>
 
-      <div class="flex flex-col md:grid md:grid-cols-6 gap-3 px-4 md:px-6 2xl:px-8 py-3 2xl:py-4 bg-white border-b border-gray-100 shadow-sm sticky top-[57px] md:top-[65px] z-40 shrink-0">
+      <!-- Menú móvil desplegable -->
+      @if (mobileMenuOpen()) {
+        <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3
+                    flex flex-col gap-1"
+             style="animation: dropdownIn 0.18s ease-out forwards"
+             (click)="$event.stopPropagation()">
+          <button routerLink="/" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Inicio
+          </button>
+          <button routerLink="/resultados" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-black text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide underline">
+            Resultados
+          </button>
+          <!-- Censos submenu en móvil -->
+          <button (click)="toggleCensos($event)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide
+                   flex items-center justify-between">
+            Censos 2025
+            <app-hero-icon [name]="'chevron-down'" class="w-4 h-4 transition-transform"
+              [class.rotate-180]="censosOpen()"></app-hero-icon>
+          </button>
+          @if (censosOpen()) {
+            <div class="pl-4 flex flex-col gap-0.5 border-l-2 border-blue-100 ml-3">
+              @for (item of censosMenu; track item.label) {
+                <button [routerLink]="item.route"
+                  (click)="censosOpen.set(false); mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-600
+                         hover:bg-gray-50 transition-colors">
+                  {{ item.label }}
+                </button>
+              }
+            </div>
+          }
+          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Noticias
+          </button>
+        </div>
+      }
 
-        <div class="w-full md:col-span-2 bg-gradient-to-r from-primary to-secondary rounded-xl p-4 text-white flex flex-row items-center justify-center gap-6 shadow-md relative overflow-hidden group text-left">
-          <div class="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-          <div class="absolute top-3 right-3 z-10 flex items-center gap-2">
+      <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════
+           Móvil:   columna única — card población encima, filtros abajo
+           Tablet:  grid 2 cols
+           Desktop: grid 6 cols
+      ══════════════════════════════════════════════════════════════════════ -->
+      <div class="bg-white border-b border-gray-100 shadow-sm sticky z-40
+                  top-[53px] sm:top-[57px] md:top-[61px] lg:top-[65px]
+                  px-3 py-2 sm:px-4 sm:py-3 md:px-6 lg:px-6 2xl:px-8
+                  flex flex-col md:grid md:grid-cols-6 gap-2 md:gap-3 shrink-0"
+           (click)="$event.stopPropagation()">
+
+        <!-- Card Población total -->
+        <div class="w-full md:col-span-2
+                    bg-gradient-to-r from-primary to-secondary rounded-xl p-3 md:p-4
+                    text-white flex flex-row items-center justify-center gap-4 md:gap-6
+                    shadow-md relative overflow-hidden group text-left">
+          <div class="absolute right-0 top-0 w-20 h-20 bg-white/10 rounded-full -mr-6 -mt-6 transition-transform group-hover:scale-110"></div>
+          <div class="absolute top-2 right-2 z-10 flex items-center gap-1.5">
             <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
               <app-hero-icon [name]="'globe-americas'"
                 (click)="setMapIndicator('poblacion')"
-                class="w-5 h-5 cursor-pointer transition-all"
+                class="w-4 h-4 md:w-5 md:h-5 cursor-pointer transition-all"
                 [class.animate-pulse]="activeIndicator() !== 'poblacion'"
                 [class.scale-125]="activeIndicator() === 'poblacion'"
                 [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'">
               </app-hero-icon>
             </span>
-            <!-- REQ 6: tooltip de info → "Cantidad de residentes habituales" -->
             <span matTooltip="Cantidad de residentes habituales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-              <app-hero-icon [name]="'information-circle'" class="w-5 h-5 text-white/70"></app-hero-icon>
+              <app-hero-icon [name]="'information-circle'" class="w-4 h-4 md:w-5 md:h-5 text-white/70"></app-hero-icon>
             </span>
           </div>
-          <div class="p-3 rounded-full relative z-10">
-            <img src="pobcensada.svg" class="w-16 h-16" style="filter: brightness(0) invert(1);">
+          <div class="p-2 md:p-3 rounded-full relative z-10">
+            <img src="pobcensada.svg" class="w-12 h-12 md:w-16 md:h-16" style="filter: brightness(0) invert(1);">
           </div>
           <div class="relative z-10 flex flex-col min-w-0">
-            <div class="text-xs font-bold opacity-80 tracking-wide mb-0.5 truncate">{{ displayedTitle() }}</div>
-            <div class="text-3xl md:text-4xl 2xl:text-5xl font-black tracking-tighter">{{ displayedPopulation() }}</div>
-            <div class="text-[10px] font-semibold opacity-70 tracking-wide mt-0.5">Población Censada</div>
+            <div class="text-[10px] md:text-xs font-bold opacity-80 tracking-wide mb-0.5 truncate">{{ displayedTitle() }}</div>
+            <div class="text-2xl sm:text-3xl md:text-4xl 2xl:text-5xl font-black tracking-tighter">{{ displayedPopulation() }}</div>
+            <div class="text-[9px] md:text-[10px] font-semibold opacity-70 tracking-wide mt-0.5">Población Censada</div>
           </div>
         </div>
 
-        <!-- ── Selector geográfico multi-nivel ────────────────────────── -->
-        <div class="w-full md:col-span-4 flex flex-col gap-2 pl-0 md:pl-2 pt-2 md:pt-0 justify-center"
+        <!-- Selector geográfico -->
+        <div class="w-full md:col-span-4 flex flex-col gap-2 pl-0 md:pl-2 justify-center"
              (click)="$event.stopPropagation()">
 
+          <!-- Botones de vista -->
           <div class="flex justify-end">
             <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
               <button
-                class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
+                class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all shadow-sm
+                       bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
                 Primeros Resultados
               </button>
               <button
                 routerLink="/comparativa"
-                class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
+                class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
+                       text-gray-400 hover:text-gray-600 tracking-wide">
                 Comparativo Territorial
               </button>
             </div>
           </div>
 
-          <!-- REQ 5: Eliminar botón de nivel. Solo quedan dep/prov/dist + restablecer -->
+          <!-- Dropdowns geográficos -->
           <div class="flex flex-wrap items-center justify-end gap-2">
 
+            <!-- Restablecer filtros -->
             <button
               (click)="resetFilters()"
-              class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1] transition-colors text-xs font-black tracking-wide shrink-0 group">
-              <app-hero-icon [name]="'arrow-path'" class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-              <span class="hidden md:inline">Restablecer Filtros</span>
+              class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1]
+                     transition-colors text-xs font-black tracking-wide shrink-0 group">
+              <app-hero-icon [name]="'arrow-path'"
+                class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
+              <span class="hidden sm:inline">Restablecer Filtros</span>
             </button>
 
-            <div class="hidden md:block h-7 w-px bg-gray-200 shrink-0"></div>                        
+            <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
             <!-- ★ Departamento -->
             <div class="relative">
@@ -249,23 +346,24 @@ const S = { w: 380, h: 550 };
                 (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
                 class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                        text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
-                       min-w-[148px] justify-between">
+                       min-w-[130px] sm:min-w-[148px] justify-between">
                 <span class="flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
                   <span class="text-gray-400 mr-0.5">Dep.:</span>
-                  <span class="truncate max-w-[80px]">{{ geoDepLabel() }}</span>
+                  <span class="truncate max-w-[70px] sm:max-w-[80px]">{{ geoDepLabel() }}</span>
                 </span>
                 <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                   [class.rotate-180]="openGeoDropdown() === 'dep'">
                 </app-hero-icon>
               </button>
               @if (openGeoDropdown() === 'dep') {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-60 overflow-hidden"
+                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                             shadow-xl z-50 w-56 sm:w-60 overflow-hidden"
                      (click)="$event.stopPropagation()">
                   <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
                     <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
                   </div>
-                  <div class="max-h-60 overflow-y-auto">
+                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
                     <button
                       (click)="selectDep(null)"
                       class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
@@ -313,7 +411,8 @@ const S = { w: 380, h: 550 };
             <div class="relative">
               <button
                 (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[148px] justify-between"
+                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
+                       min-w-[130px] sm:min-w-[148px] justify-between"
                 [class.bg-gray-50]="isGeoProvActive()"
                 [class.border-gray-200]="isGeoProvActive()"
                 [class.text-gray-700]="isGeoProvActive()"
@@ -329,7 +428,7 @@ const S = { w: 380, h: 550 };
                   <span class="mr-0.5"
                     [class.text-gray-400]="isGeoProvActive()"
                     [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
-                  <span class="truncate max-w-[70px]">{{ geoProvLabel() }}</span>
+                  <span class="truncate max-w-[60px] sm:max-w-[70px]">{{ geoProvLabel() }}</span>
                 </span>
                 <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
                   [class.text-gray-400]="isGeoProvActive()"
@@ -338,12 +437,13 @@ const S = { w: 380, h: 550 };
                 </app-hero-icon>
               </button>
               @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden"
+                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                             shadow-xl z-50 w-60 sm:w-64 overflow-hidden"
                      (click)="$event.stopPropagation()">
                   <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
                     <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
                   </div>
-                  <div class="max-h-60 overflow-y-auto">
+                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
                     <button
                       (click)="selectProv('')"
                       class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
@@ -391,7 +491,8 @@ const S = { w: 380, h: 550 };
             <div class="relative">
               <button
                 (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[140px] justify-between"
+                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
+                       min-w-[120px] sm:min-w-[140px] justify-between"
                 [class.bg-gray-50]="isGeoDistActive()"
                 [class.border-gray-200]="isGeoDistActive()"
                 [class.text-gray-700]="isGeoDistActive()"
@@ -407,7 +508,7 @@ const S = { w: 380, h: 550 };
                   <span class="mr-0.5"
                     [class.text-gray-400]="isGeoDistActive()"
                     [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
-                  <span class="truncate max-w-[65px]">{{ geoDistLabel() }}</span>
+                  <span class="truncate max-w-[55px] sm:max-w-[65px]">{{ geoDistLabel() }}</span>
                 </span>
                 <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
                   [class.text-gray-400]="isGeoDistActive()"
@@ -416,12 +517,13 @@ const S = { w: 380, h: 550 };
                 </app-hero-icon>
               </button>
               @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-80 overflow-hidden"
+                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                             shadow-xl z-50 w-72 sm:w-80 overflow-hidden"
                      (click)="$event.stopPropagation()">
                   <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
                     <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
                   </div>
-                  <div class="max-h-60 overflow-y-auto">
+                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
                     <button
                       (click)="selectDist('')"
                       class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
@@ -465,28 +567,40 @@ const S = { w: 380, h: 550 };
               }
             </div>
 
-          </div><!-- /fila inferior filtros -->
+          </div><!-- /fila dropdowns -->
         </div><!-- /col-span-4 -->
-      </div><!-- /segundo nav -->
+      </div><!-- /barra de filtros -->
 
-      <div class="flex-1 p-3 2xl:p-5 overflow-y-auto md:overflow-hidden min-h-0 flex flex-col">
 
-        <!-- ══ GRID PRINCIPAL: 6 cols ════════════════════════════════════════════ -->
-        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3 2xl:gap-4 min-h-0 md:overflow-hidden">
+      <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════════════
+           Wrapper que en xl activa scroll interno para que el header quede fijo
+      ══════════════════════════════════════════════════════════════════════ -->
+      <div class="flex-1 p-3 md:p-4 2xl:p-5 xl:overflow-hidden xl:min-h-0 flex flex-col">
 
-          <!-- ══ COL 1–2: Grid interno de indicadores ══════════════════════════ -->
-          <!-- Layout 2 cols, 6 filas (50% + 1×10% col-span-2 + 4×10% + 1×10%) -->
-          <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2
-                      grid grid-cols-2 grid-rows-[5fr_1fr_1fr_1fr_1fr_1fr]
-                      gap-3 min-h-0 overflow-hidden">
+        <!-- ══ GRID PRINCIPAL ═══════════════════════════════════════════════
+             Móvil  (< md) : 1 columna, cada sección con altura propia
+             Tablet (md)   : 2 columnas (indicadores | pirámide+mapa apilados)
+             Desktop (xl)  : 6 columnas, 2 filas — layout original completo
+        ══════════════════════════════════════════════════════════════════ -->
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6
+                    gap-3 2xl:gap-4 xl:min-h-0 xl:overflow-hidden">
 
-            <!-- ── FILA 1 (50%): Población por sexo + Grandes grupos ─────── -->
+          <!-- ══ BLOQUE INDICADORES ═════════════════════════════════════════
+               Móvil  : 2 columnas con alturas auto
+               Desktop xl: 2 columnas con grid-rows fijas (layout original)
+          ══════════════════════════════════════════════════════════════════ -->
+          <div class="col-span-1 md:col-span-1 xl:col-span-2 xl:row-span-2
+                      grid grid-cols-2 gap-3
+                      xl:grid-rows-[8fr_3fr_3fr_3fr_3fr] xl:min-h-0 xl:overflow-hidden">
 
-            <!-- REQ 3: Card Población por Sexo — tooltip e info icon eliminados -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <!-- ── FILA 1: Gráficos Sexo + Grandes Grupos ──────────────── -->
+
+            <!-- Población por Sexo -->
+            <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden
+                        min-h-[180px] sm:min-h-[200px] xl:min-h-0">
               <div class="flex justify-between items-center mb-2 shrink-0">
-                <h4 class="text-xs font-black text-black tracking-wide">Población por sexo</h4>
-                <!-- REQ 6: Eliminar por completo el tooltip e icono de info del gráfico de sexo -->
+                <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight">Población por sexo</h4>
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('poblacion')"
@@ -502,37 +616,40 @@ const S = { w: 380, h: 550 };
                   <div echarts [options]="pieOptionsSex" class="w-full h-full"></div>
                 }
               </div>
-              <!-- CAMBIO 6: Hombres a la izquierda, Mujeres a la derecha -->
-              <div class="flex justify-center gap-6 mt-2 shrink-0">
+              <div class="flex justify-center gap-4 md:gap-6 mt-2 shrink-0">
                 <div class="flex flex-col items-center">
                   <div class="flex items-center gap-1 mb-1">
-                    <img src="hombre.svg" class="w-8 h-8">
-                    <span class="text-xs font-bold text-gray-500">Hombres</span>
+                    <img src="hombre.svg" class="w-6 h-6 md:w-8 md:h-8">
+                    <span class="text-[10px] sm:text-xs font-bold text-gray-500">Hombres</span>
                   </div>
-                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().male) }}</span>
-                  <span class="text-xs text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().male / cardData().total * 100 : 0, 1) }}%</span>
+                  <span class="text-sm md:text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().male) }}</span>
+                  <span class="text-[10px] text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().male / cardData().total * 100 : 0, 1) }}%</span>
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="flex items-center gap-1 mb-1">
-                    <img src="mujer.svg" class="w-8 h-8" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
-                    <span class="text-xs font-bold text-gray-500">Mujeres</span>
+                    <img src="mujer.svg" class="w-6 h-6 md:w-8 md:h-8"
+                         style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+                    <span class="text-[10px] sm:text-xs font-bold text-gray-500">Mujeres</span>
                   </div>
-                  <span class="text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().female) }}</span>
-                  <span class="text-xs text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().female / cardData().total * 100 : 0, 1) }}%</span>
+                  <span class="text-sm md:text-base 2xl:text-lg font-black text-gray-800 leading-none">{{ fmt(cardData().female) }}</span>
+                  <span class="text-[10px] text-gray-400">{{ fmtD(cardData().total > 0 ? cardData().female / cardData().total * 100 : 0, 1) }}%</span>
                 </div>
               </div>
             </div>
 
-            <!-- REQ 3: Card Grandes Grupos de Edad — sin leyenda inferior, colores y etiquetas actualizadas -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
+            <!-- Grandes Grupos de Edad -->
+            <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden
+                        min-h-[180px] sm:min-h-[200px] xl:min-h-0">
               <div class="flex justify-between items-center mb-2 shrink-0">
-                <h4 class="text-xs font-black text-black tracking-wide">Población por grandes grupos de edad</h4>
-                <!-- REQ 6: tooltip actualizado para redondeo -->
-                <span matTooltip="Por efecto del redondeo de cifras a un decimal, los porcentajes pueden no sumar exactamente 100%" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight pr-2">
+                  Población por grandes grupos de edad
+                </h4>
+                <span matTooltip="Por efecto del redondeo de cifras a un decimal, los porcentajes pueden no sumar exactamente 100%"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center shrink-0">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-400"></app-hero-icon>
                 </span>
               </div>
-              <!-- REQ 3: leyenda eliminada; solo el gráfico ocupa el espacio -->
               <div class="flex-1 min-h-0">
                 @if (isBrowser) {
                   <div echarts [options]="pieOptionsAge" class="w-full h-full"></div>
@@ -540,287 +657,339 @@ const S = { w: 380, h: 550 };
               </div>
             </div>
 
-            <!-- ── FILA 2 (10%): Edad Promedio + Edad Mediana ───────────── -->
+            <!-- ── FILA 2: Edad Promedio + Edad Mediana (card fusionado) ── -->
+            <div class="col-span-1 bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex items-stretch relative overflow-hidden min-h-[72px] xl:min-h-0 gap-0">
 
-            <!-- Fila 2 Col 1: Edad Promedio (REQ 1: renombrado) -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('edad_promedio')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'edad_promedio'"
-                    [class.scale-125]="activeIndicator() === 'edad_promedio'"
-                    [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
-                </span>
-                <!-- REQ 6: tooltip Edad Promedio -->
-                <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
-                </span>
-              </div>
-              <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="epromedio.svg" class="w-8 h-8">
+              <!-- Indicador: Edad Promedio -->
+              <div class="flex-1 flex flex-col relative min-w-0 pr-2">
+                <div class="absolute top-0 right-2 flex items-center gap-1 z-10">
+                  <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                    <app-hero-icon [name]="'globe-americas'"
+                      (click)="setMapIndicator('edad_promedio')"
+                      class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
+                      [class.animate-none]="activeIndicator() === 'edad_promedio'"
+                      [class.scale-125]="activeIndicator() === 'edad_promedio'"
+                      [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
+                    </app-hero-icon>
+                  </span>
+                  <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
+                  </span>
                 </div>
-                <div class="min-w-0">
-                  <!-- REQ 1: Edad Media → Edad Promedio -->
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Edad promedio</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['edad_promedio'], 1) }} <span class="text-[9px] font-bold text-gray-400">años</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fila 2 Col 2: Edad Mediana -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('edad_mediana')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'edad_mediana'"
-                    [class.scale-125]="activeIndicator() === 'edad_mediana'"
-                    [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
-                </span>
-                <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
-                </span>
-              </div>
-              <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="emediana.svg" class="w-8 h-8">
-                </div>
-                <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Edad mediana</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['edad_mediana'], 1) }} <span class="text-[9px] font-bold text-gray-400">años</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── FILA 3 (10%) col-span-2: Razón hombre – mujer centrado ── -->
-
-            <!-- Fila 3: Razón hombre – mujer (ocupa columnas 1 y 2, contenido centrado) -->
-            <div class="col-span-2 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('razon_sexo')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'razon_sexo'"
-                    [class.scale-125]="activeIndicator() === 'razon_sexo'"
-                    [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
-                </span>
-                <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
-                </span>
-              </div>
-              <!-- Título centrado -->
-              <div class="text-[9px] font-black text-black tracking-wide leading-none mb-2 shrink-0 text-center">Razón hombre – mujer</div>
-              <!-- Contenido principal centrado -->
-              <div class="flex-1 flex items-center justify-center gap-4 min-h-0">
-                <!-- Bloque hombre -->
-                <div class="flex items-center gap-2 shrink-0">
-                  <img src="hombre.svg" class="w-8 h-8 shrink-0">
-                  <div class="flex flex-col leading-tight items-center">
-                    <span class="text-[9px] font-semibold text-gray-500">Hay</span>
-                    <span class="text-lg font-black text-[#000000] leading-none">{{ fmtD(cardMock()['razon_sexo'], 1) }}</span>
+                <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
+                  <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="epromedio.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                   </div>
-                </div>
-                <!-- Separador + bloque mujer -->
-                <div class="flex items-center gap-2 shrink-0">
-                  <img src="mujer.svg" class="w-8 h-8 shrink-0" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
-                  <div class="flex flex-col leading-tight items-center">
-                    <span class="text-[9px] font-semibold text-gray-500">por cada</span>
-                    <span class="text-lg font-black text-[#000000] leading-none">100 <span class="text-[9px] font-semibold text-gray-500">mujeres</span></span>
+                  <div class="min-w-0">
+                    <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Edad promedio</div>
+                    <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                      {{ fmtD(cardMock()['edad_promedio'], 1) }}
+                      <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">años</span>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              <!-- Divisor vertical -->
+              <div class="w-px bg-gray-100 self-stretch shrink-0"></div>
+
+              <!-- Indicador: Edad Mediana -->
+              <div class="flex-1 flex flex-col relative min-w-0 pl-2">
+                <div class="absolute top-0 right-0 flex items-center gap-1 z-10">
+                  <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                    <app-hero-icon [name]="'globe-americas'"
+                      (click)="setMapIndicator('edad_mediana')"
+                      class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
+                      [class.animate-none]="activeIndicator() === 'edad_mediana'"
+                      [class.scale-125]="activeIndicator() === 'edad_mediana'"
+                      [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
+                    </app-hero-icon>
+                  </span>
+                  <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
+                  </span>
+                </div>
+                <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
+                  <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="emediana.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Edad mediana</div>
+                    <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                      {{ fmtD(cardMock()['edad_mediana'], 1) }}
+                      <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">años</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            <!-- Fila 4 Col 1: Índice de Envejecimiento -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- ── FILA 2 COL 2: Razón hombre-mujer ──────────────────────── -->
+            <div class="col-span-1 bg-white rounded-xl px-3 md:px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+  
+  <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+    <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+      <app-hero-icon 
+        [name]="'globe-americas'"
+        (click)="setMapIndicator('razon_sexo')"
+        class="w-3.5 h-3.5 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
+        [class.animate-none]="activeIndicator() === 'razon_sexo'"
+        [class.scale-125]="activeIndicator() === 'razon_sexo'"
+        [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
+      </app-hero-icon>
+    </span>
+    <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
+      <app-hero-icon [name]="'information-circle'" class="w-5.5 h-5.5 text-gray-300"></app-hero-icon>
+    </span>
+  </div>
+
+  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-none mb-2 shrink-0 text-left">
+    Razón hombre – mujer
+  </div>
+
+  <div class="flex-1 flex items-center justify-start gap-3 md:gap-4 min-h-0">
+    
+    <div class="flex items-center gap-2 shrink-0">
+      <img src="hombre.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 shrink-0" alt="Hombre">
+      <div class="flex flex-col leading-tight items-start">
+        <span class="text-[9px] xl:text-xs font-semibold text-gray-500">Hay</span>
+        <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none">
+          {{ fmtD(cardMock()['razon_sexo'], 1) }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <img src="mujer.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 shrink-0" alt="Mujer"
+           style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+      <div class="flex flex-col leading-tight items-start">
+        <span class="text-[9px] xl:text-xs font-semibold text-gray-500">por cada</span>
+        <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none">
+          100 <span class="text-[9px] xl:text-xs font-semibold text-gray-500">mujeres</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- ── FILA 3: Índice Envejecimiento + Dep. Total ───────────── -->
+
+            <!-- Índice de Envejecimiento -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('indice_envejecimiento')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
                     [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
                     [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="envejecimiento.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="envejecimiento.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Índice de envejecimiento</div>
-                  <!-- REQ 1: Eliminar símbolo % → número absoluto -->
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['indice_envejecimiento'], 1) }}</div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Índice de envejecimiento</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardMock()['indice_envejecimiento'], 1) }}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 4 Col 2: Rel. Dependencia Total -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- Relación Dependencia Total -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('dep_total')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_total'"
                     [class.scale-125]="activeIndicator() === 'dep_total'"
                     [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_total.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_total.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia total</div>
-                  <!-- REQ 1: sin % -->
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_total'], 1) }}</div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia total</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardMock()['dep_total'], 1) }}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 5 Col 1: Rel. Dependencia Juvenil -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- ── FILA 4: Dep. Juvenil + Dep. Adulta ──────────────────── -->
+
+            <!-- Relación Dependencia Juvenil -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('dep_juvenil')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_juvenil'"
                     [class.scale-125]="activeIndicator() === 'dep_juvenil'"
                     [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_juvenil.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_juvenil.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia juvenil</div>
-                  <!-- REQ 1: sin % -->
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_juvenil'], 1) }}</div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia juvenil</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardMock()['dep_juvenil'], 1) }}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 5 Col 2: Rel. Dependencia Adulta -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- Relación Dependencia Adulta -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('dep_adulta')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_adulta'"
                     [class.scale-125]="activeIndicator() === 'dep_adulta'"
                     [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 15 a 59 años" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 15 a 59 años"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_adulta.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_adulta.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
-                  <!-- REQ 1: sin % -->
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['dep_adulta'], 1) }}</div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardMock()['dep_adulta'], 1) }}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 6 Col 1: Densidad Pob. Censada -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- ── FILA 5: Densidad Total + Densidad 60+ ────────────────── -->
+
+            <!-- Densidad Población Censada -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('densidad_total')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'densidad_total'"
                     [class.scale-125]="activeIndicator() === 'densidad_total'"
                     [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <span matTooltip="Cantidad de habitantes por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Cantidad de habitantes por kilómetro cuadrado"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pobtotal.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pobtotal.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardData().density, 1) }} <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardData().density, 1) }}
+                    <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fila 6 Col 2: Densidad Pob. Adulta Mayor (1 columna) -->
-            <div class="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+            <!-- Densidad Población Adulta Mayor -->
+            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
+                        flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
+              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'globe-americas'"
                     (click)="setMapIndicator('densidad_65')"
-                    class="w-3.5 h-3.5 cursor-pointer transition-all animate-pulse"
+                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'densidad_65'"
                     [class.scale-125]="activeIndicator() === 'densidad_65'"
                     [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'">
                   </app-hero-icon>
                 </span>
-                <!-- REQ 6: tooltip de densidad adulta mayor -->
-                <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado"
+                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
+                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pobtotal.svg" class="w-8 h-8">
+                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pobtotal.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[9px] font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
-                  <div class="text-lg font-black text-gray-800 leading-none mt-0.5">{{ fmtD(cardMock()['densidad_65'], 2) }} <span class="text-[9px] font-bold text-gray-400">hab/km²</span></div>
+                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
+                  <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    {{ fmtD(cardMock()['densidad_65'], 2) }}
+                    <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-          </div><!-- /col 1-2 indicators -->
+          </div><!-- /bloque indicadores -->
 
-          <!-- ══ COL 3-4: Pirámide Poblacional — 100% de alto ══════════════════ -->
-          <!-- REQ 2: Pirámide ocupa cols 3-4 a full height sin cards inferiores -->
-          <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2 min-h-0">
-            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 h-full flex flex-col overflow-hidden relative">
-              <div class="flex justify-between items-center mb-4 shrink-0">
-                <h3 class="text-base font-black text-gray-800 tracking-wide">Pirámide poblacional</h3>
-                <div class="flex gap-4 text-xs font-bold">
+
+          <!-- ══ PIRÁMIDE POBLACIONAL ════════════════════════════════════════
+               Móvil  : 1 col, altura fija 400px
+               Tablet : 1 col, altura fija 420px
+               Desktop xl: 2 cols, full height
+          ══════════════════════════════════════════════════════════════════ -->
+          <div class="col-span-1 md:col-span-1 xl:col-span-2 xl:row-span-2
+                      min-h-[380px] sm:min-h-[420px] md:min-h-[460px] xl:min-h-0">
+            <div class="bg-white rounded-xl p-4 md:p-5 shadow-sm border border-gray-100
+                        h-full flex flex-col overflow-hidden relative">
+              <div class="flex justify-between items-center mb-3 md:mb-4 shrink-0">
+                <h3 class="text-sm md:text-base font-black text-gray-800 tracking-wide">Pirámide poblacional</h3>
+                <div class="flex gap-3 md:gap-4 text-xs font-bold">
                   <div class="flex items-center gap-1.5">
-                    <img src="hombre.svg" class="w-6 h-6">
+                    <img src="hombre.svg" class="w-5 h-5 md:w-6 md:h-6">
                     <span class="text-gray-500">Hombres</span>
                   </div>
                   <div class="flex items-center gap-1.5">
-                    <img src="mujer.svg" class="w-6 h-6" style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
+                    <img src="mujer.svg" class="w-5 h-5 md:w-6 md:h-6"
+                         style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
                     <span class="text-gray-500">Mujeres</span>
                   </div>
                 </div>
@@ -831,20 +1000,27 @@ const S = { w: 380, h: 550 };
                 }
               </div>
             </div>
-          </div><!-- /col 3-4 pirámide -->
+          </div><!-- /pirámide -->
 
-          <!-- ══ MAPA — col-span-2, row-span-2 con nota al pie ══════════════ -->
-          <!-- REQ 4: Nota metodológica debajo del mapa -->
-          <div class="col-span-1 md:col-span-2 xl:row-span-2 flex flex-col gap-2 min-h-[420px] md:min-h-0">
 
-            <!-- Mapa -->
-            <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden min-h-0">
+          <!-- ══ MAPA ══════════════════════════════════════════════════════════
+               Móvil  : 1 col, altura fija 480px
+               Tablet : 2 cols (ocupa ambas), altura fija 500px
+               Desktop xl: 2 cols, full height con nota al pie
+          ══════════════════════════════════════════════════════════════════ -->
+          <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2
+                      flex flex-col gap-2
+                      min-h-[460px] sm:min-h-[500px] md:min-h-[520px] xl:min-h-0">
+
+            <!-- Mapa SVG -->
+            <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100
+                        flex flex-col overflow-hidden min-h-0">
               <div class="flex-1 relative flex items-center justify-center min-h-0 overflow-hidden">
 
-                <!-- Indicador activo — superior izquierdo, actualizado al hacer click en card -->
+                <!-- Indicador superior izquierdo -->
                 <div class="absolute top-3 left-3 z-10 pointer-events-none select-none">
                   <div class="text-[10px] font-black text-primary tracking-wide mb-0.5">{{ mapIndicatorTitle() }}</div>
-                  <div class="text-xl font-black text-gray-900 tracking-tighter leading-none">
+                  <div class="text-lg md:text-xl font-black text-gray-900 tracking-tighter leading-none">
                     {{ mapIndicatorValue() }}
                   </div>
                   <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5">{{ activeIndicatorDef().label }}</div>
@@ -882,12 +1058,13 @@ const S = { w: 380, h: 550 };
 
                 @if (mapRegions().length > 0) {
 
-                  <!-- Tooltip siempre visible — solo muestra el indicador activo -->
+                  <!-- Tooltip región hover/seleccionada -->
                   <div class="absolute top-2 right-2 z-20 pointer-events-none"
                        style="animation: fadeIn 0.15s ease-out">
                     @if (hoveredRegion() || selectedRegion()) {
-                      <div class="bg-gray-900/95 text-white p-3 rounded-xl shadow-2xl min-w-[190px] border border-amber-500/50">
-                        <!-- Label contextual según nivel -->
+                      <div class="bg-gray-900/95 text-white p-3 rounded-xl shadow-2xl
+                                  min-w-[160px] sm:min-w-[190px] max-w-[200px]
+                                  border border-amber-500/50">
                         <div class="text-[8px] text-amber-400 uppercase font-black tracking-widest mb-0.5">
                           {{ nivelGeo() === 'Departamental' ? 'Departamento' : nivelGeo() === 'Provincial' ? 'Provincia' : 'Distrito' }}
                         </div>
@@ -907,7 +1084,6 @@ const S = { w: 380, h: 550 };
                         <p class="text-sm font-bold text-white border-b border-gray-700 pb-1.5 mb-2 leading-tight">
                           {{ (hoveredRegion() ?? selectedRegion())!.name }}
                         </p>
-                        <!-- Indicador activo -->
                         <div class="flex flex-col py-0.5 bg-amber-500/10 rounded px-1 mb-2 gap-0.5">
                           <span class="text-[8px] font-bold uppercase text-amber-300 leading-tight">
                             {{ activeIndicatorDef().label }}
@@ -916,7 +1092,6 @@ const S = { w: 380, h: 550 };
                             {{ getActiveValueByKey((hoveredRegion() ?? selectedRegion())!, activeIndicator()) }}
                           </span>
                         </div>
-                        <!-- Población por sexo -->
                         <div class="border-t border-gray-700 pt-1.5 mb-1.5">
                           <div class="text-[7px] font-black uppercase text-gray-400 tracking-widest mb-1">Población por sexo</div>
                           <div class="flex justify-between items-center mb-0.5">
@@ -924,7 +1099,9 @@ const S = { w: 380, h: 550 };
                             <span class="text-[8px] font-black text-white">
                               {{ fmt((hoveredRegion() ?? selectedRegion())!.male) }}
                               <span class="text-[7px] font-semibold text-gray-400">
-                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0 ? (hoveredRegion() ?? selectedRegion())!.male / (hoveredRegion() ?? selectedRegion())!.total * 100 : 0, 1) }}%)
+                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0
+                                    ? (hoveredRegion() ?? selectedRegion())!.male / (hoveredRegion() ?? selectedRegion())!.total * 100
+                                    : 0, 1) }}%)
                               </span>
                             </span>
                           </div>
@@ -933,29 +1110,29 @@ const S = { w: 380, h: 550 };
                             <span class="text-[8px] font-black text-white">
                               {{ fmt((hoveredRegion() ?? selectedRegion())!.female) }}
                               <span class="text-[7px] font-semibold text-gray-400">
-                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0 ? (hoveredRegion() ?? selectedRegion())!.female / (hoveredRegion() ?? selectedRegion())!.total * 100 : 0, 1) }}%)
+                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0
+                                    ? (hoveredRegion() ?? selectedRegion())!.female / (hoveredRegion() ?? selectedRegion())!.total * 100
+                                    : 0, 1) }}%)
                               </span>
                             </span>
                           </div>
                         </div>
-                        <!-- Densidad poblacional total -->
                         <div class="border-t border-gray-700 pt-1.5">
                           <div class="flex flex-col gap-0.5">
                             <span class="text-[8px] font-bold uppercase text-gray-400">
                               Densidad de la población censada
                             </span>
                             <span class="text-[8px] font-black text-white">
-                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }} 
-                            <span class="text-[7px] text-gray-400">hab/km²</span>
-                          </span>
+                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }}
+                              <span class="text-[7px] text-gray-400">hab/km²</span>
+                            </span>
                           </div>
                         </div>
                       </div>
-                    } @else {
-                    
                     }
                   </div>
 
+                  <!-- SVG del mapa -->
                   <svg
                     [attr.viewBox]="svgViewBox()"
                     class="w-full h-full max-h-full"
@@ -1016,9 +1193,13 @@ const S = { w: 380, h: 550 };
                     }
                   </svg>
 
+                  <!-- Leyenda coroplética -->
                   @if (colorBreaks().length) {
-                    <div class="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 shadow-lg border border-gray-100 pointer-events-none">
-                      <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase leading-tight">{{ activeIndicatorDef().label }}</div>
+                    <div class="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-sm
+                                rounded-xl p-2 md:p-2.5 shadow-lg border border-gray-100 pointer-events-none">
+                      <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase leading-tight">
+                        {{ activeIndicatorDef().label }}
+                      </div>
                       @if (activeIndicatorDef().unit) {
                         <div class="text-[8px] font-semibold text-gray-400 mb-1.5">({{ activeIndicatorDef().unit.trim() }})</div>
                       } @else {
@@ -1027,8 +1208,8 @@ const S = { w: 380, h: 550 };
                       <div class="flex flex-col gap-1">
                         @for (brk of colorBreaks().slice().reverse(); track brk.min) {
                           <div class="flex items-center gap-1.5">
-                            <div class="w-4 h-3 rounded-sm shrink-0" [style.background-color]="brk.color"></div>
-                            <span class="text-[8px] font-semibold text-gray-600 whitespace-nowrap">{{ brk.label }}</span>
+                            <div class="w-3.5 h-2.5 md:w-4 md:h-3 rounded-sm shrink-0" [style.background-color]="brk.color"></div>
+                            <span class="text-[7px] md:text-[8px] font-semibold text-gray-600 whitespace-nowrap">{{ brk.label }}</span>
                           </div>
                         }
                       </div>
@@ -1038,8 +1219,9 @@ const S = { w: 380, h: 550 };
               </div>
             </div><!-- /mapa -->
 
-            <!-- REQ 4: Nota metodológica al pie del mapa -->
-            <div class="shrink-0 bg-white/90 border border-gray-100 rounded-xl px-3 py-2 text-[10px] text-gray-500 leading-relaxed shadow-sm">
+            <!-- Nota metodológica -->
+            <div class="shrink-0 bg-white/90 border border-gray-100 rounded-xl
+                        px-3 py-2 text-[9px] sm:text-[10px] text-gray-500 leading-relaxed shadow-sm">
               <span class="font-black text-gray-600">Nota:</span>
               1/ Comprende los 43 distritos de la provincia de Lima.
               <br>
@@ -1056,12 +1238,18 @@ const S = { w: 380, h: 550 };
     styles: [`
     :host {
       display: block;
-      height: 100vh;
-      overflow: hidden;
+      /* Móvil/Tablet: flujo normal */
+      min-height: 100vh;
+      overflow: visible;
     }
-    @media (max-width: 768px) {
-      :host { height: auto; overflow: auto; }
+    /* Desktop xl+: pantalla completa fija */
+    @media (min-width: 1280px) {
+      :host {
+        height: 100vh;
+        overflow: hidden;
+      }
     }
+
     ::ng-deep .custom-tooltip {
       background-color: white !important;
       color: #333 !important;
@@ -1072,6 +1260,7 @@ const S = { w: 380, h: 550 };
       box-shadow: 0 10px 15px -3px rgba(0,0,0,.1) !important;
       border: 1px solid #e5e7eb !important;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-4px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -1085,20 +1274,24 @@ const S = { w: 380, h: 550 };
 export class DashboardComponent implements OnInit {
 
     // ── Header nav ────────────────────────────────────────────────────────
-    censosOpen = signal(false);
+    censosOpen     = signal(false);
+    mobileMenuOpen = signal(false);
 
     censosMenu = [
         { label: 'Características del censo', route: '/aspectos-generales' },
         { label: 'Innovaciones censales',      route: '/innovaciones' },
-        //{ label: 'Etapas censales',            route: '/organizacion' },
         { label: 'Normatividad censal',        route: '/normativa' },
         { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
     ];
 
     @HostListener('document:click')
-    onDocumentClick() { this.censosOpen.set(false); }
+    onDocumentClick() {
+        this.censosOpen.set(false);
+        this.mobileMenuOpen.set(false);
+    }
 
     toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
+    toggleMobileMenu(e: Event) { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
     // ── ECharts ───────────────────────────────────────────────────────────
     pieOptionsSex:  EChartsOption = {};
@@ -1113,7 +1306,7 @@ export class DashboardComponent implements OnInit {
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
 
     nivelGeo         = signal<NivelGeoType>('Departamental');
-    openGeoDropdown  = signal<'dep'|'prov'|'dist'|null>(null); // REQ 5: eliminado 'nivel'
+    openGeoDropdown  = signal<'dep'|'prov'|'dist'|null>(null);
     selectedProv     = signal<string>('');
     selectedDist     = signal<string>('');
 
@@ -1176,9 +1369,6 @@ export class DashboardComponent implements OnInit {
     }
     closeGeoDropdowns(): void { this.openGeoDropdown.set(null); }
 
-    // REQ 5: sin setNivelGeo() manual — el nivel se determina por las selecciones
-
-    // REQ 4+5: selectDep ahora auto-switch a Provincial y muestra provincias del dept
     selectDep(dept: { ccdd: string; name: string } | null): void {
         this.selectedCCDD.set(dept?.ccdd ?? '');
         this.selectedProv.set('');
@@ -1187,24 +1377,19 @@ export class DashboardComponent implements OnInit {
         this.openGeoDropdown.set(null);
 
         if (dept) {
-            // REQ 4: Al seleccionar dept → cambiar a nivel Provincial y cargar provincias
             this.nivelGeo.set('Provincial');
             this.loadGeoJsonProv();
-            // Zoom al bbox del departamento seleccionado
             this.fitRegionByCCDD(dept.ccdd);
         } else {
-            // Restablecer a nivel Departamental
             this.nivelGeo.set('Departamental');
             this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
         }
     }
 
-    /** Zoom al bbox de todas las provincias de un departamento */
     private fitRegionByCCDD(ccdd: string): void {
         const tryFit = () => {
             const geo = this.rawGeoJsonProv();
             if (!geo?.features) {
-                // GeoJSON aún no cargado — reintentar en 200ms
                 setTimeout(() => tryFit(), 200);
                 return;
             }
@@ -1242,7 +1427,6 @@ export class DashboardComponent implements OnInit {
         tryFit();
     }
 
-    // REQ 4: Al seleccionar prov → cambiar a nivel Distrital y cargar distritos
     selectProv(code: string): void {
         this.selectedProv.set(code);
         this.selectedDist.set('');
@@ -1291,7 +1475,6 @@ export class DashboardComponent implements OnInit {
         () => INDICATORS.find(d => d.key === this.activeIndicator())!
     );
 
-    // REQ 6: Lista de indicadores para el tooltip del mapa (sin densidad_total ni densidad_65)
     tooltipIndicators = computed<IndicatorDef[]>(() =>
         INDICATORS.filter(i => i.key !== 'densidad_total' && i.key !== 'densidad_65')
     );
@@ -1299,7 +1482,6 @@ export class DashboardComponent implements OnInit {
     private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
         const nivel = this.nivelGeo();
 
-        // ── Nivel Departamental ──────────────────────────────────────────
         if (nivel === 'Departamental') {
             const geo = this.rawGeoJson();
             if (!geo?.features) return [];
@@ -1323,7 +1505,6 @@ export class DashboardComponent implements OnInit {
             });
         }
 
-        // ── Nivel Provincial ─────────────────────────────────────────────
         if (nivel === 'Provincial') {
             const geo = this.rawGeoJsonProv();
             if (!geo?.features) return [];
@@ -1351,7 +1532,6 @@ export class DashboardComponent implements OnInit {
             });
         }
 
-        // ── Nivel Distrital ──────────────────────────────────────────────
         const geo = this.rawGeoJsonDist();
         if (!geo?.features) return [];
         const ccdd = this.selectedCCDD();
@@ -1379,7 +1559,6 @@ export class DashboardComponent implements OnInit {
         });
     });
 
-    // REQ 4: Quintiles equitativos con color asignado
     mapRegions = computed<MapRegion[]>(() => {
         const raws = this.parsedRegions();
         const key  = this.activeIndicator();
@@ -1389,7 +1568,6 @@ export class DashboardComponent implements OnInit {
         const sorted = [...vals].sort((a, b) => a - b);
         const n      = sorted.length;
 
-        // Quintiles equitativos: cada quintil tiene exactamente floor(n/5) elementos
         const quintileBounds = [0, 1, 2, 3, 4].map(i =>
             sorted[Math.min(Math.floor((i + 1) * n / 5) - 1, n - 1)]
         );
@@ -1404,7 +1582,6 @@ export class DashboardComponent implements OnInit {
         });
     });
 
-    // Orden de departamentos: CCDD numérico, con excepción para Lima Met y Región Lima
     departments = computed(() => {
         const geo = this.rawGeoJson();
         if (!geo?.features) return [];
@@ -1415,7 +1592,6 @@ export class DashboardComponent implements OnInit {
                 name: String(f.properties.NOMBDEP),
             }));
 
-        // Separar Lima Metropolitana y Región Lima del resto
         const isLimaMet  = (d: {name: string}) =>
             d.name.toLowerCase().includes('lima') && !d.name.toLowerCase().includes('región') && !d.name.toLowerCase().includes('region');
         const isRegLima  = (d: {name: string}) =>
@@ -1425,11 +1601,9 @@ export class DashboardComponent implements OnInit {
         const regLima  = raw.find(isRegLima);
         const resto    = raw.filter(d => !isLimaMet(d) && !isRegLima(d));
 
-        // Ordenar el resto por CCDD numérico
         const sorted = [...resto].sort((a, b) => parseInt(a.ccdd, 10) - parseInt(b.ccdd, 10));
 
-        // Insertar Lima Met y Región Lima después de Lambayeque (ccdd=14)
-        const lambIdx = sorted.findIndex(d => d.ccdd === '14');
+        const lambIdx  = sorted.findIndex(d => d.ccdd === '14');
         const insertAt = lambIdx >= 0 ? lambIdx + 1 : sorted.length;
 
         const extras: typeof sorted = [];
@@ -1441,7 +1615,6 @@ export class DashboardComponent implements OnInit {
         return sorted;
     });
 
-    // REQ 4: 5 rangos cuantílicos para la leyenda con conteo de regiones y limpieza de "años"
     colorBreaks = computed<ColorBreak[]>(() => {
         const regions = this.mapRegions();
         const key     = this.activeIndicator();
@@ -1462,7 +1635,6 @@ export class DashboardComponent implements OnInit {
             const endIdx   = Math.min(Math.floor((i + 1) * n / 5) - 1, n - 1);
             const bMin     = sorted[startIdx];
             const bMax     = sorted[endIdx];
-            // Conteo de elementos en el rango — sin unidad, solo números
             const count    = vals.filter(v => v >= bMin && v <= bMax).length;
             const label    = `${fmtVal(bMin)} – ${fmtVal(bMax)} (${count})`;
             return { min: bMin, max: bMax, color: PALETTE[i], label, count };
@@ -1475,13 +1647,10 @@ export class DashboardComponent implements OnInit {
         return this.mapRegions().find(r => r.geoKey === key) ?? null;
     });
 
-    /** Datos de población del contexto actual (región seleccionada, dep, prov, dist o nacional) */
     cardData = computed<{ total: number; male: number; female: number; density: number; ccdd: string }>(() => {
-        // 1. Región seleccionada en el mapa
         const sel = this.selectedRegion();
         if (sel) return { total: sel.total, male: sel.male, female: sel.female, density: sel.density, ccdd: sel.ccdd };
 
-        // 2. Distrito seleccionado desde dropdown
         const dist = this.selectedDist();
         if (dist) {
             const geo = this.rawGeoJsonDist();
@@ -1492,19 +1661,16 @@ export class DashboardComponent implements OnInit {
             }
         }
 
-        // 3. Provincia seleccionada desde dropdown
         const prov = this.selectedProv();
         if (prov) {
             const geo = this.rawGeoJsonProv();
-            const ccdd = this.selectedCCDD();
-            const feat = geo?.features?.find((f: any) => String(f.properties.CCDD) === ccdd && String(f.properties.CCPP) === prov);
+            const feat = geo?.features?.find((f: any) => String(f.properties.CCPP) === prov);
             if (feat) {
                 const p = feat.properties;
                 return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
             }
         }
 
-        // 4. Departamento seleccionado desde dropdown
         const ccdd = this.selectedCCDD();
         if (ccdd) {
             const geo = this.rawGeoJson();
@@ -1515,11 +1681,9 @@ export class DashboardComponent implements OnInit {
             }
         }
 
-        // 5. Nacional
         return { total: this.TOTAL_NAC, male: 17_596_527, female: 18_999_999, density: 25.4, ccdd: '' };
     });
 
-    /** Indicadores derivados (MOCK_DEP) para el contexto actual */
     cardMock = computed<Record<string, number>>(() => {
         const ccdd = this.cardData().ccdd;
         if (ccdd && MOCK_DEP[ccdd]) return MOCK_DEP[ccdd];
@@ -1645,7 +1809,6 @@ export class DashboardComponent implements OnInit {
     }
 
     // ── Helpers de estilo SVG ─────────────────────────────────────────────
-
     getRegionFill(r: MapRegion): string {
         const selKey = this.selectedRegion()?.geoKey;
         if (selKey === r.geoKey) return '#f8bd13';
@@ -1671,11 +1834,6 @@ export class DashboardComponent implements OnInit {
         return '1';
     }
 
-    // ── REQ 4: Hover deshabilitado — solo click actualiza estado ─────────
-
-    // onHover/onLeave eliminados del template y de la lógica.
-    // El elemento dinámico no reacciona al cursor.
-
     onRegionClick(r: MapRegion): void {
         if (this.selectedMapGeoKey() === r.geoKey) {
             this.selectedMapGeoKey.set('');
@@ -1686,12 +1844,10 @@ export class DashboardComponent implements OnInit {
             const nivel = this.nivelGeo();
             if (nivel === 'Departamental') {
                 this.selectedCCDD.set(r.ccdd);
-                // REQ 4: auto-switch a Provincial al clickar un departamento en el mapa
                 this.nivelGeo.set('Provincial');
                 this.loadGeoJsonProv();
             } else if (nivel === 'Provincial') {
                 this.selectedProv.set(r.ccpp);
-                // REQ 4: auto-switch a Distrital al clickar una provincia en el mapa
                 this.nivelGeo.set('Distrital');
                 this.loadGeoJsonDist();
             } else {
@@ -1701,22 +1857,20 @@ export class DashboardComponent implements OnInit {
     }
 
     resetFilters(): void {
-    this.selectedCCDD.set('');
-    this.selectedMapGeoKey.set('');
-    this.selectedProv.set('');
-    this.selectedDist.set('');
-    this.nivelGeo.set('Departamental');
-    this.openGeoDropdown.set(null);
-    this.activeIndicator.set('poblacion');
-    this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-}
+        this.selectedCCDD.set('');
+        this.selectedMapGeoKey.set('');
+        this.selectedProv.set('');
+        this.selectedDist.set('');
+        this.nivelGeo.set('Departamental');
+        this.openGeoDropdown.set(null);
+        this.activeIndicator.set('poblacion');
+        this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
+    }
 
-    // ── Indicador de mapa ────────────────────────────────────────────────
-
+    // ── Indicador de mapa ─────────────────────────────────────────────────
     getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
         if (key === 'poblacion')      return r.total;
         if (key === 'densidad_total') return r.density;
-        // REQ 1: clave actualizada a edad_promedio
         return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
     }
 
@@ -1727,7 +1881,6 @@ export class DashboardComponent implements OnInit {
         return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
     }
 
-    /** Valor formateado para un indicador específico (usado en el tooltip multi-indicador) */
     getActiveValueByKey(r: MapRegion, key: MapIndicatorKey): string {
         const def = INDICATORS.find(d => d.key === key)!;
         const v   = this.getIndicatorValue(r, key);
@@ -1738,12 +1891,10 @@ export class DashboardComponent implements OnInit {
         this.activeIndicator.set(key);
     }
 
-    /** Nombre del departamento para una región provincial o distrital */
     getDepNameForRegion(r: MapRegion): string {
         return this.departments().find(d => d.ccdd === r.ccdd)?.name ?? r.ccdd;
     }
 
-    /** Nombre de la provincia para una región distrital */
     getProvNameForRegion(r: MapRegion): string {
         const geo = this.rawGeoJsonProv();
         if (!geo?.features) return r.ccpp;
@@ -1756,15 +1907,10 @@ export class DashboardComponent implements OnInit {
     // ── Hover sobre polígonos del mapa ────────────────────────────────────
     hoveredRegion = signal<MapRegion | null>(null);
 
-    onRegionHover(r: MapRegion): void {
-        this.hoveredRegion.set(r);
-    }
+    onRegionHover(r: MapRegion): void { this.hoveredRegion.set(r); }
+    onRegionLeave(): void             { this.hoveredRegion.set(null); }
 
-    onRegionLeave(): void {
-        this.hoveredRegion.set(null);
-    }
-
-    // ── Indicador superior izquierdo del mapa (por defecto: población nacional) ──
+    // ── Indicador superior izquierdo del mapa ─────────────────────────────
     mapIndicatorTitle = computed<string>(() => {
         const sel = this.selectedRegion();
         if (sel) return sel.name;
@@ -1781,9 +1927,7 @@ export class DashboardComponent implements OnInit {
             const v = this.getIndicatorValue(sel, key);
             return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
         }
-        // Sin región seleccionada: población nacional para 'poblacion', dash para el resto
         if (key === 'poblacion') return this.fmt(this.TOTAL_NAC);
-        // Valores nacionales mock para indicadores no espaciales
         const NACIONAL: Partial<Record<MapIndicatorKey, number>> = {
             edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3,
             indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2,
@@ -1902,7 +2046,6 @@ export class DashboardComponent implements OnInit {
     // ── Gráficos ECharts ──────────────────────────────────────────────────
     initCharts(): void {
 
-        // CAMBIO 7: Pie de sexo — tooltip con valor absoluto y porcentual al hacer click/hover
         this.pieOptionsSex = {
             tooltip: {
                 show: true,
@@ -1918,7 +2061,7 @@ export class DashboardComponent implements OnInit {
                 },
             },
             legend:  { show: false },
-            color:   ['#33b3a9', '#0056a1'], // Mujeres primero
+            color:   ['#33b3a9', '#0056a1'],
             series: [{
                 name: 'Sexo', type: 'pie', radius: ['50%', '80%'],
                 avoidLabelOverlap: false,
@@ -1931,7 +2074,6 @@ export class DashboardComponent implements OnInit {
             }],
         };
 
-        // REQ 3: Barras de grandes grupos — colores actualizados, labels con abs + pct, sin leyenda
         this.pieOptionsAge = {
             tooltip: {
                 trigger: 'axis',
@@ -1962,7 +2104,7 @@ export class DashboardComponent implements OnInit {
             yAxis: {
                 type: 'value',
                 show: false,
-                max: (val: any) => Math.round(val.max * 1.55), // más espacio para el doble label
+                max: (val: any) => Math.round(val.max * 1.55),
             },
             series: [{
                 name: 'Población Censada',
@@ -1970,7 +2112,6 @@ export class DashboardComponent implements OnInit {
                 barMaxWidth: 40,
                 barCategoryGap: '28%',
                 itemStyle: { borderRadius: [6, 6, 0, 0] },
-                // REQ 3: Valor absoluto encima (texto pequeño) + porcentaje debajo
                 label: {
                     show: true,
                     position: 'top',
@@ -1980,25 +2121,13 @@ export class DashboardComponent implements OnInit {
                         const abs     = absVals[p.dataIndex] ?? 0;
                         const pct     = pcts[p.dataIndex] ?? '';
                         const absStr  = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-                        // Rich text: abs en fuente pequeña arriba, pct debajo
                         return `{abs|${absStr}}\n{pct|${pct}}`;
                     },
                     rich: {
-                        abs: {
-                            fontSize:   8,
-                            fontWeight: 'bold',
-                            color:      '#6b7280',
-                            lineHeight: 11,
-                        },
-                        pct: {
-                            fontSize:   9,
-                            fontWeight: 'bold',
-                            color:      '#6b7280',
-                            lineHeight: 13,
-                        },
+                        abs: { fontSize: 8,  fontWeight: 'bold', color: '#6b7280', lineHeight: 11 },
+                        pct: { fontSize: 9,  fontWeight: 'bold', color: '#6b7280', lineHeight: 13 },
                     },
                 },
-                // REQ 3: colores exactos: 0-14 (#343b9f), 15-59 (#8383fc), 60+ (amarillo actual)
                 data: [
                     { value: 3274648,  itemStyle: { color: '#343b9f' } },
                     { value: 12618546, itemStyle: { color: '#8383fc' } },
@@ -2037,12 +2166,9 @@ export class DashboardComponent implements OnInit {
                 min: -5,
                 max:  5,
                 interval: 1,
-                axisLine: { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
-                axisTick: { show: true, lineStyle: { color: '#d1d5db' } },
-                splitLine: {
-                    show: true,
-                    lineStyle: { color: '#f3f4f6', type: 'dashed' },
-                },
+                axisLine:  { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
+                axisTick:  { show: true, lineStyle: { color: '#d1d5db' } },
+                splitLine: { show: true, lineStyle: { color: '#f3f4f6', type: 'dashed' } },
                 axisLabel: {
                     show: true,
                     fontSize: 8,
@@ -2076,17 +2202,7 @@ export class DashboardComponent implements OnInit {
                     name: 'Hombres', type: 'bar', stack: 'Total',
                     data: maleData.map((v, i) => ({ value: v, abs: maleAbs[i] })),
                     itemStyle: { color: '#0056a1', borderRadius: [4, 0, 0, 4] },
-                    label: { show: false },
-                    markLine: {
-                        silent: true,
-                        symbol: ['none', 'none'],
-                        label: { show: false },
-                        lineStyle: { color: '#a5a3a3ff', width: 1, type: 'dashed', opacity: 0.8 },
-                        data: [
-                            { yAxis: 2 },
-                            { yAxis: 10 },
-                        ],
-                    },
+                    label: { show: false },                    
                 },
                 {
                     name: 'Mujeres', type: 'bar', stack: 'Total',
