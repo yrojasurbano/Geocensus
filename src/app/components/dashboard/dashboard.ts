@@ -667,25 +667,25 @@ const S = { w: 380, h: 550 };
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'globe-americas'"
                       (click)="setMapIndicator('edad_promedio')"
-                      class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
+                      class="w-4 h-4 cursor-pointer transition-all animate-pulse"
                       [class.animate-none]="activeIndicator() === 'edad_promedio'"
                       [class.scale-125]="activeIndicator() === 'edad_promedio'"
                       [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
                     </app-hero-icon>
                   </span>
                   <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
+                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                   </span>
                 </div>
                 <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
-                  <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="epromedio.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                  <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="epromedio.svg" class="w-9 h-9 md:w-10 md:h-10">
                   </div>
                   <div class="min-w-0">
-                    <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Edad promedio</div>
-                    <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    <div class="text-[10px] md:text-xs font-black text-black tracking-wide leading-tight">Edad promedio</div>
+                    <div class="text-lg md:text-xl font-black text-gray-800 leading-none mt-0.5">
                       {{ fmtD(cardMock()['edad_promedio'], 1) }}
-                      <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">años</span>
+                      <span class="text-[10px] md:text-xs font-bold text-gray-400">años</span>
                     </div>
                   </div>
                 </div>
@@ -700,31 +700,32 @@ const S = { w: 380, h: 550 };
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'globe-americas'"
                       (click)="setMapIndicator('edad_mediana')"
-                      class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
+                      class="w-4 h-4 cursor-pointer transition-all animate-pulse"
                       [class.animate-none]="activeIndicator() === 'edad_mediana'"
                       [class.scale-125]="activeIndicator() === 'edad_mediana'"
                       [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
                     </app-hero-icon>
                   </span>
                   <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
+                    <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                   </span>
                 </div>
                 <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
-                  <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="emediana.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                  <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="emediana.svg" class="w-9 h-9 md:w-10 md:h-10">
                   </div>
                   <div class="min-w-0">
-                    <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Edad mediana</div>
-                    <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
+                    <div class="text-[10px] md:text-xs font-black text-black tracking-wide leading-tight">Edad mediana</div>
+                    <div class="text-lg md:text-xl font-black text-gray-800 leading-none mt-0.5">
                       {{ fmtD(cardMock()['edad_mediana'], 1) }}
-                      <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">años</span>
+                      <span class="text-[10px] md:text-xs font-bold text-gray-400">años</span>
                     </div>
                   </div>
                 </div>
               </div>
 
             </div>
+            
 
             <!-- ── FILA 2 COL 2: Razón hombre-mujer ──────────────────────── -->
             <div class="col-span-1 bg-white rounded-xl px-3 md:px-4 py-3 shadow-sm border border-gray-100 flex flex-col relative overflow-hidden min-h-[72px] xl:min-h-0">
