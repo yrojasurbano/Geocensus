@@ -678,11 +678,11 @@ const S = { w: 380, h: 550 };
                   </span>
                 </div>
                 <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
-                  <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="epromedio.svg" class="w-9 h-9 md:w-10 md:h-10">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="epromedio.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                   </div>
                   <div class="min-w-0">
-                    <div class="text-[10px] md:text-xs font-black text-black tracking-wide leading-tight">Edad promedio</div>
+                    <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Edad promedio</div>
                     <div class="text-lg md:text-xl font-black text-gray-800 leading-none mt-0.5">
                       {{ fmtD(cardMock()['edad_promedio'], 1) }}
                       <span class="text-[10px] md:text-xs font-bold text-gray-400">años</span>
@@ -711,11 +711,11 @@ const S = { w: 380, h: 550 };
                   </span>
                 </div>
                 <div class="flex items-center gap-2 flex-1 min-h-0 pt-0.5">
-                  <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="emediana.svg" class="w-9 h-9 md:w-10 md:h-10">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="emediana.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                   </div>
                   <div class="min-w-0">
-                    <div class="text-[10px] md:text-xs font-black text-black tracking-wide leading-tight">Edad mediana</div>
+                    <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Edad mediana</div>
                     <div class="text-lg md:text-xl font-black text-gray-800 leading-none mt-0.5">
                       {{ fmtD(cardMock()['edad_mediana'], 1) }}
                       <span class="text-[10px] md:text-xs font-bold text-gray-400">años</span>
@@ -753,7 +753,7 @@ const S = { w: 380, h: 550 };
   <div class="flex-1 flex items-center justify-start gap-3 md:gap-4 min-h-0">
     
     <div class="flex items-center gap-2 shrink-0">
-      <img src="hombre.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 shrink-0" alt="Hombre">
+      <img src="hombre.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[45px] xl:h-[66px] shrink-0" alt="Hombre">
       <div class="flex flex-col leading-tight items-start">
         <span class="text-[9px] xl:text-xs font-semibold text-gray-500">Hay</span>
         <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none">
@@ -763,7 +763,7 @@ const S = { w: 380, h: 550 };
     </div>
 
     <div class="flex items-center gap-2 shrink-0">
-      <img src="mujer.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 shrink-0" alt="Mujer"
+      <img src="mujer.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[45px] xl:h-[66px] shrink-0" alt="Mujer"
            style="filter: invert(65%) sepia(30%) saturate(700%) hue-rotate(132deg) brightness(92%) contrast(87%);">
       <div class="flex flex-col leading-tight items-start">
         <span class="text-[9px] xl:text-xs font-semibold text-gray-500">por cada</span>
@@ -796,11 +796,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="envejecimiento.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="envejecimiento.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Índice de envejecimiento</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Índice de envejecimiento</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['indice_envejecimiento'], 1) }}
                   </div>
@@ -827,11 +827,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_total.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_total.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia total</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Relación de dependencia total</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['dep_total'], 1) }}
                   </div>
@@ -860,11 +860,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_juvenil.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_juvenil.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia juvenil</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Relación de dependencia juvenil</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['dep_juvenil'], 1) }}
                   </div>
@@ -891,11 +891,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="rel_dep_adulta.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="rel_dep_adulta.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['dep_adulta'], 1) }}
                   </div>
@@ -924,11 +924,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pobtotal.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pobtotal.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardData().density, 1) }}
                     <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
@@ -956,11 +956,11 @@ const S = { w: 380, h: 550 };
                 </span>
               </div>
               <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12 rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pobtotal.svg" class="w-9 h-9 md:w-10 md:h-10 xl:w-12 xl:h-12">
+                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px] rounded-lg flex items-center justify-center shrink-0">
+                  <img src="densidad_pam.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[66px] xl:h-[66px]">
                 </div>
                 <div class="min-w-0">
-                  <div class="text-[10px] md:text-xs xl:text-sm font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
+                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
                   <div class="text-lg md:text-xl xl:text-2xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['densidad_65'], 2) }}
                     <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
