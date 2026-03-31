@@ -17,18 +17,27 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
   template: `
     <div class="min-h-screen w-full flex flex-col bg-white font-sans">
 
-      <!-- ══ HEADER (patrón news.ts) ════════════════════════════════════════════ -->
+      <!-- HEADER -->
       <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full">
-        <div class="flex items-center gap-8">
+        <!-- Logos izquierda -->
+        <div class="flex items-center gap-4 md:gap-5">
           <img ngSrc="logo_inei_azul.png" alt="Logo INEI" width="180" height="50" priority
                class="h-10 md:h-12 w-auto object-contain">
-          <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
+          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
+          <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45"
+               class="h-8 md:h-10 w-auto object-contain hidden md:block">
+        </div>
+        <!-- Nav derecha -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide text-[#343b9f]">
             <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
               Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
+            <!-- <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+              Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button> -->
             <div class="relative">
               <button (click)="toggleCensos($event)"
                 class="text-primary font-bold uppercase relative group flex items-center gap-1">
@@ -37,7 +46,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"></span>
               </button>
               @if (censosOpen()) {
-                <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                      style="animation: dropdownIn 0.18s ease-out forwards">
                   <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                   <ul class="py-1">
@@ -57,9 +66,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
             <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
               Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-          </nav>
-        </div>
-        <img ngSrc="logo_cpv.png" alt="Logo CPV 2025" width="140" height="45" class="h-9 w-auto object-contain hidden md:block">
+        </nav>
       </header>
 
       <!-- ══ HERO STRIP ══════════════════════════════════════════════════════════ -->
@@ -141,7 +148,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                               <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
                               <td class="px-4 py-3 text-xs text-gray-500">{{ doc.descripcion }}</td>
                               <td class="px-4 py-3 text-center">
-                                <a href="#" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
+                                <a [attr.href]="doc.url" target="_blank" rel="noopener" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
                                   <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
                                     <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
                                     <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
@@ -177,7 +184,7 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                               <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
                               <td class="px-4 py-3 text-xs text-gray-500">{{ doc.descripcion }}</td>
                               <td class="px-4 py-3 text-center">
-                                <a href="#" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
+                                <a [attr.href]="doc.url" target="_blank" rel="noopener" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
                                   <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
                                     <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
                                     <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
@@ -481,27 +488,27 @@ export class DocumentacionTecnicaComponent {
 
   // ── Datos: Cédulas ─────────────────────────────────────────────────────────
   cedulas = [
-    { id:1, nombre:'Cédula Censal de Población y Vivienda',         descripcion:'Cuestionario utilizado para registrar información de la vivienda, el hogar y las personas durante el censo.' },
-    { id:2, nombre:'Cédula de Comunidades Indígenas',               descripcion:'Cuestionario aplicado para recoger información de las comunidades indígenas durante el censo.' },
-   ];
+    { id:1, nombre:'Cédula Censal de Población y Vivienda',  url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/17.-Doc.CPV_.01.05_Cedula-Censal_-Poblacion_Vivienda_01.07.25_Con-SA_Negrito.pdf', descripcion:'Cuestionario utilizado para registrar información de la vivienda, el hogar y las personas durante el censo.' },
+    { id:2, nombre:'Cédula de Comunidades Indígenas',         url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/17_-Doc_CPV_01_06_Cedula_Com_Indigenas_2025_FINAL_29_05_25_Con_SA_Negrito_v1.pdf', descripcion:'Cuestionario aplicado para recoger información de las comunidades indígenas durante el censo.' },
+  ];
 
   // ── Datos: Manuales ────────────────────────────────────────────────────────
   manuales = [
-    { id:1, nombre:'Manual del Coordinador Departamental Censal - Población y Vivienda',             descripcion:'Guía para organizar y supervisar el operativo censal de población y vivienda a nivel departamental.' },
-    { id:2, nombre:'Manual del Coordinador Departamental - Comunidades Indígenas',             descripcion:'Guía para coordinar y supervisar el operativo censal en comunidades indígenas a nivel departamental. ' },
-    { id:3, nombre:'Manual del Coordinador de Subsede Departamental Censal de Población y Vivienda',    descripcion:'Guía para apoyar la coordinación y supervisión del censo de población y vivienda desde la subsede departamental.' },
-    { id:4, nombre:'Manual del Supervisor del Sector Censal - Población y Vivienda',     descripcion:'Guía para supervisar y orientar el levantamiento de información en los sectores censales de población y vivienda.' },
-    { id:5, nombre:'Manual del Jefe de Sección Censal - Población de Vivienda', descripcion:'Documento que establece las funciones y procedimientos para la organización y control del trabajo censal en la sección.' },
-    { id:6, nombre:'Manual del Jefe de Brigada Censal - Comunidades Indígenas', descripcion:'Documento que establece las funciones y procedimientos para la organización y supervisión del operativo censal en comunidades indígenas.' },
-    { id:7, nombre:'Manual del Censista - Población y Vivienda', descripcion:'Documento que establece las instrucciones para la recolección de información de población y vivienda durante el censo nacional. ' },
-    { id:8, nombre:'Manual del Censista - Comunidades Indígenas', descripcion:'Documento que establece las instrucciones para la recolección de información en comunidades indígenas durante el empadronamiento censal.' },
-    { id:9, nombre:'Manual de Reasignación - Población y Vivienda', descripcion:'Documento que establece los procedimientos para la reasignación de cargas de trabajo en el operativo censal de población y vivienda.' },
-    { id:10, nombre:'Instructivo del Uso de la Tableta (Tableta Lenovo)', descripcion:'Documento que describe el uso y manejo de la tableta para el registro de información durante el trabajo censal. ' },
-    { id:11, nombre:'Instructivo del Censo en Línea para el Personal Operativo', descripcion:'Documento que establece las instrucciones para el registro y gestión de información en el sistema de censo en línea.' },
-    { id:12, nombre:'Instructivo del Asistente Virtual Yanapaq 2025', descripcion:'Documento que describe el uso del asistente virtual Yanapaq como apoyo al operativo censal.' },
-    { id:13, nombre:'Instructivo de Módulo del Jefe de Sección - Población y Vivienda', descripcion:'Documento que establece las instrucciones para el uso del módulo a utilizar el jefe de sección durante el operativo censal.' },
-    { id:14, nombre:'Instructivo del Operativo de Viviendas Colectivas', descripcion:'Documento que describe los procedimientos para el registro de información en viviendas colectivas durante el censo.' },
-    { id:15, nombre:'Instructivo del Operativo de Personas sin Vivienda', descripcion:'Documento que establece los procedimientos para registrar información de personas sin vivienda (vivencia en calle).' },
+    { id:1, nombre:'Manual del Coordinador Departamental Censal - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.17_Manual_Coord.-Dptal-Censal_28.05.25_FINAL.pdf', descripcion:'Guía para organizar y supervisar el operativo censal de población y vivienda a nivel departamental.' },
+    { id:2, nombre:'Manual del Coordinador Departamental - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.24_Manual_Coord.-Dptal-Comunidades_30.05.25_FINAL.pdf', descripcion:'Guía para coordinar y supervisar el operativo censal en comunidades indígenas a nivel departamental. ' },
+    { id:3, nombre:'Manual del Coordinador de Subsede Departamental Censal de Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.16_Manual_Coord.-Subsede_Dptal_Censal_29.05.25_FINAL.pdf',   descripcion:'Guía para apoyar la coordinación y supervisión del censo de población y vivienda desde la subsede departamental.' },
+    { id:4, nombre:'Manual del Supervisor del Sector Censal - Población y Vivienda', url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.15_Manual-Supervisor-Sector-Censal_26.05.25_FINAL.pdf', descripcion:'Guía para supervisar y orientar el levantamiento de información en los sectores censales de población y vivienda.' },
+    { id:5, nombre:'Manual del Jefe de Sección Censal - Población de Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13_Manual-Jefe-Seccion-Censal_05.06.25_FINAL.pdf', descripcion:'Documento que establece las funciones y procedimientos para la organización y control del trabajo censal en la sección.' },
+    { id:6, nombre:'Manual del Jefe de Brigada Censal - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.25_Manual_JefBri_CI_OK_30.05.25_FINAL.pdf', descripcion:'Documento que establece las funciones y procedimientos para la organización y supervisión del operativo censal en comunidades indígenas.' },
+    { id:7, nombre:'Manual del Censista - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.11_Manual-del-Censista_CPV_actualiz.16.07.25.pdf', descripcion:'Documento que establece las instrucciones para la recolección de información de población y vivienda durante el censo nacional. ' },
+    { id:8, nombre:'Manual del Censista - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.26_Manual-del-Censista_Comunidades-Indigenas_05.06.25.pdf', descripcion:'Documento que establece las instrucciones para la recolección de información en comunidades indígenas durante el empadronamiento censal.' },
+    { id:9, nombre:'Manual de Reasignación - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.14_Manual-de-Reasignacion_05.06.25_FINAL.pdf', descripcion:'Documento que establece los procedimientos para la reasignación de cargas de trabajo en el operativo censal de población y vivienda.' },
+    { id:10, nombre:'Instructivo del Uso de la Tableta (Tableta Lenovo)', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.12_Instructivo-del-Uso-de-la-Tableta_Lenovo_05.06.25_FINAL.pdf',descripcion:'Documento que describe el uso y manejo de la tableta para el registro de información durante el trabajo censal. ' },
+    { id:11, nombre:'Instructivo del Censo en Línea para el Personal Operativo',url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.09_Instructivo_eCenso_Personal-Operativo_24.05.-25_FINAL.pdf', descripcion:'Documento que establece las instrucciones para el registro y gestión de información en el sistema de censo en línea.' },
+    { id:12, nombre:'Instructivo del Asistente Virtual Yanapaq 2025', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.10_Instructivo-del-Asistente-Virtual-YANAPAQ_FINAL.pdf', descripcion:'Documento que describe el uso del asistente virtual Yanapaq como apoyo al operativo censal.' },
+    { id:13, nombre:'Instructivo de Módulo del Jefe de Sección - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13A_Instructivo-de-Modulos-del-Jefe-de-Seccion_Edit.-03.06.25.pdf', descripcion:'Documento que establece las instrucciones para el uso del módulo a utilizar el jefe de sección durante el operativo censal.' },
+    { id:14, nombre:'Instructivo del Operativo de Viviendas Colectivas', url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.21-Instructivo-de-Vivendas-Colectivas_11.06.25.pdf', descripcion:'Documento que describe los procedimientos para el registro de información en viviendas colectivas durante el censo.' },
+    { id:15, nombre:'Instructivo del Operativo de Personas sin Vivienda',url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.22_Instructivo_Personas_Sin_Vivienda_Editado_13.06.2025.pdf', descripcion:'Documento que establece los procedimientos para registrar información de personas sin vivienda (vivencia en calle).' },
   ];
 
    // ── Datos: programa ────────────────────────────────────────────────────────

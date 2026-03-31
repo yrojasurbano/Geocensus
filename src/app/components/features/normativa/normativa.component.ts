@@ -30,9 +30,9 @@ import { RouterLink } from '@angular/router';
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+            <!-- <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
               Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button>
+            </button> -->
             <div class="relative">
               <button (click)="toggleCensos($event)"
                 class="text-primary font-bold uppercase relative group flex items-center gap-1">
