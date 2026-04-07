@@ -67,7 +67,7 @@ import {
   requestAnimationFrame_default,
   retrieve2,
   round4
-} from "./chunk-MDUHD6K4.js";
+} from "./chunk-VDBZRVHA.js";
 import "./chunk-653SOEEV.js";
 
 // node_modules/zrender/lib/svg/SVGPathRebuilder.js

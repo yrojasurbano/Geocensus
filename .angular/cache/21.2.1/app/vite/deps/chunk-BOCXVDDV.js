@@ -22,7 +22,7 @@ import {
   makeSeriesEncodeForAxisCoordSys,
   normalizeToArray,
   shouldOmitUnusedDimensions
-} from "./chunk-KQ2FWOG6.js";
+} from "./chunk-BZCPFCCJ.js";
 import {
   PathProxy_default,
   Path_default,
@@ -45,7 +45,7 @@ import {
   quadraticProjectPoint,
   retrieve,
   retrieve2
-} from "./chunk-MDUHD6K4.js";
+} from "./chunk-VDBZRVHA.js";
 
 // node_modules/echarts/lib/data/helper/createDimensions.js
 function createDimensions(source, opt) {
@@ -919,4 +919,4 @@ export {
   setLabelLineStyle,
   getLabelLineStatesModels
 };
-//# sourceMappingURL=chunk-Z64HLYG6.js.map
+//# sourceMappingURL=chunk-BOCXVDDV.js.map

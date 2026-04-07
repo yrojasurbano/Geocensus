@@ -13,6 +13,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeroIconComponent } from '../ui/hero-icon.component';
+import * as XLSX from 'xlsx';
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 export type NivelType = 'Departamental' | 'Provincial' | 'Distrital';
@@ -193,8 +194,8 @@ function allChecked(labels: string[]): DropdownItem[] {
 
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 xl:gap-4 pb-1">
                     <div class="flex items-center gap-2 shrink-0">
-                        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#0056a1] to-[#33b3a9] flex items-center justify-center">
-                            <app-hero-icon [name]="'funnel'" class="w-3.5 h-3.5 text-white"></app-hero-icon>
+                        <div >
+                            <img src="mapa_peru.svg" class="w-10 h-10 shrink-0" alt="Mapa Perú">
                         </div>
                         <span class="text-[9px] font-black text-gray-400 tracking-widest uppercase">Nivel Geográfico</span>
                     </div>
@@ -375,11 +376,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between
                                 px-3 md:px-4 xl:px-6 py-2 xl:py-3 bg-[#0056a1]/5 border-b border-[#0056a1]/10 shrink-0 gap-2 sm:gap-0">
                         <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1] uppercase tracking-widest">
-                            <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M3 10h18M3 14h18M10 3v18M6 3h12a1 1 0 011 1v16a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/>
-                            </svg>
-                            Cuadro {{ nivelActivo() }}
+                            {{ tituloTabla() }}
                         </span>
                         <button (click)="exportarExcel()"
                                 class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-[#1a7a4a] to-[#22a060]
@@ -403,17 +400,13 @@ function allChecked(labels: string[]): DropdownItem[] {
                                     [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
                                     Ubicación Geográfica
                                 </th>
-                                <!-- Población Censada: 3 sub-columnas (Total, Hombres, Mujeres) -->
+                                <!-- Población Censada: 3 sub-columnas (Población, Hombres, Mujeres) -->
                                 <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="3">
                                     Población Censada
                                 </th>
-                                <!-- Indicadores Demográficos: 3 sub-columnas (Razón, Edad Mediana, Edad Promedio) -->
-                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="3">
+                                <!-- Indicadores Demográficos: 6 sub-columnas (Razón, Edad Promedio, Edad Mediana, Personas 60+, % 60+, Índice Envejecimiento) -->
+                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="6">
                                     Indicadores Demográficos
-                                </th>
-                                <!-- Adultos Mayores: 3 sub-columnas (Personas 60+, % 60+, Índice Envejecimiento) -->
-                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="3">
-                                    Adultos Mayores (60 años y más)
                                 </th>
                             </tr>
 
@@ -454,14 +447,14 @@ function allChecked(labels: string[]): DropdownItem[] {
 
                                 <!-- ── POBLACIÓN CENSADA ── -->
 
-                                <!-- Total — con info tooltip blanco -->
+                                <!-- Población — con info tooltip blanco -->
                                 <th class="bg-[#248cb3] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                                     <div class="flex items-center gap-1 justify-end w-full">
                                         <span matTooltip="Cantidad de residentes habituales" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
                                             <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                                         </span>
                                         <button (click)="sortBy('poblacion'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                            Total
+                                            Población
                                             <span class="flex flex-col leading-none ml-0.5">
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='poblacion'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='poblacion'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='poblacion'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='poblacion'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -507,21 +500,6 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         </button>
                                     </div>
                                 </th>
-                                <!-- Edad Mediana — con info tooltip blanco -->
-                                <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
-                                    <div class="flex items-center gap-1 justify-end w-full">
-                                        <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
-                                            <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-                                        </span>
-                                        <button (click)="sortBy('edadMediana'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                            Edad mediana
-                                            <span class="flex flex-col leading-none ml-0.5">
-                                                <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
-                                                <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </th>
                                 <!-- Edad Promedio — con info tooltip blanco -->
                                 <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                                     <div class="flex items-center gap-1 justify-end w-full">
@@ -537,17 +515,32 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         </button>
                                     </div>
                                 </th>
-
-                                <!-- ── ADULTOS MAYORES (ahora 3 columnas) ── -->
-
-                                <!-- Personas 60+ — con info tooltip blanco -->
-                                <th class="bg-[#33b3a9] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                                <!-- Edad Mediana — con info tooltip blanco -->
+                                <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                                     <div class="flex items-center gap-1 justify-end w-full">
-                                        <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                                        <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                                            <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                                        </span>
+                                        <button (click)="sortBy('edadMediana'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                                            Edad mediana
+                                            <span class="flex flex-col leading-none ml-0.5">
+                                                <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                                                <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </th>
+
+                                <!-- ── ADULTOS MAYORES (ahora bajo Indicadores Demográficos) ── -->
+
+                                <!-- Personas de 60 y más años — con info tooltip blanco -->
+                                <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                                    <div class="flex items-center gap-1 justify-end w-full">
+                                        <span matTooltip="Número absoluto de personas de 60 y más años" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
                                             <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                                         </span>
                                         <button (click)="sortBy('p65'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                            Personas 60 y más años
+                                            Personas de 60 y más años
                                             <span class="flex flex-col leading-none ml-0.5">
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='p65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='p65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='p65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='p65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -555,10 +548,10 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         </button>
                                     </div>
                                 </th>
-                                <!-- % 60+ -->
-                                <th class="bg-[#33b3a9] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                                <!-- % Personas de 60 y más años -->
+                                <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                                     <button (click)="sortBy('pct65'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
-                                        % 60 y más años
+                                        % Personas de 60 y más años
                                         <span class="flex flex-col leading-none ml-0.5">
                                             <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                                             <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -566,13 +559,13 @@ function allChecked(labels: string[]): DropdownItem[] {
                                     </button>
                                 </th>
                                 <!-- Índice de Envejecimiento — con info tooltip blanco -->
-                                <th class="bg-[#33b3a9] text-white px-3 py-2 text-right font-semibold whitespace-nowrap text-[12px]">
+                                <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap text-[12px]">
                                     <div class="flex items-center gap-1 justify-end w-full">
                                         <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
                                             <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                                         </span>
                                         <button (click)="sortBy('indiceEnvejecimiento'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                            Índice de envejecimiento
+                                            Índice de Envejecimiento
                                             <span class="flex flex-col leading-none ml-0.5">
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='indiceEnvejecimiento'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='indiceEnvejecimiento'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                                                 <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='indiceEnvejecimiento'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='indiceEnvejecimiento'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -591,18 +584,18 @@ function allChecked(labels: string[]): DropdownItem[] {
                                             [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
                                             <span class="flex items-center gap-1.5">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                                                NACIONAL
+                                                PERÚ
                                             </span>
                                         </td>
-                                        <td class="px-3 py-2.5 text-right font-mono font-black text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totales().pob) }}</td>
-                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totales().hom) }}</td>
-                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totales().muj) }}</td>
-                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold border-r border-gray-200">{{ fmtR(totales().razon) }}</td>
-                                        <td class="px-3 py-2.5 text-right font-mono text-gray-900 text-[13px] border-r border-gray-200">{{ fmtR(totales().edadMediana) }}</td>
-                                        <td class="px-3 py-2.5 text-right font-mono text-gray-900 text-[13px] border-r border-gray-200">{{ fmtR(totales().edadMedia) }}</td>
-                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totales().p65) }}</td>
-                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold border-r border-gray-200">{{ fmtPct(totales().pct65) }}</td>
-                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold">{{ fmtR(totales().indiceEnvejecimiento) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono font-black text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().pob) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().hom) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().muj) }}</td>
+                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold border-r border-gray-200">{{ fmtR(totalesNacional().razon) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono text-gray-900 text-[13px] border-r border-gray-200">{{ fmtR(totalesNacional().edadMedia) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono text-gray-900 text-[13px] border-r border-gray-200">{{ fmtR(totalesNacional().edadMediana) }}</td>
+                                        <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().p65) }}</td>
+                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold border-r border-gray-200">{{ fmtPct(totalesNacional().pct65) }}</td>
+                                        <td class="px-3 py-2.5 text-right text-gray-900 text-[12px] font-bold">{{ fmtR(totalesNacional().indiceEnvejecimiento) }}</td>
                                     </tr>
                                 }
 
@@ -637,8 +630,8 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.hombres) }}</td>
                                         <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.mujeres) }}</td>
                                         <td class="px-3 py-2 text-right text-gray-900 whitespace-nowrap border-r border-gray-100 text-[12px] font-bold">{{ fmtR(fila.razon) }}</td>
-                                        <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtR(fila.edadMediana) }}</td>
                                         <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtR(calcEdadMedia(fila)) }}</td>
+                                        <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtR(fila.edadMediana) }}</td>
                                         <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px] font-semibold">{{ fmtN(fila.p65) }}</td>
                                         <td class="px-3 py-2 text-right text-gray-900 whitespace-nowrap text-[12px] font-bold border-r border-gray-100">{{ fmtPct(fila.pct65) }}</td>
                                         <td class="px-3 py-2 text-right text-gray-900 whitespace-nowrap text-[12px] font-bold">{{ fmtR(fila.indiceEnvejecimiento) }}</td>
@@ -798,7 +791,7 @@ export class ComparativaTerritorialComponent {
     isProvActive = computed(() => this.nivelActivo() !== 'Departamental');
     isDistActive = computed(() => this.nivelActivo() === 'Distrital');
 
-    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todos los dep.' : `${this.cntDeps()} dep. sel.`);
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas las reg.' : `${this.cntDeps()} reg. sel.`);
     provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas las prov.' : `${this.cntProvs()} prov. sel.`);
     distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos los dist.' : `${this.cntDists()} dist. sel.`);
 
@@ -829,8 +822,19 @@ export class ComparativaTerritorialComponent {
         });
     });
 
-    totales = computed(() => {
-        const rows = this.filasTabla();
+    tituloTabla = computed<string>(() => {
+        const nivel = this.nivelActivo();
+        if (nivel === 'Departamental') return 'Estructura demográfica y envejecimiento poblacional por DEPARTAMENTO';
+        if (nivel === 'Provincial')    return 'Estructura demográfica y envejecimiento poblacional por PROVINCIA';
+        return 'Estructura demográfica y envejecimiento poblacional por DISTRITO';
+    });
+
+    /** Totales nacionales siempre calculados sobre el dataset completo (no filtrado) */
+    totalesNacional = computed(() => {
+        const nivel = this.nivelActivo();
+        const rows: FilaTabla[] = nivel === 'Departamental' ? MOCK_DEP
+                                : nivel === 'Provincial'    ? MOCK_PROV
+                                : MOCK_DIST;
         const pob  = rows.reduce((a, r) => a + r.poblacion, 0);
         const hom  = rows.reduce((a, r) => a + r.hombres, 0);
         const muj  = rows.reduce((a, r) => a + r.mujeres, 0);
@@ -859,56 +863,86 @@ export class ComparativaTerritorialComponent {
 
     exportarExcel(): void {
         const nivel = this.nivelActivo();
-        const rows  = this.filasTabla();
-        const t     = this.totales();
+        const rows  = this.filasOrdenadas();
+        const t     = this.totalesNacional();
 
-        const headers: string[] = ['Departamento'];
-        if (nivel === 'Provincial' || nivel === 'Distrital') headers.push('Provincia');
-        if (nivel === 'Distrital') headers.push('Distrito');
-        headers.push(
-            'Población Total', 'Hombres', 'Mujeres',
-            'Razón hombre - mujer', 'Edad mediana', 'Edad promedio',
-            'Personas 60 años y más', '% 60 años y más', 'Índice de envejecimiento'
+        // ── Columnas de ubicación geográfica ──
+        const geoHeaders: string[] = ['Departamento'];
+        if (nivel === 'Provincial' || nivel === 'Distrital') geoHeaders.push('Provincia');
+        if (nivel === 'Distrital') geoHeaders.push('Distrito');
+        const gc = geoHeaders.length; // número de columnas geográficas
+
+        // ── Fila 1: cabeceras de grupo ──
+        const row1: string[] = [];
+        for (let i = 0; i < gc; i++) row1.push(i === 0 ? 'Ubicación Geográfica' : '');
+        row1.push('Población Censada', '', '');
+        row1.push('Indicadores Demográficos', '', '', '', '', '');
+
+        // ── Fila 2: sub-columnas ──
+        const row2: string[] = [
+            ...geoHeaders,
+            'Población', 'Hombres', 'Mujeres',
+            'Razón hombre - mujer', 'Edad promedio', 'Edad mediana',
+            'Personas de 60 y más años', '% Personas de 60 y más años', 'Índice de Envejecimiento'
+        ];
+
+        // ── Fila PERÚ (totales nacionales fijos) ──
+        const peruRow: (string | number)[] = ['PERÚ'];
+        for (let i = 1; i < gc; i++) peruRow.push('');
+        peruRow.push(
+            t.pob, t.hom, t.muj,
+            +t.razon.toFixed(1),
+            +t.edadMedia.toFixed(1),
+            +t.edadMediana.toFixed(1),
+            t.p65,
+            +t.pct65.toFixed(1),
+            +t.indiceEnvejecimiento.toFixed(1)
         );
 
-        const csvRows: string[] = [headers.join(';')];
-
-        const nacCols: string[] = ['NACIONAL'];
-        if (nivel === 'Provincial' || nivel === 'Distrital') nacCols.push('');
-        if (nivel === 'Distrital') nacCols.push('');
-        nacCols.push(
-            t.pob.toString(), t.hom.toString(), t.muj.toString(),
-            t.razon.toFixed(1).replace('.', ','),
-            t.edadMediana.toFixed(1).replace('.', ','),
-            t.edadMedia.toFixed(1).replace('.', ','),
-            t.p65.toString(),
-            t.pct65.toFixed(1).replace('.', ',') + '%',
-            t.indiceEnvejecimiento.toFixed(1).replace('.', ',')
-        );
-        csvRows.push(nacCols.join(';'));
-
-        for (const fila of rows) {
-            const cols: string[] = [fila.departamento];
+        // ── Filas de datos (selección actual) ──
+        const dataRows = rows.map(fila => {
+            const cols: (string | number)[] = [fila.departamento];
             if (nivel === 'Provincial' || nivel === 'Distrital') cols.push((fila as FilaProv).provincia);
             if (nivel === 'Distrital') cols.push((fila as FilaDist).distrito);
             cols.push(
-                fila.poblacion.toString(), fila.hombres.toString(), fila.mujeres.toString(),
-                fila.razon.toFixed(1).replace('.', ','),
-                fila.edadMediana.toFixed(1).replace('.', ','),
-                this.calcEdadMedia(fila).toFixed(1).replace('.', ','),
-                fila.p65.toString(),
-                fila.pct65.toFixed(1).replace('.', ',') + '%',
-                fila.indiceEnvejecimiento.toFixed(1).replace('.', ',')
+                fila.poblacion, fila.hombres, fila.mujeres,
+                +fila.razon.toFixed(1),
+                +this.calcEdadMedia(fila).toFixed(1),
+                +fila.edadMediana.toFixed(1),
+                fila.p65,
+                +fila.pct65.toFixed(1),
+                +fila.indiceEnvejecimiento.toFixed(1)
             );
-            csvRows.push(cols.join(';'));
-        }
+            return cols;
+        });
 
-        const csv  = '\uFEFF' + csvRows.join('\n');
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url  = URL.createObjectURL(blob);
-        const a    = document.createElement('a');
-        a.href = url; a.download = `comparativa-${nivel.toLowerCase()}-cpv2025.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
+        // ── Construir hoja ──
+        const aoa = [row1, row2, peruRow, ...dataRows];
+        const ws  = XLSX.utils.aoa_to_sheet(aoa);
+
+        // Anchos de columna aproximados
+        const colWidths: { wch: number }[] = [];
+        for (let i = 0; i < gc; i++) colWidths.push({ wch: i === 0 ? 32 : 22 });
+        colWidths.push({ wch: 14 }, { wch: 14 }, { wch: 14 }); // Población, Hombres, Mujeres
+        colWidths.push({ wch: 20 }, { wch: 16 }, { wch: 16 }); // Razón, Edad promedio, Edad mediana
+        colWidths.push({ wch: 26 }, { wch: 28 }, { wch: 24 }); // Personas, %, Índice
+        ws['!cols'] = colWidths;
+
+        // Fusiones para las cabeceras de grupo (fila 0, índice base 0)
+        const merges: XLSX.Range[] = [];
+        if (gc > 1) merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: gc - 1 } });
+        merges.push({ s: { r: 0, c: gc     }, e: { r: 0, c: gc + 2 } }); // Población Censada
+        merges.push({ s: { r: 0, c: gc + 3 }, e: { r: 0, c: gc + 8 } }); // Indicadores Demográficos
+        // Fusión vertical para columnas geográficas (filas 0-1)
+        for (let i = 0; i < gc; i++) {
+            merges.push({ s: { r: 0, c: i }, e: { r: 1, c: i } });
+        }
+        ws['!merges'] = merges;
+
+        // ── Workbook y descarga ──
+        const wb   = XLSX.utils.book_new();
+        const hoja = `Comparativa ${nivel}`;
+        XLSX.utils.book_append_sheet(wb, ws, hoja);
+        XLSX.writeFile(wb, `estructura-demografica-${nivel.toLowerCase()}-cpv2025.xlsx`);
     }
 }

@@ -636,79 +636,6 @@ function noop() {
 var RADIAN_TO_DEGREE = 180 / Math.PI;
 var EPSILON = Number.EPSILON || Math.pow(2, -52);
 
-// node_modules/zrender/lib/core/env.js
-var Browser = /* @__PURE__ */ (function() {
-  function Browser2() {
-    this.firefox = false;
-    this.ie = false;
-    this.edge = false;
-    this.newEdge = false;
-    this.weChat = false;
-  }
-  return Browser2;
-})();
-var Env = /* @__PURE__ */ (function() {
-  function Env2() {
-    this.browser = new Browser();
-    this.node = false;
-    this.wxa = false;
-    this.worker = false;
-    this.svgSupported = false;
-    this.touchEventsSupported = false;
-    this.pointerEventsSupported = false;
-    this.domSupported = false;
-    this.transformSupported = false;
-    this.transform3dSupported = false;
-    this.hasGlobalWindow = typeof window !== "undefined";
-  }
-  return Env2;
-})();
-var env = new Env();
-if (typeof wx === "object" && typeof wx.getSystemInfoSync === "function") {
-  env.wxa = true;
-  env.touchEventsSupported = true;
-} else if (typeof document === "undefined" && typeof self !== "undefined") {
-  env.worker = true;
-} else if (!env.hasGlobalWindow || "Deno" in window || typeof navigator !== "undefined" && typeof navigator.userAgent === "string" && navigator.userAgent.indexOf("Node.js") > -1) {
-  env.node = true;
-  env.svgSupported = true;
-} else {
-  detect(navigator.userAgent, env);
-}
-function detect(ua, env2) {
-  var browser = env2.browser;
-  var firefox = ua.match(/Firefox\/([\d.]+)/);
-  var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-  var edge = ua.match(/Edge?\/([\d.]+)/);
-  var weChat = /micromessenger/i.test(ua);
-  if (firefox) {
-    browser.firefox = true;
-    browser.version = firefox[1];
-  }
-  if (ie) {
-    browser.ie = true;
-    browser.version = ie[1];
-  }
-  if (edge) {
-    browser.edge = true;
-    browser.version = edge[1];
-    browser.newEdge = +edge[1].split(".")[0] > 18;
-  }
-  if (weChat) {
-    browser.weChat = true;
-  }
-  env2.svgSupported = typeof SVGRect !== "undefined";
-  env2.touchEventsSupported = "ontouchstart" in window && !browser.ie && !browser.edge;
-  env2.pointerEventsSupported = "onpointerdown" in window && (browser.edge || browser.ie && +browser.version >= 11);
-  var domSupported = env2.domSupported = typeof document !== "undefined";
-  if (domSupported) {
-    var style = document.documentElement.style;
-    env2.transform3dSupported = (browser.ie && "transition" in style || browser.edge || "WebKitCSSMatrix" in window && "m11" in new WebKitCSSMatrix() || "MozPerspective" in style) && !("OTransition" in style);
-    env2.transformSupported = env2.transform3dSupported || browser.ie && +browser.version >= 9;
-  }
-}
-var env_default = env;
-
 // node_modules/zrender/lib/core/matrix.js
 var matrix_exports = {};
 __export(matrix_exports, {
@@ -1574,6 +1501,79 @@ function liftColor(color) {
   }
   return color;
 }
+
+// node_modules/zrender/lib/core/env.js
+var Browser = /* @__PURE__ */ (function() {
+  function Browser2() {
+    this.firefox = false;
+    this.ie = false;
+    this.edge = false;
+    this.newEdge = false;
+    this.weChat = false;
+  }
+  return Browser2;
+})();
+var Env = /* @__PURE__ */ (function() {
+  function Env2() {
+    this.browser = new Browser();
+    this.node = false;
+    this.wxa = false;
+    this.worker = false;
+    this.svgSupported = false;
+    this.touchEventsSupported = false;
+    this.pointerEventsSupported = false;
+    this.domSupported = false;
+    this.transformSupported = false;
+    this.transform3dSupported = false;
+    this.hasGlobalWindow = typeof window !== "undefined";
+  }
+  return Env2;
+})();
+var env = new Env();
+if (typeof wx === "object" && typeof wx.getSystemInfoSync === "function") {
+  env.wxa = true;
+  env.touchEventsSupported = true;
+} else if (typeof document === "undefined" && typeof self !== "undefined") {
+  env.worker = true;
+} else if (!env.hasGlobalWindow || "Deno" in window || typeof navigator !== "undefined" && typeof navigator.userAgent === "string" && navigator.userAgent.indexOf("Node.js") > -1) {
+  env.node = true;
+  env.svgSupported = true;
+} else {
+  detect(navigator.userAgent, env);
+}
+function detect(ua, env2) {
+  var browser = env2.browser;
+  var firefox = ua.match(/Firefox\/([\d.]+)/);
+  var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
+  var edge = ua.match(/Edge?\/([\d.]+)/);
+  var weChat = /micromessenger/i.test(ua);
+  if (firefox) {
+    browser.firefox = true;
+    browser.version = firefox[1];
+  }
+  if (ie) {
+    browser.ie = true;
+    browser.version = ie[1];
+  }
+  if (edge) {
+    browser.edge = true;
+    browser.version = edge[1];
+    browser.newEdge = +edge[1].split(".")[0] > 18;
+  }
+  if (weChat) {
+    browser.weChat = true;
+  }
+  env2.svgSupported = typeof SVGRect !== "undefined";
+  env2.touchEventsSupported = "ontouchstart" in window && !browser.ie && !browser.edge;
+  env2.pointerEventsSupported = "onpointerdown" in window && (browser.edge || browser.ie && +browser.version >= 11);
+  var domSupported = env2.domSupported = typeof document !== "undefined";
+  if (domSupported) {
+    var style = document.documentElement.style;
+    env2.transform3dSupported = (browser.ie && "transition" in style || browser.edge || "WebKitCSSMatrix" in window && "m11" in new WebKitCSSMatrix() || "MozPerspective" in style) && !("OTransition" in style);
+    env2.transformSupported = env2.transform3dSupported || browser.ie && +browser.version >= 9;
+  }
+}
+var env_default = env;
 
 // node_modules/zrender/lib/zrender.js
 var zrender_exports = {};
@@ -11259,6 +11259,7 @@ var CompoundPath = (function(_super) {
 var CompoundPath_default = CompoundPath;
 
 export {
+  __extends,
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT,
   platformApi,
@@ -11307,10 +11308,6 @@ export {
   hasOwn,
   noop,
   util_exports,
-  env_default,
-  __extends,
-  LRU_default,
-  createOrUpdateImage,
   create,
   identity,
   copy,
@@ -11321,14 +11318,6 @@ export {
   invert,
   clone2,
   matrix_exports,
-  Point_default,
-  createIntersectContext,
-  BoundingRect_default,
-  getBoundingRect,
-  getLineHeight,
-  parsePercent,
-  calculateTextPosition,
-  truncateText,
   create2,
   copy2,
   clone3,
@@ -11360,6 +11349,7 @@ export {
   quadraticSubdivide,
   quadraticProjectPoint,
   createCubicEasingFunc,
+  LRU_default,
   parseCssFloat,
   parse,
   lift,
@@ -11370,6 +11360,7 @@ export {
   stringify,
   liftColor,
   color_exports,
+  env_default,
   normalizeColor,
   isAroundZero2 as isAroundZero,
   round4,
@@ -11388,9 +11379,19 @@ export {
   getSRTTransformString,
   encodeBase64,
   cloneValue,
+  Point_default,
+  createIntersectContext,
+  BoundingRect_default,
   Eventful_default,
+  getBoundingRect,
+  getLineHeight,
+  parsePercent,
+  calculateTextPosition,
   devicePixelRatio,
   REDRAW_BIT,
+  Group_default,
+  createOrUpdateImage,
+  truncateText,
   Displayable_default,
   fromPoints,
   normalizeArcAngles,
@@ -11410,7 +11411,6 @@ export {
   parseFontSize,
   hasSeparateFont,
   Text_default,
-  Group_default,
   CompoundPath_default,
   transformLocalCoord,
   transformLocalCoordClear,
@@ -11433,4 +11433,4 @@ export {
   brushSingle,
   brush
 };
-//# sourceMappingURL=chunk-MDUHD6K4.js.map
+//# sourceMappingURL=chunk-VDBZRVHA.js.map
