@@ -111,7 +111,8 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
     '25':{ edad_promedio:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
 };
 
-const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
+const PALETTE = ['#caeae4','#86cec0','#33b3a9','#2d9b90','#4c8c80'];
+//const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
 
 export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
 
@@ -2130,9 +2131,9 @@ export class DashboardComponent implements OnInit {
                     },
                 },
                 data: [
-                    { value: 3274648,  itemStyle: { color: '#343b9f' } },
-                    { value: 12618546, itemStyle: { color: '#8383fc' } },
-                    { value: 2587238,  itemStyle: { color: '#f8bd13' } },
+                    { value: 3274648,  itemStyle: { color: '#038dd3' } },
+                    { value: 12618546, itemStyle: { color: '#caeae4' } },
+                    { value: 2587238,  itemStyle: { color: '#8383fd' } },
                 ],
             }],
         };
