@@ -291,7 +291,7 @@ import { RouterLink } from '@angular/router';
             <!-- Intro -->
             <p class="text-gray-700 leading-relaxed text-base md:text-lg text-justify mb-10">
               La información se recopiló mediante una
-              <strong class="text-[#0056a1]">Cédula Censal</strong>
+              <strong class="text-[#038dd3]">Cédula Censal</strong>
               compuesta por 67 preguntas, organizadas en cinco (5) secciones:
             </p>
 
@@ -377,58 +377,115 @@ import { RouterLink } from '@angular/router';
              SECCIÓN 6 — PERIODOS DE REFERENCIA
              Layout: fondo tintado + lista de periodos con chips de color
         ─────────────────────────────────────────────────────────── -->
-        <section id="periodos"
-                 class="min-h-[var(--section-h)] flex items-center
-                        bg-gradient-to-br from-[#f0f6ff] to-[#f0fdfa]
-                        border-b border-gray-100 px-6 md:px-16 lg:px-24 py-12">
-          <div class="max-w-5xl mx-auto w-full">
-            <div class="flex items-center gap-3 mb-5">
-              <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
-              <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Periodos de Referencia</h2>
-            </div>
-            <p class="text-gray-700 leading-relaxed text-xl md:text-2xl text-justify mb-8">
-              El periodo de referencia varía según la pregunta. Conocer el periodo de referencia es
-              fundamental para interpretar correctamente los datos del censo.
-            </p>
-            <div class="flex flex-col gap-3">
-              @for (p of periodos; track p.rango) {
-                <div class="flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100">
-                  <span class="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full text-white shrink-0"
-                        [style.background-color]="p.color">{{ p.rango }}</span>
-                  <p class="text-sm text-gray-600 leading-relaxed">{{ p.descripcion }}</p>
-                </div>
-              }
-            </div>
-          </div>
-        </section>
+        <!-- ────────────────────────────────────────────────────────
+     SECCIÓN 6 — PERIODOS DE REFERENCIA
+     Layout: contenido izquierda con grid 2×2 de secciones + foto derecha
+─────────────────────────────────────────────────────────── -->
+<section id="periodos"
+         class="min-h-[var(--section-h)] flex items-center
+                bg-gradient-to-br from-[#f0f6ff] to-[#f0fdfa]
+                border-b border-gray-100 px-6 md:px-16 lg:px-24 py-12">
+  <div class="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_320px] gap-10 items-center">
+
+    <!-- Columna izquierda: título + intro + grid de secciones -->
+    <div>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
+        <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Periodos de Referencia</h2>
+      </div>
+
+      <p class="text-gray-700 leading-relaxed text-base md:text-lg text-justify mb-8">
+        Las preguntas de la
+        <strong class="text-[#038dd3]">Cédula Censal</strong>
+        consideran distintos periodos de referencia según el tipo de información a recolectar.
+      </p>
+
+      <!-- Grid 2×2 de secciones -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+        <!-- Sección II -->
+        <div class="flex flex-col gap-3 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="rounded-xl px-5 py-2.5 text-white font-black text-base text-center"
+               style="background-color: #0056a1;">Sección II.</div>
+          <p class="font-black text-sm text-gray-800">Vivienda</p>
+          <ul class="text-sm text-gray-600 leading-relaxed space-y-1">
+            <li>- Día de la entrevista</li>
+          </ul>
+        </div>
+
+        <!-- Sección III -->
+        <div class="flex flex-col gap-3 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="rounded-xl px-5 py-2.5 text-white font-black text-base text-center"
+               style="background-color: #33b3a9;">Sección III.</div>
+          <p class="font-black text-sm text-gray-800">Hogar</p>
+          <ul class="text-sm text-gray-600 leading-relaxed space-y-1">
+            <li>- Migración internacional: últimos 5 años</li>
+            <li>- Resto de información: día del empadronamiento</li>
+          </ul>
+        </div>
+
+        <!-- Sección IV -->
+        <div class="flex flex-col gap-3 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="rounded-xl px-5 py-2.5 text-white font-black text-base text-center"
+               style="background: linear-gradient(90deg, #7b6fe0, #a78bfa);">Sección IV.</div>
+          <p class="font-black text-sm text-gray-800">Hogar</p>
+          <ul class="text-sm text-gray-600 leading-relaxed space-y-1">
+            <li>- Día de la entrevista</li>
+          </ul>
+        </div>
+
+        <!-- Sección V -->
+        <div class="flex flex-col gap-3 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="rounded-xl px-5 py-2.5 font-black text-base text-center"
+               style="background-color: #b2e8e2; color: #0056a1;">Sección V.</div>
+          <p class="font-black text-sm text-gray-800">Población</p>
+          <ul class="text-sm text-gray-600 leading-relaxed space-y-1">
+            <li>- Migración: últimos 5 años</li>
+            <li>- Uso de TIC: últimos 3 meses</li>
+            <li>- Empleo: semana anterior</li>
+            <li>- Resto de información: día de la entrevista</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Columna derecha: foto -->
+    <div class="hidden md:flex flex-col items-center justify-center">
+      <img src="foto-censo.png" alt="Foto del censo"
+           class="w-[32rem] h-auto object-contain drop-shadow-lg">
+    </div>
+
+  </div>
+</section>
 
         <!-- ────────────────────────────────────────────────────────
              SECCIÓN 7 — RECOJO DE INFORMACIÓN
              Layout: pasos numerados verticales
         ─────────────────────────────────────────────────────────── -->
         <section id="recojo"
-                 class="min-h-[var(--section-h)] flex items-center border-b border-gray-100
-                        px-6 md:px-16 lg:px-24 py-12">
-          <div class="max-w-5xl mx-auto w-full">
-            <div class="flex items-center gap-3 mb-5">
-              <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
-              <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Recojo de Información</h2>
+          class="min-h-[var(--section-h)] flex items-center border-b border-gray-100 px-6 md:px-16 lg:px-24 py-12">
+          <div class="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_360px] gap-10 items-center">
+            <!-- Texto -->
+            <div>
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
+                <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Recojo de Información</h2>
+              </div>
+              <p class="text-gray-700 leading-relaxed text-xl md:text-2xl text-justify">
+                Se utilizó la modalidad del <span style="color:#038dd3; font-weight: bold;">Censo Presencial </span>. El/la censista 
+                visitó cada vivienda y entrevistó a una persona del hogar, que 
+                fue el/la Informante Calificado/a, para registrar la información 
+                en la Cédula Censal.<br><br>
+                En caso de ausencia temporal o si la persona decidió no res
+                ponder en ese momento, se habilitó la opción del Censo en 
+                Línea, que permitió responder el cuestionario censal desde un 
+                celular o computadora
             </div>
-            <p class="text-gray-700 leading-relaxed text-xl md:text-2xl text-justify mb-8">
-              La información se recogió mediante entrevista directa realizada por empadronadores capacitados
-              con tabletas y cuestionario electrónico, con supervisión en tiempo real.
-            </p>
-            <div class="flex flex-col gap-3">
-              @for (paso of pasos; track paso.num) {
-                <div class="flex items-start gap-4">
-                  <div class="w-9 h-9 rounded-full flex items-center justify-center text-white font-black text-sm shrink-0 mt-0.5"
-                       style="background: linear-gradient(135deg, #0056a1, #33b3a9)">{{ paso.num }}</div>
-                  <div class="bg-gray-50 rounded-2xl px-5 py-3 flex-1 border border-gray-100">
-                    <p class="font-bold text-[#0056a1] text-sm mb-0.5">{{ paso.titulo }}</p>
-                    <p class="text-sm text-gray-500 leading-relaxed">{{ paso.descripcion }}</p>
-                  </div>
-                </div>
-              }
+            <!-- Mapa -->
+            <div class="hidden md:flex flex-col items-center justify-center">
+              <img src="foto-censo.png" alt="Foto del censo"
+                   class="w-[32rem] h-auto object-contain drop-shadow-lg">
             </div>
           </div>
         </section>
@@ -438,38 +495,27 @@ import { RouterLink } from '@angular/router';
              Layout: tarjeta central destacada con icono grande
         ─────────────────────────────────────────────────────────── -->
         <section id="informante"
-                 class="min-h-[var(--section-h)] flex items-center bg-gray-50
-                        px-6 md:px-16 lg:px-24 py-12">
-          <div class="max-w-5xl mx-auto w-full">
-            <div class="flex items-center gap-3 mb-5">
-              <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
-              <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Informante Calificado/a</h2>
+                 class="min-h-[var(--section-h)] flex items-center border-b border-gray-100 px-6 md:px-16 lg:px-24 py-12">
+          <div class="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_360px] gap-10 items-center">
+            <!-- Texto -->
+            <div>
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-1 h-10 bg-gradient-to-b from-[#0056a1] to-[#33b3a9] rounded-full"></div>
+                <h2 class="text-2xl md:text-3xl font-black text-[#0056a1] uppercase tracking-widest">Informante calificado/a</h2>
+              </div>
+              <p class="text-gray-700 leading-relaxed text-xl md:text-2xl text-justify">
+                La información fue proporcionada por una persona del hogar 
+                mayor de 18 años (responsable del hogar, cónyuge u otro inte
+                grante), que conociera los datos de la vivienda y de quienes re
+                siden en ella; cuando no fue posible ubicar a esta persona tras 
+                varias visitas, se ofreció la alternativa de responder a través del 
+                 <span style="color:#038dd3; font-weight: bold;">Censo en Línea </span>.
+
             </div>
-            <div class="grid md:grid-cols-[auto_1fr] gap-8 items-start">
-              <!-- Tarjeta icono -->
-              <div class="flex flex-col items-center gap-3 bg-white rounded-3xl p-8 shadow-md border border-[#0056a1]/10 shrink-0">
-                <div class="w-20 h-20 rounded-full flex items-center justify-center"
-                     style="background: linear-gradient(135deg, #0056a1, #33b3a9)">
-                  <mat-icon class="!w-10 !h-10 !text-[2.5rem] text-white">person</mat-icon>
-                </div>
-                <p class="text-xs font-black text-[#0056a1] uppercase tracking-wider text-center">Informante<br>del Hogar</p>
-              </div>
-              <!-- Requisitos -->
-              <div>
-                <p class="text-gray-700 leading-relaxed text-xl md:text-2xl text-justify mb-6">
-                  El informante calificado es la persona del hogar que proporciona la información durante
-                  el empadronamiento. En ausencia del informante principal, puede actuar como informante
-                  cualquier miembro adulto con el conocimiento necesario.
-                </p>
-                <div class="flex flex-col gap-2">
-                  @for (r of requisitosInformante; track r) {
-                    <div class="flex items-center gap-3">
-                      <div class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></div>
-                      <p class="text-base text-gray-600">{{ r }}</p>
-                    </div>
-                  }
-                </div>
-              </div>
+            <!-- Mapa -->
+            <div class="hidden md:flex flex-col items-center justify-center">
+              <img src="foto-censo.png" alt="Foto del censo"
+                   class="w-[32rem] h-auto object-contain drop-shadow-lg">
             </div>
           </div>
         </section>
