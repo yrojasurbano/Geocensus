@@ -710,9 +710,9 @@ export class ComparativaTerritorialComponent {
 
     censosOpen = signal(false);
     censosMenu = [
-        { label: 'Características del censo', route: '/aspectos-generales' },
+        { label: 'Censo de Derecho',  route: '/censo-derecho' },
+        { label: 'Características técnicas',  route: '/aspectos-generales' },
         { label: 'Innovaciones censales',      route: '/innovaciones' },
-        { label: 'Etapas censales',            route: '/organizacion' },
         { label: 'Normatividad censal',        route: '/normativa' },
         { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
     ];

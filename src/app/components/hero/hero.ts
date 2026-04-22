@@ -164,11 +164,11 @@ import { RouterLink } from '@angular/router';
                   - drop-shadow-md → conserva la sombra del icono original
                 -->
                 <img
-                  src="pobcensada.svg"
-                  alt="Población Censada"
+                  src="pobtotal.svg"
+                  alt="Población Total"
                   class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
                 >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Total</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionCensada) }}
                 </span>
@@ -184,11 +184,11 @@ import { RouterLink } from '@angular/router';
                   Por: imagen SVG desde public/hombre.svg
                 -->
                 <img
-                  src="hombre.svg"
-                  alt="Hombres"
+                  src="pobcensada.svg"
+                  alt="pobcensada"
                   class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
                 >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Hombres</span>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Población censada</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionMasculina) }}
                 </span>
@@ -204,11 +204,11 @@ import { RouterLink } from '@angular/router';
                   Por: imagen SVG desde public/mujer.svg
                 -->
                 <img
-                  src="mujer.svg"
-                  alt="Mujeres"
+                  src="pobomitida.svg"
+                  alt="pobomitida"
                   class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
                 >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Mujeres</span>
+                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Población Omitida</span>
                 <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                   {{ formatNumber(poblacionFemenina) }}
                 </span>
@@ -306,7 +306,8 @@ export class HeroComponent implements AfterViewInit {
   censosOpen = signal(false);
 
   censosMenu = [
-    { label: 'Características del censo',  route: '/aspectos-generales' },
+    { label: 'Censo de Derecho',  route: '/censo-derecho' },
+    { label: 'Características técnicas',  route: '/aspectos-generales' },
     { label: 'Innovaciones censales',      route: '/innovaciones' },
     { label: 'Normatividad censal',        route: '/normativa' },
     { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
