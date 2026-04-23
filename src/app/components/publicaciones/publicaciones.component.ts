@@ -215,7 +215,7 @@ export class PublicacionesComponent {
 
   censosMenu = [
     { label: 'Características del censo',    route: '/aspectos-generales', active: false },
-    { label: 'Innovaciones censales',    route: '/innovaciones', active: false },
+    { label: 'Innovaciones Tecnológicas',    route: '/innovaciones', active: false },
     { label: 'Etapas censales',          route: '/organizacion',        active: false },
     { label: 'Normatividad censal',             route: '/normativa',           active: true  },
     { label: 'Documentación Técnica', route: '/documentacion-tecnica', active: false },

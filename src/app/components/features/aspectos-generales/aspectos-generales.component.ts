@@ -596,7 +596,7 @@ export class AspectosGeneralesComponent implements AfterViewInit, OnDestroy {
   censosMenu = [
     { label: 'Censo de Derecho',         route: '/censo-derecho'          },
     { label: 'Características técnicas', route: '/aspectos-generales'     },
-    { label: 'Innovaciones censales',    route: '/innovaciones'           },
+    { label: 'Innovaciones Tecnológicas',    route: '/innovaciones'           },
     { label: 'Normatividad censal',      route: '/normativa'              },
     { label: 'Documentación Técnica',    route: '/documentacion-tecnica'  },
   ];

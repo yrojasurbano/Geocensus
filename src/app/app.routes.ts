@@ -4,8 +4,6 @@ import { NewsComponent }                   from './components/news/news';
 import { DashboardComponent }              from './components/dashboard/dashboard';
 import { ComparativaTerritorialComponent } from './components/comparativa/comparativa-territorial';
 import { PublicacionesComponent }          from './components/publicaciones/publicaciones.component';
-// ── LÍNEA 7: ELIMINADO import eager de CensoderechoComponent ─────────────────
-//    (se carga de forma lazy más abajo, igual que el resto de features)
 
 export const routes: Routes = [
   { path: '',            component: HeroComponent },
@@ -14,7 +12,6 @@ export const routes: Routes = [
   { path: 'dashboard',   component: DashboardComponent },
   { path: 'comparativa', component: ComparativaTerritorialComponent },
   { path: 'publicaciones', component: PublicacionesComponent },
-  // ── LÍNEA 20: ELIMINADA ruta eager duplicada de censo-derecho ──────────────
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {
@@ -22,6 +19,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/features/aspectos-generales/aspectos-generales.component')
         .then(m => m.AspectosGeneralesComponent),
+  },
+  {
+    path: 'innovaciones',
+    loadComponent: () =>
+      import('./components/features/innovaciones/innovaciones-tecnologicas')
+        .then(m => m.InnovacionesTecnologicasComponent),
   },
   {
     path: 'organizacion',
@@ -42,7 +45,6 @@ export const routes: Routes = [
         .then(m => m.DocumentacionTecnicaComponent),
   },
   {
-    // ── LÍNEA 44: CORREGIDO loadcomponent → loadComponent (C mayúscula) ───────
     path: 'censo-derecho',
     loadComponent: () =>
       import('./components/features/censoderecho/censo-derecho')
