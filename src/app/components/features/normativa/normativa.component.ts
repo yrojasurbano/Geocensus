@@ -30,9 +30,6 @@ import { RouterLink } from '@angular/router';
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-            <!-- <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
-              Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button> -->
             <div class="relative">
               <button (click)="toggleCensos($event)"
                 class="text-primary font-bold uppercase relative group flex items-center gap-1">
@@ -73,7 +70,6 @@ import { RouterLink } from '@angular/router';
           </div>
           <div class="flex items-center gap-3">
             <h1 class="text-3xl md:text-4xl font-black text-white">Normatividad censal</h1>
-            <!-- Indicador visual de sección activa -->            
           </div>
           <p class="text-white/80 mt-2 text-sm md:text-base max-w-2xl">Marco legal, disposiciones y resoluciones que regulan la realización del CPV 2025.</p>
         </div>
@@ -84,34 +80,29 @@ import { RouterLink } from '@angular/router';
         <div class="max-w-5xl mx-auto">
 
           <!-- Data Table -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
               <table class="w-full text-sm border-collapse" style="min-width:520px">
                 <thead>
                   <tr>
-                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Normativa</th>
-                    <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider w-44">Fecha</th>
-                    <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-28">Descarga</th>
+                    <th class="bg-[#0055a0] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider border border-[#004488]">Normativa</th>
+                    <th class="bg-[#038dd3] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider w-44 border border-[#0277b6]">Fecha</th>
+                    <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-28 border border-[#2a9990]">Descarga</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (doc of documentos; track doc.id; let even = $even) {
-                    <tr class="border-b border-gray-100 transition-colors hover:bg-[#0056a1]/4"
-                        [class.bg-white]="!even" [class.bg-gray-50/30]="even">
-                      <td class="px-4 py-3 max-w-md">
-                        <div class="font-bold text-gray-900 text-sm leading-snug">{{ doc.titulo }}</div>
+                    <tr class="transition-colors hover:bg-[#0056a1]/4"
+                        [class.bg-white]="!even" [class.bg-gray-50]="even">
+                      <td class="px-4 py-3 max-w-md border border-gray-200">
+                        <div class="font-bold text-[#038dd3] text-sm leading-snug">{{ doc.titulo }}</div>
                         <div class="text-xs text-gray-600 mt-0.5 leading-relaxed">{{ doc.descripcion }}</div>
                       </td>
-                      <td class="px-4 py-3 text-xs text-gray-700 whitespace-nowrap">{{ doc.fecha }}</td>
-                      <td class="px-4 py-3 text-center">
+                      <td class="px-4 py-3 text-xs text-[#0056a1] whitespace-nowrap font-black border border-gray-200">{{ doc.fecha }}</td>
+                      <td class="px-4 py-3 text-center border border-gray-200">
                         <a href="#" class="inline-flex items-center justify-center gap-1 text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
-                          <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
-                            <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
-                            <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
-                            <text x="12" y="14.5" font-family="Arial,sans-serif" font-size="6" font-weight="900"
-                                  fill="#e53e3e" text-anchor="middle">PDF</text>
-                            <line x1="7" y1="17" x2="17" y2="17" stroke="#e53e3e" stroke-width="1" opacity="0.4"/>
-                          </svg>
+                          <img src="icono-pdf.svg" alt="Descargar PDF"
+                               class="w-7 h-7 group-hover:scale-110 transition-transform object-contain">
                         </a>
                       </td>
                     </tr>
@@ -121,7 +112,7 @@ import { RouterLink } from '@angular/router';
             </div>
 
             <!-- Footer de tabla -->
-            <div class="px-4 py-3 border-t border-gray-100 flex items-center justify-between bg-gray-50">
+            <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between bg-gray-50">
               <span class="text-xs text-gray-400">{{ documentos.length }} documentos encontrados</span>
               <span class="text-xs text-gray-400">Última actualización: setiembre 2025</span>
             </div>
@@ -140,7 +131,7 @@ import { RouterLink } from '@angular/router';
 
         </div>
       </main>
-      <!-- FOOTER -->
+
       <!-- FOOTER -->
       <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
         <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
