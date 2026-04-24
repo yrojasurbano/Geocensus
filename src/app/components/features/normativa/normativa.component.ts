@@ -62,7 +62,9 @@ import { RouterLink } from '@angular/router';
       </header>
 
       <!-- HERO STRIP — activo en Normativa -->
-      <div class="bg-gradient-to-r from-[#0056a1] to-[#33b3a9] py-10 px-6 md:px-12 lg:px-24">
+      <!-- <div class="bg-gradient-to-r from-[#0056a1] to-[#33b3a9] py-10 px-6 md:px-12 lg:px-24"> -->
+      <div class="py-20 px-6 md:px-12"
+             style="background-image: url('imagen-banner.svg'); background-size: cover; background-repeat: no-repeat;">
         <div class="max-w-5xl mx-auto">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-1 bg-white/60 rounded-full"></div>

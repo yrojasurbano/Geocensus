@@ -72,7 +72,8 @@ import { RouterLink } from '@angular/router';
       <div class="flex w-full shrink-0">
 
         <!-- Hero strip principal (izquierda) -->
-        <div class="bg-gradient-to-r from-[#0056a1] to-[#33b3a9] flex-1 py-10 px-6 md:px-12 lg:px-16 flex items-center">
+        <div class="flex-1 py-10 px-6 md:px-12 lg:px-16 flex items-center relative overflow-hidden"
+             style="background-image: url('imagen-banner.svg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
           <!-- CAMBIO 2 — contenido centrado con max-w y mx-auto -->
           <div class="w-full max-w-4xl mx-auto">
             <div class="flex items-center gap-3 mb-3">
@@ -93,17 +94,8 @@ import { RouterLink } from '@angular/router';
                                         radial-gradient(circle at 30% 70%, #ffffff 1px, transparent 1px);
                       background-size: 28px 28px;">
           </div>
-          <!-- Mitad superior — imagen referencial -->
-          <div class="relative flex-1 flex items-center justify-center border-b border-white/20 py-8 px-6 min-h-[160px]">
-            <div class="relative w-full flex flex-col items-center justify-center gap-3">
-              <div class="w-28 h-28 rounded-full border-4 border-white/40 bg-white/20 flex items-center justify-center shadow-xl">
-                <mat-icon class="!w-14 !h-14 !text-[3.5rem] text-white/80">people_alt</mat-icon>
-              </div>
-              <p class="text-white/60 text-[10px] uppercase tracking-widest text-center font-semibold">
-                Imagen ilustrativa
-              </p>
-            </div>
-          </div>
+          
+          
           <!-- Mitad inferior -->
           <div class="relative flex-1 flex flex-col items-center justify-center px-6 py-8 gap-4 min-h-[160px]">
             <div class="w-10 h-0.5 bg-white/40 rounded-full"></div>

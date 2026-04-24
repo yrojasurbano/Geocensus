@@ -81,10 +81,11 @@ import { RouterLink } from '@angular/router';
       <!-- ══════════════════════════════════════════════════════
            HERO STRIP — reducido, título en 2 líneas, mismo ancho que body
       ═══════════════════════════════════════════════════════════ -->
-      <div class="w-full bg-gradient-to-r from-[#0056a1] to-[#33b3a9] shrink-0 py-20 px-6 md:px-16 lg:px-24">
+      <div class="py-10 px-6 md:px-12 lg:px-16 flex items-center relative overflow-hidden"
+             style="background-image: url('imagen-banner.svg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <!-- Mismo max-w que el body principal -->
         <div class="max-w-5xl mx-auto">
-          <div class="flex items-center gap-3 mb-1">
+          <div class="flex items-left gap-3 mb-1">
             <div class="w-8 h-0.5 bg-white/50 rounded-full"></div>
           </div>
           <!-- Título en 2 líneas -->
@@ -113,7 +114,7 @@ import { RouterLink } from '@angular/router';
                   ? '0 6px 18px rgba(0,86,161,0.20)'
                   : '0 1px 5px rgba(0,0,0,0.08)'">
                 <img [src]="item.icon" [alt]="item.label"
-                     class="w-14 h-14 object-contain transition-all duration-200"
+                     class="w-20 h-20 object-contain transition-all duration-200"
                      [style.filter]="activeSection() === item.id ? 'none' : 'grayscale(30%) opacity(0.75)'">
               </button>
               <!-- Etiqueta FUERA del recuadro -->
@@ -155,7 +156,7 @@ import { RouterLink } from '@angular/router';
             </div>
             <!-- Mapa -->
             <div class="hidden md:flex flex-col items-center justify-center">
-              <img src="icono-mapa.png" alt="Mapa del Perú"
+              <img src="icono-mapa.svg" alt="Mapa del Perú"
                    class="w-[32rem] h-auto object-contain drop-shadow-lg">
             </div>
           </div>
@@ -603,14 +604,14 @@ export class AspectosGeneralesComponent implements AfterViewInit, OnDestroy {
 
   // ── ÍCONOS ACTUALIZADOS ────────────────────────────────────────────────────
   menuItems = [
-    { id: 'objetivo',   label: 'Objetivo',                  icon: 'icono-objetivo.png'      },
-    { id: 'utilidad',   label: 'Utilidad',                  icon: 'icono-utilidad.png'      },
-    { id: 'cobertura',  label: 'Cobertura y periodo',       icon: 'icono-cobertura.png'     },
-    { id: 'unidades',   label: 'Unidades de investigación', icon: 'icono-investigacion.png' },
-    { id: 'cedula',     label: 'Cédula censal',             icon: 'icono-cedula.png'        },
-    { id: 'periodos',   label: 'Periodos de referencia',    icon: 'icono-periodo.png'       },
-    { id: 'recojo',     label: 'Recojo de información',     icon: 'icono-recojo-inf.png'    },
-    { id: 'informante', label: 'Informante calificado/a',   icon: 'icono-informante.png'    },
+    { id: 'objetivo',   label: 'Objetivo',                  icon: 'icono-objetivo.svg'      },
+    { id: 'utilidad',   label: 'Utilidad',                  icon: 'icono-utilidad.svg'      },
+    { id: 'cobertura',  label: 'Cobertura y periodo',       icon: 'icono-cobertura.svg'     },
+    { id: 'unidades',   label: 'Unidades de investigación', icon: 'icono-investigacion.svg' },
+    { id: 'cedula',     label: 'Cédula censal',             icon: 'icono-cedula.svg'        },
+    { id: 'periodos',   label: 'Periodos de referencia',    icon: 'icono-periodo.svg'       },
+    { id: 'recojo',     label: 'Recojo de información',     icon: 'icono-recojo-inf.svg'    },
+    { id: 'informante', label: 'Informante calificado/a',   icon: 'icono-informante.svg'    },
   ];
 
   // ── Datos de secciones ────────────────────────────────────────────────────
