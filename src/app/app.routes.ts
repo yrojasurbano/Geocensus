@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
-import { HeroComponent }                   from './components/hero/hero';
-import { NewsComponent }                   from './components/news/news';
-import { DashboardComponent }              from './components/dashboard/dashboard';
+import { HeroComponent } from './components/hero/hero';
+import { NewsComponent } from './components/news/news';
+import { DashboardComponent } from './components/dashboard/dashboard';
 import { ComparativaTerritorialComponent } from './components/comparativa/comparativa-territorial';
-import { PublicacionesComponent }          from './components/publicaciones/publicaciones.component';
+import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
+// SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
 export const routes: Routes = [
-  { path: '',            component: HeroComponent },
-  { path: 'noticias',    component: NewsComponent },
-  { path: 'resultados',  component: DashboardComponent },
-  { path: 'dashboard',   component: DashboardComponent },
+  { path: '', component: HeroComponent },
+  { path: 'noticias', component: NewsComponent },
+  { path: 'resultados', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'comparativa', component: ComparativaTerritorialComponent },
   { path: 'publicaciones', component: PublicacionesComponent },
 
@@ -37,6 +38,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/features/normativa/normativa.component')
         .then(m => m.NormativaComponent),
+  },
+  {
+    path: 'intermedia',
+    loadComponent: () =>
+      import('./components/intermedia/intermedia') // Ruta verificada: src/app/components/intermedia/intermedia.ts
+        .then(m => m.IntermediaComponent),
   },
   {
     path: 'documentacion-tecnica',

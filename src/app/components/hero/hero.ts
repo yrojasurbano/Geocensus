@@ -68,8 +68,12 @@ import { RouterLink } from '@angular/router';
               Inicio
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-            <button routerLink="/resultados" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+            <button routerLink="/intermedia" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
               Resultados
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
+            <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Publicaciones
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
 
@@ -139,7 +143,7 @@ import { RouterLink } from '@angular/router';
               
               <div class="flex flex-col sm:flex-row gap-4 relative z-10">
                 <button 
-                  routerLink="/resultados"
+                  routerLink="/intermedia"
                   class="bg-gradient-to-br from-primary to-secondary hover:brightness-110 text-white font-bold py-3 px-8 rounded-[30px] shadow-lg shadow-primary/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-base tracking-wide w-max"
                 >
                   <mat-icon>bar_chart</mat-icon>
@@ -150,69 +154,100 @@ import { RouterLink } from '@angular/router';
           </div>
 
           <!-- ★ Cards -->
-          <div class="w-full px-6 md:px-12 lg:px-16 mt-12 2xl:mt-16 relative z-10">
-            <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center
+          <div class="w-full px-6 md:px-12 lg:px-16 mt-8 2xl:mt-12 relative z-10">
+            <div class="max-w-4xl 2xl:max-w-5xl mx-auto flex flex-col gap-4 2xl:gap-6
                         bg-black/10 backdrop-blur-[3px] p-6 2xl:p-10 rounded-3xl border border-white/10 shadow-lg">
 
-              <!-- Población Censada -->
-              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <!--
-                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">groups</mat-icon>
-                  Por: imagen SVG desde public/pobcensada.svg
-                  - w-10 h-10 / 2xl:w-12 2xl:h-12 → mantiene las mismas dimensiones que el mat-icon original
-                  - brightness-0 invert → fuerza el SVG a color blanco puro
-                  - drop-shadow-md → conserva la sombra del icono original
-                -->
-                <img
-                  src="pobtotal.svg"
-                  alt="Población Total"
-                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
-                >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Total</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
-                  {{ formatNumber(poblacionCensada) }}
-                </span>
+              <!-- ── Fila 1: Población ── -->
+              <div class="flex flex-col md:flex-row items-center justify-center">
+
+                <!-- Población Total -->
+                <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                  <img
+                    src="pobtotal.svg"
+                    alt="Población Total"
+                    class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                  >
+                  <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Total</span>
+                  <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                    {{ formatNumber(poblacionCensada) }}
+                  </span>
+                </div>
+
+                <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+                <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+
+                <!-- Población Censada -->
+                <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                  <img
+                    src="pobcensada.svg"
+                    alt="pobcensada"
+                    class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                  >
+                  <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Censada</span>
+                  <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                    {{ formatNumber(poblacionMasculina) }}
+                  </span>
+                </div>
+
+                <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+                <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+
+                <!-- Población Omitida -->
+                <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                  <img
+                    src="pobomitida.svg"
+                    alt="pobomitida"
+                    class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                  >
+                  <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Población Omitida</span>
+                  <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                    {{ formatNumber(poblacionFemenina) }}
+                  </span>
+                </div>
+
               </div>
+              <!-- /Fila 1 -->
 
-              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
-              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+              <!-- Separador horizontal entre filas -->
+              <div class="w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
 
-              <!-- Hombres -->
-              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <!--
-                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">man</mat-icon>
-                  Por: imagen SVG desde public/hombre.svg
-                -->
-                <img
-                  src="pobcensada.svg"
-                  alt="pobcensada"
-                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
-                >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Población censada</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
-                  {{ formatNumber(poblacionMasculina) }}
-                </span>
+              <!-- ── Fila 2: Viviendas y Hogares ── -->
+              <div class="flex flex-col md:flex-row items-center justify-center">
+
+                <!-- Viviendas Censadas -->
+                <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                  <!-- Hero Icon: home (outline) -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                       class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                  <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Viviendas Censadas</span>
+                  <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                    {{ formatNumber(viviendasCensadas) }}
+                  </span>
+                </div>
+
+                <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
+                <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
+
+                <!-- Hogares Censados -->
+                <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
+                  <!-- Hero Icon: user-group (outline) -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                       class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                  </svg>
+                  <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hogares Censados</span>
+                  <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
+                    {{ formatNumber(hogaresCensados) }}
+                  </span>
+                </div>
+
               </div>
-
-              <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
-              <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
-
-              <!-- Mujeres -->
-              <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                <!--
-                  Reemplaza: <mat-icon class="!w-10 !h-10 2xl:!w-12 2xl:!h-12 ...">woman</mat-icon>
-                  Por: imagen SVG desde public/mujer.svg
-                -->
-                <img
-                  src="pobomitida.svg"
-                  alt="pobomitida"
-                  class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
-                >
-                <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widests uppercase opacity-90 drop-shadow-md text-center">Población Omitida</span>
-                <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
-                  {{ formatNumber(poblacionFemenina) }}
-                </span>
-              </div>
+              <!-- /Fila 2 -->
 
             </div>
           </div>
@@ -324,6 +359,10 @@ export class HeroComponent implements AfterViewInit {
   readonly poblacionCensada   = 36_480_432;
   readonly poblacionMasculina = 18_480_432;
   readonly poblacionFemenina  = 13_480_432;
+
+  // ── Nuevos indicadores ──────────────────────────────────────────────────
+  readonly viviendasCensadas  = 11_254_876;
+  readonly hogaresCensados    = 10_987_341;
 
   readonly visitasContador = signal<number>(1_532);
   private readonly VISITAS_KEY  = 'geocensus_visitas';

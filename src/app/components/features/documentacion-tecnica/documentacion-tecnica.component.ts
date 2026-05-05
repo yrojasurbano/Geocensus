@@ -5,9 +5,9 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
-type Tab1 = 'informes' | 'metodologicos' | 'consultas';
-type Tab2Met = 'cedulas' | 'manuales' | 'programa';
-type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
+type Tab1 = 'informes' | 'metodologicos' | 'consultas' | 'interpretar' | 'glosario';
+type Tab2Met = 'cedulas' | 'manuales' | 'programa' | 'clasificadores';
+type Tab2Con = 'contacto';
 
 @Component({
   selector: 'app-documentacion-tecnica',
@@ -35,9 +35,6 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
             <button routerLink="/resultados" class="hover:text-secondary transition-colors uppercase relative group">
               Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-            <!-- <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
-              Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button> -->
             <div class="relative">
               <button (click)="toggleCensos($event)"
                 class="text-primary font-bold uppercase relative group flex items-center gap-1">
@@ -107,8 +104,8 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
 
           <!-- ── Contenedor de contenido (blanco sobre degradado) ────────────── -->
           <div class="bg-white rounded-2xl rounded-tl-none shadow-2xl overflow-hidden">
-            
-            <!-- ════ TAB 2: DOCUMENTOS METODOLÓGICOS ═════════════════════════ -->
+
+            <!-- ════ TAB: DOCUMENTOS METODOLÓGICOS ═══════════════════════════ -->
             @if (tab1() === 'metodologicos') {
               <div class="p-6 md:p-8">
                 <h2 class="text-xl font-black text-gray-800 mb-2">Documentos Metodológicos</h2>
@@ -235,9 +232,57 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                     </div>
                   </div>
                 }
+
+                <!-- Sub-tab: Clasificadores -->
+                @if (tab2Met() === 'clasificadores') {
+                  <div>
+                    <p class="text-xs text-gray-500 mb-4">Clasificadores estadísticos utilizados en el levantamiento y procesamiento del CPV 2025.</p>
+                    <div class="overflow-x-auto rounded-xl border border-gray-100">
+                      <table class="w-full text-sm border-collapse" style="min-width:480px">
+                        <thead>
+                          <tr>
+                            <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Nombre</th>
+                            <th class="bg-[#002d5c] text-white px-4 py-3 text-left text-xs font-black uppercase tracking-wider">Descripción</th>
+                            <th class="bg-[#33b3a9] text-white px-4 py-3 text-center text-xs font-black uppercase tracking-wider w-24">Descarga</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (doc of clasificadores; track doc.id; let even = $even) {
+                            <tr class="border-b border-gray-50 hover:bg-[#0056a1]/4 transition-colors"
+                                [class.bg-white]="!even" [class.bg-gray-50/50]="even">
+                              <td class="px-4 py-3 font-semibold text-gray-800 text-sm">{{ doc.nombre }}</td>
+                              <td class="px-4 py-3 text-xs text-gray-500">{{ doc.descripcion }}</td>
+                              <td class="px-4 py-3 text-center">
+                                <a [attr.href]="doc.url" target="_blank" rel="noopener" class="inline-flex items-center justify-center text-[#0056a1] hover:text-[#33b3a9] transition-colors group">
+                                  <svg viewBox="0 0 24 24" class="w-7 h-7 group-hover:scale-110 transition-transform" fill="none">
+                                    <rect x="3" y="2" width="18" height="20" rx="3" fill="#e53e3e" opacity="0.12"/>
+                                    <rect x="3" y="2" width="18" height="20" rx="3" stroke="#e53e3e" stroke-width="1.5" fill="none"/>
+                                    <text x="12" y="14.5" font-family="Arial,sans-serif" font-size="6" font-weight="900" fill="#e53e3e" text-anchor="middle">PDF</text>
+                                  </svg>
+                                </a>
+                              </td>
+                            </tr>
+                          }
+                          @empty {
+                            <tr>
+                              <td colspan="3" class="px-4 py-10 text-center text-sm text-gray-400">
+                                <div class="flex flex-col items-center gap-2">
+                                  <mat-icon class="!text-3xl text-gray-300">folder_open</mat-icon>
+                                  <span>No hay clasificadores disponibles por el momento.</span>
+                                </div>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                }
+
               </div>
             }
-            <!-- ════ TAB 1: INFORMES TÉCNICOS ════════════════════════════════ -->
+
+            <!-- ════ TAB: INFORMES TÉCNICOS ══════════════════════════════════ -->
             @if (tab1() === 'informes') {
               <div class="p-6 md:p-8">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
@@ -281,137 +326,117 @@ type Tab2Con = 'interpretar' | 'glosario' | 'contacto';
                 </div>
               </div>
             }
-            <!-- ════ TAB 3: CONSULTAS ════════════════════════════════════════ -->
+
+            <!-- ════ TAB: CONSULTAS (solo Contáctanos) ═══════════════════════ -->
             @if (tab1() === 'consultas') {
               <div class="p-6 md:p-8">
-                <h2 class="text-xl font-black text-gray-800 mb-2">Consultas</h2>
-                <!-- Sub-tabs Nivel 2 -->
-                <div class="flex gap-1 mb-6 border-b border-gray-100 flex-wrap">
-                  @for (sub of subTabsCon; track sub.value) {
-                    <button
-                      (click)="tab2Con.set(sub.value)"
-                      class="px-5 py-2 text-sm font-bold transition-all"
-                      [class.text-primary]="tab2Con() === sub.value"
-                      [class.border-b-2]="tab2Con() === sub.value"
-                      [class.border-primary]="tab2Con() === sub.value"
-                      [class.text-gray-400]="tab2Con() !== sub.value"
-                      [class.hover\:text-gray-600]="tab2Con() !== sub.value">
-                      {{ sub.label }}
-                    </button>
-                  }
+                <h2 class="text-xl font-black text-gray-800 mb-6">Consultas</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                  <!-- Información de contacto -->
+                  <div class="space-y-4">
+                    @for (c of contactos; track c.label) {
+                      <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" [style.background]="c.color + '18'">
+                          <mat-icon [style.color]="c.color" class="!text-xl">{{ c.icon }}</mat-icon>
+                        </div>
+                        <div>
+                          <div class="text-xs font-black text-gray-400 uppercase tracking-wider">{{ c.label }}</div>
+                          <div class="text-sm font-semibold text-gray-800 mt-0.5">{{ c.valor }}</div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                  <!-- Redes sociales -->
+                  <div>
+                    <h4 class="font-black text-sm text-gray-700 mb-4 uppercase tracking-wider">Redes Sociales</h4>
+                    <div class="grid grid-cols-3 gap-3">
+                      @for (red of redes; track red.nombre) {
+                        <a [href]="red.url" target="_blank"
+                           class="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#0056a1]/30 hover:bg-[#0056a1]/5 transition-all group">
+                          <div [innerHTML]="red.svgIcon" class="w-8 h-8 group-hover:scale-110 transition-transform"></div>
+                          <span class="text-[10px] font-bold text-gray-500">{{ red.nombre }}</span>
+                        </a>
+                      }
+                    </div>
+                    <!-- Dirección central -->
+                    <div class="mt-5 p-4 bg-[#0056a1]/5 rounded-xl border border-[#0056a1]/10">
+                      <div class="flex items-center gap-2 mb-1">
+                        <mat-icon class="text-[#0056a1] !text-lg">location_on</mat-icon>
+                        <span class="text-xs font-black text-[#0056a1] uppercase tracking-wider">Sede Central INEI</span>
+                      </div>
+                      <p class="text-xs text-gray-600">Av. General Garzón 658, Jesús María, Lima 15072</p>
+                      <p class="text-xs text-gray-400 mt-1">Horario de atención: Lun–Vie 8:30 – 17:00 h</p>
+                    </div>
+                  </div>
                 </div>
-
-                <!-- Sub-tab: Interpretar -->
-                @if (tab2Con() === 'interpretar') {
-                  <div>
-                    <p class="text-sm text-gray-600 leading-relaxed mb-6">
-                      Guía para la lectura e interpretación correcta de los datos estadísticos del CPV 2025.
-                      Ideal para investigadores, periodistas, funcionarios públicos y ciudadanía en general.
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-4 mb-8">
-                      @for (concepto of conceptosClave; track concepto.titulo) {
-                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                          <div class="flex items-center gap-2 mb-2">
-                            <div class="w-2 h-2 rounded-full bg-[#0056a1]"></div>
-                            <h4 class="font-black text-sm text-gray-800">{{ concepto.titulo }}</h4>
-                          </div>
-                          <p class="text-xs text-gray-500 leading-relaxed">{{ concepto.descripcion }}</p>
-                        </div>
-                      }
-                    </div>
-                    <div class="bg-[#0056a1]/5 rounded-2xl p-6 border border-[#0056a1]/10 mb-6">
-                      <h4 class="font-black text-sm text-[#0056a1] mb-4">Preguntas Frecuentes</h4>
-                      <div class="space-y-3">
-                        @for (faq of faqs; track faq.pregunta) {
-                          <div class="bg-white rounded-xl p-4 border border-gray-100">
-                            <p class="font-bold text-sm text-gray-800 mb-1">{{ faq.pregunta }}</p>
-                            <p class="text-xs text-gray-500 leading-relaxed">{{ faq.respuesta }}</p>
-                          </div>
-                        }
-                      </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center gap-2 bg-[#0056a1] text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-[#0056a1]/90 transition-colors">
-                      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none"><rect x="3" y="2" width="18" height="20" rx="3" fill="white" opacity="0.2"/><rect x="3" y="2" width="18" height="20" rx="3" stroke="white" stroke-width="1.5" fill="none"/><text x="12" y="14.5" font-family="Arial,sans-serif" font-size="5" font-weight="900" fill="white" text-anchor="middle">PDF</text></svg>
-                      Descargar guía completa
-                    </a>
-                  </div>
-                }
-
-                <!-- Sub-tab: Glosario -->
-                @if (tab2Con() === 'glosario') {
-                  <div>
-                    <p class="text-xs text-gray-500 mb-6">Definiciones oficiales de los conceptos y términos técnicos utilizados en el CPV 2025.</p>
-                    <div class="space-y-3">
-                      @for (term of glosario; track term.termino) {
-                        <div class="flex gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#0056a1]/20 transition-colors">
-                          <div class="shrink-0">
-                            <span class="inline-block w-8 h-8 rounded-lg bg-[#0056a1] text-white text-xs font-black flex items-center justify-center">
-                              {{ term.termino[0] }}
-                            </span>
-                          </div>
-                          <div>
-                            <h4 class="font-black text-sm text-gray-800">{{ term.termino }}</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed mt-1">{{ term.definicion }}</p>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                }
-
-                <!-- Sub-tab: Contáctanos -->
-                @if (tab2Con() === 'contacto') {
-                  <div>
-                    <div class="grid md:grid-cols-2 gap-8">
-                      <!-- Información de contacto -->
-                      <div class="space-y-4">
-                        @for (c of contactos; track c.label) {
-                          <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" [style.background]="c.color + '18'">
-                              <mat-icon [style.color]="c.color" class="!text-xl">{{ c.icon }}</mat-icon>
-                            </div>
-                            <div>
-                              <div class="text-xs font-black text-gray-400 uppercase tracking-wider">{{ c.label }}</div>
-                              <div class="text-sm font-semibold text-gray-800 mt-0.5">{{ c.valor }}</div>
-                            </div>
-                          </div>
-                        }
-                      </div>
-                      <!-- Redes sociales -->
-                      <div>
-                        <h4 class="font-black text-sm text-gray-700 mb-4 uppercase tracking-wider">Redes Sociales</h4>
-                        <div class="grid grid-cols-3 gap-3">
-                          @for (red of redes; track red.nombre) {
-                            <a [href]="red.url" target="_blank"
-                               class="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#0056a1]/30 hover:bg-[#0056a1]/5 transition-all group">
-                              <div [innerHTML]="red.svgIcon" class="w-8 h-8 group-hover:scale-110 transition-transform"></div>
-                              <span class="text-[10px] font-bold text-gray-500">{{ red.nombre }}</span>
-                            </a>
-                          }
-                        </div>
-                        <!-- Dirección central -->
-                        <div class="mt-5 p-4 bg-[#0056a1]/5 rounded-xl border border-[#0056a1]/10">
-                          <div class="flex items-center gap-2 mb-1">
-                            <mat-icon class="text-[#0056a1] !text-lg">location_on</mat-icon>
-                            <span class="text-xs font-black text-[#0056a1] uppercase tracking-wider">Sede Central INEI</span>
-                          </div>
-                          <p class="text-xs text-gray-600">Av. General Garzón 658, Jesús María, Lima 15072</p>
-                          <p class="text-xs text-gray-400 mt-1">Horario de atención: Lun–Vie 8:30 – 17:00 h</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                }
-
               </div>
             }
-            <!-- /tabs -->
+
+            <!-- ════ TAB: ¿CÓMO INTERPRETAR? ════════════════════════════════ -->
+            @if (tab1() === 'interpretar') {
+              <div class="p-6 md:p-8">
+                <h2 class="text-xl font-black text-gray-800 mb-2">¿Cómo interpretar los datos?</h2>
+                <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                  Guía para la lectura e interpretación correcta de los datos estadísticos del CPV 2025.
+                  Ideal para investigadores, periodistas, funcionarios públicos y ciudadanía en general.
+                </p>
+                <div class="grid md:grid-cols-2 gap-4 mb-8">
+                  @for (concepto of conceptosClave; track concepto.titulo) {
+                    <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                      <div class="flex items-center gap-2 mb-2">
+                        <div class="w-2 h-2 rounded-full bg-[#0056a1]"></div>
+                        <h4 class="font-black text-sm text-gray-800">{{ concepto.titulo }}</h4>
+                      </div>
+                      <p class="text-xs text-gray-500 leading-relaxed">{{ concepto.descripcion }}</p>
+                    </div>
+                  }
+                </div>
+                <div class="bg-[#0056a1]/5 rounded-2xl p-6 border border-[#0056a1]/10 mb-6">
+                  <h4 class="font-black text-sm text-[#0056a1] mb-4">Preguntas Frecuentes</h4>
+                  <div class="space-y-3">
+                    @for (faq of faqs; track faq.pregunta) {
+                      <div class="bg-white rounded-xl p-4 border border-gray-100">
+                        <p class="font-bold text-sm text-gray-800 mb-1">{{ faq.pregunta }}</p>
+                        <p class="text-xs text-gray-500 leading-relaxed">{{ faq.respuesta }}</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+                <a href="#" class="inline-flex items-center gap-2 bg-[#0056a1] text-white text-sm font-bold px-6 py-3 rounded-xl hover:bg-[#0056a1]/90 transition-colors">
+                  <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none"><rect x="3" y="2" width="18" height="20" rx="3" fill="white" opacity="0.2"/><rect x="3" y="2" width="18" height="20" rx="3" stroke="white" stroke-width="1.5" fill="none"/><text x="12" y="14.5" font-family="Arial,sans-serif" font-size="5" font-weight="900" fill="white" text-anchor="middle">PDF</text></svg>
+                  Descargar guía completa
+                </a>
+              </div>
+            }
+
+            <!-- ════ TAB: GLOSARIO ══════════════════════════════════════════ -->
+            @if (tab1() === 'glosario') {
+              <div class="p-6 md:p-8">
+                <h2 class="text-xl font-black text-gray-800 mb-2">Glosario</h2>
+                <p class="text-xs text-gray-500 mb-6">Definiciones oficiales de los conceptos y términos técnicos utilizados en el CPV 2025.</p>
+                <div class="space-y-3">
+                  @for (term of glosario; track term.termino) {
+                    <div class="flex gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#0056a1]/20 transition-colors">
+                      <div class="shrink-0">
+                        <span class="inline-block w-8 h-8 rounded-lg bg-[#0056a1] text-white text-xs font-black flex items-center justify-center">
+                          {{ term.termino[0] }}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 class="font-black text-sm text-gray-800">{{ term.termino }}</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed mt-1">{{ term.definicion }}</p>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
           </div>
         </div>
       </main>
 
       <!-- ══ FOOTER ══════════════════════════════════════════════════════════════ -->
-      <!-- FOOTER -->
       <footer class="bg-[#484848] text-white py-6 px-6 md:px-12 lg:px-24">
         <div class="max-w-7xl mx-auto flex flex-col justify-center md:justify-end items-center md:items-end gap-6 w-full">
           <div class="flex flex-col items-center md:items-end text-center md:text-right w-full">
@@ -445,7 +470,7 @@ export class DocumentacionTecnicaComponent {
   censosOpen = signal(false);
   tab1       = signal<Tab1>('metodologicos');
   tab2Met    = signal<Tab2Met>('cedulas');
-  tab2Con    = signal<Tab2Con>('interpretar');
+  tab2Con    = signal<Tab2Con>('contacto');
 
   @HostListener('document:click')
   onDocumentClick() { this.censosOpen.set(false); }
@@ -453,28 +478,27 @@ export class DocumentacionTecnicaComponent {
 
   // ── Nav ────────────────────────────────────────────────────────────────────
   censosMenu = [
-    { label: 'Censo de Derecho',  route: '/censo-derecho' },
+    { label: 'Censo de Derecho',          route: '/censo-derecho' },
     { label: 'Características técnicas',  route: '/aspectos-generales' },
-    { label: 'Innovaciones Tecnológicas',      route: '/innovaciones' },
-    { label: 'Normatividad censal',        route: '/normativa' },
-    { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
+    { label: 'Innovaciones Tecnológicas', route: '/innovaciones' },
+    { label: 'Normatividad censal',       route: '/normativa' },
+    { label: 'Documentación Técnica',     route: '/documentacion-tecnica' },
   ];
 
   // ── Tabs ───────────────────────────────────────────────────────────────────
   tabs1 = [
-    { label: 'Documentos Metodológicos',   value: 'metodologicos'  as Tab1, icon: 'description' },
-    { label: 'Informes Técnicos',          value: 'informes'       as Tab1, icon: 'assessment' },
-    { label: 'Consultas',                  value: 'consultas'      as Tab1, icon: 'help_outline' },
+    { label: 'Documentos Metodológicos',   value: 'metodologicos' as Tab1, icon: 'description' },
+    { label: 'Informes Técnicos',          value: 'informes'      as Tab1, icon: 'assessment' },
+    { label: 'Consultas',                  value: 'consultas'     as Tab1, icon: 'help_outline' },
+    { label: '¿Cómo interpretar?',         value: 'interpretar'   as Tab1, icon: 'menu_book' },
+    { label: 'Glosario',                   value: 'glosario'      as Tab1, icon: 'article' },
   ];
+
   subTabsMet = [
-    { label: 'Cédulas',  value: 'cedulas'  as Tab2Met },
-    { label: 'Manuales', value: 'manuales' as Tab2Met },
-    { label: 'Programa Censal', value: 'programa' as Tab2Met },
-  ];
-  subTabsCon = [
-    { label: '¿Cómo interpretar los datos?', value: 'interpretar' as Tab2Con },
-    { label: 'Glosario',                     value: 'glosario'    as Tab2Con },
-    { label: 'Contáctanos',                  value: 'contacto'    as Tab2Con },
+    { label: 'Cédulas',          value: 'cedulas'         as Tab2Met },
+    { label: 'Manuales',         value: 'manuales'        as Tab2Met },
+    { label: 'Programa Censal',  value: 'programa'        as Tab2Met },
+    { label: 'Clasificadores',   value: 'clasificadores'  as Tab2Met },
   ];
 
   // ── Datos: Informes Técnicos ──────────────────────────────────────────────
@@ -494,28 +518,33 @@ export class DocumentacionTecnicaComponent {
 
   // ── Datos: Manuales ────────────────────────────────────────────────────────
   manuales = [
-    { id:1, nombre:'Manual del Coordinador Departamental Censal - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.17_Manual_Coord.-Dptal-Censal_28.05.25_FINAL.pdf', descripcion:'Guía para organizar y supervisar el operativo censal de población y vivienda a nivel departamental.' },
-    { id:2, nombre:'Manual del Coordinador Departamental - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.24_Manual_Coord.-Dptal-Comunidades_30.05.25_FINAL.pdf', descripcion:'Guía para coordinar y supervisar el operativo censal en comunidades indígenas a nivel departamental. ' },
-    { id:3, nombre:'Manual del Coordinador de Subsede Departamental Censal de Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.16_Manual_Coord.-Subsede_Dptal_Censal_29.05.25_FINAL.pdf',   descripcion:'Guía para apoyar la coordinación y supervisión del censo de población y vivienda desde la subsede departamental.' },
-    { id:4, nombre:'Manual del Supervisor del Sector Censal - Población y Vivienda', url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.15_Manual-Supervisor-Sector-Censal_26.05.25_FINAL.pdf', descripcion:'Guía para supervisar y orientar el levantamiento de información en los sectores censales de población y vivienda.' },
-    { id:5, nombre:'Manual del Jefe de Sección Censal - Población de Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13_Manual-Jefe-Seccion-Censal_05.06.25_FINAL.pdf', descripcion:'Documento que establece las funciones y procedimientos para la organización y control del trabajo censal en la sección.' },
-    { id:6, nombre:'Manual del Jefe de Brigada Censal - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.25_Manual_JefBri_CI_OK_30.05.25_FINAL.pdf', descripcion:'Documento que establece las funciones y procedimientos para la organización y supervisión del operativo censal en comunidades indígenas.' },
-    { id:7, nombre:'Manual del Censista - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.11_Manual-del-Censista_CPV_actualiz.16.07.25.pdf', descripcion:'Documento que establece las instrucciones para la recolección de información de población y vivienda durante el censo nacional. ' },
-    { id:8, nombre:'Manual del Censista - Comunidades Indígenas', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.26_Manual-del-Censista_Comunidades-Indigenas_05.06.25.pdf', descripcion:'Documento que establece las instrucciones para la recolección de información en comunidades indígenas durante el empadronamiento censal.' },
-    { id:9, nombre:'Manual de Reasignación - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.14_Manual-de-Reasignacion_05.06.25_FINAL.pdf', descripcion:'Documento que establece los procedimientos para la reasignación de cargas de trabajo en el operativo censal de población y vivienda.' },
-    { id:10, nombre:'Instructivo del Uso de la Tableta (Tableta Lenovo)', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.12_Instructivo-del-Uso-de-la-Tableta_Lenovo_05.06.25_FINAL.pdf',descripcion:'Documento que describe el uso y manejo de la tableta para el registro de información durante el trabajo censal. ' },
-    { id:11, nombre:'Instructivo del Censo en Línea para el Personal Operativo',url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.09_Instructivo_eCenso_Personal-Operativo_24.05.-25_FINAL.pdf', descripcion:'Documento que establece las instrucciones para el registro y gestión de información en el sistema de censo en línea.' },
-    { id:12, nombre:'Instructivo del Asistente Virtual Yanapaq 2025', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.10_Instructivo-del-Asistente-Virtual-YANAPAQ_FINAL.pdf', descripcion:'Documento que describe el uso del asistente virtual Yanapaq como apoyo al operativo censal.' },
-    { id:13, nombre:'Instructivo de Módulo del Jefe de Sección - Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13A_Instructivo-de-Modulos-del-Jefe-de-Seccion_Edit.-03.06.25.pdf', descripcion:'Documento que establece las instrucciones para el uso del módulo a utilizar el jefe de sección durante el operativo censal.' },
-    { id:14, nombre:'Instructivo del Operativo de Viviendas Colectivas', url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.21-Instructivo-de-Vivendas-Colectivas_11.06.25.pdf', descripcion:'Documento que describe los procedimientos para el registro de información en viviendas colectivas durante el censo.' },
-    { id:15, nombre:'Instructivo del Operativo de Personas sin Vivienda',url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.22_Instructivo_Personas_Sin_Vivienda_Editado_13.06.2025.pdf', descripcion:'Documento que establece los procedimientos para registrar información de personas sin vivienda (vivencia en calle).' },
+    { id:1,  nombre:'Manual del Coordinador Departamental Censal - Población y Vivienda',             url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.17_Manual_Coord.-Dptal-Censal_28.05.25_FINAL.pdf',                         descripcion:'Guía para organizar y supervisar el operativo censal de población y vivienda a nivel departamental.' },
+    { id:2,  nombre:'Manual del Coordinador Departamental - Comunidades Indígenas',                   url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.24_Manual_Coord.-Dptal-Comunidades_30.05.25_FINAL.pdf',                    descripcion:'Guía para coordinar y supervisar el operativo censal en comunidades indígenas a nivel departamental. ' },
+    { id:3,  nombre:'Manual del Coordinador de Subsede Departamental Censal de Población y Vivienda', url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.16_Manual_Coord.-Subsede_Dptal_Censal_29.05.25_FINAL.pdf',                descripcion:'Guía para apoyar la coordinación y supervisión del censo de población y vivienda desde la subsede departamental.' },
+    { id:4,  nombre:'Manual del Supervisor del Sector Censal - Población y Vivienda',                 url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.15_Manual-Supervisor-Sector-Censal_26.05.25_FINAL.pdf',                    descripcion:'Guía para supervisar y orientar el levantamiento de información en los sectores censales de población y vivienda.' },
+    { id:5,  nombre:'Manual del Jefe de Sección Censal - Población de Vivienda',                      url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13_Manual-Jefe-Seccion-Censal_05.06.25_FINAL.pdf',                        descripcion:'Documento que establece las funciones y procedimientos para la organización y control del trabajo censal en la sección.' },
+    { id:6,  nombre:'Manual del Jefe de Brigada Censal - Comunidades Indígenas',                      url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.25_Manual_JefBri_CI_OK_30.05.25_FINAL.pdf',                              descripcion:'Documento que establece las funciones y procedimientos para la organización y supervisión del operativo censal en comunidades indígenas.' },
+    { id:7,  nombre:'Manual del Censista - Población y Vivienda',                                     url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.11_Manual-del-Censista_CPV_actualiz.16.07.25.pdf',                        descripcion:'Documento que establece las instrucciones para la recolección de información de población y vivienda durante el censo nacional. ' },
+    { id:8,  nombre:'Manual del Censista - Comunidades Indígenas',                                    url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.26_Manual-del-Censista_Comunidades-Indigenas_05.06.25.pdf',               descripcion:'Documento que establece las instrucciones para la recolección de información en comunidades indígenas durante el empadronamiento censal.' },
+    { id:9,  nombre:'Manual de Reasignación - Población y Vivienda',                                  url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.14_Manual-de-Reasignacion_05.06.25_FINAL.pdf',                            descripcion:'Documento que establece los procedimientos para la reasignación de cargas de trabajo en el operativo censal de población y vivienda.' },
+    { id:10, nombre:'Instructivo del Uso de la Tableta (Tableta Lenovo)',                             url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.12_Instructivo-del-Uso-de-la-Tableta_Lenovo_05.06.25_FINAL.pdf',         descripcion:'Documento que describe el uso y manejo de la tableta para el registro de información durante el trabajo censal. ' },
+    { id:11, nombre:'Instructivo del Censo en Línea para el Personal Operativo',                      url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.09_Instructivo_eCenso_Personal-Operativo_24.05.-25_FINAL.pdf',            descripcion:'Documento que establece las instrucciones para el registro y gestión de información en el sistema de censo en línea.' },
+    { id:12, nombre:'Instructivo del Asistente Virtual Yanapaq 2025',                                 url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.10_Instructivo-del-Asistente-Virtual-YANAPAQ_FINAL.pdf',                  descripcion:'Documento que describe el uso del asistente virtual Yanapaq como apoyo al operativo censal.' },
+    { id:13, nombre:'Instructivo de Módulo del Jefe de Sección - Población y Vivienda',               url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.13A_Instructivo-de-Modulos-del-Jefe-de-Seccion_Edit.-03.06.25.pdf',      descripcion:'Documento que establece las instrucciones para el uso del módulo a utilizar el jefe de sección durante el operativo censal.' },
+    { id:14, nombre:'Instructivo del Operativo de Viviendas Colectivas',                              url:'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.21-Instructivo-de-Vivendas-Colectivas_11.06.25.pdf',                       descripcion:'Documento que describe los procedimientos para el registro de información en viviendas colectivas durante el censo.' },
+    { id:15, nombre:'Instructivo del Operativo de Personas sin Vivienda',                             url: 'https://censos2025.inei.gob.pe/wp-content/uploads/2025/12/Doc.CPV_.08.22_Instructivo_Personas_Sin_Vivienda_Editado_13.06.2025.pdf',             descripcion:'Documento que establece los procedimientos para registrar información de personas sin vivienda (vivencia en calle).' },
   ];
 
-   // ── Datos: programa ────────────────────────────────────────────────────────
+  // ── Datos: Programa Censal ─────────────────────────────────────────────────
   programa = [
-    { id:1, nombre:'Programa Censal - Población y Vivienda',             descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
-    { id:2, nombre:'Programa Censal - Comunidades Indígenas',             descripcion:'Plan que organiza y coordina el operativo censal de Comunidades Indígenas.' },
-    ];
+    { id:1, nombre:'Programa Censal - Población y Vivienda',   descripcion:'Plan que organiza y coordina el operativo censal de población y vivienda.' },
+    { id:2, nombre:'Programa Censal - Comunidades Indígenas',  descripcion:'Plan que organiza y coordina el operativo censal de Comunidades Indígenas.' },
+  ];
+
+  // ── Datos: Clasificadores ──────────────────────────────────────────────────
+  clasificadores: { id: number; nombre: string; url: string; descripcion: string }[] = [
+    // Agregar los clasificadores aquí cuando estén disponibles
+  ];
 
   // ── Datos: Interpretar ─────────────────────────────────────────────────────
   conceptosClave = [
@@ -528,7 +557,7 @@ export class DocumentacionTecnicaComponent {
   ];
 
   faqs = [
-    { pregunta:'¿Los datos son definitivos?',         respuesta:'No. Se trata de resultados preliminares sujetos a revisión y actualización en la publicación definitiva del INEI.' },
+    { pregunta:'¿Los datos son definitivos?',          respuesta:'No. Se trata de resultados preliminares sujetos a revisión y actualización en la publicación definitiva del INEI.' },
     { pregunta:'¿Cómo se calcula la tasa de omisión?', respuesta:'A través de una Encuesta Post-Censal (EPC) que evalúa la cobertura comparando las cifras censales con estimaciones estadísticas independientes.' },
     { pregunta:'¿Qué significa "vivienda particular"?', respuesta:'Toda vivienda destinada a ser ocupada por uno o más hogares de manera habitual. Excluye hoteles, hospitales, cuarteles y similares.' },
   ];
@@ -547,10 +576,10 @@ export class DocumentacionTecnicaComponent {
 
   // ── Datos: Contactos ───────────────────────────────────────────────────────
   contactos = [
-    { label:'Teléfono Central',  icon:'phone',      color:'#0056a1', valor:'(01) 203-2600 / 203-2700' },
-    { label:'Correo Institucional', icon:'email',   color:'#33b3a9', valor:'censos2025@inei.gob.pe' },
-    { label:'Mesa de Partes',    icon:'inbox',      color:'#038dd3', valor:'Av. General Garzón 658, Jesús María' },
-    { label:'Biblioteca Virtual',icon:'library_books', color:'#343b9f', valor:'www.inei.gob.pe/biblioteca' },
+    { label:'Teléfono Central',     icon:'phone',        color:'#0056a1', valor:'(01) 203-2600 / 203-2700' },
+    { label:'Correo Institucional', icon:'email',        color:'#33b3a9', valor:'censos2025@inei.gob.pe' },
+    { label:'Mesa de Partes',       icon:'inbox',        color:'#038dd3', valor:'Av. General Garzón 658, Jesús María' },
+    { label:'Biblioteca Virtual',   icon:'library_books',color:'#343b9f', valor:'www.inei.gob.pe/biblioteca' },
   ];
 
   redes = [

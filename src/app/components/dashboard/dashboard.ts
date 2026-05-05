@@ -162,10 +162,14 @@ const S = { w: 380, h: 550 };
             class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/resultados"
+          <button routerLink="/intermedia"
             class="hover:text-secondary transition-colors uppercase relative group font-black underline">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
+          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
+              Publicaciones
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+            </button>
           <div class="relative">
             <button (click)="toggleCensos($event)"
               class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
@@ -263,6 +267,56 @@ const S = { w: 380, h: 550 };
           </button>
         </div>
       }
+
+      <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════
+           Botones con gap real · texto legible · distribucion equilibrada
+      ══════════════════════════════════════════════════════════════════════ -->
+      <div class="w-full bg-white border-b border-gray-200 shrink-0"
+           style="box-shadow: 0 2px 6px rgba(0,86,161,0.07);">
+        <div class="flex items-stretch gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6">
+          @for (btn of navSections; track btn.id) {
+            <button
+              (click)="setActiveSection(btn.id)"
+              class="relative flex flex-1 flex-row items-center justify-center gap-1.5 sm:gap-2
+                     px-2 sm:px-3 md:px-4 py-1.5 rounded-lg
+                     text-[10px] sm:text-[11px] md:text-xs font-semibold text-center leading-tight
+                     whitespace-normal
+                     transition-all duration-200 ease-out
+                     focus:outline-none group overflow-hidden"
+              [style]="activeSection() === btn.id
+                ? 'background:#0056a1; color:#fff;'
+                : 'background:#fff; color:#0056a1;'">
+
+              <!-- Línea inferior activa -->
+              <span class="absolute bottom-0 left-0 h-[2px] w-full transition-opacity duration-200"
+                    [style]="activeSection() === btn.id
+                      ? 'background:#0056a1; opacity:1;'
+                      : 'opacity:0;'">
+              </span>
+
+              <!-- Icono -->
+              <app-hero-icon
+                [name]="btn.icon"
+                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
+                [style.color]="activeSection() === btn.id ? '#fff' : '#33b3a9'">
+              </app-hero-icon>
+
+              <!-- Etiqueta -->
+              <span class="transition-colors duration-200"
+                    [style.color]="activeSection() === btn.id ? '#fff' : '#0056a1'">
+                {{ btn.label }}
+              </span>
+
+              <!-- Hover overlay (solo inactivo) -->
+              @if (activeSection() !== btn.id) {
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none rounded-lg"
+                      style="background:rgba(51,179,169,0.08);">
+                </span>
+              }
+            </button>
+          }
+        </div>
+      </div>
 
       <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════
            Móvil:   columna única — card población encima, filtros abajo
@@ -1449,6 +1503,17 @@ export class DashboardComponent implements OnInit {
         this.selectedMapGeoKey.set('');
         this.openGeoDropdown.set(null);
     }
+
+    // ── Botonera de secciones ─────────────────────────────────────────────
+    activeSection = signal<string>('poblacion_total');
+
+    readonly navSections = [
+        { id: 'poblacion_total',       label: 'Indicadores de Población total',                 icon: 'chart-bar'   },
+        { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas',  icon: 'home'        },
+        { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',            icon: 'globe-americas' },
+    ];
+
+    setActiveSection(id: string): void { this.activeSection.set(id); }
 
     // ── Estado primitivo ──────────────────────────────────────────────────
     isBrowser             = false;
