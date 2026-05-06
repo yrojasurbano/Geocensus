@@ -119,7 +119,7 @@ import { RouterLink } from '@angular/router';
           </button>
 
           <!-- ② Indicadores de población y viviendas censadas -->
-          <button routerLink="/resultados/poblacion-viviendas" class="group card-btn border-t-4 border-[#038dd3]">
+          <button routerLink="/dashboard-censada" class="group card-btn border-t-4 border-[#038dd3]">
             <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
               <!-- Hero Icon: building-office (vivienda + personas) -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

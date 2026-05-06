@@ -4,6 +4,7 @@ import { NewsComponent } from './components/news/news';
 import { DashboardComponent } from './components/dashboard/dashboard';
 import { ComparativaTerritorialComponent } from './components/comparativa/comparativa-territorial';
 import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
+import { DashboardCensadaComponent} from './components/dashboard/dashboard-censada'
 // SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
 export const routes: Routes = [
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'comparativa', component: ComparativaTerritorialComponent },
   { path: 'publicaciones', component: PublicacionesComponent },
+  { path: 'dashboard-censada', component: DashboardCensadaComponent},
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {

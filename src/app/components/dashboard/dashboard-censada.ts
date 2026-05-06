@@ -324,16 +324,16 @@ const S = { w: 380, h: 550 };
           <button
             class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all shadow-sm
                    bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
-            Primeros Resultados
+            Indicadores Principales
           </button>
           <button
             routerLink="/comparativa"
             class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
                    text-gray-400 hover:text-gray-600 tracking-wide">
-            Comparativo Territorial
+            Indicadores Temáticos
           </button>
         </div>
-
+        
         <!-- Separador -->
         <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
@@ -1381,7 +1381,7 @@ const S = { w: 380, h: 550 };
     }
   `]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardCensadaComponent implements OnInit {
 
     // ── Header nav ────────────────────────────────────────────────────────
     censosOpen     = signal(false);
@@ -1567,7 +1567,7 @@ export class DashboardComponent implements OnInit {
         { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
     ];
 
-    setActiveSection(id: string): void { this.activeSection.set(id); }
+      setActiveSection(id: string): void { this.activeSection.set(id); }
     private router = inject(Router);
 
 isBtnActive(btn: { id: string; route?: string }): boolean {

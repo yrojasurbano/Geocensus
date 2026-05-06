@@ -10,7 +10,7 @@ import {
     HostListener,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeroIconComponent } from '../ui/hero-icon.component';
 import * as XLSX from 'xlsx';
@@ -117,34 +117,43 @@ function allChecked(labels: string[]): DropdownItem[] {
 @Component({
     selector: 'app-comparativa-territorial',
     standalone: true,
-    imports: [CommonModule, RouterLink, MatTooltipModule, HeroIconComponent],
+    imports: [CommonModule, RouterLink, RouterLinkActive, MatTooltipModule, HeroIconComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <section class="bg-[#f4f7f9] h-full flex flex-col font-sans text-gray-800" (click)="closeAll()">
 
             <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-            <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center px-6 py-3 md:px-12 md:py-4 w-full shrink-0">
-        <div class="flex items-center gap-4 md:gap-5">
+            <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50
+                     flex justify-between items-center
+                     px-4 py-1 sm:px-6 sm:py-1.5 md:px-10 md:py-1.5 lg:px-12 lg:py-2
+                     w-full shrink-0">
+
+        <!-- Logos -->
+        <div class="flex items-center gap-2 md:gap-3 lg:gap-4">
           <div class="flex items-center cursor-pointer" routerLink="/">
-            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-12 md:h-14 w-auto object-contain">
+            <img src="logo_inei_azul.png" alt="Logo INEI"
+                 class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain">
           </div>
-          <div class="w-px h-8 md:h-10 bg-gray-200 hidden md:block"></div>
-          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-12 md:h-12 w-auto object-contain hidden md:block">
+          <div class="w-px h-6 md:h-7 bg-gray-200 hidden md:block"></div>
+          <img src="logo_cpv.png" alt="Logo CPV 2025"
+               class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
-          <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
+
+        <!-- Nav desktop -->
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium tracking-wide"
+             style="color:#0056a1">
+          <button routerLink="/"
+            class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+          <button routerLink="/intermedia"
+            class="hover:text-secondary transition-colors uppercase relative group font-black underline">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
           <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
               Publicaciones
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
-          <!--<button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
-            Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-          </button> -->
           <div class="relative">
             <button (click)="toggleCensos($event)"
               class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
@@ -162,8 +171,11 @@ function allChecked(labels: string[]): DropdownItem[] {
                   @for (item of censosMenu; track item.label) {
                     <li>
                       <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700
+                               hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10
+                               hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary
+                                     opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                         {{ item.label }}
                       </button>
                     </li>
@@ -172,203 +184,315 @@ function allChecked(labels: string[]): DropdownItem[] {
               </div>
             }
           </div>
-          <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/noticias"
+            class="hover:text-secondary transition-colors uppercase relative group">
             Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
         </nav>
+
+        <!-- Hamburger — solo visible en móvil/tablet (<lg) -->
+        <button
+          (click)="toggleMobileMenu($event)"
+          class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg
+                 hover:bg-gray-100 transition-colors gap-1.5"
+          aria-label="Menú">
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.rotate-45]="mobileMenuOpen()"
+                [class.translate-y-2]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.opacity-0]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
+                [class.-rotate-45]="mobileMenuOpen()"
+                [class.-translate-y-2]="mobileMenuOpen()"></span>
+        </button>
       </header>
 
-            <!-- ══ FILTER BAR ═══════════════════════════════════════════════════════ -->
-            <div class="bg-white border-b border-gray-100 shadow-sm px-3 md:px-5 xl:px-10 2xl:px-16
-                        flex flex-col gap-2 py-2 xl:py-2.5
-                        sticky top-[57px] md:top-[65px] z-40 shrink-0"
+            <!-- Menú móvil desplegable -->
+            @if (mobileMenuOpen()) {
+              <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3
+                          flex flex-col gap-1"
+                   style="animation: dropdownIn 0.18s ease-out forwards"
+                   (click)="$event.stopPropagation()">
+                <button routerLink="/" (click)="mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                         hover:bg-blue-50 transition-colors uppercase tracking-wide">
+                  Inicio
+                </button>
+                <button routerLink="/intermedia" (click)="mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2.5 rounded-xl text-sm font-black text-[#0056a1]
+                         hover:bg-blue-50 transition-colors uppercase tracking-wide underline">
+                  Resultados
+                </button>
+                <button routerLink="/publicaciones" (click)="mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                         hover:bg-blue-50 transition-colors uppercase tracking-wide">
+                  Publicaciones
+                </button>
+                <!-- Censos submenu en móvil -->
+                <button (click)="toggleCensos($event)"
+                  class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                         hover:bg-blue-50 transition-colors uppercase tracking-wide
+                         flex items-center justify-between">
+                  Censos 2025
+                  <app-hero-icon [name]="'chevron-down'" class="w-4 h-4 transition-transform"
+                    [class.rotate-180]="censosOpen()"></app-hero-icon>
+                </button>
+                @if (censosOpen()) {
+                  <div class="pl-4 flex flex-col gap-0.5 border-l-2 border-blue-100 ml-3">
+                    @for (item of censosMenu; track item.label) {
+                      <button [routerLink]="item.route"
+                        (click)="censosOpen.set(false); mobileMenuOpen.set(false)"
+                        class="text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-600
+                               hover:bg-gray-50 transition-colors">
+                        {{ item.label }}
+                      </button>
+                    }
+                  </div>
+                }
+                <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                         hover:bg-blue-50 transition-colors uppercase tracking-wide">
+                  Noticias
+                </button>
+              </div>
+            }
+
+            <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════
+           Barra teal completa · botones #0056a1 redondeados · alineados izquierda
+      ══════════════════════════════════════════════════════════════════════ -->
+      <div class="w-full shrink-0"
+           style="background:#ffffff; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
+        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
+          @for (btn of navSections; track btn.id) {
+            <button
+              [routerLink]="btn.route ?? null"
+              (click)="btn.route ? null : setActiveSection(btn.id)"
+              class="relative flex flex-row items-center justify-center gap-1.5 sm:gap-2
+                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
+                     text-[10px] sm:text-[11px] md:text-xs font-semibold text-center leading-tight
+                     whitespace-nowrap
+                     transition-all duration-200 ease-out
+                     focus:outline-none group shrink-0"
+              [style]="isBtnActive(btn)
+                ? 'background:#003d7a; color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
+                : 'background:#0056a1; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.15);'">
+
+              <!-- Icono -->
+              <app-hero-icon
+                [name]="btn.icon"
+                class="w-3.5 h-3.5 shrink-0 text-white transition-colors duration-200">
+              </app-hero-icon>
+
+              <!-- Etiqueta -->
+              <span class="text-white transition-colors duration-200">
+                {{ btn.label }}
+              </span>
+
+              <!-- Hover overlay -->
+              @if (!isBtnActive(btn)) {
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none rounded-full bg-white">
+                </span>
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+            <!-- ══ FILTER BAR ═══════════════════════════════════════════════════════
+                 Fila única: toggle Primeros/Comparativo a la izquierda
+                 + selector de ámbito, filtros geo y restablecer a la derecha
+            ══════════════════════════════════════════════════════════════════════ -->
+            <div class="bg-white border-b border-gray-100 shadow-sm
+                        px-3 md:px-5 xl:px-10 2xl:px-16
+                        flex flex-wrap items-center justify-between gap-x-3 gap-y-2
+                        py-2 xl:py-2.5
+                        sticky top-[70px] sm:top-[79px] md:top-[83px] lg:top-[86px] z-39 shrink-0"
                  (click)="$event.stopPropagation()">
 
-                <div class="flex justify-end">
-                    <div class="flex bg-gray-100 p-1 rounded-xl gap-1">
-                        <button routerLink="/dashboard"
-                                class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
-                            Primeros Resultados
-                        </button>
-                        <button class="px-4 py-1.5 rounded-lg text-xs font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
-                            Comparativo Territorial
-                        </button>
-                    </div>
+                <!-- ── Izquierda: Primeros Resultados / Comparativo Territorial ── -->
+                <div class="flex bg-gray-100 p-1 rounded-xl gap-1 shrink-0">
+                    <button routerLink="/dashboard"
+                            class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all text-gray-400 hover:text-gray-600 tracking-wide">
+                        Primeros Resultados
+                    </button>
+                    <button class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
+                        Comparativo Territorial
+                    </button>
                 </div>
 
-                <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 xl:gap-4 pb-1">
-                    <div class="flex items-center gap-2 shrink-0">
-                        <div >
-                            <img src="mapa_peru.svg" class="w-10 h-10 shrink-0" alt="Mapa Perú">
-                        </div>
-                        <span class="text-[9px] font-black text-gray-400 tracking-widest uppercase">Nivel Geográfico</span>
+                <!-- ── Derecha: ámbito geo + filtros + restablecer ── -->
+                <div class="flex flex-wrap items-center gap-2 justify-end ml-auto">
+
+                    <!-- Mapa + etiqueta nivel geográfico -->
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <img src="logo-mapa.svg" class="w-7 h-7 shrink-0" alt="Mapa Perú">
+                        <span class="text-[9px] font-black text-gray-400 tracking-widest uppercase hidden sm:inline">Nivel Geográfico</span>
                     </div>
 
-                    <div class="h-px md:h-7 md:w-px bg-gray-200 shrink-0 w-full md:w-auto"></div>
+                    <div class="h-7 w-px bg-gray-200 shrink-0 hidden sm:block"></div>
 
-                    <div class="flex flex-wrap items-center gap-2 flex-1 w-full">
+                    <!-- Nivel -->
+                    <div class="relative">
+                        <button (click)="toggleDropdown('nivel'); $event.stopPropagation()"
+                                class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#0056a1] to-[#1a75aa]
+                                       text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all
+                                       min-w-[148px] justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 opacity-80"></app-hero-icon>
+                                {{ nivelActivo() }}
+                            </span>
+                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                                           [class.rotate-180]="openDropdown() === 'nivel'"></app-hero-icon>
+                        </button>
+                        @if (openDropdown() === 'nivel') {
+                            <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[180px] overflow-hidden"
+                                 (click)="$event.stopPropagation()">
+                                <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
+                                </div>
+                                @for (n of NIVELES; track n) {
+                                    <button (click)="setNivel(n)"
+                                            class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                                            [class.bg-gradient-to-r]="nivelActivo() === n"
+                                            [class.from-[#0056a1]]="nivelActivo() === n"
+                                            [class.to-[#1a75aa]]="nivelActivo() === n"
+                                            [class.text-white]="nivelActivo() === n"
+                                            [class.text-gray-700]="nivelActivo() !== n"
+                                            [class.hover:bg-blue-50]="nivelActivo() !== n">
+                                        <span class="w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors"
+                                              [class.border-white]="nivelActivo() === n"
+                                              [class.border-gray-300]="nivelActivo() !== n">
+                                            @if (nivelActivo() === n) {
+                                                <span class="w-2 h-2 bg-white rounded-full block"></span>
+                                            }
+                                        </span>
+                                        <span class="font-bold">{{ n }}</span>
+                                    </button>
+                                }
+                            </div>
+                        }
+                    </div>
 
-                        <!-- Nivel -->
-                        <div class="relative">
-                            <button (click)="toggleDropdown('nivel'); $event.stopPropagation()"
-                                    class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#0056a1] to-[#1a75aa]
-                                           text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all
-                                           min-w-[148px] justify-between">
-                                <span class="flex items-center gap-1.5">
-                                    <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 opacity-80"></app-hero-icon>
-                                    {{ nivelActivo() }}
-                                </span>
-                                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                                               [class.rotate-180]="openDropdown() === 'nivel'"></app-hero-icon>
-                            </button>
-                            @if (openDropdown() === 'nivel') {
-                                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 min-w-[180px] overflow-hidden"
-                                     (click)="$event.stopPropagation()">
-                                    <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
-                                    </div>
-                                    @for (n of NIVELES; track n) {
-                                        <button (click)="setNivel(n)"
-                                                class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
-                                                [class.bg-gradient-to-r]="nivelActivo() === n"
-                                                [class.from-[#0056a1]]="nivelActivo() === n"
-                                                [class.to-[#1a75aa]]="nivelActivo() === n"
-                                                [class.text-white]="nivelActivo() === n"
-                                                [class.text-gray-700]="nivelActivo() !== n"
-                                                [class.hover:bg-blue-50]="nivelActivo() !== n">
-                                            <span class="w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors"
-                                                  [class.border-white]="nivelActivo() === n"
-                                                  [class.border-gray-300]="nivelActivo() !== n">
-                                                @if (nivelActivo() === n) {
-                                                    <span class="w-2 h-2 bg-white rounded-full block"></span>
-                                                }
-                                            </span>
-                                            <span class="font-bold">{{ n }}</span>
-                                        </button>
+                    <div class="h-7 w-px bg-gray-200 hidden md:block shrink-0"></div>
+
+                    <!-- Departamento -->
+                    <div class="relative">
+                        <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
+                                class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                                       text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
+                                       min-w-[160px] justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
+                                <span class="text-gray-400 mr-0.5">Dep.:</span>{{ depLabel() }}
+                            </span>
+                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
+                                           [class.rotate-180]="openDropdown() === 'dep'"></app-hero-icon>
+                        </button>
+                        @if (openDropdown() === 'dep') {
+                            <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-60 overflow-hidden"
+                                 (click)="$event.stopPropagation()">
+                                <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
+                                    <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
+                                           class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
+                                    Seleccionar todas
+                                </label>
+                                <div class="max-h-60 overflow-y-auto">
+                                    @for (item of depsItems(); track item.label; let i = $index) {
+                                        <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 text-xs text-gray-700 transition-colors">
+                                            <input type="checkbox" [checked]="item.checked" (change)="toggleDep(i)"
+                                                   class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
+                                            {{ item.label }}
+                                        </label>
                                     }
                                 </div>
-                            }
-                        </div>
-
-                        <div class="h-7 w-px bg-gray-200 hidden md:block shrink-0"></div>
-
-                        <!-- Departamento -->
-                        <div class="relative">
-                            <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
-                                    class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
-                                           text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
-                                           min-w-[160px] justify-between">
-                                <span class="flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                                    <span class="text-gray-400 mr-0.5">Dep.:</span>{{ depLabel() }}
-                                </span>
-                                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
-                                               [class.rotate-180]="openDropdown() === 'dep'"></app-hero-icon>
-                            </button>
-                            @if (openDropdown() === 'dep') {
-                                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-60 overflow-hidden"
-                                     (click)="$event.stopPropagation()">
-                                    <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
-                                        <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
-                                               class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                                        Seleccionar todas
-                                    </label>
-                                    <div class="max-h-60 overflow-y-auto">
-                                        @for (item of depsItems(); track item.label; let i = $index) {
-                                            <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 text-xs text-gray-700 transition-colors">
-                                                <input type="checkbox" [checked]="item.checked" (change)="toggleDep(i)"
-                                                       class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                                                {{ item.label }}
-                                            </label>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        <!-- Provincia -->
-                        <div class="relative">
-                            <button (click)="isProvActive() && toggleDropdown('prov'); $event.stopPropagation()"
-                                    class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[160px] justify-between"
-                                    [class.bg-gray-50]="isProvActive()"       [class.border-gray-200]="isProvActive()"
-                                    [class.text-gray-700]="isProvActive()"    [class.hover:bg-gray-100]="isProvActive()"
-                                    [class.bg-gray-50/50]="!isProvActive()"   [class.border-gray-100]="!isProvActive()"
-                                    [class.text-gray-300]="!isProvActive()"   [class.cursor-not-allowed]="!isProvActive()">
-                                <span class="flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full shrink-0"
-                                          [class.bg-[#1a75aa]]="isProvActive()" [class.bg-gray-200]="!isProvActive()"></span>
-                                    <span [class.text-gray-400]="isProvActive()" [class.text-gray-300]="!isProvActive()" class="mr-0.5">Prov.:</span>{{ provLabel() }}
-                                </span>
-                                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                                               [class.text-gray-400]="isProvActive()" [class.text-gray-200]="!isProvActive()"
-                                               [class.rotate-180]="openDropdown() === 'prov'"></app-hero-icon>
-                            </button>
-                            @if (openDropdown() === 'prov' && isProvActive()) {
-                                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden"
-                                     (click)="$event.stopPropagation()">
-                                    <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
-                                        <input type="checkbox" [checked]="allProvsOn()" (change)="toggleAllProvs()"
-                                               class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                                        Seleccionar todas
-                                    </label>
-                                    <div class="max-h-60 overflow-y-auto">
-                                        @for (item of provsItems(); track item.label; let i = $index) {
-                                            <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 text-xs text-gray-700 transition-colors">
-                                                <input type="checkbox" [checked]="item.checked" (change)="toggleProv(i)"
-                                                       class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                                                {{ item.label }}
-                                            </label>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        <!-- Distrito -->
-                        <div class="relative">
-                            <button (click)="isDistActive() && toggleDropdown('dist'); $event.stopPropagation()"
-                                    class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[155px] justify-between"
-                                    [class.bg-gray-50]="isDistActive()"       [class.border-gray-200]="isDistActive()"
-                                    [class.text-gray-700]="isDistActive()"    [class.hover:bg-gray-100]="isDistActive()"
-                                    [class.bg-gray-50/50]="!isDistActive()"   [class.border-gray-100]="!isDistActive()"
-                                    [class.text-gray-300]="!isDistActive()"   [class.cursor-not-allowed]="!isDistActive()">
-                                <span class="flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full shrink-0"
-                                          [class.bg-[#33b3a9]]="isDistActive()" [class.bg-gray-200]="!isDistActive()"></span>
-                                    <span [class.text-gray-400]="isDistActive()" [class.text-gray-300]="!isDistActive()" class="mr-0.5">Dist.:</span>{{ distLabel() }}
-                                </span>
-                                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                                               [class.text-gray-400]="isDistActive()" [class.text-gray-200]="!isDistActive()"
-                                               [class.rotate-180]="openDropdown() === 'dist'"></app-hero-icon>
-                            </button>
-                            @if (openDropdown() === 'dist' && isDistActive()) {
-                                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-80 overflow-hidden"
-                                     (click)="$event.stopPropagation()">
-                                    <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
-                                        <input type="checkbox" [checked]="allDistsOn()" (change)="toggleAllDists()"
-                                               class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                                        Seleccionar todos
-                                    </label>
-                                    <div class="max-h-60 overflow-y-auto">
-                                        @for (item of distItems(); track item.label; let i = $index) {
-                                            <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-teal-50 text-xs text-gray-700 transition-colors">
-                                                <input type="checkbox" [checked]="item.checked" (change)="toggleDist(i)"
-                                                       class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                                                {{ item.label }}
-                                            </label>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        <!-- Restablecer -->
-                        <button (click)="resetFiltros()"
-                                class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1] transition-colors text-xs font-black tracking-wide shrink-0 group ml-auto md:ml-0">
-                            <app-hero-icon [name]="'arrow-path'" class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-                            Restablecer Filtros
-                        </button>
+                            </div>
+                        }
                     </div>
+
+                    <!-- Provincia -->
+                    <div class="relative">
+                        <button (click)="isProvActive() && toggleDropdown('prov'); $event.stopPropagation()"
+                                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[160px] justify-between"
+                                [class.bg-gray-50]="isProvActive()"       [class.border-gray-200]="isProvActive()"
+                                [class.text-gray-700]="isProvActive()"    [class.hover:bg-gray-100]="isProvActive()"
+                                [class.bg-gray-50/50]="!isProvActive()"   [class.border-gray-100]="!isProvActive()"
+                                [class.text-gray-300]="!isProvActive()"   [class.cursor-not-allowed]="!isProvActive()">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                                      [class.bg-[#1a75aa]]="isProvActive()" [class.bg-gray-200]="!isProvActive()"></span>
+                                <span [class.text-gray-400]="isProvActive()" [class.text-gray-300]="!isProvActive()" class="mr-0.5">Prov.:</span>{{ provLabel() }}
+                            </span>
+                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                                           [class.text-gray-400]="isProvActive()" [class.text-gray-200]="!isProvActive()"
+                                           [class.rotate-180]="openDropdown() === 'prov'"></app-hero-icon>
+                        </button>
+                        @if (openDropdown() === 'prov' && isProvActive()) {
+                            <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden"
+                                 (click)="$event.stopPropagation()">
+                                <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
+                                    <input type="checkbox" [checked]="allProvsOn()" (change)="toggleAllProvs()"
+                                           class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
+                                    Seleccionar todas
+                                </label>
+                                <div class="max-h-60 overflow-y-auto">
+                                    @for (item of provsItems(); track item.label; let i = $index) {
+                                        <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 text-xs text-gray-700 transition-colors">
+                                            <input type="checkbox" [checked]="item.checked" (change)="toggleProv(i)"
+                                                   class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
+                                            {{ item.label }}
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Distrito -->
+                    <div class="relative">
+                        <button (click)="isDistActive() && toggleDropdown('dist'); $event.stopPropagation()"
+                                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all min-w-[155px] justify-between"
+                                [class.bg-gray-50]="isDistActive()"       [class.border-gray-200]="isDistActive()"
+                                [class.text-gray-700]="isDistActive()"    [class.hover:bg-gray-100]="isDistActive()"
+                                [class.bg-gray-50/50]="!isDistActive()"   [class.border-gray-100]="!isDistActive()"
+                                [class.text-gray-300]="!isDistActive()"   [class.cursor-not-allowed]="!isDistActive()">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                                      [class.bg-[#33b3a9]]="isDistActive()" [class.bg-gray-200]="!isDistActive()"></span>
+                                <span [class.text-gray-400]="isDistActive()" [class.text-gray-300]="!isDistActive()" class="mr-0.5">Dist.:</span>{{ distLabel() }}
+                            </span>
+                            <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                                           [class.text-gray-400]="isDistActive()" [class.text-gray-200]="!isDistActive()"
+                                           [class.rotate-180]="openDropdown() === 'dist'"></app-hero-icon>
+                        </button>
+                        @if (openDropdown() === 'dist' && isDistActive()) {
+                            <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-80 overflow-hidden"
+                                 (click)="$event.stopPropagation()">
+                                <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
+                                    <input type="checkbox" [checked]="allDistsOn()" (change)="toggleAllDists()"
+                                           class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
+                                    Seleccionar todos
+                                </label>
+                                <div class="max-h-60 overflow-y-auto">
+                                    @for (item of distItems(); track item.label; let i = $index) {
+                                        <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-teal-50 text-xs text-gray-700 transition-colors">
+                                            <input type="checkbox" [checked]="item.checked" (change)="toggleDist(i)"
+                                                   class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
+                                            {{ item.label }}
+                                        </label>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Separador + Restablecer -->
+                    <div class="h-7 w-px bg-gray-200 hidden md:block shrink-0"></div>
+                    <button (click)="resetFiltros()"
+                            class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1] transition-colors text-xs font-black tracking-wide shrink-0 group">
+                        <app-hero-icon [name]="'arrow-path'" class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
+                        <span class="hidden sm:inline">Restablecer Filtros</span>
+                    </button>
+
                 </div>
             </div>
 
@@ -712,7 +836,40 @@ function allChecked(labels: string[]): DropdownItem[] {
 })
 export class ComparativaTerritorialComponent {
 
-    censosOpen = signal(false);
+    censosOpen     = signal(false);
+    mobileMenuOpen = signal(false);
+
+    // ── Botonera de secciones ─────────────────────────────────────────────────
+    // 💡 GUÍA PARA AGREGAR RUTAS A OTROS BOTONES:
+    //    Simplemente añade `route: '/tu-ruta'` al objeto del botón.
+    //    Si NO tiene `route`, el botón actúa como sección interna (usa activeSection signal).
+    //    Si SÍ tiene `route`, el botón navega a esa página y se marca activo automáticamente.
+    //
+    //    Ejemplo:
+    //    { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',
+    //      icon: 'globe-americas', route: '/dashboard-indigenas' }
+    navSections: { id: string; label: string; icon: string; route?: string }[] = [
+        { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
+        { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
+        { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
+    ];
+    activeSection = signal<string>('poblacion_total');
+    setActiveSection(id: string): void { this.activeSection.set(id); }
+
+    // Router: necesario para detectar la ruta activa en botones con navegación
+    private router = inject(Router);
+
+    /** Devuelve true si el botón debe mostrarse como activo:
+     *  - Botones con `route`: compara contra la URL actual del router.
+     *  - Botones sin `route`: compara contra la señal `activeSection`. */
+    isBtnActive(btn: { id: string; route?: string }): boolean {
+        if (btn.route) {
+            return this.router.url === btn.route
+                || this.router.url.startsWith(btn.route + '/');
+        }
+        return this.activeSection() === btn.id;
+    }
+
     censosMenu = [
         { label: 'Censo de Derecho',  route: '/censo-derecho' },
         { label: 'Características técnicas',  route: '/aspectos-generales' },
@@ -722,8 +879,12 @@ export class ComparativaTerritorialComponent {
     ];
 
     @HostListener('document:click')
-    onDocumentClick() { this.censosOpen.set(false); }
-    toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
+    onDocumentClick() {
+        this.censosOpen.set(false);
+        this.mobileMenuOpen.set(false);
+    }
+    toggleCensos(e: Event)      { e.stopPropagation(); this.censosOpen.update(v => !v); }
+    toggleMobileMenu(e: Event)  { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
     readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];
     nivelActivo = signal<NivelType>('Departamental');
@@ -742,7 +903,7 @@ export class ComparativaTerritorialComponent {
     toggleDropdown(key: 'nivel' | 'dep' | 'prov' | 'dist'): void {
         this.openDropdown.set(this.openDropdown() === key ? null : key);
     }
-    closeAll(): void { this.openDropdown.set(null); }
+    closeAll(): void { this.openDropdown.set(null); this.mobileMenuOpen.set(false); }
 
     sortCol = signal<string | null>(null);
     sortDir = signal<'asc' | 'desc'>('asc');
