@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-    Component,
-    ChangeDetectionStrategy,
-    OnInit,
-    PLATFORM_ID,
-    inject,
-    signal,
-    computed,
-    HostListener,
+    Component, ChangeDetectionStrategy, OnInit,
+    PLATFORM_ID, inject, signal, computed, HostListener,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,7 +11,6 @@ import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
 import { HeroIconComponent } from '../ui/hero-icon.component';
 
-// ECharts — únicamente para gráficos de pie y pirámide
 import * as echarts from 'echarts/core';
 import { BarChart, PieChart, LineChart } from 'echarts/charts';
 import { TooltipComponent, LegendComponent, GridComponent, GraphicComponent, MarkLineComponent } from 'echarts/components';
@@ -26,63 +19,11 @@ import { CanvasRenderer } from 'echarts/renderers';
 echarts.use([BarChart, PieChart, LineChart, TooltipComponent, LegendComponent, GridComponent, GraphicComponent, MarkLineComponent, CanvasRenderer]);
 
 // ── Interfaces ──────────────────────────────────────────────────────────────
-interface MapRegion {
-    id: number;
-    /** Clave única según nivel: ccdd(2) | ccdd+ccpp(4) | ubigeo(6) */
-    geoKey: string;
-    ccdd: string;
-    ccpp: string;
-    ccdi: string;
-    name: string;
-    total: number;
-    male: number;
-    female: number;
-    density: number;
-    path: string;
-    center: { x: number; y: number };
-    color: string;
-}
+interface GeoOption { code: string; name: string; sortKey?: string; }
 
-interface GeoOption {
-    code: string;
-    name: string;
-    sortKey?: string;
-}
+export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
 
-interface ColorBreak {
-    min: number;
-    max: number;
-    color: string;
-    label: string;
-    count: number;
-}
-
-// ── Indicadores de mapa ─────────────────────────────────────────────────────
-type MapIndicatorKey =
-    | 'poblacion' | 'edad_promedio' | 'edad_mediana' | 'razon_sexo'
-    | 'indice_envejecimiento' | 'dep_total' | 'dep_juvenil' | 'dep_adulta'
-    | 'densidad_total' | 'densidad_65';
-
-interface IndicatorDef {
-    key: MapIndicatorKey;
-    label: string;
-    unit: string;
-    decimals: number;
-}
-
-const INDICATORS: IndicatorDef[] = [
-    { key: 'poblacion',             label: 'Población censada',                    unit: '',         decimals: 0 },
-    { key: 'edad_promedio',         label: 'Edad promedio',                        unit: ' años',    decimals: 1 },
-    { key: 'edad_mediana',          label: 'Edad mediana',                         unit: ' años',    decimals: 1 },
-    { key: 'razon_sexo',            label: 'Razón hombre – mujer',                 unit: '',         decimals: 1 },
-    { key: 'indice_envejecimiento', label: 'Índice de envejecimiento',             unit: '',         decimals: 1 },
-    { key: 'dep_total',             label: 'Relación de dependencia total',        unit: '',         decimals: 1 },
-    { key: 'dep_juvenil',           label: 'Relación dependencia juvenil',         unit: '',         decimals: 1 },
-    { key: 'dep_adulta',            label: 'Relación dependencia adulta',          unit: '',         decimals: 1 },
-    { key: 'densidad_total',        label: 'Densidad población censada',           unit: ' hab/km²', decimals: 1 },
-    { key: 'densidad_65',           label: 'Densidad población 60 años y más',    unit: ' hab/km²', decimals: 2 },
-];
-
+// ── Mock Población ───────────────────────────────────────────────────────────
 const MOCK_DEP: Record<string, Record<string, number>> = {
     '01':{ edad_promedio:28.4,edad_mediana:25.8,razon_sexo:101.2,indice_envejecimiento:28.4,dep_total:62.1,dep_juvenil:50.3,dep_adulta:11.8,densidad_65:1.4 },
     '02':{ edad_promedio:30.2,edad_mediana:27.6,razon_sexo:97.8, indice_envejecimiento:38.2,dep_total:58.4,dep_juvenil:44.6,dep_adulta:13.8,densidad_65:2.3 },
@@ -111,14 +52,63 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
     '25':{ edad_promedio:28.8,edad_mediana:26.1,razon_sexo:105.6,indice_envejecimiento:26.4,dep_total:61.2,dep_juvenil:50.8,dep_adulta:10.4,densidad_65:0.9 },
 };
 
-const PALETTE = ['#caeae4','#86cec0','#33b3a9','#2d9b90','#4c8c80'];
-//const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
+// ── Mock Vivienda ───────────────────────────────────────────────────────────
+const MOCK_VIV: Record<string, Record<string, number>> = {
+    '01':{ viv_particulares:119200,viv_colectivas:3100,viv_ocupadas:97800,viv_desocupadas:24500,viv_1hogar:90400,viv_2hogar:6100,viv_3hogar:1080,viv_4ymas:220 },
+    '02':{ viv_particulares:305400,viv_colectivas:7950,viv_ocupadas:250000,viv_desocupadas:63350,viv_1hogar:230900,viv_2hogar:15500,viv_3hogar:2750,viv_4ymas:850 },
+    '03':{ viv_particulares:132400,viv_colectivas:3450,viv_ocupadas:108400,viv_desocupadas:27450,viv_1hogar:100100,viv_2hogar:6730,viv_3hogar:1190,viv_4ymas:380 },
+    '04':{ viv_particulares:434200,viv_colectivas:11300,viv_ocupadas:355800,viv_desocupadas:89700,viv_1hogar:328800,viv_2hogar:22100,viv_3hogar:3910,viv_4ymas:990 },
+    '05':{ viv_particulares:193700,viv_colectivas:5050,viv_ocupadas:158900,viv_desocupadas:39850,viv_1hogar:146800,viv_2hogar:9860,viv_3hogar:1750,viv_4ymas:490 },
+    '06':{ viv_particulares:388600,viv_colectivas:10100,viv_ocupadas:317800,viv_desocupadas:80900,viv_1hogar:293600,viv_2hogar:19700,viv_3hogar:3490,viv_4ymas:1010 },
+    '07':{ viv_particulares:327600,viv_colectivas:8520,viv_ocupadas:268000,viv_desocupadas:68120,viv_1hogar:247700,viv_2hogar:16600,viv_3hogar:2940,viv_4ymas:760 },
+    '08':{ viv_particulares:380200,viv_colectivas:9890,viv_ocupadas:310900,viv_desocupadas:79190,viv_1hogar:287200,viv_2hogar:19280,viv_3hogar:3410,viv_4ymas:1010 },
+    '09':{ viv_particulares:100700,viv_colectivas:2620,viv_ocupadas:82500,viv_desocupadas:20820,viv_1hogar:76200,viv_2hogar:5130,viv_3hogar:910,viv_4ymas:260 },
+    '10':{ viv_particulares:254700,viv_colectivas:6630,viv_ocupadas:208200,viv_desocupadas:53130,viv_1hogar:192300,viv_2hogar:12920,viv_3hogar:2290,viv_4ymas:690 },
+    '11':{ viv_particulares:285700,viv_colectivas:7440,viv_ocupadas:233500,viv_desocupadas:59640,viv_1hogar:215700,viv_2hogar:14490,viv_3hogar:2570,viv_4ymas:740 },
+    '12':{ viv_particulares:374200,viv_colectivas:9740,viv_ocupadas:306100,viv_desocupadas:77840,viv_1hogar:282800,viv_2hogar:19000,viv_3hogar:3360,viv_4ymas:940 },
+    '13':{ viv_particulares:579300,viv_colectivas:15080,viv_ocupadas:473400,viv_desocupadas:120980,viv_1hogar:437300,viv_2hogar:29370,viv_3hogar:5210,viv_4ymas:1520 },
+    '14':{ viv_particulares:379800,viv_colectivas:9890,viv_ocupadas:310500,viv_desocupadas:79190,viv_1hogar:286900,viv_2hogar:19260,viv_3hogar:3420,viv_4ymas:920 },
+    '15':{ viv_particulares:3082400,viv_colectivas:80200,viv_ocupadas:2521800,viv_desocupadas:640800,viv_1hogar:2329700,viv_2hogar:156300,viv_3hogar:27750,viv_4ymas:8050 },
+    '16':{ viv_particulares:297900,viv_colectivas:7750,viv_ocupadas:243100,viv_desocupadas:62550,viv_1hogar:224600,viv_2hogar:15090,viv_3hogar:2680,viv_4ymas:730 },
+    '17':{ viv_particulares:50200,viv_colectivas:1310,viv_ocupadas:41100,viv_desocupadas:10410,viv_1hogar:37900,viv_2hogar:2550,viv_3hogar:452,viv_4ymas:198 },
+    '18':{ viv_particulares:60300,viv_colectivas:1570,viv_ocupadas:49400,viv_desocupadas:12470,viv_1hogar:45600,viv_2hogar:3060,viv_3hogar:543,viv_4ymas:197 },
+    '19':{ viv_particulares:78400,viv_colectivas:2040,viv_ocupadas:64100,viv_desocupadas:16340,viv_1hogar:59200,viv_2hogar:3980,viv_3hogar:705,viv_4ymas:215 },
+    '20':{ viv_particulares:592900,viv_colectivas:15430,viv_ocupadas:484300,viv_desocupadas:124030,viv_1hogar:447400,viv_2hogar:30020,viv_3hogar:5320,viv_4ymas:1560 },
+    '21':{ viv_particulares:358300,viv_colectivas:9330,viv_ocupadas:293100,viv_desocupadas:74530,viv_1hogar:270800,viv_2hogar:18180,viv_3hogar:3220,viv_4ymas:900 },
+    '22':{ viv_particulares:266300,viv_colectivas:6930,viv_ocupadas:218100,viv_desocupadas:55130,viv_1hogar:201500,viv_2hogar:13520,viv_3hogar:2390,viv_4ymas:690 },
+    '23':{ viv_particulares:113800,viv_colectivas:2960,viv_ocupadas:93100,viv_desocupadas:23660,viv_1hogar:86000,viv_2hogar:5780,viv_3hogar:1020,viv_4ymas:300 },
+    '24':{ viv_particulares:69600,viv_colectivas:1810,viv_ocupadas:56900,viv_desocupadas:14510,viv_1hogar:52600,viv_2hogar:3530,viv_3hogar:625,viv_4ymas:145 },
+    '25':{ viv_particulares:160600,viv_colectivas:4180,viv_ocupadas:131100,viv_desocupadas:33680,viv_1hogar:121100,viv_2hogar:8140,viv_3hogar:1440,viv_4ymas:420 },
+};
 
-export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
-
-const B = { minLon: -81.5, maxLon: -68.5, minLat: -18.5, maxLat: 0.3 };
-const S = { w: 380, h: 550 };
-
+// ── Mock Hogar ──────────────────────────────────────────────────────────────
+const MOCK_HOG: Record<string, Record<string, number>> = {
+    '01':{ hog_censados:90200,prom_personas:4.2,pct_unipersonales:11.3,pct_con_ninos:58.4,pct_adulto_mayor:18.6 },
+    '02':{ hog_censados:232000,prom_personas:3.8,pct_unipersonales:14.2,pct_con_ninos:52.1,pct_adulto_mayor:23.8 },
+    '03':{ hog_censados:100400,prom_personas:4.1,pct_unipersonales:12.4,pct_con_ninos:56.8,pct_adulto_mayor:20.2 },
+    '04':{ hog_censados:330000,prom_personas:3.1,pct_unipersonales:20.6,pct_con_ninos:41.3,pct_adulto_mayor:32.4 },
+    '05':{ hog_censados:148000,prom_personas:4.0,pct_unipersonales:13.1,pct_con_ninos:54.6,pct_adulto_mayor:22.4 },
+    '06':{ hog_censados:296000,prom_personas:4.3,pct_unipersonales:10.8,pct_con_ninos:59.2,pct_adulto_mayor:17.4 },
+    '07':{ hog_censados:249000,prom_personas:3.1,pct_unipersonales:19.4,pct_con_ninos:43.7,pct_adulto_mayor:29.6 },
+    '08':{ hog_censados:289000,prom_personas:3.6,pct_unipersonales:15.8,pct_con_ninos:49.3,pct_adulto_mayor:25.6 },
+    '09':{ hog_censados:77000,prom_personas:4.4,pct_unipersonales:10.2,pct_con_ninos:61.4,pct_adulto_mayor:16.8 },
+    '10':{ hog_censados:193000,prom_personas:4.1,pct_unipersonales:12.6,pct_con_ninos:57.3,pct_adulto_mayor:19.8 },
+    '11':{ hog_censados:217000,prom_personas:3.3,pct_unipersonales:17.8,pct_con_ninos:44.8,pct_adulto_mayor:30.2 },
+    '12':{ hog_censados:285000,prom_personas:3.7,pct_unipersonales:15.4,pct_con_ninos:50.6,pct_adulto_mayor:24.4 },
+    '13':{ hog_censados:440000,prom_personas:3.5,pct_unipersonales:16.2,pct_con_ninos:48.4,pct_adulto_mayor:26.8 },
+    '14':{ hog_censados:288000,prom_personas:3.4,pct_unipersonales:16.8,pct_con_ninos:46.2,pct_adulto_mayor:28.4 },
+    '15':{ hog_censados:2344000,prom_personas:3.0,pct_unipersonales:22.8,pct_con_ninos:38.6,pct_adulto_mayor:35.8 },
+    '16':{ hog_censados:226000,prom_personas:4.5,pct_unipersonales:10.4,pct_con_ninos:62.8,pct_adulto_mayor:15.2 },
+    '17':{ hog_censados:38000,prom_personas:3.8,pct_unipersonales:14.6,pct_con_ninos:52.4,pct_adulto_mayor:16.4 },
+    '18':{ hog_censados:46000,prom_personas:3.0,pct_unipersonales:21.4,pct_con_ninos:40.2,pct_adulto_mayor:33.6 },
+    '19':{ hog_censados:60000,prom_personas:3.9,pct_unipersonales:13.8,pct_con_ninos:53.2,pct_adulto_mayor:20.6 },
+    '20':{ hog_censados:450000,prom_personas:3.6,pct_unipersonales:15.6,pct_con_ninos:50.2,pct_adulto_mayor:24.8 },
+    '21':{ hog_censados:272000,prom_personas:4.2,pct_unipersonales:11.6,pct_con_ninos:57.8,pct_adulto_mayor:21.2 },
+    '22':{ hog_censados:203000,prom_personas:3.8,pct_unipersonales:14.4,pct_con_ninos:52.8,pct_adulto_mayor:19.8 },
+    '23':{ hog_censados:86000,prom_personas:3.2,pct_unipersonales:19.8,pct_con_ninos:42.6,pct_adulto_mayor:31.4 },
+    '24':{ hog_censados:53000,prom_personas:3.5,pct_unipersonales:16.4,pct_con_ninos:48.8,pct_adulto_mayor:25.6 },
+    '25':{ hog_censados:122000,prom_personas:4.1,pct_unipersonales:12.2,pct_con_ninos:56.4,pct_adulto_mayor:17.8 },
+};
 
 @Component({
     selector: 'app-dashboard',
@@ -127,71 +117,46 @@ const S = { w: 380, h: 550 };
     providers: [provideEchartsCore({ echarts })],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-
-    <!-- ══════════════════════════════════════════════════════════════════════
-         SECCIÓN RAÍZ
-         • Móvil/Tablet  : scroll vertical libre (overflow-auto, altura auto)
-         • Desktop xl+   : pantalla completa fija (h-screen, overflow-hidden)
-    ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ★ h-screen + overflow-hidden = Vista única sin scroll ★ -->
     <section
-      class="bg-[#f4f7f9] w-full flex flex-col font-sans text-gray-800
-             overflow-auto xl:h-screen xl:overflow-hidden"
+      class="bg-[#f4f7f9] w-full flex flex-col font-sans text-gray-800 h-screen overflow-hidden"
       (click)="closeGeoDropdowns()">
 
-      <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-      <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50
-                     flex justify-between items-center
-                     px-4 py-1 sm:px-6 sm:py-1.5 md:px-10 md:py-1.5 lg:px-12 lg:py-2
-                     w-full shrink-0">
-
-        <!-- Logos -->
+      <!-- ══ HEADER ═══════════════════════════════════════════════════════════ -->
+      <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50 flex justify-between items-center
+                     px-4 py-1 sm:px-6 sm:py-1.5 md:px-10 lg:px-12 lg:py-2 w-full shrink-0">
         <div class="flex items-center gap-2 md:gap-3 lg:gap-4">
           <div class="flex items-center cursor-pointer" routerLink="/">
-            <img src="logo_inei_azul.png" alt="Logo INEI"
-                 class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain">
+            <img src="logo_inei_azul.png" alt="Logo INEI" class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain">
           </div>
           <div class="w-px h-6 md:h-7 bg-gray-200 hidden md:block"></div>
-          <img src="logo_cpv.png" alt="Logo CPV 2025"
-               class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain hidden md:block">
+          <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain hidden md:block">
         </div>
-
-        <!-- Nav desktop -->
-        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium tracking-wide"
-             style="color:#0056a1">
-          <button routerLink="/"
-            class="hover:text-secondary transition-colors uppercase relative group">
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-base font-medium tracking-wide" style="color:#0056a1">
+          <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/intermedia"
-            class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
-              Publicaciones
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
-            </button>
+          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+            Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+          </button>
           <div class="relative">
-            <button (click)="toggleCensos($event)"
-              class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
+            <button (click)="toggleCensos($event)" class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
               Censos 2025
-              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                [class.rotate-180]="censosOpen()"></app-hero-icon>
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="censosOpen()"></app-hero-icon>
             </button>
             @if (censosOpen()) {
               <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
-                   style="animation: dropdownIn 0.18s ease-out forwards"
-                   (click)="$event.stopPropagation()">
+                   style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
                 <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                 <ul class="py-1">
                   @for (item of censosMenu; track item.label) {
                     <li>
                       <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700
-                               hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10
-                               hover:text-primary transition-all flex items-center gap-2 group/item">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary
-                                     opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        class="w-full text-left px-4 py-2.5 text-base font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                         {{ item.label }}
                       </button>
                     </li>
@@ -200,388 +165,220 @@ const S = { w: 380, h: 550 };
               </div>
             }
           </div>
-          <button routerLink="/noticias"
-            class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/noticias" class="hover:text-secondary transition-colors uppercase relative group">
             Noticias<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
         </nav>
-
-        <!-- Hamburger — solo visible en móvil/tablet (<lg) -->
-        <button
-          (click)="toggleMobileMenu($event)"
-          class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg
-                 hover:bg-gray-100 transition-colors gap-1.5"
-          aria-label="Menú">
-          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
-                [class.rotate-45]="mobileMenuOpen()"
-                [class.translate-y-2]="mobileMenuOpen()"></span>
-          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
-                [class.opacity-0]="mobileMenuOpen()"></span>
-          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all"
-                [class.-rotate-45]="mobileMenuOpen()"
-                [class.-translate-y-2]="mobileMenuOpen()"></span>
+        <button (click)="toggleMobileMenu($event)" class="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors gap-1.5" aria-label="Menú">
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all" [class.rotate-45]="mobileMenuOpen()" [class.translate-y-2]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all" [class.opacity-0]="mobileMenuOpen()"></span>
+          <span class="w-5 h-0.5 bg-[#0056a1] rounded transition-all" [class.-rotate-45]="mobileMenuOpen()" [class.-translate-y-2]="mobileMenuOpen()"></span>
         </button>
       </header>
 
-      <!-- Menú móvil desplegable -->
       @if (mobileMenuOpen()) {
-        <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3
-                    flex flex-col gap-1"
-             style="animation: dropdownIn 0.18s ease-out forwards"
-             (click)="$event.stopPropagation()">
-          <button routerLink="/" (click)="mobileMenuOpen.set(false)"
-            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
-                   hover:bg-blue-50 transition-colors uppercase tracking-wide">
-            Inicio
-          </button>
-          <button routerLink="/resultados" (click)="mobileMenuOpen.set(false)"
-            class="text-left px-3 py-2.5 rounded-xl text-sm font-black text-[#0056a1]
-                   hover:bg-blue-50 transition-colors uppercase tracking-wide underline">
-            Resultados
-          </button>
-          <!-- Censos submenu en móvil -->
-          <button (click)="toggleCensos($event)"
-            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
-                   hover:bg-blue-50 transition-colors uppercase tracking-wide
-                   flex items-center justify-between">
-            Censos 2025
-            <app-hero-icon [name]="'chevron-down'" class="w-4 h-4 transition-transform"
-              [class.rotate-180]="censosOpen()"></app-hero-icon>
-          </button>
-          @if (censosOpen()) {
-            <div class="pl-4 flex flex-col gap-0.5 border-l-2 border-blue-100 ml-3">
-              @for (item of censosMenu; track item.label) {
-                <button [routerLink]="item.route"
-                  (click)="censosOpen.set(false); mobileMenuOpen.set(false)"
-                  class="text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-600
-                         hover:bg-gray-50 transition-colors">
-                  {{ item.label }}
-                </button>
-              }
-            </div>
-          }
-          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)"
-            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
-                   hover:bg-blue-50 transition-colors uppercase tracking-wide">
-            Noticias
-          </button>
+        <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3 flex flex-col gap-1 shrink-0"
+             style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
+          <button routerLink="/" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Inicio</button>
+          <button routerLink="/resultados" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-black text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide underline">Resultados</button>
+          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Noticias</button>
         </div>
       }
 
-      <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════
-           Barra teal completa · botones #0056a1 redondeados · alineados izquierda
-      ══════════════════════════════════════════════════════════════════════ -->
-      <div class="w-full shrink-0"
-           style="background:#ffffff; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
-        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
-          @for (btn of navSections; track btn.id) {
-            <button
-              [routerLink]="btn.route"
-              (click)="btn.route ? null : setActiveSection(btn.id)"
-              class="relative flex flex-row items-center justify-center gap-1.5 sm:gap-2
-                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
-                     text-[10px] sm:text-[11px] md:text-xs font-semibold text-center leading-tight
-                     whitespace-nowrap
-                     transition-all duration-200 ease-out
-                     focus:outline-none group shrink-0"
-              [style]="isBtnActive(btn)
-                ? 'background:#003d7a; color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                : 'background:#0056a1; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.15);'">
+      <!-- ══ BOTONERA DE SECCIONES + FILTROS GEO ═══════════════════════════ -->
+      <div class="w-full shrink-0" style="background:#ffffff; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
+        <div class="flex items-center px-3 sm:px-5 py-1.5 gap-2" (click)="$event.stopPropagation()">
+          <!-- Sección buttons (left) -->
+          <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+            @for (btn of navSections; track btn.id) {
+              <button [routerLink]="btn.route"
+                class="relative flex flex-row items-center justify-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full
+                       text-[11px] sm:text-[12px] font-semibold whitespace-nowrap transition-all duration-200 focus:outline-none group shrink-0"
+                [style]="isBtnActive(btn) ? 'background:#003d7a;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);' : 'background:#0056a1;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.15);'">
+                <app-hero-icon [name]="btn.icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
+                <span class="text-white">{{ btn.label }}</span>
+                @if (!isBtnActive(btn)) {
+                  <span class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none rounded-full bg-white"></span>
+                }
+              </button>
+            }
+          </div>
+          <!-- Filtros Geo (right) -->
+          <div class="ml-auto flex items-center gap-2 overflow-x-auto">
+        <!-- Restablecer filtros -->
+        <button (click)="resetFilters()" class="flex items-center gap-1 text-gray-400 hover:text-[#0056a1] transition-colors text-[10px] font-black tracking-wide shrink-0 group whitespace-nowrap">
+          <app-hero-icon [name]="'arrow-path'" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
+          <span>Restablecer</span>
+        </button>
 
-              <!-- Icono -->
-              <app-hero-icon
-                [name]="btn.icon"
-                class="w-3.5 h-3.5 shrink-0 text-white transition-colors duration-200">
-              </app-hero-icon>
+        <div class="h-6 w-px bg-gray-200 shrink-0"></div>
 
-              <!-- Etiqueta -->
-              <span class="text-white transition-colors duration-200">
-                {{ btn.label }}
-              </span>
-
-              <!-- Hover overlay -->
-              @if (!isBtnActive(btn)) {
-                <span class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none rounded-full bg-white">
-                </span>
-              }
-            </button>
+        <!-- Departamento -->
+        <div class="relative shrink-0">
+          <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
+            class="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap justify-between" style="min-width:120px">
+            <span class="flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
+              <span class="text-gray-400">Dep.:</span>
+              <span class="truncate max-w-[70px]">{{ geoDepLabel() }}</span>
+            </span>
+            <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 text-gray-400 transition-transform" [class.rotate-180]="openGeoDropdown() === 'dep'"></app-hero-icon>
+          </button>
+          @if (openGeoDropdown() === 'dep') {
+            <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
+              <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
+              </div>
+              <div class="max-h-52 overflow-y-auto">
+                <button (click)="selectDep(null)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                  [class.bg-gradient-to-r]="selectedCCDD() === ''" [class.from-\[\#0056a1\]]="selectedCCDD() === ''" [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
+                  [class.text-white]="selectedCCDD() === ''" [class.text-gray-700]="selectedCCDD() !== ''" [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
+                  <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
+                    @if (selectedCCDD() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                  </span>
+                  <span class="font-bold italic text-[11px]">Todos los departamentos</span>
+                </button>
+                @for (dept of departments(); track dept.ccdd) {
+                  <button (click)="selectDep(dept)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd" [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd" [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
+                    [class.text-white]="selectedCCDD() === dept.ccdd" [class.text-gray-700]="selectedCCDD() !== dept.ccdd" [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
+                    <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === dept.ccdd" [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
+                      @if (selectedCCDD() === dept.ccdd) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                    </span>
+                    <span class="font-semibold">{{ dept.name }}</span>
+                  </button>
+                }
+              </div>
+            </div>
           }
+        </div>
+
+        <!-- Provincia -->
+        <div class="relative shrink-0">
+          <button (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
+            class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
+            [class.bg-gray-50]="isGeoProvActive()" [class.border-gray-200]="isGeoProvActive()" [class.text-gray-700]="isGeoProvActive()" [class.hover\:bg-gray-100]="isGeoProvActive()"
+            [class.bg-gray-50\/50]="!isGeoProvActive()" [class.border-gray-100]="!isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()" [class.cursor-not-allowed]="!isGeoProvActive()">
+            <span class="flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#0056a1\]]="isGeoProvActive()" [class.bg-gray-200]="!isGeoProvActive()"></span>
+              <span [class.text-gray-400]="isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
+              <span class="truncate max-w-[60px]">{{ geoProvLabel() }}</span>
+            </span>
+            <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
+              [class.text-gray-400]="isGeoProvActive()" [class.text-gray-200]="!isGeoProvActive()" [class.rotate-180]="openGeoDropdown() === 'prov'"></app-hero-icon>
+          </button>
+          @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
+            <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
+              <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
+              </div>
+              <div class="max-h-52 overflow-y-auto">
+                <button (click)="selectProv('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                  [class.bg-gradient-to-r]="selectedProv() === ''" [class.from-\[\#0056a1\]]="selectedProv() === ''" [class.to-\[\#1a75aa\]]="selectedProv() === ''"
+                  [class.text-white]="selectedProv() === ''" [class.text-gray-700]="selectedProv() !== ''" [class.hover\:bg-blue-50]="selectedProv() !== ''">
+                  <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === ''" [class.border-gray-300]="selectedProv() !== ''">
+                    @if (selectedProv() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                  </span>
+                  <span class="font-bold italic">Todas las provincias</span>
+                </button>
+                @for (p of provinces(); track p.code) {
+                  <button (click)="selectProv(p.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedProv() === p.code" [class.from-\[\#0056a1\]]="selectedProv() === p.code" [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
+                    [class.text-white]="selectedProv() === p.code" [class.text-gray-700]="selectedProv() !== p.code" [class.hover\:bg-blue-50]="selectedProv() !== p.code">
+                    <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === p.code" [class.border-gray-300]="selectedProv() !== p.code">
+                      @if (selectedProv() === p.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                    </span>
+                    <span class="font-semibold">{{ p.name }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Distrito -->
+        <div class="relative shrink-0">
+          <button (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
+            class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
+            [class.bg-gray-50]="isGeoDistActive()" [class.border-gray-200]="isGeoDistActive()" [class.text-gray-700]="isGeoDistActive()" [class.hover\:bg-gray-100]="isGeoDistActive()"
+            [class.bg-gray-50\/50]="!isGeoDistActive()" [class.border-gray-100]="!isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()" [class.cursor-not-allowed]="!isGeoDistActive()">
+            <span class="flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#33b3a9\]]="isGeoDistActive()" [class.bg-gray-200]="!isGeoDistActive()"></span>
+              <span [class.text-gray-400]="isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
+              <span class="truncate max-w-[60px]">{{ geoDistLabel() }}</span>
+            </span>
+            <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
+              [class.text-gray-400]="isGeoDistActive()" [class.text-gray-200]="!isGeoDistActive()" [class.rotate-180]="openGeoDropdown() === 'dist'"></app-hero-icon>
+          </button>
+          @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
+            <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden" (click)="$event.stopPropagation()">
+              <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
+              </div>
+              <div class="max-h-52 overflow-y-auto">
+                <button (click)="selectDist('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                  [class.bg-gradient-to-r]="selectedDist() === ''" [class.from-\[\#0056a1\]]="selectedDist() === ''" [class.to-\[\#1a75aa\]]="selectedDist() === ''"
+                  [class.text-white]="selectedDist() === ''" [class.text-gray-700]="selectedDist() !== ''" [class.hover\:bg-blue-50]="selectedDist() !== ''">
+                  <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === ''" [class.border-gray-300]="selectedDist() !== ''">
+                    @if (selectedDist() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                  </span>
+                  <span class="font-bold italic">Todos los distritos</span>
+                </button>
+                @for (d of districts(); track d.code) {
+                  <button (click)="selectDist(d.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
+                    [class.bg-gradient-to-r]="selectedDist() === d.code" [class.from-\[\#0056a1\]]="selectedDist() === d.code" [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
+                    [class.text-white]="selectedDist() === d.code" [class.text-gray-700]="selectedDist() !== d.code" [class.hover\:bg-blue-50]="selectedDist() !== d.code">
+                    <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === d.code" [class.border-gray-300]="selectedDist() !== d.code">
+                      @if (selectedDist() === d.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                    </span>
+                    <span class="font-semibold">{{ d.name }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+          </div>
         </div>
       </div>
 
-      <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════
-           Rediseñada: vista buttons a la izquierda + geo-dropdowns a la derecha
-           Población Censada movida al grid principal
-      ══════════════════════════════════════════════════════════════════════ -->
+      <!-- ══ BARRA DE FILTROS (nowrap = altura fija) ════════════════════════ -->
       <div class="bg-white border-b border-gray-100 shadow-sm sticky z-40
                   top-[38px] sm:top-[43px] md:top-[47px] lg:top-[50px]
-                  px-3 py-2 sm:px-4 sm:py-2 md:px-6 lg:px-6 2xl:px-8
-                  flex flex-wrap items-center gap-2 md:gap-3 shrink-0"
+                  px-2 py-1.5 md:px-4 shrink-0
+                  flex flex-nowrap items-center gap-2 overflow-x-auto"
            (click)="$event.stopPropagation()">
 
-        <!-- Primeros Resultados / Comparativo Territorial — jerarquía principal -->
-        <div class="flex bg-gray-100 p-1 rounded-xl gap-1 shrink-0">
-          <button
-            class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all shadow-sm
-                   bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide cursor-default">
-            Indicadores Principales
+        <!-- Pill Indicadores Principales / Temáticos -->
+        <div class="flex bg-gray-100 p-0.5 rounded-xl gap-0.5 shrink-0">
+          <button class="px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide whitespace-nowrap">
+            Ind. Principales
           </button>
-          <button
-            routerLink="/comparativa"
-            class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
-                   text-gray-400 hover:text-gray-600 tracking-wide">
-            Indicadores Temáticos
+          <button routerLink="/comparativa" class="px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold text-gray-400 hover:text-gray-600 tracking-wide whitespace-nowrap transition-all">
+            Ind. Temáticos
           </button>
         </div>
-        
-        <!-- Separador -->
-        <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
-        <!-- Geo-dropdowns alineados a la derecha -->
-        <div class="flex flex-wrap items-center gap-2 ml-auto">
+        <!-- View tabs: Indicadores | Comparativo | Evolución -->
+        <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0">
+          @for (tab of viewTabs; track tab.route) {
+            <button [routerLink]="tab.route"
+              class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
+              [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
+              <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+              <span>{{ tab.label }}</span>
+            </button>
+          }
+        </div>
 
-          <!-- Restablecer filtros -->
-          <button
-            (click)="resetFilters()"
-            class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1]
-                   transition-colors text-xs font-black tracking-wide shrink-0 group">
-            <app-hero-icon [name]="'arrow-path'"
-              class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-            <span class="hidden sm:inline">Restablecer Filtros</span>
-          </button>
 
-          <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
+        <!-- Ámbito geográfico actual -->
+        <div class="ml-auto shrink-0 flex items-center gap-1.5 bg-[#0056a1]/5 border border-[#0056a1]/20 rounded-lg px-2 py-1">
+          <app-hero-icon [name]="'map-pin'" class="w-3 h-3 text-[#0056a1] shrink-0"></app-hero-icon>
+          <span class="text-[10px] font-black text-[#0056a1] whitespace-nowrap">{{ displayedTitle() }}</span>
+        </div>
 
-          <!-- ★ Departamento -->
-            <div class="relative">
-              <button
-                (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
-                       text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
-                       min-w-[130px] sm:min-w-[148px] justify-between">
-                <span class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                  <span class="text-gray-400 mr-0.5">Dep.:</span>
-                  <span class="truncate max-w-[70px] sm:max-w-[80px]">{{ geoDepLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
-                  [class.rotate-180]="openGeoDropdown() === 'dep'">
-                </app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dep') {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
-                             shadow-xl z-50 w-56 sm:w-60 overflow-hidden"
-                     (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
-                  </div>
-                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
-                    <button
-                      (click)="selectDep(null)"
-                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedCCDD() === ''"
-                      [class.from-\[\#0056a1\]]="selectedCCDD() === ''"
-                      [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
-                      [class.text-white]="selectedCCDD() === ''"
-                      [class.text-gray-700]="selectedCCDD() !== ''"
-                      [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
-                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedCCDD() === ''"
-                        [class.border-gray-300]="selectedCCDD() !== ''">
-                        @if (selectedCCDD() === '') {
-                          <span class="w-2 h-2 bg-white rounded-full block"></span>
-                        }
-                      </span>
-                      <span class="font-bold italic text-xs">Todos los departamentos</span>
-                    </button>
-                    @for (dept of departments(); track dept.ccdd) {
-                      <button
-                        (click)="selectDep(dept)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd"
-                        [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd"
-                        [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
-                        [class.text-white]="selectedCCDD() === dept.ccdd"
-                        [class.text-gray-700]="selectedCCDD() !== dept.ccdd"
-                        [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
-                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                          [class.border-white]="selectedCCDD() === dept.ccdd"
-                          [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
-                          @if (selectedCCDD() === dept.ccdd) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold">{{ dept.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-
-            <!-- ★ Provincia -->
-            <div class="relative">
-              <button
-                (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
-                       min-w-[130px] sm:min-w-[148px] justify-between"
-                [class.bg-gray-50]="isGeoProvActive()"
-                [class.border-gray-200]="isGeoProvActive()"
-                [class.text-gray-700]="isGeoProvActive()"
-                [class.hover\:bg-gray-100]="isGeoProvActive()"
-                [class.bg-gray-50\/50]="!isGeoProvActive()"
-                [class.border-gray-100]="!isGeoProvActive()"
-                [class.text-gray-300]="!isGeoProvActive()"
-                [class.cursor-not-allowed]="!isGeoProvActive()">
-                <span class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0"
-                    [class.bg-\[\#1a75aa\]]="isGeoProvActive()"
-                    [class.bg-gray-200]="!isGeoProvActive()"></span>
-                  <span class="mr-0.5"
-                    [class.text-gray-400]="isGeoProvActive()"
-                    [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
-                  <span class="truncate max-w-[60px] sm:max-w-[70px]">{{ geoProvLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                  [class.text-gray-400]="isGeoProvActive()"
-                  [class.text-gray-200]="!isGeoProvActive()"
-                  [class.rotate-180]="openGeoDropdown() === 'prov'">
-                </app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
-                             shadow-xl z-50 w-60 sm:w-64 overflow-hidden"
-                     (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
-                  </div>
-                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
-                    <button
-                      (click)="selectProv('')"
-                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedProv() === ''"
-                      [class.from-\[\#0056a1\]]="selectedProv() === ''"
-                      [class.to-\[\#1a75aa\]]="selectedProv() === ''"
-                      [class.text-white]="selectedProv() === ''"
-                      [class.text-gray-700]="selectedProv() !== ''"
-                      [class.hover\:bg-blue-50]="selectedProv() !== ''">
-                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedProv() === ''"
-                        [class.border-gray-300]="selectedProv() !== ''">
-                        @if (selectedProv() === '') {
-                          <span class="w-2 h-2 bg-white rounded-full block"></span>
-                        }
-                      </span>
-                      <span class="font-bold italic">Todas las provincias</span>
-                    </button>
-                    @for (p of provinces(); track p.code) {
-                      <button
-                        (click)="selectProv(p.code)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedProv() === p.code"
-                        [class.from-\[\#0056a1\]]="selectedProv() === p.code"
-                        [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
-                        [class.text-white]="selectedProv() === p.code"
-                        [class.text-gray-700]="selectedProv() !== p.code"
-                        [class.hover\:bg-blue-50]="selectedProv() !== p.code">
-                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                          [class.border-white]="selectedProv() === p.code"
-                          [class.border-gray-300]="selectedProv() !== p.code">
-                          @if (selectedProv() === p.code) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold">{{ p.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-
-            <!-- ★ Distrito -->
-            <div class="relative">
-              <button
-                (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
-                       min-w-[120px] sm:min-w-[140px] justify-between"
-                [class.bg-gray-50]="isGeoDistActive()"
-                [class.border-gray-200]="isGeoDistActive()"
-                [class.text-gray-700]="isGeoDistActive()"
-                [class.hover\:bg-gray-100]="isGeoDistActive()"
-                [class.bg-gray-50\/50]="!isGeoDistActive()"
-                [class.border-gray-100]="!isGeoDistActive()"
-                [class.text-gray-300]="!isGeoDistActive()"
-                [class.cursor-not-allowed]="!isGeoDistActive()">
-                <span class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0"
-                    [class.bg-\[\#33b3a9\]]="isGeoDistActive()"
-                    [class.bg-gray-200]="!isGeoDistActive()"></span>
-                  <span class="mr-0.5"
-                    [class.text-gray-400]="isGeoDistActive()"
-                    [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
-                  <span class="truncate max-w-[55px] sm:max-w-[65px]">{{ geoDistLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
-                  [class.text-gray-400]="isGeoDistActive()"
-                  [class.text-gray-200]="!isGeoDistActive()"
-                  [class.rotate-180]="openGeoDropdown() === 'dist'">
-                </app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
-                             shadow-xl z-50 w-72 sm:w-80 overflow-hidden"
-                     (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
-                  </div>
-                  <div class="max-h-56 sm:max-h-60 overflow-y-auto">
-                    <button
-                      (click)="selectDist('')"
-                      class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedDist() === ''"
-                      [class.from-\[\#0056a1\]]="selectedDist() === ''"
-                      [class.to-\[\#1a75aa\]]="selectedDist() === ''"
-                      [class.text-white]="selectedDist() === ''"
-                      [class.text-gray-700]="selectedDist() !== ''"
-                      [class.hover\:bg-blue-50]="selectedDist() !== ''">
-                      <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedDist() === ''"
-                        [class.border-gray-300]="selectedDist() !== ''">
-                        @if (selectedDist() === '') {
-                          <span class="w-2 h-2 bg-white rounded-full block"></span>
-                        }
-                      </span>
-                      <span class="font-bold italic">Todos los distritos</span>
-                    </button>
-                    @for (d of districts(); track d.code) {
-                      <button
-                        (click)="selectDist(d.code)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedDist() === d.code"
-                        [class.from-\[\#0056a1\]]="selectedDist() === d.code"
-                        [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
-                        [class.text-white]="selectedDist() === d.code"
-                        [class.text-gray-700]="selectedDist() !== d.code"
-                        [class.hover\:bg-blue-50]="selectedDist() !== d.code">
-                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
-                          [class.border-white]="selectedDist() === d.code"
-                          [class.border-gray-300]="selectedDist() !== d.code">
-                          @if (selectedDist() === d.code) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold">{{ d.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-
-          </div><!-- /fila dropdowns -->
-        </div><!-- /barra de filtros -->
-
+      </div><!-- /barra de filtros -->
 
       <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════════════
            Wrapper que en xl activa scroll interno para que el header quede fijo
@@ -617,13 +414,7 @@ const S = { w: 380, h: 550 };
               <!-- Acciones -->
               <div class="absolute top-1.5 right-2 z-10 flex items-center gap-1.5">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('poblacion')"
-                    class="w-4 h-4 cursor-pointer transition-all"
-                    [class.animate-pulse]="activeIndicator() !== 'poblacion'"
-                    [class.scale-125]="activeIndicator() === 'poblacion'"
-                    [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#e0f7f5'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Cantidad de residentes habituales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/60"></app-hero-icon>
@@ -650,13 +441,7 @@ const S = { w: 380, h: 550 };
               <div class="flex justify-between items-center mb-2 shrink-0">
                 <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight">Población por sexo</h4>
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('poblacion')"
-                    class="w-4 h-4 cursor-pointer transition-all"
-                    [class.animate-pulse]="activeIndicator() !== 'poblacion'"
-                    [class.scale-125]="activeIndicator() === 'poblacion'"
-                    [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
               </div>
               <div class="flex-1 min-h-0">
@@ -713,13 +498,7 @@ const S = { w: 380, h: 550 };
               <div class="flex-1 flex flex-col relative min-w-0 pr-2">
                 <div class="absolute top-0 right-2 flex items-center gap-1 z-10">
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'globe-americas'"
-                      (click)="setMapIndicator('edad_promedio')"
-                      class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                      [class.animate-none]="activeIndicator() === 'edad_promedio'"
-                      [class.scale-125]="activeIndicator() === 'edad_promedio'"
-                      [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
-                    </app-hero-icon>
+                    
                   </span>
                   <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -746,13 +525,7 @@ const S = { w: 380, h: 550 };
               <div class="flex-1 flex flex-col relative min-w-0 pl-2">
                 <div class="absolute top-0 right-0 flex items-center gap-1 z-10">
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'globe-americas'"
-                      (click)="setMapIndicator('edad_mediana')"
-                      class="w-4 h-4 cursor-pointer transition-all animate-pulse"
-                      [class.animate-none]="activeIndicator() === 'edad_mediana'"
-                      [class.scale-125]="activeIndicator() === 'edad_mediana'"
-                      [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
-                    </app-hero-icon>
+                    
                   </span>
                   <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -780,14 +553,7 @@ const S = { w: 380, h: 550 };
   
   <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
     <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-      <app-hero-icon 
-        [name]="'globe-americas'"
-        (click)="setMapIndicator('razon_sexo')"
-        class="w-3.5 h-3.5 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-        [class.animate-none]="activeIndicator() === 'razon_sexo'"
-        [class.scale-125]="activeIndicator() === 'razon_sexo'"
-        [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
-      </app-hero-icon>
+      
     </span>
     <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
       <app-hero-icon [name]="'information-circle'" class="w-5.5 h-5.5 text-gray-300"></app-hero-icon>
@@ -830,13 +596,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('indice_envejecimiento')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
-                    [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
-                    [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -861,13 +621,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('dep_total')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'dep_total'"
-                    [class.scale-125]="activeIndicator() === 'dep_total'"
-                    [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -894,13 +648,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('dep_juvenil')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'dep_juvenil'"
-                    [class.scale-125]="activeIndicator() === 'dep_juvenil'"
-                    [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -925,13 +673,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('dep_adulta')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'dep_adulta'"
-                    [class.scale-125]="activeIndicator() === 'dep_adulta'"
-                    [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -958,13 +700,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('densidad_total')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'densidad_total'"
-                    [class.scale-125]="activeIndicator() === 'densidad_total'"
-                    [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+                  
                 </span>
                 <span matTooltip="Cantidad de habitantes por kilómetro cuadrado"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -990,13 +726,7 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
-                    (click)="setMapIndicator('densidad_65')"
-                    class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
-                    [class.animate-none]="activeIndicator() === 'densidad_65'"
-                    [class.scale-125]="activeIndicator() === 'densidad_65'"
-                    [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
+  
                 </span>
                 <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -1051,348 +781,471 @@ const S = { w: 380, h: 550 };
             </div>
           </div><!-- /pirámide -->
 
+          <!-- ═══════════════════════════════════════════════════════════════
+               COL 5 — INDICADORES DE VIVIENDA
+               1. KPI Viviendas (10%)  2. Particulares/Colectivas (25%)
+               3. Ocupación (25%)      4. Número de hogares (40%)
+          ═══════════════════════════════════════════════════════════════════ -->
+          <div class="col-span-1 xl:row-span-2 xl:min-h-0 flex flex-col gap-1.5 2xl:gap-2 min-h-0">
 
-          <!-- ══ MAPA ══════════════════════════════════════════════════════════
-               Móvil  : 1 col, altura fija 480px
-               Tablet : 2 cols (ocupa ambas), altura fija 500px
-               Desktop xl: 2 cols, full height con nota al pie
-          ══════════════════════════════════════════════════════════════════ -->
-          <div class="col-span-1 md:col-span-2 xl:col-span-2 xl:row-span-2
-                      flex flex-col gap-2
-                      min-h-[460px] sm:min-h-[500px] md:min-h-[520px] xl:min-h-0">
-
-            <!-- Mapa SVG -->
-            <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100
-                        flex flex-col overflow-hidden min-h-0">
-              <div class="flex-1 relative flex items-center justify-center min-h-0 overflow-hidden">
-
-                <!-- Indicador superior izquierdo -->
-                <div class="absolute top-3 left-3 z-10 pointer-events-none select-none">
-                  <div class="text-[10px] font-black text-primary tracking-wide mb-0.5">{{ mapIndicatorTitle() }}</div>
-                  <div class="text-lg md:text-xl font-black text-gray-900 tracking-tighter leading-none">
-                    {{ mapIndicatorValue() }}
-                  </div>
-                  <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5">{{ activeIndicatorDef().label }}</div>
-                </div>
-
-                <app-hero-icon
-                  [name]="'information-circle'"
-                  class="absolute top-3 right-3 z-20 w-5 h-5 text-gray-400"
-                  matTooltip="Seleccionar un departamento para ver sus datos"
-                  matTooltipClass="custom-tooltip">
-                </app-hero-icon>
-
-                @if (isMapLoading() || isMapLoadingProv() || isMapLoadingDist()) {
-                  <div class="flex flex-col items-center gap-3 text-gray-400">
-                    <div class="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                    <span class="text-sm font-bold tracking-wide">Cargando mapa...</span>
-                  </div>
-                }
-
-                @if ((mapLoadError() || mapLoadErrorProv() || mapLoadErrorDist()) && !isMapLoading() && !isMapLoadingProv() && !isMapLoadingDist()) {
-                  <div class="flex flex-col items-center gap-3 p-6 text-center">
-                    <div class="w-10 h-10 text-red-400">
-                      <app-hero-icon [name]="'exclamation-triangle'" class="w-10 h-10"></app-hero-icon>
-                    </div>
-                    <div>
-                      <p class="text-sm font-bold text-gray-700">No se pudo cargar el mapa</p>
-                      <p class="text-xs text-gray-400 mt-1">Verifica que los archivos de geometría estén en <code class="bg-gray-100 px-1 rounded">public/</code></p>
-                    </div>
-                    <button (click)="reloadActiveGeoJson()"
-                      class="text-xs px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-semibold">
-                      Reintentar
-                    </button>
-                  </div>
-                }
-
-                @if (mapRegions().length > 0) {
-
-                  <!-- Tooltip región hover/seleccionada -->
-                  <div class="absolute top-2 right-2 z-20 pointer-events-none"
-                       style="animation: fadeIn 0.15s ease-out">
-                    @if (hoveredRegion() || selectedRegion()) {
-                      <div class="bg-gray-900/95 text-white p-3 rounded-xl shadow-2xl
-                                  min-w-[160px] sm:min-w-[190px] max-w-[200px]
-                                  border border-amber-500/50">
-                        <div class="text-[8px] text-amber-400 uppercase font-black tracking-widest mb-0.5">
-                          {{ nivelGeo() === 'Departamental' ? 'Departamento' : nivelGeo() === 'Provincial' ? 'Provincia' : 'Distrito' }}
-                        </div>
-                        @if (nivelGeo() === 'Provincial') {
-                          <div class="text-[8px] text-gray-400 font-semibold mb-0.5">
-                            Dep.: {{ getDepNameForRegion(hoveredRegion() ?? selectedRegion()!) }}
-                          </div>
-                        }
-                        @if (nivelGeo() === 'Distrital') {
-                          <div class="text-[8px] text-gray-400 font-semibold mb-0.5">
-                            Dep.: {{ getDepNameForRegion(hoveredRegion() ?? selectedRegion()!) }}
-                          </div>
-                          <div class="text-[8px] text-gray-400 font-semibold mb-0.5">
-                            Prov.: {{ getProvNameForRegion(hoveredRegion() ?? selectedRegion()!) }}
-                          </div>
-                        }
-                        <p class="text-sm font-bold text-white border-b border-gray-700 pb-1.5 mb-2 leading-tight">
-                          {{ (hoveredRegion() ?? selectedRegion())!.name }}
-                        </p>
-                        <div class="flex flex-col py-0.5 bg-amber-500/10 rounded px-1 mb-2 gap-0.5">
-                          <span class="text-[8px] font-bold uppercase text-amber-300 leading-tight">
-                            {{ activeIndicatorDef().label }}
-                          </span>
-                          <span class="text-sm font-black text-amber-200 leading-none">
-                            {{ getActiveValueByKey((hoveredRegion() ?? selectedRegion())!, activeIndicator()) }}
-                          </span>
-                        </div>
-                        <div class="border-t border-gray-700 pt-1.5 mb-1.5">
-                          <div class="text-[7px] font-black uppercase text-gray-400 tracking-widest mb-1">Población por sexo</div>
-                          <div class="flex justify-between items-center mb-0.5">
-                            <span class="text-[8px] font-bold text-[#6fa8d4]">Hombres</span>
-                            <span class="text-[8px] font-black text-white">
-                              {{ fmt((hoveredRegion() ?? selectedRegion())!.male) }}
-                              <span class="text-[7px] font-semibold text-gray-400">
-                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0
-                                    ? (hoveredRegion() ?? selectedRegion())!.male / (hoveredRegion() ?? selectedRegion())!.total * 100
-                                    : 0, 1) }}%)
-                              </span>
-                            </span>
-                          </div>
-                          <div class="flex justify-between items-center">
-                            <span class="text-[8px] font-bold text-[#33b3a9]">Mujeres</span>
-                            <span class="text-[8px] font-black text-white">
-                              {{ fmt((hoveredRegion() ?? selectedRegion())!.female) }}
-                              <span class="text-[7px] font-semibold text-gray-400">
-                                ({{ fmtD((hoveredRegion() ?? selectedRegion())!.total > 0
-                                    ? (hoveredRegion() ?? selectedRegion())!.female / (hoveredRegion() ?? selectedRegion())!.total * 100
-                                    : 0, 1) }}%)
-                              </span>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="border-t border-gray-700 pt-1.5">
-                          <div class="flex flex-col gap-0.5">
-                            <span class="text-[8px] font-bold uppercase text-gray-400">
-                              Densidad de la población censada
-                            </span>
-                            <span class="text-[8px] font-black text-white">
-                              {{ fmtD((hoveredRegion() ?? selectedRegion())!.density, 1) }}
-                              <span class="text-[7px] text-gray-400">hab/km²</span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    }
-                  </div>
-
-                  <!-- SVG del mapa -->
-                  <svg
-                    [attr.viewBox]="svgViewBox()"
-                    class="w-full h-full max-h-full"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="display:block;">
-
-                    <rect width="100%" height="100%" fill="#ffffff" rx="0"/>
-
-                    @for (r of mapRegions(); track r.geoKey) {
-                      <path
-                        [attr.d]="r.path"
-                        [attr.fill]="getRegionFill(r)"
-                        stroke="#FFFFFF"
-                        [attr.stroke-width]="getStrokeWidth(r)"
-                        [attr.opacity]="getRegionOpacity(r)"
-                        style="cursor:pointer; transition: opacity 0.15s ease"
-                        (click)="onRegionClick(r)"
-                        (mouseenter)="onRegionHover(r)"
-                        (mouseleave)="onRegionLeave()"
-                      />
-                    }
-
-                    @if (nivelGeo() !== 'Distrital') {
-                      @for (r of mapRegions(); track r.geoKey) {
-                        <text
-                          [attr.x]="r.center.x"
-                          [attr.y]="r.center.y"
-                          text-anchor="middle"
-                          dominant-baseline="middle"
-                          font-size="5.5"
-                          font-weight="700"
-                          fill="#000000"
-                          stroke="#ffffff"
-                          stroke-width="2"
-                          paint-order="stroke fill"
-                          [attr.opacity]="getLabelOpacity(r)"
-                          style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
-                        >{{ r.name }}</text>
-                      }
-                    }
-                    @if (nivelGeo() === 'Distrital') {
-                      @for (r of mapRegions(); track r.geoKey) {
-                        <text
-                          [attr.x]="r.center.x"
-                          [attr.y]="r.center.y"
-                          text-anchor="middle"
-                          dominant-baseline="middle"
-                          font-size="3.5"
-                          font-weight="700"
-                          fill="#000000"
-                          stroke="#ffffff"
-                          stroke-width="1.5"
-                          paint-order="stroke fill"
-                          [attr.opacity]="getLabelOpacity(r)"
-                          style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
-                        >{{ r.name }}</text>
-                      }
-                    }
-                  </svg>
-
-                  <!-- Leyenda coroplética -->
-                  @if (colorBreaks().length) {
-                    <div class="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-sm
-                                rounded-xl p-2 md:p-2.5 shadow-lg border border-gray-100 pointer-events-none">
-                      <div class="text-[8px] font-black text-gray-400 tracking-widest uppercase leading-tight">
-                        {{ activeIndicatorDef().label }}
-                      </div>
-                      @if (activeIndicatorDef().unit) {
-                        <div class="text-[8px] font-semibold text-gray-400 mb-1.5">({{ activeIndicatorDef().unit.trim() }})</div>
-                      } @else {
-                        <div class="mb-1.5"></div>
-                      }
-                      <div class="flex flex-col gap-1">
-                        @for (brk of colorBreaks().slice().reverse(); track brk.min) {
-                          <div class="flex items-center gap-1.5">
-                            <div class="w-3.5 h-2.5 md:w-4 md:h-3 rounded-sm shrink-0" [style.background-color]="brk.color"></div>
-                            <span class="text-[7px] md:text-[8px] font-semibold text-gray-600 whitespace-nowrap">{{ brk.label }}</span>
-                          </div>
-                        }
-                      </div>
-                    </div>
-                  }
-                }
+            <!-- 1. KPI: Viviendas Censadas — 10% -->
+            <div class="bg-gradient-to-br from-[#0056a1] to-[#0891b2] rounded-xl p-2.5 text-white
+                        flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
+              <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
+              <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
+                <app-hero-icon [name]="'home'" class="w-5 h-5 text-white"></app-hero-icon>
               </div>
-            </div><!-- /mapa -->
-
-            <!-- Nota metodológica -->
-            <div class="shrink-0 bg-white/90 border border-gray-100 rounded-xl
-                        px-3 py-2 text-[9px] sm:text-[10px] text-gray-500 leading-relaxed shadow-sm">
-              <span class="font-black text-gray-600">Nota:</span>
-              1/ Comprende los 43 distritos de la provincia de Lima.
-              <br>
-              2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí, Huaura, Oyón y Yauyos.
+              <div class="min-w-0 relative z-10 flex-1">
+                <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Viviendas Censadas</div>
+                <div class="text-3xl 2xl:text-4xl font-black tracking-tight leading-tight mt-0.5">{{ fmt(viviendaCensadaTotal()) }}</div>
+                <div class="flex gap-2 mt-1 text-[9.5px] font-semibold opacity-75">
+                  <span>Part.: {{ fmt(viviendaMock()['viv_particulares']) }}</span>
+                  <span>·</span>
+                  <span>Col.: {{ fmt(viviendaMock()['viv_colectivas']) }}</span>
+                </div>
+              </div>
+              <span matTooltip="Total de viviendas particulares y colectivas registradas en el censo" matTooltipClass="custom-tooltip"
+                    class="absolute top-1.5 right-1.5 inline-flex">
+                <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-white/40"></app-hero-icon>
+              </span>
             </div>
 
-          </div><!-- /mapa col + nota -->
+            <!-- 2. Viviendas Particulares y Colectivas — 25% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 2.5 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'home'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Viviendas particulares y colectivas</span>
+                </div>
+                <span matTooltip="Particulares: uso exclusivo de un hogar. Colectivas: grupo de personas bajo normas comunes" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <!-- Particulares -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#0056a1]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'home'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Particulares</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_particulares']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background: linear-gradient(90deg,#0056a1,#038dd3)"
+                         [style.width.%]="viviendaMock()['viv_particulares'] / viviendaCensadaTotal() * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#0056a1]">
+                    {{ fmtD(viviendaMock()['viv_particulares'] / viviendaCensadaTotal() * 100, 1) }}%
+                  </div>
+                </div>
+                <!-- Colectivas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#33b3a9]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'building-office'" class="w-3 h-3 text-[#33b3a9]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Colectivas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_colectivas']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background: linear-gradient(90deg,#33b3a9,#0891b2)"
+                         [style.width.%]="viviendaMock()['viv_colectivas'] / viviendaCensadaTotal() * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#33b3a9]">
+                    {{ fmtD(viviendaMock()['viv_colectivas'] / viviendaCensadaTotal() * 100, 1) }}%
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        </div><!-- /grid principal -->
+            <!-- 3. Viviendas según condición de ocupación — 25% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 2.5 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#038dd3]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'key'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Viviendas según condición de ocupación</span>
+                </div>
+                <span matTooltip="Ocupadas: con residentes al momento del censo. Desocupadas: sin ocupantes" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <!-- Ocupadas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#038dd3]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'key'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Ocupadas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_ocupadas']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background: linear-gradient(90deg,#038dd3,#0891b2)"
+                         [style.width.%]="viviendaMock()['viv_ocupadas'] / (viviendaMock()['viv_ocupadas'] + viviendaMock()['viv_desocupadas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#038dd3]">
+                    {{ fmtD(viviendaMock()['viv_ocupadas'] / (viviendaMock()['viv_ocupadas'] + viviendaMock()['viv_desocupadas']) * 100, 1) }}%
+                  </div>
+                </div>
+                <!-- Desocupadas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#f59e0b]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'lock-closed'" class="w-3 h-3 text-[#f59e0b]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Desocupadas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_desocupadas']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background: linear-gradient(90deg,#f59e0b,#fbbf24)"
+                         [style.width.%]="viviendaMock()['viv_desocupadas'] / (viviendaMock()['viv_ocupadas'] + viviendaMock()['viv_desocupadas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#f59e0b]">
+                    {{ fmtD(viviendaMock()['viv_desocupadas'] / (viviendaMock()['viv_ocupadas'] + viviendaMock()['viv_desocupadas']) * 100, 1) }}%
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      </div><!-- /main content wrapper -->
+            <!-- 4. Viviendas según número de hogares — 40% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 4 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#8383fd]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 text-[#8383fd]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Viviendas según número de hogares</span>
+                </div>
+                <span matTooltip="Distribución de viviendas ocupadas según la cantidad de hogares que albergan" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <!-- Con 1 hogar -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#0056a1]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'home'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con 1 hogar</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_1hogar']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#0056a1,#038dd3)"
+                         [style.width.%]="viviendaMock()['viv_1hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#0056a1]">
+                    {{ fmtD(viviendaMock()['viv_1hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100, 1) }}%
+                  </div>
+                </div>
+                <!-- Con 2 hogares -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#33b3a9]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'home-modern'" class="w-3 h-3 text-[#33b3a9]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con 2 hogares</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_2hogar']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#33b3a9,#0891b2)"
+                         [style.width.%]="viviendaMock()['viv_2hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#33b3a9]">
+                    {{ fmtD(viviendaMock()['viv_2hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100, 1) }}%
+                  </div>
+                </div>
+                <!-- Con 3 hogares -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#038dd3]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'building-office-2'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con 3 hogares</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_3hogar']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#038dd3,#0891b2)"
+                         [style.width.%]="viviendaMock()['viv_3hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#038dd3]">
+                    {{ fmtD(viviendaMock()['viv_3hogar'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100, 1) }}%
+                  </div>
+                </div>
+                <!-- Con 4 y más hogares -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#8383fd]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 text-[#8383fd]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con 4 y más hogares</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmt(viviendaMock()['viv_4ymas']) }}</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#8383fd,#a78bfa)"
+                         [style.width.%]="viviendaMock()['viv_4ymas'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#8383fd]">
+                    {{ fmtD(viviendaMock()['viv_4ymas'] / (viviendaMock()['viv_1hogar']+viviendaMock()['viv_2hogar']+viviendaMock()['viv_3hogar']+viviendaMock()['viv_4ymas']) * 100, 1) }}%
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <!-- ══ NAV SECTION REUTILIZABLE ═══════════════════════════════════════
-           ESTRUCTURA PREPARADA PARA OTROS DASHBOARDS.
-           • hidden en este dashboard (clase "hidden")
-           • Activar removiendo la clase "hidden" en el dashboard destino
-           • Mantener esta sección al final del layout, antes del cierre de <section>
-           • Personalizar: colores, labels, rutas y cantidad de botones según dashboard
-      ══════════════════════════════════════════════════════════════════════ -->
-      <div class="hidden w-full shrink-0"
-           aria-hidden="true"
-           data-reusable-nav="secondary">
-        <!--
-          INSTRUCCIONES DE REUTILIZACIÓN:
-          1. Copiar este bloque al dashboard destino
-          2. Remover la clase "hidden" para hacerlo visible
-          3. Ajustar: data-section-id, routerLink, labels e iconos
-          4. El contenedor usa el mismo sistema de estilos que la botonera principal
-        -->
-        <div style="background:#33b3a9; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
-          <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
-            <!-- Botón plantilla 1 — personalizar label, icono y ruta -->
-            <button
-              class="relative flex flex-row items-center justify-center gap-1.5
-                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
-                     text-[10px] sm:text-[11px] md:text-xs font-semibold
-                     whitespace-nowrap transition-all duration-200 shrink-0
-                     focus:outline-none"
-              style="background:#0056a1; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.15);"
-              data-section-id="seccion-a">
-              <app-hero-icon [name]="'chart-bar'" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-              <span>Sección A</span>
-            </button>
-            <!-- Botón plantilla 2 -->
-            <button
-              class="relative flex flex-row items-center justify-center gap-1.5
-                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
-                     text-[10px] sm:text-[11px] md:text-xs font-semibold
-                     whitespace-nowrap transition-all duration-200 shrink-0
-                     focus:outline-none"
-              style="background:#0056a1; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.15);"
-              data-section-id="seccion-b">
-              <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-              <span>Sección B</span>
-            </button>
-            <!-- Botón plantilla 3 -->
-            <button
-              class="relative flex flex-row items-center justify-center gap-1.5
-                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
-                     text-[10px] sm:text-[11px] md:text-xs font-semibold
-                     whitespace-nowrap transition-all duration-200 shrink-0
-                     focus:outline-none"
-              style="background:#0056a1; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.15);"
-              data-section-id="seccion-c">
-              <app-hero-icon [name]="'table-cells'" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-              <span>Sección C</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- ══ /NAV SECTION REUTILIZABLE ══════════════════════════════════════ -->
+          
+
+          </div><!-- /col 5 -->
+
+          <!-- ═══════════════════════════════════════════════════════════════
+               COL 6 — INDICADORES DE HOGAR
+               1. Hogares censados (10%)   2. Miembros del hogar (50%)
+               3. Prom. personas (15%)     4. Con niños (15%)
+               5. Con adultos mayores (10%)
+          ═══════════════════════════════════════════════════════════════════ -->
+          <div class="col-span-1 xl:row-span-2 xl:min-h-0 flex flex-col gap-1.5 2xl:gap-2 min-h-0">
+
+            <!-- 1. Hogares Censados — 10% (gradient púrpura) -->
+            <div class="bg-gradient-to-br from-[#5b21b6] to-[#7c3aed] rounded-xl p-2.5 text-white
+                        flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
+              <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
+              <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
+                <app-hero-icon [name]="'home-modern'" class="w-5 h-5 text-white"></app-hero-icon>
+              </div>
+              <div class="min-w-0 relative z-10">
+                <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Hogares Censados</div>
+                <div class="text-3xl 2xl:text-4xl font-black tracking-tight leading-tight mt-0.5">{{ fmt(hogarMock()['hog_censados']) }}</div>
+              </div>
+              <span matTooltip="Total de hogares censados: grupo de personas con presupuesto alimentario común" matTooltipClass="custom-tooltip"
+                    class="absolute top-1.5 right-1.5 inline-flex">
+                <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-white/40"></app-hero-icon>
+              </span>
+            </div>
+
+            <!-- 2. Hogares según número de miembros del hogar — 50% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 5 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#5b21b6]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'user-group'" class="w-3 h-3 text-[#5b21b6]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares según número de miembros</span>
+                </div>
+                <span matTooltip="Distribución porcentual de hogares según el número de personas que los conforman" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <!-- 1 persona -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#5b21b6]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'user'" class="w-3 h-3 text-[#5b21b6]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">1 persona</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD(hogarMock()['pct_unipersonales'], 1) }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#5b21b6,#7c3aed)"
+                         [style.width.%]="hogarMock()['pct_unipersonales']"></div>
+                  </div>
+                </div>
+                <!-- 2 personas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#7c3aed]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'user-plus'" class="w-3 h-3 text-[#7c3aed]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">2 personas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.235, 1) }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#7c3aed,#8b5cf6)"
+                         [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.235"></div>
+                  </div>
+                </div>
+                <!-- 3 personas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#8b5cf6]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'users'" class="w-3 h-3 text-[#8b5cf6]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">3 personas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.220, 1) }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#8b5cf6,#a78bfa)"
+                         [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.220"></div>
+                  </div>
+                </div>
+                <!-- 4 personas -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#a78bfa]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'user-group'" class="w-3 h-3 text-[#a78bfa]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">4 personas</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.215, 1) }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#a78bfa,#c4b5fd)"
+                         [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.215"></div>
+                  </div>
+                </div>
+                <!-- 5 personas a más -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#c4b5fd]/20 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'home-modern'" class="w-3 h-3 text-[#7c3aed]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">5 personas a más</span>
+                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">
+                      {{ fmtD(100 - hogarMock()['pct_unipersonales'] - (100 - hogarMock()['pct_unipersonales']) * 0.235 - (100 - hogarMock()['pct_unipersonales']) * 0.220 - (100 - hogarMock()['pct_unipersonales']) * 0.215, 1) }}%
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#c4b5fd,#ddd6fe)"
+                         [style.width.%]="100 - hogarMock()['pct_unipersonales'] - (100 - hogarMock()['pct_unipersonales']) * 0.235 - (100 - hogarMock()['pct_unipersonales']) * 0.220 - (100 - hogarMock()['pct_unipersonales']) * 0.215"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Promedio de Personas por Hogar — 15% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden relative" style="flex: 1.5 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'user-group'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Promedio de personas por hogar</span>
+                </div>
+                <span matTooltip="Promedio de personas que habitan en cada hogar censado" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#0056a1]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'user-group'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Promedio</span>
+                    <span class="text-[13px] font-black text-gray-800 tabular-nums shrink-0">
+                      {{ fmtD(hogarMock()['prom_personas'], 1) }} <span class="text-[9px] font-semibold text-gray-400">personas</span>
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#0056a1,#038dd3)"
+                         [style.width.%]="(hogarMock()['prom_personas'] / 8) * 100"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#0056a1]">
+                    de 8 máx. referencial
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Porcentaje de Hogares con Niños/as — 15% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden relative" style="flex: 1.5 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#038dd3]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'face-smile'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares con niños/as</span>
+                </div>
+                <span matTooltip="Porcentaje de hogares con al menos un niño o niña menor de 15 años" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#038dd3]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'face-smile'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con niños/as</span>
+                    <span class="text-[13px] font-black text-gray-800 tabular-nums shrink-0">
+                      {{ fmtD(hogarMock()['pct_con_ninos'], 1) }}%
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#038dd3,#0891b2)"
+                         [style.width.%]="hogarMock()['pct_con_ninos']"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#038dd3]">del total de hogares</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Hogares con Personas Adultas Mayores — 10% -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden relative" style="flex: 1 0 0; min-height:0;">
+              <div class="flex items-center justify-between shrink-0 mb-1">
+                <div class="flex items-center gap-1">
+                  <div class="w-5 h-5 bg-[#8383fd]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <app-hero-icon [name]="'heart'" class="w-3 h-3 text-[#8383fd]"></app-hero-icon>
+                  </div>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares con adultas/os mayores</span>
+                </div>
+                <span matTooltip="Porcentaje de hogares con al menos una persona de 60 años o más" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
+                  <app-hero-icon [name]="'information-circle'" class="w-3 h-3 text-gray-300"></app-hero-icon>
+                </span>
+              </div>
+              <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-5 h-5 rounded-md bg-[#8383fd]/10 flex items-center justify-center shrink-0">
+                      <app-hero-icon [name]="'heart'" class="w-3 h-3 text-[#8383fd]"></app-hero-icon>
+                    </div>
+                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">Con adultas/os mayores</span>
+                    <span class="text-[13px] font-black text-gray-800 tabular-nums shrink-0">
+                      {{ fmtD(hogarMock()['pct_adulto_mayor'], 1) }}%
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:9px">
+                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#8383fd,#a78bfa)"
+                         [style.width.%]="hogarMock()['pct_adulto_mayor']"></div>
+                  </div>
+                  <div class="text-right text-[8px] font-semibold text-[#8383fd]">del total de hogares</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /col 6 -->
+
+        </div><!-- /grid 6 cols -->
+      </div><!-- /main -->
 
     </section>
   `,
     styles: [`
-    :host {
-      display: block;
-      /* Móvil/Tablet: flujo normal */
-      min-height: 100vh;
-      overflow: visible;
-    }
-    /* Desktop xl+: pantalla completa fija */
-    @media (min-width: 1280px) {
-      :host {
-        height: 100vh;
-        overflow: hidden;
-      }
-    }
-
+    :host { display: block; min-height: 100vh; }
     ::ng-deep .custom-tooltip {
-      background-color: white !important;
-      color: #333 !important;
-      border-radius: 12px !important;
-      padding: 10px 14px !important;
-      font-size: 12px !important;
-      font-weight: 600 !important;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,.1) !important;
-      border: 1px solid #e5e7eb !important;
+      background-color: white !important; color: #333 !important; border-radius: 12px !important;
+      padding: 10px 14px !important; font-size: 12px !important; font-weight: 600 !important;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,.1) !important; border: 1px solid #e5e7eb !important;
+      max-width: 240px !important; white-space: normal !important;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes dropdownIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes dropdownIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
   `]
 })
 export class DashboardCensadaComponent implements OnInit {
 
-    // ── Header nav ────────────────────────────────────────────────────────
+    // ── Header nav ───────────────────────────────────────────────────────
     censosOpen     = signal(false);
     mobileMenuOpen = signal(false);
-
     censosMenu = [
-        { label: 'Censo de Derecho',  route: '/censo-derecho' },
-        { label: 'Características técnicas',  route: '/aspectos-generales' },
-        { label: 'Innovaciones Tecnológicas',      route: '/innovaciones' },
-        { label: 'Normatividad censal',        route: '/normativa' },
-        { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
+        { label: 'Censo de Derecho',         route: '/censo-derecho' },
+        { label: 'Características técnicas', route: '/aspectos-generales' },
+        { label: 'Innovaciones tecnológicas', route: '/innovaciones' },
+        { label: 'Normatividad censal',       route: '/normativa' },
+        { label: 'Documentación Técnica',     route: '/documentacion-tecnica' },
     ];
 
     @HostListener('document:click')
@@ -1401,414 +1254,143 @@ export class DashboardCensadaComponent implements OnInit {
         this.mobileMenuOpen.set(false);
     }
 
-    toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
+    toggleCensos(e: Event)     { e.stopPropagation(); this.censosOpen.update(v => !v); }
     toggleMobileMenu(e: Event) { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
-    // ── ECharts ───────────────────────────────────────────────────────────
-    pieOptionsSex:  EChartsOption = {};
-    pieOptionsAge:  EChartsOption = {};
-    pyramidOptions: EChartsOption = {};
+    // ── View tabs en barra de filtros ─────────────────────────────────────
+    readonly viewTabs = [
+        { label: 'Indicadores',             icon: 'chart-bar',         route: '/dashboard-censada' },
+        { label: 'Comparativo territorial', icon: 'map',               route: '/dashboard-territorial' },
+        { label: 'Evolución',               icon: 'arrow-trending-up', route: '/dashboard-evolucion' },
+    ];
 
-    // ── Dimensiones SVG expuestas al template ─────────────────────────────
-    readonly svgW = S.w;
-    readonly svgH = S.h;
+    isViewTabActive(route: string): boolean {
+        return this.router.url === route || this.router.url.startsWith(route + '/');
+    }
 
-    // ── Geo selector — nivel + prov + dist ───────────────────────────────
+    // ── Botonera de secciones (barra superior) ───────────────────────────
+    readonly navSections = [
+        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar',      route: '/dashboard' },
+        { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
+        { id: 'comunidades',         label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
+    ];
+
+    private router = inject(Router);
+    isBtnActive(btn: { id: string; route?: string }): boolean {
+        return this.router.url === btn.route || this.router.url.startsWith((btn.route ?? '') + '/');
+    }
+
+    // ── Leyenda gráfico hogares ───────────────────────────────────────────
+    readonly vivHogarLegend = [
+        { label: 'Con 1 hogar',   color: '#0056a1' },
+        { label: 'Con 2 hogares', color: '#33b3a9' },
+        { label: 'Con 3 hogares', color: '#038dd3' },
+        { label: 'Con 4 y más',   color: '#8383fd' },
+    ];
+
+    // ── Geo state ─────────────────────────────────────────────────────────
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
+    nivelGeo        = signal<NivelGeoType>('Departamental');
+    openGeoDropdown = signal<'dep' | 'prov' | 'dist' | null>(null);
+    selectedCCDD    = signal<string>('');
+    selectedProv    = signal<string>('');
+    selectedDist    = signal<string>('');
 
-    nivelGeo         = signal<NivelGeoType>('Departamental');
-    openGeoDropdown  = signal<'dep'|'prov'|'dist'|null>(null);
-    selectedProv     = signal<string>('');
-    selectedDist     = signal<string>('');
+    isGeoProvActive = computed(() => this.nivelGeo() !== 'Departamental');
+    isGeoDistActive = computed(() => this.nivelGeo() === 'Distrital');
 
-    isGeoProvActive  = computed(() => this.nivelGeo() !== 'Departamental');
-    isGeoDistActive  = computed(() => this.nivelGeo() === 'Distrital');
+    private rawGeoJson     = signal<any>(null);
+    private rawGeoJsonProv = signal<any>(null);
+    private rawGeoJsonDist = signal<any>(null);
 
-    // REQ 5: Provincias ordenadas por CCDD+CCPP
+    // ── Listas para dropdowns ─────────────────────────────────────────────
+    departments = computed<{ ccdd: string; name: string }[]>(() => {
+        const geo = this.rawGeoJson(); if (!geo?.features) return [];
+        const raw = (geo.features as any[]).map((f: any) => ({ ccdd: String(f.properties.CCDD), name: String(f.properties.NOMBDEP) }));
+        const isLimaMet = (d: { name: string }) => d.name.toLowerCase().includes('lima') && !d.name.toLowerCase().includes('región') && !d.name.toLowerCase().includes('region');
+        const isRegLima = (d: { name: string }) => d.name.toLowerCase().includes('región lima') || d.name.toLowerCase().includes('region lima');
+        const limaMet = raw.find(isLimaMet); const regLima = raw.find(isRegLima);
+        const resto   = raw.filter(d => !isLimaMet(d) && !isRegLima(d));
+        const sorted  = [...resto].sort((a, b) => parseInt(a.ccdd, 10) - parseInt(b.ccdd, 10));
+        const lambIdx = sorted.findIndex(d => d.ccdd === '14');
+        const insertAt = lambIdx >= 0 ? lambIdx + 1 : sorted.length;
+        const extras: typeof sorted = [];
+        if (limaMet) extras.push(limaMet); if (regLima) extras.push(regLima);
+        sorted.splice(insertAt, 0, ...extras);
+        return sorted;
+    });
+
     provinces = computed<GeoOption[]>(() => {
-        const geo  = this.rawGeoJsonProv();
-        if (!geo?.features) return [];
+        const geo  = this.rawGeoJsonProv(); if (!geo?.features) return [];
         const ccdd = this.selectedCCDD();
         const features = ccdd
             ? (geo.features as any[]).filter(f => String(f.properties.CCDD) === ccdd)
             : (geo.features as any[]);
         return features
-            .map(f => ({
-                code:    String(f.properties.CCPP),
-                name:    String(f.properties.NOMBPROV),
-                sortKey: String(f.properties.CCDD) + String(f.properties.CCPP),
-            }))
+            .map(f => ({ code: String(f.properties.CCPP), name: String(f.properties.NOMBPROV), sortKey: String(f.properties.CCDD) + String(f.properties.CCPP) }))
             .sort((a, b) => (a.sortKey ?? '').localeCompare(b.sortKey ?? ''));
     });
 
-    // REQ 5: Distritos ordenados por UBIGEO
     districts = computed<GeoOption[]>(() => {
-        const geo  = this.rawGeoJsonDist();
-        if (!geo?.features) return [];
-        const ccdd = this.selectedCCDD();
-        const ccpp = this.selectedProv();
+        const geo  = this.rawGeoJsonDist(); if (!geo?.features) return [];
+        const ccdd = this.selectedCCDD(); const ccpp = this.selectedProv();
         let features = geo.features as any[];
         if (ccdd) features = features.filter(f => String(f.properties.CCDD) === ccdd);
         if (ccpp) features = features.filter(f => String(f.properties.CCPP) === ccpp);
         return features
-            .map(f => ({
-                code:    String(f.properties.UBIGEO),
-                name:    String(f.properties.NOMBDIST),
-                sortKey: String(f.properties.UBIGEO),
-            }))
+            .map(f => ({ code: String(f.properties.UBIGEO), name: String(f.properties.NOMBDIST), sortKey: String(f.properties.UBIGEO) }))
             .sort((a, b) => (a.sortKey ?? '').localeCompare(b.sortKey ?? ''));
     });
 
-    geoDepLabel  = computed(() => {
-        const ccdd = this.selectedCCDD();
-        if (!ccdd) return 'Todas';
-        return this.departments().find(d => d.ccdd === ccdd)?.name ?? ccdd;
-    });
-    geoProvLabel = computed(() => {
-        const code = this.selectedProv();
-        if (!code) return 'Todas';
-        return this.provinces().find(p => p.code === code)?.name ?? code;
-    });
-    geoDistLabel = computed(() => {
-        const code = this.selectedDist();
-        if (!code) return 'Todos';
-        return this.districts().find(d => d.code === code)?.name ?? code;
-    });
+    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todas'; });
+    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todas'; });
+    geoDistLabel = computed(() => { const c = this.selectedDist();  return c ? (this.districts().find(d => d.code === c)?.name ?? c) : 'Todos'; });
 
-    toggleGeoDropdown(key: 'dep'|'prov'|'dist'): void {
-        this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key);
-    }
+    toggleGeoDropdown(key: 'dep' | 'prov' | 'dist'): void { this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key); }
     closeGeoDropdowns(): void { this.openGeoDropdown.set(null); }
 
     selectDep(dept: { ccdd: string; name: string } | null): void {
         this.selectedCCDD.set(dept?.ccdd ?? '');
-        this.selectedProv.set('');
-        this.selectedDist.set('');
-        this.selectedMapGeoKey.set('');
-        this.openGeoDropdown.set(null);
-
-        if (dept) {
-            this.nivelGeo.set('Provincial');
-            this.loadGeoJsonProv();
-            this.fitRegionByCCDD(dept.ccdd);
-        } else {
-            this.nivelGeo.set('Departamental');
-            this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-        }
-    }
-
-    private fitRegionByCCDD(ccdd: string): void {
-        const tryFit = () => {
-            const geo = this.rawGeoJsonProv();
-            if (!geo?.features) {
-                setTimeout(() => tryFit(), 200);
-                return;
-            }
-            const features = (geo.features as any[]).filter(
-                f => String(f.properties.CCDD) === ccdd
-            );
-            if (!features.length) return;
-
-            let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
-            features.forEach(f => {
-                const bb = this.getGeoBBox(f.geometry);
-                if (bb.minLon < minLon) minLon = bb.minLon;
-                if (bb.maxLon > maxLon) maxLon = bb.maxLon;
-                if (bb.minLat < minLat) minLat = bb.minLat;
-                if (bb.maxLat > maxLat) maxLat = bb.maxLat;
-            });
-
-            const toLon = (lon: number) => ((lon - B.minLon) / (B.maxLon - B.minLon)) * S.w;
-            const toLat = (lat: number) => (1 - (lat - B.minLat) / (B.maxLat - B.minLat)) * S.h;
-
-            const svgMinX = toLon(minLon);
-            const svgMaxX = toLon(maxLon);
-            const svgMinY = toLat(maxLat);
-            const svgMaxY = toLat(minLat);
-
-            const PAD = 20;
-            const target = {
-                x: svgMinX - PAD,
-                y: svgMinY - PAD,
-                w: (svgMaxX - svgMinX) + PAD * 2,
-                h: (svgMaxY - svgMinY) + PAD * 2,
-            };
-            this.animateViewBox(this.parseViewBox(this.svgViewBox()), target);
-        };
-        tryFit();
+        this.selectedProv.set(''); this.selectedDist.set(''); this.openGeoDropdown.set(null);
+        if (dept) { this.nivelGeo.set('Provincial'); this.loadGeoJsonProv(); }
+        else { this.nivelGeo.set('Departamental'); }
     }
 
     selectProv(code: string): void {
-        this.selectedProv.set(code);
-        this.selectedDist.set('');
-        this.selectedMapGeoKey.set('');
-        this.openGeoDropdown.set(null);
-
-        if (code) {
-            this.nivelGeo.set('Distrital');
-            this.loadGeoJsonDist();
-        } else if (this.selectedCCDD()) {
-            this.nivelGeo.set('Provincial');
-        }
+        this.selectedProv.set(code); this.selectedDist.set(''); this.openGeoDropdown.set(null);
+        if (code) { this.nivelGeo.set('Distrital'); this.loadGeoJsonDist(); }
+        else if (this.selectedCCDD()) { this.nivelGeo.set('Provincial'); }
     }
 
-    selectDist(code: string): void {
-        this.selectedDist.set(code);
-        this.selectedMapGeoKey.set('');
-        this.openGeoDropdown.set(null);
+    selectDist(code: string): void { this.selectedDist.set(code); this.openGeoDropdown.set(null); }
+
+    resetFilters(): void {
+        this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
+        this.nivelGeo.set('Departamental'); this.openGeoDropdown.set(null);
     }
 
-    // ── Botonera de secciones ─────────────────────────────────────────────
-    activeSection = signal<string>('poblacion_total');
-
-    readonly navSections = [
-        { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
-        { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
-        { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
-    ];
-
-      setActiveSection(id: string): void { this.activeSection.set(id); }
-    private router = inject(Router);
-
-isBtnActive(btn: { id: string; route?: string }): boolean {
-    return this.router.url === btn.route
-        || this.router.url.startsWith(btn.route + '/');
-}
-
-    // ── Estado primitivo ──────────────────────────────────────────────────
-    isBrowser             = false;
-    selectedCCDD          = signal<string>('');
-    selectedMapGeoKey     = signal<string>('');
-    isMapLoading          = signal<boolean>(false);
-    mapLoadError          = signal<boolean>(false);
-    isMapLoadingProv      = signal<boolean>(false);
-    mapLoadErrorProv      = signal<boolean>(false);
-    isMapLoadingDist      = signal<boolean>(false);
-    mapLoadErrorDist      = signal<boolean>(false);
-
-    // ── GeoJSON crudo por nivel ────────────────────────────────────────────
-    private rawGeoJson     = signal<any>(null);
-    private rawGeoJsonProv = signal<any>(null);
-    private rawGeoJsonDist = signal<any>(null);
-
+    // ── Datos reactivos de tarjetas ───────────────────────────────────────
     private readonly TOTAL_NAC = 36_596_527;
 
-    // ── Estado derivado ────────────────────────────────────────────────────
-    svgViewBox = signal<string>(`0 0 ${S.w} ${S.h}`);
-    private svgAnimFrame: number | null = null;
-
-    activeIndicator = signal<MapIndicatorKey>('poblacion');
-
-    activeIndicatorDef = computed<IndicatorDef>(
-        () => INDICATORS.find(d => d.key === this.activeIndicator())!
-    );
-
-    tooltipIndicators = computed<IndicatorDef[]>(() =>
-        INDICATORS.filter(i => i.key !== 'densidad_total' && i.key !== 'densidad_65')
-    );
-
-    private parsedRegions = computed<Omit<MapRegion, 'color'>[]>(() => {
-        const nivel = this.nivelGeo();
-
-        if (nivel === 'Departamental') {
-            const geo = this.rawGeoJson();
-            if (!geo?.features) return [];
-            return (geo.features as any[]).map((f, idx) => {
-                const p   = f.properties;
-                const svg = this.project(f.geometry);
-                return {
-                    id:      Number(f.id) || idx,
-                    geoKey:  String(p.CCDD),
-                    ccdd:    String(p.CCDD),
-                    ccpp:    '',
-                    ccdi:    '',
-                    name:    String(p.NOMBDEP),
-                    total:   Number(p.POBTOTAL)  || 0,
-                    male:    Number(p.POBHOMBRE) || 0,
-                    female:  Number(p.POBMUJER)  || 0,
-                    density: Number(p.DENSIDAD)  || 0,
-                    path:    svg.path,
-                    center:  svg.center,
-                };
-            });
-        }
-
-        if (nivel === 'Provincial') {
-            const geo = this.rawGeoJsonProv();
-            if (!geo?.features) return [];
-            const ccdd     = this.selectedCCDD();
-            const features = ccdd
-                ? (geo.features as any[]).filter(f => String(f.properties.CCDD) === ccdd)
-                : (geo.features as any[]);
-            return features.map((f, idx) => {
-                const p   = f.properties;
-                const svg = this.project(f.geometry);
-                return {
-                    id:      Number(f.id) || idx,
-                    geoKey:  String(p.CCDD) + String(p.CCPP),
-                    ccdd:    String(p.CCDD),
-                    ccpp:    String(p.CCPP),
-                    ccdi:    '',
-                    name:    String(p.NOMBPROV),
-                    total:   Number(p.POBTOTAL)  || 0,
-                    male:    Number(p.POBHOMBRE) || 0,
-                    female:  Number(p.POBMUJER)  || 0,
-                    density: Number(p.DENSIDAD)  || 0,
-                    path:    svg.path,
-                    center:  svg.center,
-                };
-            });
-        }
-
-        const geo = this.rawGeoJsonDist();
-        if (!geo?.features) return [];
-        const ccdd = this.selectedCCDD();
-        const ccpp = this.selectedProv();
-        let features = geo.features as any[];
-        if (ccdd) features = features.filter(f => String(f.properties.CCDD) === ccdd);
-        if (ccpp) features = features.filter(f => String(f.properties.CCPP) === ccpp);
-        return features.map((f, idx) => {
-            const p   = f.properties;
-            const svg = this.project(f.geometry);
-            return {
-                id:      Number(f.id) || idx,
-                geoKey:  String(p.UBIGEO),
-                ccdd:    String(p.CCDD),
-                ccpp:    String(p.CCPP),
-                ccdi:    String(p.CCDI),
-                name:    String(p.NOMBDIST),
-                total:   Number(p.POBTOTAL)  || 0,
-                male:    Number(p.POBHOMBRE) || 0,
-                female:  Number(p.POBMUJER)  || 0,
-                density: Number(p.DENSIDAD)  || 0,
-                path:    svg.path,
-                center:  svg.center,
-            };
-        });
-    });
-
-    mapRegions = computed<MapRegion[]>(() => {
-        const raws = this.parsedRegions();
-        const key  = this.activeIndicator();
-        if (!raws.length) return [];
-
-        const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
-        const sorted = [...vals].sort((a, b) => a - b);
-        const n      = sorted.length;
-
-        const quintileBounds = [0, 1, 2, 3, 4].map(i =>
-            sorted[Math.min(Math.floor((i + 1) * n / 5) - 1, n - 1)]
-        );
-
-        return raws.map((r, i) => {
-            const v = vals[i];
-            let tier = 0;
-            for (let t = 0; t < 4; t++) {
-                if (v > quintileBounds[t]) tier = t + 1;
-            }
-            return { ...r, color: PALETTE[tier] } as MapRegion;
-        });
-    });
-
-    departments = computed(() => {
-        const geo = this.rawGeoJson();
-        if (!geo?.features) return [];
-
-        const raw = (geo.features as any[])
-            .map((f: any) => ({
-                ccdd: String(f.properties.CCDD),
-                name: String(f.properties.NOMBDEP),
-            }));
-
-        const isLimaMet  = (d: {name: string}) =>
-            d.name.toLowerCase().includes('lima') && !d.name.toLowerCase().includes('región') && !d.name.toLowerCase().includes('region');
-        const isRegLima  = (d: {name: string}) =>
-            d.name.toLowerCase().includes('región lima') || d.name.toLowerCase().includes('region lima');
-
-        const limaMet  = raw.find(isLimaMet);
-        const regLima  = raw.find(isRegLima);
-        const resto    = raw.filter(d => !isLimaMet(d) && !isRegLima(d));
-
-        const sorted = [...resto].sort((a, b) => parseInt(a.ccdd, 10) - parseInt(b.ccdd, 10));
-
-        const lambIdx  = sorted.findIndex(d => d.ccdd === '14');
-        const insertAt = lambIdx >= 0 ? lambIdx + 1 : sorted.length;
-
-        const extras: typeof sorted = [];
-        if (limaMet)  extras.push(limaMet);
-        if (regLima)  extras.push(regLima);
-
-        sorted.splice(insertAt, 0, ...extras);
-
-        return sorted;
-    });
-
-    colorBreaks = computed<ColorBreak[]>(() => {
-        const regions = this.mapRegions();
-        const key     = this.activeIndicator();
-        const def     = this.activeIndicatorDef();
-        if (!regions.length) return [];
-
-        const vals   = regions.map(r => this.getIndicatorValue(r, key));
-        const sorted = [...vals].sort((a, b) => a - b);
-        const n      = sorted.length;
-
-        const fmtVal = (v: number): string => {
-            if (key === 'poblacion') return this.fmt(v);
-            return this.fmtD(v, def.decimals);
-        };
-
-        return Array.from({ length: 5 }, (_, i) => {
-            const startIdx = Math.floor(i * n / 5);
-            const endIdx   = Math.min(Math.floor((i + 1) * n / 5) - 1, n - 1);
-            const bMin     = sorted[startIdx];
-            const bMax     = sorted[endIdx];
-            const count    = vals.filter(v => v >= bMin && v <= bMax).length;
-            const label    = `${fmtVal(bMin)} – ${fmtVal(bMax)} (${count})`;
-            return { min: bMin, max: bMax, color: PALETTE[i], label, count };
-        });
-    });
-
-    selectedRegion = computed<MapRegion | null>(() => {
-        const key = this.selectedMapGeoKey();
-        if (!key) return null;
-        return this.mapRegions().find(r => r.geoKey === key) ?? null;
-    });
-
     cardData = computed<{ total: number; male: number; female: number; density: number; ccdd: string }>(() => {
-        const sel = this.selectedRegion();
-        if (sel) return { total: sel.total, male: sel.male, female: sel.female, density: sel.density, ccdd: sel.ccdd };
-
         const dist = this.selectedDist();
         if (dist) {
-            const geo = this.rawGeoJsonDist();
+            const geo  = this.rawGeoJsonDist();
             const feat = geo?.features?.find((f: any) => String(f.properties.UBIGEO) === dist);
-            if (feat) {
-                const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
-            }
+            if (feat) { const p = feat.properties; return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) }; }
         }
-
         const prov = this.selectedProv();
         if (prov) {
-            const geo = this.rawGeoJsonProv();
+            const geo  = this.rawGeoJsonProv();
             const feat = geo?.features?.find((f: any) => String(f.properties.CCPP) === prov);
-            if (feat) {
-                const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
-            }
+            if (feat) { const p = feat.properties; return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) }; }
         }
-
         const ccdd = this.selectedCCDD();
         if (ccdd) {
-            const geo = this.rawGeoJson();
+            const geo  = this.rawGeoJson();
             const feat = geo?.features?.find((f: any) => String(f.properties.CCDD) === ccdd);
-            if (feat) {
-                const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
-            }
+            if (feat) { const p = feat.properties; return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) }; }
         }
-
         return { total: this.TOTAL_NAC, male: 17_596_527, female: 18_999_999, density: 25.4, ccdd: '' };
     });
 
@@ -1818,459 +1400,306 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         return { edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3, indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2, dep_adulta: 17.9, densidad_65: 3.6 };
     });
 
-    displayedTitle = computed<string>(() => {
-        const sel = this.selectedRegion();
-        if (sel) return sel.name;
-        const dist = this.selectedDist();
-        if (dist) return this.districts().find(d => d.code === dist)?.name ?? dist;
-        const prov = this.selectedProv();
-        if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
-        const ccdd = this.selectedCCDD();
-        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
+    viviendaMock = computed<Record<string, number>>(() => {
+        const ccdd = this.cardData().ccdd;
+        if (ccdd && MOCK_VIV[ccdd]) return MOCK_VIV[ccdd];
+        return { viv_particulares: 10_348_200, viv_colectivas: 276_280, viv_ocupadas: 8_462_040, viv_desocupadas: 2_162_440, viv_1hogar: 7_818_080, viv_2hogar: 524_000, viv_3hogar: 92_800, viv_4ymas: 27_160 };
     });
 
-    displayedPopulation = computed<string>(() => {
-        return this.fmt(this.cardData().total);
+    viviendaCensadaTotal = computed<number>(() => {
+        const d = this.viviendaMock();
+        return d['viv_particulares'] + d['viv_colectivas'];
     });
+
+    hogarMock = computed<Record<string, number>>(() => {
+        const ccdd = this.cardData().ccdd;
+        if (ccdd && MOCK_HOG[ccdd]) return MOCK_HOG[ccdd];
+        return { hog_censados: 9_861_890, prom_personas: 3.2, pct_unipersonales: 18.4, pct_con_ninos: 44.6, pct_adulto_mayor: 28.3 };
+    });
+
+    displayedTitle      = computed<string>(() => {
+        const dist = this.selectedDist(); if (dist) return this.districts().find(d => d.code === dist)?.name ?? dist;
+        const prov = this.selectedProv(); if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
+        const ccdd = this.selectedCCDD(); if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
+        return 'Perú (Nacional)';
+    });
+    displayedPopulation = computed<string>(() => this.fmt(this.cardData().total));
+
+    // ── ECharts Vivienda (computed reactivos — fontWeight corregido a number) ─
+    viviendaTipoChartOptions = computed<EChartsOption>(() => {
+        const d     = this.viviendaMock();
+        const part  = d['viv_particulares']; const col = d['viv_colectivas']; const total = part + col;
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: (params: any) => { const p = params[0]; const pct = ((p.value / total) * 100).toFixed(1).replace('.', ','); return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div><div style="font-size:12px;font-weight:700;color:${p.color}">${this.fmt(p.value)} <span style="color:#9ca3af;font-size:10px">(${pct}%)</span></div>`; },
+            },
+            grid: { top: 38, right: 6, bottom: 4, left: 6, containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['🏠 Particulares', '🏢 Colectivas'],
+                axisTick: { show: false }, axisLine: { show: false },
+                axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#6b7280', interval: 0, overflow: 'break' },
+            },
+            yAxis: { type: 'value', show: false, max: (v: any) => Math.round(v.max * 1.75) },
+            series: [{
+                type: 'bar', barMaxWidth: 48, barCategoryGap: '38%',
+                itemStyle: { borderRadius: [6, 6, 0, 0] },
+                data: [{ value: part, itemStyle: { color: '#0056a1' } }, { value: col, itemStyle: { color: '#33b3a9' } }],
+                label: {
+                    show: true, position: 'top',
+                    formatter: (p: any) => { const pct = ((p.value / total) * 100).toFixed(1).replace('.', ','); return `{num|${this.fmt(p.value as number)}}\n{pct|${pct}%}`; },
+                    rich: {
+                        num: { fontSize: 8, fontWeight: 'bold', color: '#374151', lineHeight: 12 },
+                        pct: { fontSize: 8, fontWeight: 600,    color: '#9ca3af', lineHeight: 11 },
+                    },
+                },
+            }],
+        };
+    });
+
+    ocupacionChartOptions = computed<EChartsOption>(() => {
+        const d    = this.viviendaMock();
+        const ocup = d['viv_ocupadas']; const desoc = d['viv_desocupadas']; const total = ocup + desoc;
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: (params: any) => { const p = params[0]; const pct = ((p.value / total) * 100).toFixed(1).replace('.', ','); return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div><div style="font-size:12px;font-weight:700;color:${p.color}">${this.fmt(p.value)} <span style="color:#9ca3af;font-size:10px">(${pct}%)</span></div>`; },
+            },
+            grid: { top: 38, right: 6, bottom: 4, left: 6, containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['🔑 Ocupadas', '🚪 Desocupadas'],
+                axisTick: { show: false }, axisLine: { show: false },
+                axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#6b7280', interval: 0, overflow: 'break' },
+            },
+            yAxis: { type: 'value', show: false, max: (v: any) => Math.round(v.max * 1.75) },
+            series: [{
+                type: 'bar', barMaxWidth: 48, barCategoryGap: '38%',
+                itemStyle: { borderRadius: [6, 6, 0, 0] },
+                data: [{ value: ocup, itemStyle: { color: '#038dd3' } }, { value: desoc, itemStyle: { color: '#f59e0b' } }],
+                label: {
+                    show: true, position: 'top',
+                    formatter: (p: any) => { const pct = ((p.value / total) * 100).toFixed(1).replace('.', ','); return `{num|${this.fmt(p.value as number)}}\n{pct|${pct}%}`; },
+                    rich: {
+                        num: { fontSize: 8, fontWeight: 'bold', color: '#374151', lineHeight: 12 },
+                        pct: { fontSize: 8, fontWeight: 600,    color: '#9ca3af', lineHeight: 11 },
+                    },
+                },
+            }],
+        };
+    });
+
+    hogaresPorNumeroChartOptions = computed<EChartsOption>(() => {
+        const d  = this.viviendaMock();
+        const v1 = d['viv_1hogar']; const v2 = d['viv_2hogar'];
+        const v3 = d['viv_3hogar']; const v4 = d['viv_4ymas'];
+        const total = v1 + v2 + v3 + v4;
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    const pct = ((p.value / total) * 100).toFixed(1).replace('.', ',');
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>`
+                         + `<div style="font-size:12px;font-weight:700;color:${p.color}">${this.fmt(p.value)} `
+                         + `<span style="color:#9ca3af;font-size:10px">(${pct}%)</span></div>`;
+                },
+            },
+            grid: { top: 40, right: 6, bottom: 4, left: 6, containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['🏠 1 hogar', '🏘 2 hogares', '🏗 3 hogares', '🏙 4 y más'],
+                axisTick: { show: false }, axisLine: { show: false },
+                axisLabel: { fontSize: 8.5, fontWeight: 'bold', color: '#6b7280', interval: 0, overflow: 'break' },
+            },
+            yAxis: { type: 'value', show: false, max: (v: any) => Math.round(v.max * 1.75) },
+            series: [{
+                type: 'bar', barMaxWidth: 44, barCategoryGap: '32%',
+                itemStyle: { borderRadius: [6, 6, 0, 0] },
+                data: [
+                    { value: v1, itemStyle: { color: '#0056a1' } },
+                    { value: v2, itemStyle: { color: '#33b3a9' } },
+                    { value: v3, itemStyle: { color: '#038dd3' } },
+                    { value: v4, itemStyle: { color: '#8383fd' } },
+                ],
+                label: {
+                    show: true, position: 'top',
+                    formatter: (p: any) => {
+                        const pct = ((p.value / total) * 100).toFixed(1).replace('.', ',');
+                        return `{num|${this.fmt(p.value as number)}}\n{pct|${pct}%}`;
+                    },
+                    rich: {
+                        num: { fontSize: 8, fontWeight: 'bold', color: '#374151', lineHeight: 12 },
+                        pct: { fontSize: 8, fontWeight: 600,    color: '#9ca3af', lineHeight: 11 },
+                    },
+                },
+            }],
+        };
+    });
+
+    miembrosHogarChartOptions = computed<EChartsOption>(() => {
+        const h     = this.hogarMock();
+        const uni   = h['pct_unipersonales'];
+        const rest  = 100 - uni;
+        // Distribución aproximada basada en pct_unipersonales y patrones demográficos típicos del Perú
+        const pct2  = +(rest * 0.235).toFixed(1);
+        const pct3  = +(rest * 0.220).toFixed(1);
+        const pct4  = +(rest * 0.215).toFixed(1);
+        const pct5m = +(100 - uni - pct2 - pct3 - pct4).toFixed(1);
+        const cats  = ['👤 1 persona', '👥 2 personas', '👨‍👩‍👦 3 personas', '👨‍👩‍👧‍👦 4 personas', '🏘 5 a más'];
+        const vals  = [uni, pct2, pct3, pct4, pct5m];
+        const colors = ['#5b21b6', '#7c3aed', '#8b5cf6', '#a78bfa', '#c4b5fd'];
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>`
+                         + `<div style="font-size:12px;font-weight:700;color:${p.color}">${this.fmtD(p.value, 1)}% de hogares</div>`;
+                },
+            },
+            grid: { top: 42, right: 6, bottom: 4, left: 6, containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: cats,
+                axisTick: { show: false }, axisLine: { show: false },
+                axisLabel: { fontSize: 8, fontWeight: 'bold', color: '#6b7280', interval: 0, overflow: 'break' },
+            },
+            yAxis: { type: 'value', show: false, max: (v: any) => Math.round(v.max * 1.75) },
+            series: [{
+                type: 'bar', barMaxWidth: 40, barCategoryGap: '28%',
+                itemStyle: { borderRadius: [6, 6, 0, 0] },
+                data: vals.map((v, i) => ({ value: v, itemStyle: { color: colors[i] } })),
+                label: {
+                    show: true, position: 'top',
+                    formatter: (p: any) => `{pct|${this.fmtD(p.value, 1)}%}`,
+                    rich: {
+                        pct: { fontSize: 8.5, fontWeight: 'bold', color: '#374151', lineHeight: 13 },
+                    },
+                },
+            }],
+        };
+    });
+
+    // ── ECharts estáticos ─────────────────────────────────────────────────
+    isBrowser = false;
+    pieOptionsSex:  EChartsOption = {};
+    pieOptionsAge:  EChartsOption = {};
+    pyramidOptions: EChartsOption = {};
 
     // ── Inyecciones ───────────────────────────────────────────────────────
     private platformId = inject(PLATFORM_ID);
     private http       = inject(HttpClient);
 
-    constructor() {
-        this.isBrowser = isPlatformBrowser(this.platformId);
-    }
+    constructor() { this.isBrowser = isPlatformBrowser(this.platformId); }
 
-    ngOnInit(): void {
-        this.initCharts();
-        this.loadGeoJson();
-    }
+    ngOnInit(): void { this.initCharts(); this.loadGeoJson(); }
 
-    // ── Carga del GeoJSON por nivel ───────────────────────────────────────
+    // ── Carga GeoJSON ─────────────────────────────────────────────────────
     loadGeoJson(): void {
         if (this.rawGeoJson()) return;
-        this.isMapLoading.set(true);
-        this.mapLoadError.set(false);
         this.http.get<any>('/departamento_geometria.json').subscribe({
-            next:  data => { this.rawGeoJson.set(data); this.isMapLoading.set(false); },
-            error: ()   => { this.isMapLoading.set(false); this.mapLoadError.set(true); },
+            next:  data  => this.rawGeoJson.set(data),
+            error: ()    => {},
         });
     }
 
     loadGeoJsonProv(): void {
         if (this.rawGeoJsonProv()) return;
-        this.isMapLoadingProv.set(true);
-        this.mapLoadErrorProv.set(false);
         this.http.get<any>('/provincia_geometria.json').subscribe({
-            next:  data => { this.rawGeoJsonProv.set(data); this.isMapLoadingProv.set(false); },
-            error: ()   => { this.isMapLoadingProv.set(false); this.mapLoadErrorProv.set(true); },
+            next:  data => this.rawGeoJsonProv.set(data),
+            error: ()   => {},
         });
     }
 
     loadGeoJsonDist(): void {
         if (this.rawGeoJsonDist()) return;
-        this.isMapLoadingDist.set(true);
-        this.mapLoadErrorDist.set(false);
         this.http.get<any>('/distrito_geometria.json').subscribe({
-            next:  data => { this.rawGeoJsonDist.set(data); this.isMapLoadingDist.set(false); },
-            error: ()   => { this.isMapLoadingDist.set(false); this.mapLoadErrorDist.set(true); },
+            next:  data => this.rawGeoJsonDist.set(data),
+            error: ()   => {},
         });
     }
 
-    reloadActiveGeoJson(): void {
-        const nivel = this.nivelGeo();
-        if (nivel === 'Departamental') {
-            this.rawGeoJson.set(null);
-            this.loadGeoJson();
-        } else if (nivel === 'Provincial') {
-            this.rawGeoJsonProv.set(null);
-            this.loadGeoJsonProv();
-        } else {
-            this.rawGeoJsonDist.set(null);
-            this.loadGeoJsonDist();
-        }
-    }
+    // ── Utilidades ────────────────────────────────────────────────────────
+    fmt(n: number): string  { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+    fmtD(n: number, dec = 1): string { return n.toFixed(dec).replace('.', ','); }
 
-    // ── Formateadores ─────────────────────────────────────────────────────
-    fmt(n: number): string {
-        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    }
-    fmtD(n: number, dec = 1): string {
-        return n.toFixed(dec).replace('.', ',');
-    }
-    fmtPct(n: number, dec = 1): string {
-        return n.toFixed(dec).replace('.', ',') + '%';
-    }
-
-    // ── Proyección GeoJSON → SVG ──────────────────────────────────────────
-    private project(geom: any): { path: string; center: { x: number; y: number } } {
-        if (!geom) return { path: '', center: { x: 0, y: 0 } };
-
-        let path = '';
-        let sx = 0, sy = 0, n = 0;
-
-        const pt = (c: number[]) => ({
-            x: ((c[0] - B.minLon) / (B.maxLon - B.minLon)) * S.w,
-            y: (1 - (c[1] - B.minLat) / (B.maxLat - B.minLat)) * S.h,
-        });
-
-        const ring = (coords: number[][]) => {
-            let s = '';
-            coords.forEach((c, i) => {
-                const p = pt(c);
-                s += (i === 0 ? 'M' : 'L') + `${p.x.toFixed(1)},${p.y.toFixed(1)} `;
-                sx += p.x; sy += p.y; n++;
-            });
-            return s + 'Z ';
-        };
-
-        if (geom.type === 'Polygon') {
-            geom.coordinates.forEach((r: number[][]) => (path += ring(r)));
-        } else if (geom.type === 'MultiPolygon') {
-            geom.coordinates.forEach((poly: number[][][]) =>
-                poly.forEach((r: number[][]) => (path += ring(r)))
-            );
-        }
-
-        return { path, center: { x: n ? sx / n : 0, y: n ? sy / n : 0 } };
-    }
-
-    // ── Helpers de estilo SVG ─────────────────────────────────────────────
-    getRegionFill(r: MapRegion): string {
-        const selKey = this.selectedRegion()?.geoKey;
-        if (selKey === r.geoKey) return '#f8bd13';
-        return r.color;
-    }
-
-    getRegionOpacity(r: MapRegion): string {
-        const sel = this.selectedRegion();
-        if (sel) return sel.geoKey === r.geoKey ? '1' : '0.35';
-        return '0.88';
-    }
-
-    getStrokeWidth(r: MapRegion): string {
-        if (this.selectedRegion()?.geoKey === r.geoKey) return '1.2';
-        const nivel = this.nivelGeo();
-        if (nivel === 'Provincial' || nivel === 'Distrital') return '0.5';
-        return '0.8';
-    }
-
-    getLabelOpacity(r: MapRegion): string {
-        const sel = this.selectedRegion();
-        if (sel) return sel.geoKey === r.geoKey ? '1' : '0.15';
-        return '1';
-    }
-
-    onRegionClick(r: MapRegion): void {
-        if (this.selectedMapGeoKey() === r.geoKey) {
-            this.selectedMapGeoKey.set('');
-            this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-        } else {
-            this.selectedMapGeoKey.set(r.geoKey);
-            this.fitRegion(r);
-            const nivel = this.nivelGeo();
-            if (nivel === 'Departamental') {
-                this.selectedCCDD.set(r.ccdd);
-                this.nivelGeo.set('Provincial');
-                this.loadGeoJsonProv();
-            } else if (nivel === 'Provincial') {
-                this.selectedProv.set(r.ccpp);
-                this.nivelGeo.set('Distrital');
-                this.loadGeoJsonDist();
-            } else {
-                this.selectedDist.set(r.geoKey);
-            }
-        }
-    }
-
-    resetFilters(): void {
-        this.selectedCCDD.set('');
-        this.selectedMapGeoKey.set('');
-        this.selectedProv.set('');
-        this.selectedDist.set('');
-        this.nivelGeo.set('Departamental');
-        this.openGeoDropdown.set(null);
-        this.activeIndicator.set('poblacion');
-        this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-    }
-
-    // ── Indicador de mapa ─────────────────────────────────────────────────
-    getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
-        if (key === 'poblacion')      return r.total;
-        if (key === 'densidad_total') return r.density;
-        return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
-    }
-
-    getActiveValue(r: MapRegion): string {
-        const key = this.activeIndicator();
-        const def = this.activeIndicatorDef();
-        const v   = this.getIndicatorValue(r, key);
-        return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
-    }
-
-    getActiveValueByKey(r: MapRegion, key: MapIndicatorKey): string {
-        const def = INDICATORS.find(d => d.key === key)!;
-        const v   = this.getIndicatorValue(r, key);
-        return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
-    }
-
-    setMapIndicator(key: MapIndicatorKey): void {
-        this.activeIndicator.set(key);
-    }
-
-    getDepNameForRegion(r: MapRegion): string {
-        return this.departments().find(d => d.ccdd === r.ccdd)?.name ?? r.ccdd;
-    }
-
-    getProvNameForRegion(r: MapRegion): string {
-        const geo = this.rawGeoJsonProv();
-        if (!geo?.features) return r.ccpp;
-        const feat = (geo.features as any[]).find(f =>
-            String(f.properties.CCDD) === r.ccdd && String(f.properties.CCPP) === r.ccpp
-        );
-        return feat ? String(feat.properties.NOMBPROV) : r.ccpp;
-    }
-
-    // ── Hover sobre polígonos del mapa ────────────────────────────────────
-    hoveredRegion = signal<MapRegion | null>(null);
-
-    onRegionHover(r: MapRegion): void { this.hoveredRegion.set(r); }
-    onRegionLeave(): void             { this.hoveredRegion.set(null); }
-
-    // ── Indicador superior izquierdo del mapa ─────────────────────────────
-    mapIndicatorTitle = computed<string>(() => {
-        const sel = this.selectedRegion();
-        if (sel) return sel.name;
-        const ccdd = this.selectedCCDD();
-        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
-    });
-
-    mapIndicatorValue = computed<string>(() => {
-        const sel = this.selectedRegion();
-        const key = this.activeIndicator();
-        const def = this.activeIndicatorDef();
-        if (sel) {
-            const v = this.getIndicatorValue(sel, key);
-            return key === 'poblacion' ? this.fmt(v) : this.fmtD(v, def.decimals) + def.unit;
-        }
-        if (key === 'poblacion') return this.fmt(this.TOTAL_NAC);
-        const NACIONAL: Partial<Record<MapIndicatorKey, number>> = {
-            edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3,
-            indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2,
-            dep_adulta: 17.9, densidad_total: 25.4, densidad_65: 3.6,
-        };
-        const v = NACIONAL[key];
-        return v !== undefined ? this.fmtD(v, def.decimals) + def.unit : '—';
-    });
-
-    // ── SVG fitBounds ─────────────────────────────────────────────────────
-    private fitRegion(r: MapRegion): void {
-        const nivel = this.nivelGeo();
-        let geo: any;
-        let matchFn: (f: any) => boolean;
-
-        if (nivel === 'Departamental') {
-            geo = this.rawGeoJson();
-            matchFn = (f) => String(f.properties.CCDD) === r.geoKey;
-        } else if (nivel === 'Provincial') {
-            geo = this.rawGeoJsonProv();
-            matchFn = (f) => String(f.properties.CCDD) + String(f.properties.CCPP) === r.geoKey;
-        } else {
-            geo = this.rawGeoJsonDist();
-            matchFn = (f) => String(f.properties.UBIGEO) === r.geoKey;
-        }
-
-        if (!geo?.features) return;
-        const feature = geo.features.find((f: any) => matchFn(f));
-        if (!feature) return;
-
-        const bb = this.getGeoBBox(feature.geometry);
-
-        const toLon = (lon: number) => ((lon - B.minLon) / (B.maxLon - B.minLon)) * S.w;
-        const toLat = (lat: number) => (1 - (lat - B.minLat) / (B.maxLat - B.minLat)) * S.h;
-
-        const svgMinX = toLon(bb.minLon);
-        const svgMaxX = toLon(bb.maxLon);
-        const svgMinY = toLat(bb.maxLat);
-        const svgMaxY = toLat(bb.minLat);
-
-        const PAD = 50;
-        const target = {
-            x: svgMinX - PAD,
-            y: svgMinY - PAD,
-            w: (svgMaxX - svgMinX) + PAD * 2,
-            h: (svgMaxY - svgMinY) + PAD * 2,
-        };
-
-        this.animateViewBox(this.parseViewBox(this.svgViewBox()), target);
-    }
-
-    private getGeoBBox(geom: any): { minLon: number; maxLon: number; minLat: number; maxLat: number } {
-        let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
-
-        const processCoord = (c: number[]) => {
-            if (c[0] < minLon) minLon = c[0];
-            if (c[0] > maxLon) maxLon = c[0];
-            if (c[1] < minLat) minLat = c[1];
-            if (c[1] > maxLat) maxLat = c[1];
-        };
-
-        const processRing = (ring: number[][]) => ring.forEach(processCoord);
-
-        if (geom.type === 'Polygon') {
-            geom.coordinates.forEach((ring: number[][]) => processRing(ring));
-        } else if (geom.type === 'MultiPolygon') {
-            geom.coordinates.forEach((poly: number[][][]) =>
-                poly.forEach((ring: number[][]) => processRing(ring))
-            );
-        }
-
-        return { minLon, maxLon, minLat, maxLat };
-    }
-
-    private parseViewBox(vb: string): { x: number; y: number; w: number; h: number } {
-        const [x, y, w, h] = vb.split(' ').map(Number);
-        return { x, y, w, h };
-    }
-
-    private animateViewBox(
-        from: { x: number; y: number; w: number; h: number },
-        to:   { x: number; y: number; w: number; h: number },
-        duration = 500
-    ): void {
-        if (!this.isBrowser) return;
-
-        if (this.svgAnimFrame !== null) {
-            cancelAnimationFrame(this.svgAnimFrame);
-            this.svgAnimFrame = null;
-        }
-
-        const start = performance.now();
-
-        const tick = (now: number) => {
-            const elapsed = now - start;
-            const t = Math.min(elapsed / duration, 1);
-            const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-            const x = from.x + (to.x - from.x) * ease;
-            const y = from.y + (to.y - from.y) * ease;
-            const w = from.w + (to.w - from.w) * ease;
-            const h = from.h + (to.h - from.h) * ease;
-
-            this.svgViewBox.set(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);
-
-            if (t < 1) {
-                this.svgAnimFrame = requestAnimationFrame(tick);
-            } else {
-                this.svgAnimFrame = null;
-            }
-        };
-
-        this.svgAnimFrame = requestAnimationFrame(tick);
-    }
-
-    // ── Gráficos ECharts ──────────────────────────────────────────────────
+    // ── Inicialización de gráficos estáticos ─────────────────────────────
     initCharts(): void {
-
+        // Gráfico: Población por sexo (donut)
         this.pieOptionsSex = {
             tooltip: {
-                show: true,
-                trigger: 'item',
+                show: true, trigger: 'item',
                 formatter: (params: any) => {
-                    const total = 18999999 + 17596527;
+                    const total = 18_999_999 + 17_596_527;
                     const abs   = params.value as number;
                     const pct   = ((abs / total) * 100).toFixed(1).replace('.', ',');
                     const absStr = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:4px">${params.name}</div>
-                            <div style="font-size:13px;font-weight:900;color:${params.color}">${absStr}</div>
-                            <div style="font-size:10px;font-weight:700;color:#9ca3af">${pct}%</div>`;
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:4px">${params.name}</div><div style="font-size:13px;font-weight:900;color:${params.color}">${absStr}</div><div style="font-size:10px;font-weight:700;color:#9ca3af">${pct}%</div>`;
                 },
             },
-            legend:  { show: false },
-            color:   ['#33b3a9', '#0056a1'],
+            legend: { show: false },
+            color: ['#33b3a9', '#0056a1'],
             series: [{
                 name: 'Sexo', type: 'pie', radius: ['50%', '80%'],
                 avoidLabelOverlap: false,
                 itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
                 label: { show: false },
                 data: [
-                    { value: 18999999, name: 'Mujeres' },
-                    { value: 17596527, name: 'Hombres' },
+                    { value: 18_999_999, name: 'Mujeres' },
+                    { value: 17_596_527, name: 'Hombres' },
                 ],
             }],
         };
 
+        // Gráfico: Población por grandes grupos de edad (barras verticales)
         this.pieOptionsAge = {
             tooltip: {
-                trigger: 'axis',
-                axisPointer: { type: 'none' },
+                trigger: 'axis', axisPointer: { type: 'none' },
                 formatter: (params: any) => {
-                    const p   = params[0];
-                    const abs = [3274648, 12618546, 2587238][p.dataIndex] ?? 0;
+                    const p = params[0];
+                    const abs = [3_274_648, 12_618_546, 2_587_238][p.dataIndex] ?? 0;
                     const pct = ['17,7%', '68,3%', '14,0%'][p.dataIndex] ?? '';
                     const absStr = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div>
-                  <div style="font-size:12px;font-weight:700;color:${p.color}">${absStr} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
+                    return `<div style="font-size:11px;font-weight:900;color:#374151;margin-bottom:2px">${p.name}</div><div style="font-size:12px;font-weight:700;color:${p.color}">${absStr} <span style="color:#9ca3af;font-size:10px">(${pct})</span></div>`;
                 },
             },
             grid: { top: 26, right: 6, bottom: 22, left: 6, containLabel: true },
-            xAxis: {
-                type: 'category',
-                data: ['0–14 años', '15–59 años', '60 y más años'],
-                axisTick:  { show: false },
-                axisLine:  { show: false },
-                axisLabel: {
-                    fontSize: 9,
-                    fontWeight: 'bold',
-                    color: '#9ca3af',
-                    interval: 0,
-                    overflow: 'truncate',
-                },
-            },
-            yAxis: {
-                type: 'value',
-                show: false,
-                max: (val: any) => Math.round(val.max * 1.55),
-            },
+            xAxis: { type: 'category', data: ['0–14 años', '15–59 años', '60 y más años'], axisTick: { show: false }, axisLine: { show: false }, axisLabel: { fontSize: 9, fontWeight: 'bold', color: '#9ca3af', interval: 0, overflow: 'truncate' } },
+            yAxis: { type: 'value', show: false, max: (val: any) => Math.round(val.max * 1.55) },
             series: [{
-                name: 'Población Censada',
-                type: 'bar',
-                barMaxWidth: 40,
-                barCategoryGap: '28%',
+                name: 'Población Censada', type: 'bar', barMaxWidth: 40, barCategoryGap: '28%',
                 itemStyle: { borderRadius: [6, 6, 0, 0] },
                 label: {
-                    show: true,
-                    position: 'top',
+                    show: true, position: 'top',
                     formatter: (p: any) => {
-                        const absVals = [3274648, 12618546, 2587238];
-                        const pcts    = ['17,7%', '68,3%', '14,0%'];
-                        const abs     = absVals[p.dataIndex] ?? 0;
-                        const pct     = pcts[p.dataIndex] ?? '';
-                        const absStr  = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-                        return `{abs|${absStr}}\n{pct|${pct}}`;
+                        const absVals = [3_274_648, 12_618_546, 2_587_238];
+                        const pcts   = ['17,7%', '68,3%', '14,0%'];
+                        const abs    = absVals[p.dataIndex] ?? 0;
+                        const absStr = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                        return `{abs|${absStr}}\n{pct|${pcts[p.dataIndex] ?? ''}}`;
                     },
                     rich: {
-                        abs: { fontSize: 8,  fontWeight: 'bold', color: '#6b7280', lineHeight: 11 },
-                        pct: { fontSize: 9,  fontWeight: 'bold', color: '#6b7280', lineHeight: 13 },
+                        abs: { fontSize: 7,  fontWeight: 'bold', color: '#6b7280', lineHeight: 11 },
+                        pct: { fontSize: 8.5, fontWeight: 'bold', color: '#6b7280', lineHeight: 13 },
                     },
                 },
                 data: [
-                    { value: 3274648,  itemStyle: { color: '#038dd3' } },
-                    { value: 12618546, itemStyle: { color: '#caeae4' } },
-                    { value: 2587238,  itemStyle: { color: '#8383fd' } },
+                    { value: 3_274_648,  itemStyle: { color: '#038dd3' } },
+                    { value: 12_618_546, itemStyle: { color: '#caeae4' } },
+                    { value: 2_587_238,  itemStyle: { color: '#8383fd' } },
                 ],
             }],
         };
 
+        // Gráfico: Pirámide poblacional (barras horizontales simétricas)
         const ageGroups  = ['0-4 años','5-9 años','10-14 años','15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años','50-54 años','55-59 años','60-64 años','65-69 años','70-74 años','75-79 años','80-84 años','85 y más años'];
         const maleData   = [-2.5,-2.8,-3.0,-3.2,-3.5,-3.8,-4.0,-3.8,-3.5,-3.2,-3.0,-2.8,-2.5,-2.0,-1.5,-1.0,-0.5,-0.5];
         const femaleData = [ 2.4, 2.7, 2.9, 3.1, 3.4, 3.7, 3.9, 3.7, 3.4, 3.1, 2.9, 2.7, 2.4, 1.9, 1.4, 0.9, 0.4, 0.4];
-
-        const TOTAL     = this.TOTAL_NAC;
-        const maleAbs   = maleData.map(v  => Math.round(Math.abs(v) / 100 * TOTAL));
-        const femaleAbs = femaleData.map(v => Math.round(v           / 100 * TOTAL));
+        const TOTAL      = this.TOTAL_NAC;
+        const maleAbs    = maleData.map(v   => Math.round(Math.abs(v) / 100 * TOTAL));
+        const femaleAbs  = femaleData.map(v => Math.round(v           / 100 * TOTAL));
 
         this.pyramidOptions = {
             tooltip: {
@@ -2280,73 +1709,42 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
                     params.forEach((p: any) => {
                         const absVal = Number(p.data?.abs ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
                         const pct    = Math.abs(p.value).toFixed(1).replace('.', ',');
-                        html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px;margin-top:2px">
-              <span style="color:#9ca3af;font-weight:600">${p.seriesName}</span>
-              <span style="font-weight:900">${absVal} <span style="color:#9ca3af;font-weight:500">(${pct}%)</span></span>
-            </div>`;
+                        html += `<div style="display:flex;justify-content:space-between;gap:16px;font-size:9px;margin-top:2px"><span style="color:#9ca3af;font-weight:600">${p.seriesName}</span><span style="font-weight:900">${absVal} <span style="color:#9ca3af;font-weight:500">(${pct}%)</span></span></div>`;
                     });
                     return html;
                 },
             },
             grid: { left: 0, right: 0, bottom: 0, top: 0, containLabel: true },
             xAxis: [{
-                type: 'value',
-                min: -5,
-                max:  5,
-                interval: 1,
-                axisLine:  { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
-                axisTick:  { show: true, lineStyle: { color: '#d1d5db' } },
-                splitLine: { show: true, lineStyle: { color: '#f3f4f6', type: 'dashed' } },
-                axisLabel: {
-                    show: true,
-                    fontSize: 8,
-                    fontWeight: 'bold',
-                    color: '#9ca3af',
-                    formatter: (v: number) => v === 0 ? '0' : Math.abs(v) + '%',
-                },
+                type: 'value', min: -5, max: 5, interval: 1,
+                axisLine:  { show: true,  lineStyle: { color: '#d1d5db', width: 1 } },
+                axisTick:  { show: true,  lineStyle: { color: '#d1d5db' } },
+                splitLine: { show: true,  lineStyle: { color: '#f3f4f6', type: 'dashed' } },
+                axisLabel: { show: true,  fontSize: 8, fontWeight: 'bold', color: '#9ca3af', formatter: (v: number) => v === 0 ? '0' : Math.abs(v) + '%' },
             }],
             yAxis: [{
-                type: 'category',
-                data: ageGroups,
-                axisTick:  { show: false },
-                axisLine:  { show: true, lineStyle: { color: '#d1d5db', width: 1 } },
+                type: 'category', data: ageGroups,
+                axisTick: { show: false },
+                axisLine: { show: true,  lineStyle: { color: '#d1d5db', width: 1 } },
                 axisLabel: { fontSize: 8.5, fontWeight: 'bold', color: '#6b7280', margin: 6 },
                 splitLine: { show: false },
             }],
-            graphic: [{
-                type: 'text',
-                left: 4,
-                top: 2,
-                style: {
-                    text: 'Edad',
-                    fontSize: 8.5,
-                    fontWeight: 'bold',
-                    fill: '#6b7280',
-                    fontFamily: '-apple-system, sans-serif',
-                },
-            }],
+            graphic: [{ type: 'text', left: 4, top: 2, style: { text: 'Edad', fontSize: 8.5, fontWeight: 'bold', fill: '#6b7280', fontFamily: '-apple-system, sans-serif' } }],
             series: [
                 {
                     name: 'Hombres', type: 'bar', stack: 'Total',
                     data: maleData.map((v, i) => ({ value: v, abs: maleAbs[i] })),
-                    itemStyle: { color: '#0056a1', borderRadius: [4, 0, 0, 4] },
-                    label: { show: false },                    
+                    itemStyle: { color: '#0056a1', borderRadius: [4, 0, 0, 4] }, label: { show: false },
                 },
                 {
                     name: 'Mujeres', type: 'bar', stack: 'Total',
                     data: femaleData.map((v, i) => ({ value: v, abs: femaleAbs[i] })),
-                    itemStyle: { color: '#33b3a9', borderRadius: [0, 4, 4, 0] },
-                    label: { show: false },
+                    itemStyle: { color: '#33b3a9', borderRadius: [0, 4, 4, 0] }, label: { show: false },
                 },
                 {
-                    name: '_center',
-                    type: 'line',
-                    data: ageGroups.map(() => 0),
-                    symbol: 'none',
-                    lineStyle: { color: '#9ca3af', width: 1.5, type: 'solid' },
-                    tooltip: { show: false },
-                    silent: true,
-                    z: 10,
+                    name: '_center', type: 'line', data: ageGroups.map(() => 0),
+                    symbol: 'none', lineStyle: { color: '#9ca3af', width: 1.5, type: 'solid' },
+                    tooltip: { show: false }, silent: true, z: 10,
                 },
             ],
         };

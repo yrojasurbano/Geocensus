@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard';
 import { ComparativaTerritorialComponent } from './components/comparativa/comparativa-territorial';
 import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
 import { DashboardCensadaComponent} from './components/dashboard/dashboard-censada'
+import { DashboardTerritorialComponent} from './components/dashboard/dashboard-territorial'
 // SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'comparativa', component: ComparativaTerritorialComponent },
   { path: 'publicaciones', component: PublicacionesComponent },
   { path: 'dashboard-censada', component: DashboardCensadaComponent},
+  { path: 'dashboard-territorial', component: DashboardTerritorialComponent},
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {
