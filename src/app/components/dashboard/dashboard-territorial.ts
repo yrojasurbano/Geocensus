@@ -535,7 +535,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('poblacion'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Población
+                        Población censada
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='poblacion'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='poblacion'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='poblacion'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='poblacion'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -545,7 +545,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </th>
                   <th class="bg-[#248cb3] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <button (click)="sortBy('hombres'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
-                      Hombres
+                      Población censada hombres
                       <span class="flex flex-col leading-none ml-0.5">
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hombres'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hombres'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hombres'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hombres'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -554,7 +554,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </th>
                   <th class="bg-[#248cb3] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <button (click)="sortBy('mujeres'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
-                      Mujeres
+                      Población censada mujeres
                       <span class="flex flex-col leading-none ml-0.5">
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='mujeres'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='mujeres'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='mujeres'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='mujeres'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -567,7 +567,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('razon'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Razón H/M
+                        Razón Hombre - mujer
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='razon'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='razon'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='razon'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='razon'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -581,7 +581,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('pct65'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        % 60 y más
+                        Porcentaje de personas de 60 y más años
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -599,7 +599,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivCensadas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Censadas
+                        Viviendas censadas
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCensadas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivCensadas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCensadas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivCensadas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -613,7 +613,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivOcupadas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Ocupadas
+                        Viviendas ocupadas
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivOcupadas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivOcupadas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -627,7 +627,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivDesocupadas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Desocupadas
+                        Viviendas desocupadas
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivDesocupadas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivDesocupadas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivDesocupadas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivDesocupadas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -641,7 +641,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivCon1Hogar'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Con 1 hogar
+                        Viviendas con 1 hogar
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon1Hogar'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivCon1Hogar'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon1Hogar'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivCon1Hogar'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -655,7 +655,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivCon2masHogares'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Con 2+ hogares
+                        Vviviendas Con 2 ó más hogares
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon2masHogares'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivCon2masHogares'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon2masHogares'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivCon2masHogares'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -673,7 +673,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('hogCensados'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Censados
+                        Hogares censados
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogCensados'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hogCensados'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogCensados'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hogCensados'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -687,7 +687,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('hogPromPersonas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Prom. personas
+                        Promedio de personas por hogar
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPromPersonas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hogPromPersonas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPromPersonas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hogPromPersonas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -701,7 +701,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('hogPctUnipersonal'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        % Unipersonales
+                        Porcentaje de hogares unipersonales
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctUnipersonal'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hogPctUnipersonal'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctUnipersonal'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hogPctUnipersonal'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -715,7 +715,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('hogPctConNinos'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        % Con niños/as
+                        Porcentaje de hogares con niños/as
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctConNinos'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hogPctConNinos'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctConNinos'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hogPctConNinos'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -729,7 +729,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('hogPctAdultosMayores'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        % Adultos mayores
+                        Porcentaje de hogares con personas adultas mayores
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctAdultosMayores'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hogPctAdultosMayores'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hogPctAdultosMayores'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hogPctAdultosMayores'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -975,8 +975,8 @@ export class DashboardTerritorialComponent {
     // ── Category sub-nav ──────────────────────────────────────────────────────
     categoryTabs: { id: string; label: string; icon: string }[] = [
         { id: 'poblacion', label: 'Población', icon: 'users' },
-        { id: 'vivienda',  label: 'Vivienda',  icon: 'home' },
-        { id: 'hogar',     label: 'Hogar',     icon: 'home-modern' },
+        { id: 'vivienda',  label: 'Vivienda',  icon: 'users' },
+        { id: 'hogar',     label: 'Hogar',     icon: 'users' },
     ];
     activeCategory = signal<string>('poblacion');
     setActiveCategory(id: string): void {
@@ -1203,7 +1203,7 @@ export class DashboardTerritorialComponent {
         if (cat === 'poblacion') {
             groupRow1Labels = ['Población Censada', '', '', 'Indicadores Demográficos', ''];
             groupRow1Spans  = [3, 2];
-            subHeaders      = ['Población', 'Hombres', 'Mujeres', 'Razón H/M', '% 60 y más'];
+            subHeaders      = ['Población ', 'Hombres', 'Mujeres', 'Razón H/M', '% 60 y más'];
             peruCells       = [t.pob, t.hom, t.muj, t.razon, t.pct65];
         } else if (cat === 'vivienda') {
             groupRow1Labels = ['Viviendas', '', '', 'Por N° de Hogares', ''];
