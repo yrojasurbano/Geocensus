@@ -364,28 +364,64 @@ const CLR = {
                   px-2 py-1.5 md:px-4 shrink-0
                   flex flex-nowrap items-center gap-2 overflow-x-auto"
            (click)="$event.stopPropagation()">
+        <!-- ── Ind. Principales (expandible) + Ind. Temáticos (expandible) ── -->
+        <div class="flex items-center gap-1 shrink-0">
 
-        <!-- Pill Indicadores Principales / Temáticos -->
-        <div class="flex bg-gray-100 p-0.5 rounded-xl gap-0.5 shrink-0">
-          <button class="px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold shadow-sm bg-gradient-to-r from-[#0056a1] to-[#33b3a9] text-white tracking-wide whitespace-nowrap">
-            Ind. Principales
+          <!-- Botón padre: Ind. Principales -->
+          <button (click)="$event.stopPropagation()"
+            routerLink="/dashboard-censada"
+            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
+            [style]="expandedSection() === 'principales'
+              ? 'background:linear-gradient(to right,#0056a1,#33b3a9);color:#fff;box-shadow:0 1px 6px rgba(0,86,161,0.30);'
+              : 'background:#f3f4f6;color:#6b7280;'">
+            <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+            <span>Ind. Principales</span>
+            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0 transition-transform duration-200"
+              [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
           </button>
-          <button routerLink="/comparativa" class="px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold text-gray-400 hover:text-gray-600 tracking-wide whitespace-nowrap transition-all">
-            Ind. Temáticos
-          </button>
-        </div>
 
-        <!-- View tabs: Indicadores | Comparativo | Evolución -->
-        <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0">
-          @for (tab of viewTabs; track tab.route) {
-            <button [routerLink]="tab.route"
-              class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
-              [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
-              <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-              <span>{{ tab.label }}</span>
-            </button>
+          <!-- Sub-botones de Ind. Principales -->
+          @if (expandedSection() === 'principales') {
+            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
+                 style="animation:fadeIn 0.15s ease-out forwards">
+              @for (tab of viewTabs; track tab.route) {
+                <button [routerLink]="tab.route"
+                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
+                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
+                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                  <span>{{ tab.label }}</span>
+                </button>
+              }
+            </div>
           }
+
+          <!-- Botón padre: Ind. Temáticos -->
+          <button (click)="$event.stopPropagation()"
+            routerLink="/dashboard-tematico"
+            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
+            style="background:#f3f4f6;color:#6b7280;">
+            <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+            <span>Ind. Temáticos</span>
+            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
+          </button>
+
+          <!-- Sub-botones de Ind. Temáticos (ELIMINADO — navegación directa a /dashboard-tematico) -->
+          @if (false) {
+            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
+                 style="animation:fadeIn 0.15s ease-out forwards">
+              @for (tab of tematicTabs; track tab.route) {
+                <button [routerLink]="tab.route"
+                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
+                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
+                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                  <span>{{ tab.label }}</span>
+                </button>
+              }
+            </div>
+          }
+
         </div>
+        
 
         <!-- Ámbito geográfico actual -->
         <div class="ml-auto shrink-0 flex items-center gap-1.5 bg-[#0056a1]/5 border border-[#0056a1]/20 rounded-lg px-2 py-1">
@@ -740,11 +776,24 @@ export class DashboardEvolucionComponent implements OnInit {
     toggleMobileMenu(e: Event): void { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
     // ── View tabs (barra de filtros) ──────────────────────────────────────
-    readonly viewTabs = [
+  readonly viewTabs = [
         { label: 'Indicadores',             icon: 'chart-bar',         route: '/dashboard-censada' },
         { label: 'Comparativo territorial', icon: 'map',               route: '/dashboard-territorial' },
         { label: 'Evolución',               icon: 'arrow-trending-up', route: '/dashboard-evolucion' },
     ];
+
+    readonly tematicTabs = [
+        { label: 'Educación', icon: 'academic-cap',   route: '/dashboard-educacion' },
+        { label: 'Salud',     icon: 'heart',           route: '/dashboard-salud' },
+        { label: 'Economía',  icon: 'banknotes',       route: '/dashboard-economia' },
+    ];
+
+    // ── Sección expandida en barra de filtros ─────────────────────────────
+    expandedSection = signal<'principales' | 'tematicos' | null>('principales');
+
+    toggleNavSection(section: 'principales' | 'tematicos'): void {
+        this.expandedSection.update(v => v === section ? null : section);
+    }
 
     isViewTabActive(route: string): boolean {
         return this.router.url === route || this.router.url.startsWith(route + '/');
