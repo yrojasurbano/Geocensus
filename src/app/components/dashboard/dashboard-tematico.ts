@@ -900,56 +900,109 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 3 columnas + fila ancha ── -->
           @if (sec.id === 'identidad_proteccion') {
-            <div class="h-full flex flex-col p-2 sm:p-3 gap-3 overflow-y-auto min-h-0">
-              <!-- Fila 3 columnas -->
-              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                @for (colGroup of identidadColumnGroups; track colGroup.label) {
-                  <div class="flex flex-col gap-3">
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                         [style]="'background:' + colGroup.color + '12;border-left:3px solid ' + colGroup.color">
-                      <span class="text-[9px] font-black uppercase tracking-widest" [style]="'color:' + colGroup.color">{{ colGroup.label }}</span>
-                    </div>
-                    @for (ind of getIndicatorsForGroup(sec, colGroup.indicatorIds); track ind.id) {
-                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md transition-all duration-200"
-                           [style]="'min-height:' + (ind.minHeight ?? 200) + 'px'">
-                        <div class="flex items-start gap-2 px-3 pt-3 pb-2 shrink-0 border-b"
-                             [style]="'border-color:' + colGroup.color + '22'">
-                          <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                               [style]="'background:' + colGroup.color + '15'">
-                            <app-hero-icon [name]="ind.icon" class="w-4 h-4" [style]="'color:' + colGroup.color"></app-hero-icon>
-                          </div>
-                          <span class="flex-1 text-[9px] font-black text-gray-600 leading-tight pt-0.5 min-w-0">{{ ind.title }}</span>
-                          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                                  class="w-5 h-5 flex items-center justify-center shrink-0 rounded-full hover:bg-gray-50">
-                            <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5"
-                                           [style]="'color:' + colGroup.color + '70'"></app-hero-icon>
-                          </button>
-                        </div>
-                        <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:colGroup.color}"></ng-container>
-                      </div>
-                    }
-                  </div>
-                }
+            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+
+              <!-- ══ ESTADO CIVIL ══════════════════════════════════════════════ -->
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                   style="background:#0056a118;border-left:3px solid #0056a1">
+                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">Estado Civil</span>
               </div>
-              <!-- Fila ancha: gráficos agrupados por edad -->
-              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                @for (ind of getIdentidadWideInds(sec); track ind.id) {
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md transition-all"
-                       [style]="'min-height:' + (ind.minHeight ?? 260) + 'px'">
-                    <div class="flex items-start gap-2 px-3 pt-3 pb-2 shrink-0 border-b border-[#0056a1]/10">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-[#0056a1]/10">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
-                      </div>
-                      <span class="flex-1 text-[9px] font-black text-gray-600 leading-tight pt-0.5 min-w-0">{{ ind.title }}</span>
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-5 h-5 flex items-center justify-center shrink-0 rounded-full hover:bg-gray-50">
-                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-[#0056a1]/60"></app-hero-icon>
-                      </button>
-                    </div>
+
+              <!-- Fila 1 (min 250px): hbar estado civil (2col) + grouped_hbar por sexo (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:250px">
+                @for (ind of getIndicatorsForGroup(sec,['estado_civil','estado_civil_sexo']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#0056a1'}"></ng-container>
                     <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
                   </div>
                 }
               </div>
+
+              <!-- Fila 2 (min 320px): grouped_bar estado civil × edad — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['estado_civil_edad']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:320px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9,#8282fb)"></div>
+                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#0056a1'}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                </div>
+              }
+
+              <!-- ══ DOCUMENTOS DE IDENTIDAD ═══════════════════════════════════ -->
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                   style="background:#038dd318;border-left:3px solid #038dd3">
+                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#038dd3">Documentos de Identidad</span>
+              </div>
+
+              <!-- Fila 3 (min 240px): pie tenencia DNI (2col) + grouped_hbar sin DNI por sexo (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:240px">
+                @for (ind of getIndicatorsForGroup(sec,['tenencia_dni','dni_sexo']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#038dd3'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#038dd3'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 4 (min 295px): grouped_bar documento × edad — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['dni_edad']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:295px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9,#8282fb,#0056a1)"></div>
+                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#038dd3'}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#038dd3'}"></ng-container>
+                </div>
+              }
+
+              <!-- ══ SEGURO DE SALUD ════════════════════════════════════════════ -->
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                   style="background:#33b3a918;border-left:3px solid #33b3a9">
+                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">Seguro de Salud</span>
+              </div>
+
+              <!-- Fila 5 (min 220px): kpi cobertura (1col) + hbar tipo seguro (3col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:220px">
+                @for (ind of getIndicatorsForGroup(sec,['cobertura_seguro','tipo_seguro']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                       [class]="ind.id === 'tipo_seguro' ? 'col-span-1 sm:col-span-1 lg:col-span-3' : 'col-span-1'">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
+                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#33b3a9'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 6 (min 250px): grouped_hbar seguro × sexo — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['seguro_sexo']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:250px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
+                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#33b3a9'}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                </div>
+              }
+
+              <!-- Fila 7 (min 320px): grouped_bar seguro × edad — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['seguro_edad']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:320px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#8282fb,#0056a1,#038dd3,#33b3a9)"></div>
+                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#8282fb'}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#8282fb'}"></ng-container>
+                </div>
+              }
+
             </div>
           }
 
@@ -1120,8 +1173,182 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             </div>
           }
 
+          <!-- ── DISCAPACIDAD: filas explícitas, scroll natural ───────────────── -->
+          @if (sec.id === 'discapacidad') {
+            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+
+              <!-- Fila 1 (min 280px): grouped_hbar sexo (2col) + kpi_list edad promedio (1) + kpi_list edad mediana (1) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:280px">
+                @for (ind of getIndicatorsForGroup(sec,['disc_sexo','edad_prom_disc','edad_mediana_disc']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                       [class]="getDiscColClass(ind.id)">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 2 (min 260px): hbar nivel educativo (3col) + kpi hogares (1col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:260px">
+                @for (ind of getIndicatorsForGroup(sec,['disc_nivel_edu','hogares_disc']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                       [class]="getDiscColClass(ind.id)">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 3 (min 340px): grouped_column por tipo × grupo edad — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['disc_edad']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:340px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                  <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                </div>
+              }
+
+            </div>
+          }
+
+          <!-- ── CARACTERÍSTICAS TÉCNICAS VIVIENDAS: filas explícitas, scroll natural -->
+          @if (sec.id === 'caract_tecnicas_viviendas') {
+            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+
+              <!-- Fila 1 (min 250px): tipo vivienda (2col) + condición ocupación (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:250px">
+                @for (ind of getIndicatorsForGroup(sec,['tipo_vivienda','condicion_ocupacion']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="vivHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 2 (min 230px): material paredes (2col) + material techos (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:230px">
+                @for (ind of getIndicatorsForGroup(sec,['material_paredes','material_techos']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="vivHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 3 (min 230px): material pisos (2col) + calidad vivienda (1col) + nº habitaciones (1col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:230px">
+                @for (ind of getIndicatorsForGroup(sec,['material_pisos','calidad_vivienda','num_habitaciones']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                       [class]="getViviendaColClass(ind.id)">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="vivHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 4 (min 250px): abastecimiento agua (2col) + eliminación excretas (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:250px">
+                @for (ind of getIndicatorsForGroup(sec,['abastecimiento_agua','eliminacion_excretas']); track ind.id) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <ng-container *ngTemplateOutlet="vivHeaderTpl;context:{$implicit:ind}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 5 (min 220px): energía eléctrica — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['energia_electrica']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:220px">
+                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                  <ng-container *ngTemplateOutlet="vivHeaderTpl;context:{$implicit:ind}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                </div>
+              }
+
+            </div>
+          }
+
+          <!-- ── CARACTERÍSTICAS ECONÓMICAS: filas explícitas, scroll natural ── -->
+          @if (sec.id === 'caracteristicas_economicas') {
+            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+
+              <!-- Fila 1 (min 130px): 4 KPIs a ancho completo -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" style="min-height:130px">
+                @for (ind of getIndicatorsForGroup(sec,['pet','trabajo_mismo_dist','trabajo_otro_dist','trabajo_otro_pais']); track ind.id; let i=$index) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default">
+                    <div class="h-1 w-full shrink-0"
+                         [style]="'background:linear-gradient(to right,' + getEconColor(i) + ',' + getEconColor(i+1) + ')'"></div>
+                    <ng-container *ngTemplateOutlet="econHeaderTpl;context:{$implicit:ind,ci:i}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:getEconColor(i)}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 2 (min 240px): pet_condición (2col) + tamaño empresa (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:240px">
+                @for (ind of getIndicatorsForGroup(sec,['pet_condicion','tamano_empresa']); track ind.id; let i=$index) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0"
+                         [style]="'background:linear-gradient(to right,' + getEconColor(i) + ',' + getEconColor(i+1) + ')'"></div>
+                    <ng-container *ngTemplateOutlet="econHeaderTpl;context:{$implicit:ind,ci:i}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:getEconColor(i)}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 3 (min 280px): ocup_principal (2col) + categ_ocupacion (2col) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:280px">
+                @for (ind of getIndicatorsForGroup(sec,['ocup_principal','categ_ocupacion']); track ind.id; let i=$index) {
+                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
+                               col-span-1 sm:col-span-1 lg:col-span-2">
+                    <div class="h-1 w-full shrink-0"
+                         [style]="'background:linear-gradient(to right,' + getEconColor(i+2) + ',' + getEconColor(i+3) + ')'"></div>
+                    <ng-container *ngTemplateOutlet="econHeaderTpl;context:{$implicit:ind,ci:i+2}"></ng-container>
+                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:getEconColor(i+2)}"></ng-container>
+                  </div>
+                }
+              </div>
+
+              <!-- Fila 4 (min 300px): rama_actividad — ancho completo -->
+              @for (ind of getIndicatorsForGroup(sec,['rama_actividad']); track ind.id) {
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
+                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                     style="min-height:300px">
+                  <div class="h-1 w-full shrink-0"
+                       style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9,#8282fb)"></div>
+                  <ng-container *ngTemplateOutlet="econHeaderTpl;context:{$implicit:ind,ci:0}"></ng-container>
+                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                </div>
+              }
+
+            </div>
+          }
+
           <!-- ── SECCIONES GENÉRICAS: grids que ocupan todo el main ──────────── -->
-          @if (sec.id !== 'fecundidad' && sec.id !== 'migracion' && sec.id !== 'identidad_proteccion' && sec.id !== 'educacion' && sec.id !== 'identidad_etnica') {
+          @if (sec.id !== 'fecundidad' && sec.id !== 'migracion' && sec.id !== 'identidad_proteccion' && sec.id !== 'educacion' && sec.id !== 'identidad_etnica' && sec.id !== 'discapacidad' && sec.id !== 'caract_tecnicas_viviendas' && sec.id !== 'caracteristicas_economicas') {
             <div class="h-full flex flex-col p-2 sm:p-3 md:p-4 min-h-0">
               <div [class]="sec.gridClass + ' gap-3 flex-1 min-h-0'"
                    style="grid-auto-rows: minmax(180px, 1fr); align-content: stretch;">
@@ -1234,6 +1461,66 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           }
         }
 
+      </ng-template>
+
+      <!-- ── ng-template: cabecera de card Identidad y Protección Social ── -->
+      <ng-template #identHeaderTpl let-ind let-clr="clr">
+        <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+               [style]="'background:' + clr + '15'">
+            <app-hero-icon [name]="ind.icon" class="w-4 h-4" [style]="'color:' + clr"></app-hero-icon>
+          </div>
+          <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
+            <app-hero-icon [name]="'information-circle'" class="w-4 h-4" [style]="'color:' + clr + '60'"></app-hero-icon>
+          </button>
+        </div>
+      </ng-template>
+
+      <!-- ── ng-template: cabecera de card Discapacidad ─────────────────── -->
+      <ng-template #discHeaderTpl let-ind>
+        <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
+            <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+          </div>
+          <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
+            <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#0056a160"></app-hero-icon>
+          </button>
+        </div>
+      </ng-template>
+
+      <!-- ── ng-template: cabecera de card Viviendas ────────────────────── -->
+      <ng-template #vivHeaderTpl let-ind>
+        <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a915">
+            <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+          </div>
+          <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
+            <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#33b3a960"></app-hero-icon>
+          </button>
+        </div>
+      </ng-template>
+
+      <!-- ── ng-template: cabecera de card Características Económicas ───── -->
+      <ng-template #econHeaderTpl let-ind let-ci="ci">
+        <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+               [style]="'background:' + getEconColor(ci) + '15'">
+            <app-hero-icon [name]="ind.icon" class="w-4 h-4"
+                           [style]="'color:' + getEconColor(ci)"></app-hero-icon>
+          </div>
+          <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
+            <app-hero-icon [name]="'information-circle'" class="w-4 h-4"
+                           [style]="'color:' + getEconColor(ci) + '60'"></app-hero-icon>
+          </button>
+        </div>
       </ng-template>
 
       </main><!-- /main -->
@@ -1387,6 +1674,10 @@ export class DashboardTematicoComponent implements OnInit {
         return (['#038dd3,#33b3a9', '#0056a1,#038dd3'] as const)[i % 2] ?? '#038dd3,#33b3a9';
     }
 
+    // ── Helpers: Características Económicas (4-color palette) ────────────
+    private readonly ECON_COLORS = ['#0056a1', '#038dd3', '#33b3a9', '#8282fb'] as const;
+    getEconColor(i: number): string { return this.ECON_COLORS[i % this.ECON_COLORS.length]; }
+
     // ── Helpers: Educación (4-color palette) ─────────────────────────────
     private readonly EDU_COLORS = ['#0056a1', '#038dd3', '#33b3a9', '#8282fb'] as const;
     getEduColor(i: number): string     { return this.EDU_COLORS[i % this.EDU_COLORS.length]; }
@@ -1411,7 +1702,28 @@ export class DashboardTematicoComponent implements OnInit {
             .filter((i): i is ThematicIndicatorDef => !!i);
     }
 
-    // ── Helper: Col-span classes por indicador en Identificación Étnica ──
+    // ── Helper: Col-span classes por indicador en Discapacidad ───────────
+    getDiscColClass(id: string): string {
+        const map: Record<string, string> = {
+            'disc_sexo':          'col-span-1 sm:col-span-2 lg:col-span-2',
+            'edad_prom_disc':     'col-span-1',
+            'edad_mediana_disc':  'col-span-1',
+            'disc_nivel_edu':     'col-span-1 sm:col-span-2 lg:col-span-3',
+            'hogares_disc':       'col-span-1',
+            'disc_edad':          'col-span-1 sm:col-span-2 lg:col-span-4',
+        };
+        return map[id] ?? 'col-span-1';
+    }
+
+    // ── Helper: Col-span classes por indicador en Características Técnicas Viviendas
+    getViviendaColClass(id: string): string {
+        const map: Record<string, string> = {
+            'material_pisos':    'col-span-1 sm:col-span-2 lg:col-span-2',
+            'calidad_vivienda':  'col-span-1',
+            'num_habitaciones':  'col-span-1',
+        };
+        return map[id] ?? 'col-span-1';
+    }
     getEtnicaColClass(id: string): string {
         const map: Record<string, string> = {
             'id_etnica':              'col-span-1',

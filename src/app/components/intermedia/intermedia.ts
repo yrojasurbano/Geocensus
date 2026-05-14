@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-pag-intermedia',
   standalone: true,
-  imports: [CommonModule, MatIconModule, NgOptimizedImage, RouterLink],
+  imports: [RouterLink,CommonModule, MatIconModule, NgOptimizedImage, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page-wrap">
@@ -179,7 +179,7 @@ import { RouterLink } from '@angular/router';
           </button>
 
           <!-- ⑥ Documentación y asistencia -->
-          <button routerLink="/documentacion" class="group card-btn border-t-4 border-[#33b3a9]">
+          <button routerLink="/documentacion-tecnica" class="group card-btn border-t-4 border-[#33b3a9]">
             <div class="icon-wrap bg-[#33b3a9]/10 group-hover:bg-[#33b3a9] transition-colors duration-300">
               <!-- Hero Icon: question-mark-circle -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

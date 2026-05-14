@@ -40,7 +40,7 @@ import { RouterLink } from '@angular/router';
           <button routerLink="/" class="hover:text-[#33b3a9] transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#33b3a9] transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/resultados" class="hover:text-[#33b3a9] transition-colors uppercase relative group">
+          <button routerLink="/intermedia" class="hover:text-[#33b3a9] transition-colors uppercase relative group">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#33b3a9] transition-all group-hover:w-full"></span>
           </button>
           <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
