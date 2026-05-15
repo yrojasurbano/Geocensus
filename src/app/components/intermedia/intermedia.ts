@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-pag-intermedia',
   standalone: true,
-  imports: [RouterLink,CommonModule, MatIconModule, NgOptimizedImage, RouterLink],
+  imports: [RouterLink,CommonModule, MatIconModule, NgOptimizedImage],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page-wrap">

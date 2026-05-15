@@ -8,6 +8,7 @@ import { DashboardCensadaComponent} from './components/dashboard/dashboard-censa
 import { DashboardTerritorialComponent} from './components/dashboard/dashboard-territorial'
 import { DashboardEvolucionComponent} from './components/dashboard/dashboard-evolucion'
 import { DashboardTematicoComponent} from './components/dashboard/dashboard-tematico'
+import {DescargaDatosComponent} from './components/descarga/descarga-datos'
 
 // SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'dashboard-territorial', component: DashboardTerritorialComponent},
   { path: 'dashboard-evolucion', component: DashboardEvolucionComponent},
   { path: 'dashboard-tematico', component: DashboardTematicoComponent},
+  { path: 'descarga-datos', component: DescargaDatosComponent},
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {
