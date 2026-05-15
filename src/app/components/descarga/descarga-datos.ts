@@ -47,9 +47,9 @@ interface FilaTabla {
 interface ConsultaActiva {
   readonly indicadorId: string; readonly nivel: NivelVisualizacion;
   readonly variable: VariableInteractiva;
-  readonly deptoCodigo: string; readonly deptoNombre: string;
-  readonly provCodigo:  string; readonly provNombre:  string;
-  readonly distCodigo:  string; readonly distNombre:  string;
+  readonly deptosCodigo: readonly string[]; readonly deptosNombre: readonly string[];
+  readonly provsCodigo:  readonly string[]; readonly provsNombre:  readonly string[];
+  readonly distsCodigo:  readonly string[]; readonly distsNombre:  readonly string[];
 }
 
 // ─── Static Data — Predefinidos ────────────────────────────────────────────────
@@ -417,7 +417,7 @@ function deterministicFactor(seed: number): number {
 
 function generarFilas(
   indicadorId: string, nivel: NivelVisualizacion,
-  deptoCod: string, provCod: string, _distCod: string
+  deptosCod: readonly string[], provsCod: readonly string[], _distsCod: readonly string[]
 ): readonly FilaTabla[] {
   const props = PROPORCIONES[indicadorId] ?? [1];
 
@@ -425,38 +425,57 @@ function generarFilas(
     const total = POBS_DEPTO.reduce((s, d) => s + d.total, 0);
     return [{ nro:1, geo:['PERÚ'], total, valores: props.map(p => Math.round(total * p)) }];
   }
+
   if (nivel === 'departamental') {
-    const deptos = deptoCod ? POBS_DEPTO.filter(d => d.codigo === deptoCod) : POBS_DEPTO;
+    const deptos = deptosCod.length ? POBS_DEPTO.filter(d => deptosCod.includes(d.codigo)) : POBS_DEPTO;
     return deptos.map((d, i) => ({
       nro: i + 1, geo: [d.nombre], total: d.total,
       valores: props.map(p => Math.round(d.total * p))
     }));
   }
+
   if (nivel === 'provincial') {
-    if (!deptoCod) return [];
-    const depto = POBS_DEPTO.find(d => d.codigo === deptoCod);
-    if (!depto) return [];
-    const provs     = PROVINCIAS_POR_DEPTO[deptoCod] ?? DEFAULT_PROVINCIAS;
-    const baseTotal = depto.total / provs.length;
-    return provs.map((p, i) => {
-      const total = Math.round(baseTotal * deterministicFactor(i + 1));
-      return { nro: i + 1, geo: [depto.nombre, p.nombre], total, valores: props.map(pr => Math.round(total * pr)) };
-    });
+    if (!deptosCod.length) return [];
+    const selectedDeptos = POBS_DEPTO.filter(d => deptosCod.includes(d.codigo));
+    const rows: FilaTabla[] = [];
+    let nro = 1;
+    for (const depto of selectedDeptos) {
+      const allProvs  = PROVINCIAS_POR_DEPTO[depto.codigo] ?? DEFAULT_PROVINCIAS;
+      // Si no hay provincia seleccionada → todas las provincias del departamento
+      const provs     = provsCod.length ? allProvs.filter(p => provsCod.includes(p.codigo)) : allProvs;
+      const baseTotal = depto.total / allProvs.length;
+      for (let i = 0; i < provs.length; i++) {
+        const provIdx = allProvs.findIndex(p => p.codigo === provs[i].codigo);
+        const total   = Math.round(baseTotal * deterministicFactor(provIdx + 1));
+        rows.push({ nro: nro++, geo: [depto.nombre, provs[i].nombre], total, valores: props.map(pr => Math.round(total * pr)) });
+      }
+    }
+    return rows;
   }
+
   if (nivel === 'distrital') {
-    if (!deptoCod || !provCod) return [];
-    const depto = POBS_DEPTO.find(d => d.codigo === deptoCod);
-    if (!depto) return [];
-    const provs = PROVINCIAS_POR_DEPTO[deptoCod] ?? DEFAULT_PROVINCIAS;
-    const prov  = provs.find(p => p.codigo === provCod);
-    if (!prov) return [];
-    const dists     = DISTRITOS_POR_PROV[provCod] ?? DEFAULT_DISTRITOS;
-    const baseDistr = (depto.total / provs.length) / dists.length;
-    return dists.map((d, i) => {
-      const total = Math.round(baseDistr * deterministicFactor(i + 50));
-      return { nro: i + 1, geo: [depto.nombre, prov.nombre, d.nombre], total, valores: props.map(pr => Math.round(total * pr)) };
-    });
+    if (!deptosCod.length) return [];
+    const selectedDeptos = POBS_DEPTO.filter(d => deptosCod.includes(d.codigo));
+    const rows: FilaTabla[] = [];
+    let nro = 1;
+    for (const depto of selectedDeptos) {
+      const allProvs   = PROVINCIAS_POR_DEPTO[depto.codigo] ?? DEFAULT_PROVINCIAS;
+      // Si no hay provincia seleccionada → todas las provincias del departamento
+      const provs      = provsCod.length ? allProvs.filter(p => provsCod.includes(p.codigo)) : allProvs;
+      const baseProvT  = depto.total / allProvs.length;
+      for (let pi = 0; pi < provs.length; pi++) {
+        const provIdx   = allProvs.findIndex(p => p.codigo === provs[pi].codigo);
+        const dists     = DISTRITOS_POR_PROV[provs[pi].codigo] ?? DEFAULT_DISTRITOS;
+        const baseDistT = Math.round(baseProvT * deterministicFactor(provIdx + 1)) / dists.length;
+        for (let di = 0; di < dists.length; di++) {
+          const total = Math.round(baseDistT * deterministicFactor(di + 50));
+          rows.push({ nro: nro++, geo: [depto.nombre, provs[pi].nombre, dists[di].nombre], total, valores: props.map(pr => Math.round(total * pr)) });
+        }
+      }
+    }
+    return rows;
   }
+
   return [];
 }
 
@@ -668,13 +687,12 @@ function generarFilas(
           @if (navActiva() === 'interactivos') {
             <div class="flex flex-col lg:flex-row gap-5 items-start w-full">
 
-              <!-- ══ PANEL IZQUIERDO (≈40%) ══ -->
-              <div class="w-full lg:w-[38%] xl:w-[36%] flex flex-col gap-4 shrink-0 lg:sticky lg:top-[4.5rem] lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto"
-                   style="scrollbar-width:thin">
+              <!-- ══ PANEL IZQUIERDO (≈28%) ══ -->
+              <div class="w-full lg:w-[28%] xl:w-[26%] flex flex-col gap-4 shrink-0 lg:sticky lg:top-[4.5rem]">
 
                 <!-- NIVEL DE VISUALIZACIÓN -->
-                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                  <div class="px-4 py-3 border-b border-gray-100 flex items-center gap-2" style="background:linear-gradient(135deg,#f0f4fa 0%,#e8eef6 100%)">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+                  <div class="px-4 py-3 border-b border-gray-100 flex items-center gap-2 rounded-t-2xl" style="background:linear-gradient(135deg,#f0f4fa 0%,#e8eef6 100%)">
                     <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background:#0056a1">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-3 h-3">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
@@ -694,37 +712,155 @@ function generarFilas(
                         </button>
                       }
                     </div>
-                    <!-- Combos geográficos -->
+                    <!-- Combos geográficos (dropdown multi-selección) -->
                     <div class="flex flex-col gap-2.5">
+                      <!-- Departamento -->
                       <div class="flex items-center gap-2">
                         <label class="text-[10px] font-bold text-gray-400 w-20 shrink-0 text-right uppercase tracking-wide">Depto.</label>
-                        <select [disabled]="nivelViz() === 'nacional'"
-                          (change)="setDeptoSel($any($event.target).value)" class="int-select flex-1">
-                          <option value="" [selected]="deptoSel() === ''">Todos / Seleccione...</option>
-                          @for (d of departamentos; track d.codigo) {
-                            <option [value]="d.codigo" [selected]="deptoSel() === d.codigo">{{ d.nombre }}</option>
+                        <div class="relative flex-1" (click)="$event.stopPropagation()">
+                          <button type="button"
+                            [disabled]="nivelViz() === 'nacional'"
+                            (click)="toggleDeptoOpen()"
+                            class="int-select w-full flex items-center justify-between gap-1 text-left">
+                            <span class="truncate text-[11px]"
+                              [class.text-gray-400]="!deptoSel().length"
+                              [class.text-gray-700]="deptoSel().length">
+                              {{ deptoSel().length === 0 ? 'Todos / Seleccione...' : deptoSel().length + (deptoSel().length === 1 ? ' departamento' : ' departamentos') }}
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                              class="w-3 h-3 shrink-0 text-gray-400 transition-transform duration-150"
+                              [class.rotate-180]="deptoDropOpen()">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                            </svg>
+                          </button>
+                          @if (deptoDropOpen()) {
+                            <div class="geo-dropdown">
+                              <button type="button" (click)="toggleTodosDeptos()" class="geo-dropdown__selectall">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3 shrink-0">
+                                  @if (deptoSel().length === departamentos.length) {
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                  } @else {
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                  }
+                                </svg>
+                                {{ deptoSel().length === departamentos.length ? 'Desmarcar todos' : 'Elegir todos' }}
+                              </button>
+                              <div class="geo-dropdown__divider"></div>
+                              @for (d of departamentos; track d.codigo) {
+                                <label class="geo-dropdown__item">
+                                  <input type="checkbox" class="geo-check"
+                                    [checked]="deptoSel().includes(d.codigo)"
+                                    (change)="toggleDepto(d.codigo)">
+                                  <span>{{ d.nombre }}</span>
+                                </label>
+                              }
+                            </div>
                           }
-                        </select>
+                        </div>
                       </div>
+                      <!-- Provincia -->
                       <div class="flex items-center gap-2">
                         <label class="text-[10px] font-bold text-gray-400 w-20 shrink-0 text-right uppercase tracking-wide">Provincia</label>
-                        <select [disabled]="nivelViz() === 'nacional' || nivelViz() === 'departamental' || !deptoSel()"
-                          (change)="setProvSel($any($event.target).value)" class="int-select flex-1">
-                          <option value="" [selected]="provSel() === ''">Seleccione...</option>
-                          @for (p of provinciasDisp(); track p.codigo) {
-                            <option [value]="p.codigo" [selected]="provSel() === p.codigo">{{ p.nombre }}</option>
+                        <div class="relative flex-1" (click)="$event.stopPropagation()">
+                          <button type="button"
+                            [disabled]="nivelViz() === 'nacional' || nivelViz() === 'departamental' || !deptoSel().length"
+                            (click)="toggleProvOpen()"
+                            class="int-select w-full flex items-center justify-between gap-1 text-left">
+                            <span class="truncate text-[11px]"
+                              [class.text-gray-400]="!provSel().length"
+                              [class.text-gray-700]="provSel().length">
+                              {{ provSel().length === 0 ? 'Todas / Seleccione...' : provSel().length + (provSel().length === 1 ? ' provincia' : ' provincias') }}
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                              class="w-3 h-3 shrink-0 text-gray-400 transition-transform duration-150"
+                              [class.rotate-180]="provDropOpen()">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                            </svg>
+                          </button>
+                          @if (provDropOpen()) {
+                            <div class="geo-dropdown">
+                              @if (!provinciasDisp().length) {
+                                <p class="px-3 py-2 text-[10px] text-gray-400 italic">Seleccione un departamento primero</p>
+                              }
+                              @if (provinciasDisp().length) {
+                                <button type="button" (click)="toggleTodasProvs()" class="geo-dropdown__selectall">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3 shrink-0">
+                                    @if (provSel().length === provinciasDisp().length) {
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                    } @else {
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    }
+                                  </svg>
+                                  {{ provSel().length === provinciasDisp().length ? 'Desmarcar todas' : 'Elegir todas' }}
+                                </button>
+                                <div class="geo-dropdown__divider"></div>
+                              }
+                              @for (p of provinciasDisp(); track p.codigo) {
+                                <label class="geo-dropdown__item">
+                                  <input type="checkbox" class="geo-check"
+                                    [checked]="provSel().includes(p.codigo)"
+                                    (change)="toggleProv(p.codigo)">
+                                  <span>{{ p.nombre }}</span>
+                                </label>
+                              }
+                            </div>
                           }
-                        </select>
+                          @if (nivelViz() === 'provincial' && deptoSel().length && !provSel().length) {
+                            <p class="text-[9px] text-[#038dd3] italic mt-0.5">Sin selección = todas las provincias</p>
+                          }
+                        </div>
                       </div>
+                      <!-- Distrito -->
                       <div class="flex items-center gap-2">
                         <label class="text-[10px] font-bold text-gray-400 w-20 shrink-0 text-right uppercase tracking-wide">Distrito</label>
-                        <select [disabled]="nivelViz() !== 'distrital' || !provSel()"
-                          (change)="distSel.set($any($event.target).value)" class="int-select flex-1">
-                          <option value="" [selected]="distSel() === ''">Seleccione...</option>
-                          @for (d of distritosDisp(); track d.codigo) {
-                            <option [value]="d.codigo" [selected]="distSel() === d.codigo">{{ d.nombre }}</option>
+                        <div class="relative flex-1" (click)="$event.stopPropagation()">
+                          <button type="button"
+                            [disabled]="nivelViz() !== 'distrital' || !distritosDisp().length"
+                            (click)="toggleDistOpen()"
+                            class="int-select w-full flex items-center justify-between gap-1 text-left">
+                            <span class="truncate text-[11px]"
+                              [class.text-gray-400]="!distSel().length"
+                              [class.text-gray-700]="distSel().length">
+                              {{ distSel().length === 0 ? 'Todos / Seleccione...' : distSel().length + (distSel().length === 1 ? ' distrito' : ' distritos') }}
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                              class="w-3 h-3 shrink-0 text-gray-400 transition-transform duration-150"
+                              [class.rotate-180]="distDropOpen()">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                            </svg>
+                          </button>
+                          @if (distDropOpen()) {
+                            <div class="geo-dropdown">
+                              @if (!distritosDisp().length) {
+                                <p class="px-3 py-2 text-[10px] text-gray-400 italic">Seleccione una provincia primero</p>
+                              }
+                              @if (distritosDisp().length) {
+                                <button type="button" (click)="toggleTodosDists()" class="geo-dropdown__selectall">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3 h-3 shrink-0">
+                                    @if (distSel().length === distritosDisp().length) {
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                    } @else {
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    }
+                                  </svg>
+                                  {{ distSel().length === distritosDisp().length ? 'Desmarcar todos' : 'Elegir todos' }}
+                                </button>
+                                <div class="geo-dropdown__divider"></div>
+                              }
+                              @for (d of distritosDisp(); track d.codigo) {
+                                <label class="geo-dropdown__item">
+                                  <input type="checkbox" class="geo-check"
+                                    [checked]="distSel().includes(d.codigo)"
+                                    (change)="toggleDist(d.codigo)">
+                                  <span>{{ d.nombre }}</span>
+                                </label>
+                              }
+                            </div>
                           }
-                        </select>
+                          @if (nivelViz() === 'distrital' && deptoSel().length && !distSel().length) {
+                            <p class="text-[9px] text-[#038dd3] italic mt-0.5">Sin selección = todos los distritos</p>
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -783,8 +919,8 @@ function generarFilas(
                       }
                     </div>
 
-                    <!-- GENERAR CUADRO -->
-                    <div class="mt-4 pt-4 border-t border-gray-100">
+                    <!-- GENERAR CUADRO + RESTABLECER -->
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-2">
                       <button (click)="generarConsulta()"
                         [disabled]="!puedeGenerar()"
                         [class]="puedeGenerar()
@@ -796,10 +932,22 @@ function generarFilas(
                         Generar Cuadro
                       </button>
                       @if (!puedeGenerar()) {
-                        <p class="text-[10px] text-amber-600 text-center mt-2 font-medium">
+                        <p class="text-[10px] text-amber-600 text-center font-medium">
                           Seleccione los filtros geográficos requeridos
                         </p>
                       }
+                      <button (click)="restablecerFiltros()"
+                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl
+                               text-gray-500 font-semibold text-[11px] tracking-wide uppercase
+                               bg-white border border-gray-200 hover:border-gray-400 hover:text-gray-700
+                               hover:bg-gray-50 active:scale-95 transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Restablecer filtros
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1047,10 +1195,44 @@ function generarFilas(
       border: 1px solid #d1d5db; background-color: #ffffff;
       color: #374151; padding: 0.35rem 0.625rem;
       transition: border-color 0.18s, box-shadow 0.18s;
-      outline: none; appearance: auto;
+      outline: none;
     }
-    .int-select:focus { border-color: #038dd3; box-shadow: 0 0 0 3px rgba(3,141,211,0.15); }
+    .int-select:focus, .int-select:focus-visible { border-color: #038dd3; box-shadow: 0 0 0 3px rgba(3,141,211,0.15); }
     .int-select:disabled { background-color: #f9fafb; color: #9ca3af; cursor: not-allowed; border-color: #e5e7eb; }
+
+    /* ── Geo dropdown custom ── */
+    .geo-dropdown {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 9999;
+      background: #ffffff; border: 1px solid #d1d5db; border-radius: 0.625rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14); max-height: 14rem; overflow-y: auto;
+      animation: dropdownIn 0.15s ease-out forwards;
+      scrollbar-width: thin;
+    }
+    .geo-dropdown__selectall {
+      display: flex; align-items: center; gap: 0.5rem;
+      width: 100%; padding: 0.4rem 0.75rem;
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: #0056a1;
+      background: rgba(0,86,161,0.05);
+      border: none; cursor: pointer;
+      border-radius: 0.5rem 0.5rem 0 0;
+      transition: background-color 0.12s;
+    }
+    .geo-dropdown__selectall:hover { background: rgba(0,86,161,0.12); }
+    .geo-dropdown__divider {
+      height: 1px; background: #e5e7eb; margin: 0;
+    }
+    .geo-dropdown__item {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.75rem; cursor: pointer; font-size: 0.7rem;
+      color: #374151; transition: background-color 0.12s;
+    }
+    .geo-dropdown__item:hover { background-color: #f0f4fa; }
+    .geo-dropdown__item:last-child { border-radius: 0 0 0.5rem 0.5rem; }
+    .geo-check {
+      width: 0.875rem; height: 0.875rem; border-radius: 0.25rem;
+      cursor: pointer; accent-color: #0056a1; flex-shrink: 0;
+    }
 
     table { border-spacing: 0; }
   `]
@@ -1067,13 +1249,17 @@ export class DescargaDatosComponent {
   readonly nivelViz       = signal<NivelVisualizacion>('nacional');
   readonly varInteractiva = signal<VariableInteractiva>('poblacion');
   readonly indicadorPend  = signal<string>('sexo');
-  readonly deptoSel       = signal<string>('');
-  readonly provSel        = signal<string>('');
-  readonly distSel        = signal<string>('');
+  readonly deptoSel       = signal<string[]>([]);
+  readonly provSel        = signal<string[]>([]);
+  readonly distSel        = signal<string[]>([]);
+  // dropdown open state
+  readonly deptoDropOpen  = signal<boolean>(false);
+  readonly provDropOpen   = signal<boolean>(false);
+  readonly distDropOpen   = signal<boolean>(false);
 
   readonly consultaActiva = signal<ConsultaActiva>({
     indicadorId: 'sexo', nivel: 'nacional', variable: 'poblacion',
-    deptoCodigo: '', deptoNombre: '', provCodigo: '', provNombre: '', distCodigo: '', distNombre: ''
+    deptosCodigo: [], deptosNombre: [], provsCodigo: [], provsNombre: [], distsCodigo: [], distsNombre: []
   });
 
   // ── Constantes expuestas al template ─────────────────────────────────────────
@@ -1130,13 +1316,19 @@ export class DescargaDatosComponent {
   });
 
   // ── Computed — Interactivos ──────────────────────────────────────────────────
-  readonly provinciasDisp = computed((): readonly UbigeoItem[] =>
-    this.deptoSel() ? (PROVINCIAS_POR_DEPTO[this.deptoSel()] ?? DEFAULT_PROVINCIAS) : []
-  );
+  readonly provinciasDisp = computed((): readonly UbigeoItem[] => {
+    const deptos = this.deptoSel();
+    if (!deptos.length) return [];
+    const all = deptos.flatMap(d => PROVINCIAS_POR_DEPTO[d] ?? DEFAULT_PROVINCIAS);
+    return all.filter((p, i, arr) => arr.findIndex(x => x.codigo === p.codigo) === i);
+  });
 
-  readonly distritosDisp = computed((): readonly UbigeoItem[] =>
-    this.provSel() ? (DISTRITOS_POR_PROV[this.provSel()] ?? DEFAULT_DISTRITOS) : []
-  );
+  readonly distritosDisp = computed((): readonly UbigeoItem[] => {
+    const provs = this.provSel().length ? this.provSel() : this.provinciasDisp().map(p => p.codigo);
+    if (!provs.length) return [];
+    const all = provs.flatMap(p => DISTRITOS_POR_PROV[p] ?? DEFAULT_DISTRITOS);
+    return all.filter((d, i, arr) => arr.findIndex(x => x.codigo === d.codigo) === i);
+  });
 
   readonly tematicosActivos = computed((): readonly TematicoInt[] => {
     switch (this.varInteractiva()) {
@@ -1150,8 +1342,8 @@ export class DescargaDatosComponent {
     switch (this.nivelViz()) {
       case 'nacional':
       case 'departamental': return true;
-      case 'provincial':    return !!this.deptoSel();
-      case 'distrital':     return !!this.deptoSel() && !!this.provSel();
+      case 'provincial':    return this.deptoSel().length > 0;
+      case 'distrital':     return this.deptoSel().length > 0;
     }
   });
 
@@ -1172,10 +1364,14 @@ export class DescargaDatosComponent {
     return `Consulta de ${varLabel[q.variable]} por ${ind?.nombre ?? q.indicadorId}, según el nivel ${nivelLabel[q.nivel]}`;
   });
 
-  readonly subtituloGeo = computed((): string =>
-    [this.consultaActiva().deptoNombre, this.consultaActiva().provNombre, this.consultaActiva().distNombre]
-      .filter(Boolean).join(' – ')
-  );
+  readonly subtituloGeo = computed((): string => {
+    const q = this.consultaActiva();
+    const partes: string[] = [];
+    if (q.deptosNombre.length) partes.push(q.deptosNombre.join(', '));
+    if (q.provsNombre.length)  partes.push(q.provsNombre.join(', '));
+    if (q.distsNombre.length)  partes.push(q.distsNombre.join(', '));
+    return partes.join(' – ');
+  });
 
   readonly colsGeo = computed((): readonly string[] => {
     switch (this.consultaActiva().nivel) {
@@ -1188,7 +1384,7 @@ export class DescargaDatosComponent {
 
   readonly filasTabla = computed((): readonly FilaTabla[] => {
     const q = this.consultaActiva();
-    return generarFilas(q.indicadorId, q.nivel, q.deptoCodigo, q.provCodigo, q.distCodigo);
+    return generarFilas(q.indicadorId, q.nivel, q.deptosCodigo, q.provsCodigo, q.distsCodigo);
   });
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -1216,19 +1412,51 @@ export class DescargaDatosComponent {
   // ── Actions — Interactivos ────────────────────────────────────────────────────
   setNivelViz(nivel: NivelVisualizacion): void {
     this.nivelViz.set(nivel);
-    if (nivel === 'nacional')                              { this.deptoSel.set(''); this.provSel.set(''); this.distSel.set(''); }
-    if (nivel === 'departamental' || nivel === 'nacional') { this.provSel.set('');  this.distSel.set(''); }
+    if (nivel === 'nacional')      { this.deptoSel.set([]); this.provSel.set([]); this.distSel.set([]); }
+    if (nivel === 'departamental') { this.provSel.set([]);  this.distSel.set([]); }
+    this.deptoDropOpen.set(false); this.provDropOpen.set(false); this.distDropOpen.set(false);
   }
 
-  setDeptoSel(codigo: string): void {
-    this.deptoSel.set(codigo);
-    this.provSel.set('');
-    this.distSel.set('');
+  // Dropdown open/close
+  toggleDeptoOpen(): void { this.deptoDropOpen.update(v => !v); this.provDropOpen.set(false); this.distDropOpen.set(false); }
+  toggleProvOpen():  void { this.provDropOpen.update(v => !v);  this.deptoDropOpen.set(false); this.distDropOpen.set(false); }
+  toggleDistOpen():  void { this.distDropOpen.update(v => !v);  this.deptoDropOpen.set(false); this.provDropOpen.set(false); }
+
+  // Toggle individual items
+  toggleDepto(codigo: string): void {
+    const cur = this.deptoSel();
+    this.deptoSel.set(cur.includes(codigo) ? cur.filter(c => c !== codigo) : [...cur, codigo]);
+    this.provSel.set([]);
+    this.distSel.set([]);
   }
 
-  setProvSel(codigo: string): void {
-    this.provSel.set(codigo);
-    this.distSel.set('');
+  toggleProv(codigo: string): void {
+    const cur = this.provSel();
+    this.provSel.set(cur.includes(codigo) ? cur.filter(c => c !== codigo) : [...cur, codigo]);
+    this.distSel.set([]);
+  }
+
+  toggleDist(codigo: string): void {
+    const cur = this.distSel();
+    this.distSel.set(cur.includes(codigo) ? cur.filter(c => c !== codigo) : [...cur, codigo]);
+  }
+
+  toggleTodosDeptos(): void {
+    const all = DEPARTAMENTOS.map(d => d.codigo);
+    this.deptoSel.set(this.deptoSel().length === all.length ? [] : all);
+    this.provSel.set([]);
+    this.distSel.set([]);
+  }
+
+  toggleTodasProvs(): void {
+    const all = this.provinciasDisp().map(p => p.codigo);
+    this.provSel.set(this.provSel().length === all.length ? [] : all);
+    this.distSel.set([]);
+  }
+
+  toggleTodosDists(): void {
+    const all = this.distritosDisp().map(d => d.codigo);
+    this.distSel.set(this.distSel().length === all.length ? [] : all);
   }
 
   setVarInteractiva(v: VariableInteractiva): void {
@@ -1240,25 +1468,30 @@ export class DescargaDatosComponent {
 
   generarConsulta(): void {
     if (!this.puedeGenerar()) { return; }
-    const deptoCod  = this.deptoSel();
-    const provCod   = this.provSel();
-    const distCod   = this.distSel();
-    const deptoItem = DEPARTAMENTOS.find(d => d.codigo === deptoCod);
-    const provs     = PROVINCIAS_POR_DEPTO[deptoCod] ?? DEFAULT_PROVINCIAS;
-    const provItem  = provs.find(p => p.codigo === provCod);
-    const dists     = DISTRITOS_POR_PROV[provCod] ?? DEFAULT_DISTRITOS;
-    const distItem  = dists.find(d => d.codigo === distCod);
+    const deptosCod = this.deptoSel();
+    const provsCod  = this.provSel();
+    const distsCod  = this.distSel();
 
+    const deptosNombre = DEPARTAMENTOS
+      .filter(d => deptosCod.includes(d.codigo)).map(d => d.nombre);
+
+    const allProvs = deptosCod.flatMap(dc => PROVINCIAS_POR_DEPTO[dc] ?? DEFAULT_PROVINCIAS);
+    const provsNombre = allProvs
+      .filter(p => provsCod.includes(p.codigo)).map(p => p.nombre);
+
+    const provsParaDists = provsCod.length ? provsCod : allProvs.map(p => p.codigo);
+    const allDists = provsParaDists.flatMap(pc => DISTRITOS_POR_PROV[pc] ?? DEFAULT_DISTRITOS);
+    const distsNombre = allDists
+      .filter(d => distsCod.includes(d.codigo)).map(d => d.nombre);
+
+    this.deptoDropOpen.set(false); this.provDropOpen.set(false); this.distDropOpen.set(false);
     this.consultaActiva.set({
-      indicadorId:  this.indicadorPend(),
-      nivel:        this.nivelViz(),
-      variable:     this.varInteractiva(),
-      deptoCodigo:  deptoCod,
-      deptoNombre:  deptoItem?.nombre ?? '',
-      provCodigo:   provCod,
-      provNombre:   provItem?.nombre  ?? '',
-      distCodigo:   distCod,
-      distNombre:   distItem?.nombre  ?? '',
+      indicadorId:   this.indicadorPend(),
+      nivel:         this.nivelViz(),
+      variable:      this.varInteractiva(),
+      deptosCodigo:  deptosCod,  deptosNombre,
+      provsCodigo:   provsCod,   provsNombre,
+      distsCodigo:   distsCod,   distsNombre,
     });
   }
 
@@ -1267,9 +1500,30 @@ export class DescargaDatosComponent {
     console.info('[DescargaDatos] Descargando Excel:', q.indicadorId, q.nivel);
   }
 
+  restablecerFiltros(): void {
+    this.nivelViz.set('nacional');
+    this.varInteractiva.set('poblacion');
+    this.indicadorPend.set('sexo');
+    this.deptoSel.set([]);
+    this.provSel.set([]);
+    this.distSel.set([]);
+    this.deptoDropOpen.set(false);
+    this.provDropOpen.set(false);
+    this.distDropOpen.set(false);
+    this.consultaActiva.set({
+      indicadorId: 'sexo', nivel: 'nacional', variable: 'poblacion',
+      deptosCodigo: [], deptosNombre: [], provsCodigo: [], provsNombre: [], distsCodigo: [], distsNombre: []
+    });
+  }
+
   // ── Host listeners ────────────────────────────────────────────────────────────
   @HostListener('document:click')
-  onDocumentClick(): void { this.censosOpen.set(false); }
+  onDocumentClick(): void {
+    this.censosOpen.set(false);
+    this.deptoDropOpen.set(false);
+    this.provDropOpen.set(false);
+    this.distDropOpen.set(false);
+  }
 
   toggleCensos(event: Event): void {
     event.stopPropagation();
