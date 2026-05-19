@@ -308,7 +308,7 @@ const BASE_MAPS: BaseMap[] = [
       <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
       <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50
                      flex justify-between items-center
-                     px-4 py-1 sm:px-6 sm:py-1.5 md:px-10 md:py-1.5 lg:px-12 lg:py-2
+                     px-3 py-1 sm:px-6 sm:py-1.5 md:px-10 md:py-1.5 lg:px-12 lg:py-2
                      w-full shrink-0">
 
         <!-- Logos -->
@@ -424,60 +424,83 @@ const BASE_MAPS: BaseMap[] = [
         </div>
       }
 
-      <!-- ══ BOTONES DE TIPO DE CENSO ════════════════════════════════════════
-           Debajo del header: toggle Población y vivienda / Comunidades indígenas
-      ══════════════════════════════════════════════════════════════════════ -->
-      <div class="bg-white border-b border-gray-100 shrink-0 px-4 sm:px-6 md:px-8 py-2 flex items-center gap-3"
+      <!-- ══ BOTONES DE TIPO DE CENSO ════════════════════════════════════════ -->
+      <div class="bg-white border-b border-gray-100 shrink-0 px-3 sm:px-6 md:px-8 py-2
+                  flex flex-wrap items-center gap-2"
            style="box-shadow:0 2px 8px rgba(3,141,211,0.10)">
         <button
           (click)="setCensusType('poblacion_vivienda'); $event.stopPropagation()"
-          class="census-toggle-btn relative flex items-center gap-2 px-4 py-1.5 rounded-lg
-                 text-xs sm:text-sm font-bold transition-all duration-200
-                 focus:outline-none group overflow-hidden"
+          class="census-toggle-btn relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                 text-[11px] sm:text-xs md:text-sm font-bold transition-all duration-200
+                 focus:outline-none group overflow-hidden min-h-[36px]"
           [style]="censusType() === 'poblacion_vivienda'
             ? 'background:#038dd3;color:#fff;box-shadow:0 4px 12px rgba(3,141,211,0.35)'
             : 'background:#e8f4fb;color:#038dd3;box-shadow:none'">
           <app-hero-icon [name]="'users'" class="w-4 h-4 shrink-0"></app-hero-icon>
-          <span>Población y vivienda</span>
+          <span class="hidden xs:inline sm:inline">Población y vivienda</span>
+          <span class="xs:hidden sm:hidden">Pob. y vivienda</span>
           @if (censusType() !== 'poblacion_vivienda') {
             <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 bg-[#038dd3] pointer-events-none rounded-lg"></span>
           }
         </button>
         <button
           (click)="setCensusType('comunidades_indigenas'); $event.stopPropagation()"
-          class="census-toggle-btn relative flex items-center gap-2 px-4 py-1.5 rounded-lg
-                 text-xs sm:text-sm font-bold transition-all duration-200
-                 focus:outline-none group overflow-hidden"
+          class="census-toggle-btn relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                 text-[11px] sm:text-xs md:text-sm font-bold transition-all duration-200
+                 focus:outline-none group overflow-hidden min-h-[36px]"
           [style]="censusType() === 'comunidades_indigenas'
             ? 'background:#038dd3;color:#fff;box-shadow:0 4px 12px rgba(3,141,211,0.35)'
             : 'background:#e8f4fb;color:#038dd3;box-shadow:none'">
           <app-hero-icon [name]="'globe-americas'" class="w-4 h-4 shrink-0"></app-hero-icon>
-          <span>Comunidades indígenas</span>
+          <span>Com. indígenas</span>
           @if (censusType() !== 'comunidades_indigenas') {
             <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 bg-[#038dd3] pointer-events-none rounded-lg"></span>
           }
         </button>
         <button routerLink="/intermedia"
-          class="flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-[#0056a1] text-[#0056a1] font-semibold text-xs tracking-wide hover:bg-[#0056a1] hover:text-white transition-all duration-200 shrink-0">
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0056a1] text-[#0056a1]
+                 font-semibold text-xs tracking-wide hover:bg-[#0056a1] hover:text-white
+                 transition-all duration-200 shrink-0 min-h-[36px]">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 shrink-0">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
           </svg>
         </button>
       </div>
 
-      <!-- ══ MAIN — 40/60 LAYOUT ════════════════════════════════════════════ -->
+      <!-- ══ MAIN — LAYOUT RESPONSIVO ══════════════════════════════════════════
+           Desktop (md+): 40/60 side by side
+           Mobile: mapa full-width + panel como bottom sheet
+      ══════════════════════════════════════════════════════════════════════ -->
       <div class="flex flex-1 min-h-0 overflow-hidden">
 
         <!-- ─────────────────────────────────────────────────────────────────
-             PANEL IZQUIERDO  40%
+             PANEL IZQUIERDO
+             Desktop: columna fija 40%
+             Mobile: bottom sheet deslizable (controlado por .mobile-open)
         ───────────────────────────────────────────────────────────────────── -->
-        <div class="w-2/5 min-w-[300px] flex flex-col border-r border-gray-200 bg-white overflow-hidden">
+        <div class="geo-left-panel" [class.mobile-open]="mobilePanelOpen()">
+
+          <!-- ── Handle + título móvil ──────────────────────────────── -->
+          <div class="md:hidden shrink-0 flex flex-col items-center pt-2 pb-1 px-4 border-b border-gray-100">
+            <div class="w-10 h-1 bg-gray-300 rounded-full mb-2"></div>
+            <div class="w-full flex items-center justify-between">
+              <span class="text-xs font-black text-[#0056a1] uppercase tracking-widest">
+                Indicadores
+              </span>
+              <button (click)="mobilePanelOpen.set(false); $event.stopPropagation()"
+                class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 transition-colors">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="w-4 h-4">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
 
           <!-- ══ SUBCONTENEDOR 1: NIVEL DE VISUALIZACIÓN ══════════════════ -->
           <div class="shrink-0 px-3 pt-3 pb-2 border-b border-gray-100">
 
-            <!-- Etiqueta sección -->
-            <div class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">
+            <!-- Etiqueta sección — solo desktop -->
+            <div class="hidden md:block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">
               Nivel de visualización
             </div>
 
@@ -486,8 +509,8 @@ const BASE_MAPS: BaseMap[] = [
               @for (nivel of NIVELES_GEO; track nivel) {
                 <button
                   (click)="setNivelGeo(nivel); $event.stopPropagation()"
-                  class="flex-1 relative py-1.5 rounded-lg text-[11px] font-bold transition-all duration-200
-                         focus:outline-none group overflow-hidden"
+                  class="flex-1 relative py-2 md:py-1.5 rounded-lg text-[11px] font-bold transition-all duration-200
+                         focus:outline-none group overflow-hidden min-h-[36px]"
                   [style]="nivelGeo() === nivel
                     ? 'background:#0056a1;color:#fff;box-shadow:0 3px 8px rgba(0,86,161,0.30)'
                     : 'background:#eef2f9;color:#0056a1'">
@@ -508,8 +531,8 @@ const BASE_MAPS: BaseMap[] = [
                   (click)="toggleGeoDropdown('dep')"
                   [disabled]="false"
                   class="geo-dropdown-btn w-full flex items-center justify-between
-                         px-3 py-1.5 rounded-lg border text-xs font-semibold
-                         transition-all duration-200 focus:outline-none"
+                         px-3 py-2 md:py-1.5 rounded-lg border text-xs font-semibold
+                         transition-all duration-200 focus:outline-none min-h-[40px] md:min-h-0"
                   [style]="'background:#fff;border-color:#e5e7eb;color:#374151'"
                   [class.opacity-40]="false"
                   [class.cursor-not-allowed]="false">
@@ -524,20 +547,19 @@ const BASE_MAPS: BaseMap[] = [
                 @if (openGeoDropdown() === 'dep') {
                   <div class="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
                        style="animation: dropdownIn 0.15s ease-out forwards; max-height:220px; overflow-y:auto">
-                    <!-- Multi-select departamental / single provincial+distrital -->
                     @if (nivelGeo() === 'Departamental') {
                       <div class="sticky top-0 bg-white border-b border-gray-100 flex">
-                        <button (click)="selectAllDeps()" class="flex-1 py-2 text-[10px] font-black text-[#038dd3] hover:bg-blue-50 transition-colors">
+                        <button (click)="selectAllDeps()" class="flex-1 py-2.5 text-[10px] font-black text-[#038dd3] hover:bg-blue-50 transition-colors">
                           ✓ Seleccionar todos
                         </button>
-                        <button (click)="deselectAllDeps()" class="flex-1 py-2 text-[10px] font-black text-red-400 hover:bg-red-50 transition-colors">
+                        <button (click)="deselectAllDeps()" class="flex-1 py-2.5 text-[10px] font-black text-red-400 hover:bg-red-50 transition-colors">
                           ✗ Deseleccionar todos
                         </button>
                       </div>
                       @for (dep of departments(); track dep.ccdd) {
                         <button
                           (click)="toggleDepMulti(dep.ccdd)"
-                          class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-gray-700
+                          class="w-full flex items-center gap-2 px-3 py-2.5 text-xs font-semibold text-gray-700
                                  hover:bg-blue-50 hover:text-[#038dd3] transition-all text-left">
                           <span class="w-4 h-4 border-2 rounded shrink-0 flex items-center justify-center transition-colors"
                                 [style]="selectedDeps().includes(dep.ccdd) ? 'border-color:#038dd3;background:#038dd3' : 'border-color:#d1d5db'">
@@ -550,14 +572,14 @@ const BASE_MAPS: BaseMap[] = [
                       }
                     } @else {
                       <button (click)="selectDepSingle(null)"
-                        class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-400
+                        class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-400
                                hover:bg-gray-50 transition-colors italic">
                         — Todos los departamentos —
                       </button>
                       @for (dep of departments(); track dep.ccdd) {
                         <button
                           (click)="selectDepSingle(dep)"
-                          class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-700
+                          class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-700
                                  hover:bg-blue-50 hover:text-[#038dd3] transition-all"
                           [class.bg-blue-50]="selectedCCDD() === dep.ccdd"
                           [class.text-blue-700]="selectedCCDD() === dep.ccdd">
@@ -574,8 +596,8 @@ const BASE_MAPS: BaseMap[] = [
                 <button
                   (click)="isGeoProvActive() && toggleGeoDropdown('prov')"
                   class="geo-dropdown-btn w-full flex items-center justify-between
-                         px-3 py-1.5 rounded-lg border text-xs font-semibold
-                         transition-all duration-200 focus:outline-none"
+                         px-3 py-2 md:py-1.5 rounded-lg border text-xs font-semibold
+                         transition-all duration-200 focus:outline-none min-h-[40px] md:min-h-0"
                   [style]="isGeoProvActive() ? 'background:#fff;border-color:#e5e7eb;color:#374151' : 'background:#f9fafb;border-color:#f3f4f6;color:#d1d5db'"
                   [class.cursor-not-allowed]="!isGeoProvActive()">
                   <span class="flex items-center gap-2 truncate">
@@ -591,15 +613,15 @@ const BASE_MAPS: BaseMap[] = [
 
                 @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
                   <div class="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
-                       style="animation: dropdownIn 0.15s ease-out forwards; max-height:200px; overflow-y:auto">
+                       style="animation: dropdownIn 0.15s ease-out forwards; max-height:220px; overflow-y:auto">
                     <button (click)="selectProv('')"
-                      class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-400
+                      class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-400
                              hover:bg-gray-50 transition-colors italic">
                       — Todas las provincias —
                     </button>
                     @for (prov of provinces(); track prov.code) {
                       <button (click)="selectProv(prov.code)"
-                        class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-700
+                        class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-700
                                hover:bg-teal-50 hover:text-[#33b3a9] transition-all"
                         [class.bg-teal-50]="selectedProv() === prov.code"
                         [class.text-teal-700]="selectedProv() === prov.code">
@@ -615,8 +637,8 @@ const BASE_MAPS: BaseMap[] = [
                 <button
                   (click)="isGeoDistActive() && toggleGeoDropdown('dist')"
                   class="geo-dropdown-btn w-full flex items-center justify-between
-                         px-3 py-1.5 rounded-lg border text-xs font-semibold
-                         transition-all duration-200 focus:outline-none"
+                         px-3 py-2 md:py-1.5 rounded-lg border text-xs font-semibold
+                         transition-all duration-200 focus:outline-none min-h-[40px] md:min-h-0"
                   [style]="isGeoDistActive() ? 'background:#fff;border-color:#e5e7eb;color:#374151' : 'background:#f9fafb;border-color:#f3f4f6;color:#d1d5db'"
                   [class.cursor-not-allowed]="!isGeoDistActive()">
                   <span class="flex items-center gap-2 truncate">
@@ -632,15 +654,15 @@ const BASE_MAPS: BaseMap[] = [
 
                 @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
                   <div class="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
-                       style="animation: dropdownIn 0.15s ease-out forwards; max-height:200px; overflow-y:auto">
+                       style="animation: dropdownIn 0.15s ease-out forwards; max-height:220px; overflow-y:auto">
                     <button (click)="selectDist('')"
-                      class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-400
+                      class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-400
                              hover:bg-gray-50 transition-colors italic">
                       — Todos los distritos —
                     </button>
                     @for (dist of districts(); track dist.code) {
                       <button (click)="selectDist(dist.code)"
-                        class="w-full text-left px-3 py-2 text-xs font-semibold text-gray-700
+                        class="w-full text-left px-3 py-2.5 text-xs font-semibold text-gray-700
                                hover:bg-blue-50 hover:text-[#0056a1] transition-all"
                         [class.bg-blue-50]="selectedDist() === dist.code"
                         [class.text-blue-700]="selectedDist() === dist.code">
@@ -667,8 +689,9 @@ const BASE_MAPS: BaseMap[] = [
               @for (cat of INDICATOR_CATEGORIES; track cat.key) {
                 <button
                   (click)="setActiveCategory(cat.key); $event.stopPropagation()"
-                  class="flex-1 py-1.5 rounded-lg text-[10px] sm:text-[11px] font-bold
-                         transition-all duration-200 focus:outline-none relative group overflow-hidden"
+                  class="flex-1 py-2 md:py-1.5 rounded-lg text-[10px] sm:text-[11px] font-bold
+                         transition-all duration-200 focus:outline-none relative group overflow-hidden
+                         min-h-[36px]"
                   [style]="activeCategory() === cat.key
                     ? 'background:#038dd3;color:#fff;box-shadow:0 3px 10px rgba(3,141,211,0.35)'
                     : 'background:#e8f4fb;color:#038dd3'">
@@ -688,8 +711,9 @@ const BASE_MAPS: BaseMap[] = [
                 @for (theme of activeThemes(); track theme.key) {
                   <button
                     (click)="setActiveTheme(theme.key); $event.stopPropagation()"
-                    class="w-full text-left px-2.5 py-2 rounded-lg text-[10px] font-bold
-                           leading-tight transition-all duration-200 focus:outline-none relative group overflow-hidden"
+                    class="w-full text-left px-2.5 py-2.5 md:py-2 rounded-lg text-[10px] font-bold
+                           leading-tight transition-all duration-200 focus:outline-none relative group overflow-hidden
+                           min-h-[36px]"
                     [style]="activeThemeKey() === theme.key
                       ? 'background:#0056a1;color:#fff;box-shadow:0 2px 6px rgba(0,86,161,0.25)'
                       : 'background:#f1f5f9;color:#475569'">
@@ -706,13 +730,12 @@ const BASE_MAPS: BaseMap[] = [
                 @for (ind of activeIndicators(); track ind.key) {
                   <button
                     (click)="setActiveIndicatorItem(ind.key); $event.stopPropagation()"
-                    class="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-[10px]
+                    class="w-full flex items-center gap-2 px-2.5 py-2.5 md:py-2 rounded-lg text-[10px]
                            font-semibold leading-tight text-left mb-0.5 transition-all duration-200
-                           focus:outline-none group relative"
+                           focus:outline-none group relative min-h-[36px]"
                     [style]="activeIndicatorKey() === ind.key
                       ? 'background:#e8f4fb;color:#038dd3;box-shadow:0 1px 4px rgba(3,141,211,0.15)'
                       : 'color:#4b5563'">
-                    <!-- Icono uniforme -->
                     <span class="shrink-0 w-5 h-5 rounded flex items-center justify-center transition-colors"
                           [style]="activeIndicatorKey() === ind.key ? 'background:#038dd3' : 'background:#e8f4fb'">
                       <app-hero-icon [name]="'chart-bar-square'" class="w-3 h-3"
@@ -734,10 +757,10 @@ const BASE_MAPS: BaseMap[] = [
             </div><!-- /grid temas+indicadores -->
           </div><!-- /subcontenedor 2 -->
 
-        </div><!-- /panel izquierdo -->
+        </div><!-- /geo-left-panel -->
 
         <!-- ─────────────────────────────────────────────────────────────────
-             PANEL DERECHO: MAPA  60%
+             PANEL DERECHO: MAPA — ocupa 60% en desktop, 100% en móvil
         ───────────────────────────────────────────────────────────────────── -->
         <div class="flex-1 flex flex-col overflow-hidden bg-[#f4f7f9]">
 
@@ -751,12 +774,12 @@ const BASE_MAPS: BaseMap[] = [
 
               <!-- ─── Panel superior izquierdo: nombre geo + valor + indicador ─── -->
               <div class="absolute top-3 left-3 z-10 pointer-events-none select-none
-                          bg-white/90 backdrop-blur-sm rounded-xl px-3 py-2 shadow-md border border-gray-100"
-                   style="min-width:140px;max-width:200px">
+                          bg-white/90 backdrop-blur-sm rounded-xl px-2.5 py-2 shadow-md border border-gray-100"
+                   style="min-width:120px;max-width:180px">
                 <div class="text-[9px] font-black tracking-wide mb-0.5" style="color:#038dd3">
                   {{ mapGeoDisplayTitle() }}
                 </div>
-                <div class="text-lg font-black text-gray-900 leading-none tracking-tighter">
+                <div class="text-base md:text-lg font-black text-gray-900 leading-none tracking-tighter">
                   {{ mapDisplayValue() }}
                 </div>
                 <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5 leading-tight">
@@ -770,7 +793,7 @@ const BASE_MAPS: BaseMap[] = [
                 <!-- Zoom + -->
                 <button (click)="zoomIn()"
                   matTooltip="Acercar" matTooltipClass="custom-tooltip"
-                  class="map-ctrl-btn w-8 h-8 bg-white rounded-lg shadow-md border border-gray-200
+                  class="map-ctrl-btn w-9 h-9 md:w-8 md:h-8 bg-white rounded-lg shadow-md border border-gray-200
                          flex items-center justify-center text-gray-500
                          hover:border-[#038dd3] hover:text-[#038dd3]
                          transition-all duration-200 focus:outline-none">
@@ -782,7 +805,7 @@ const BASE_MAPS: BaseMap[] = [
                 <!-- Zoom - -->
                 <button (click)="zoomOut()"
                   matTooltip="Alejar" matTooltipClass="custom-tooltip"
-                  class="map-ctrl-btn w-8 h-8 bg-white rounded-lg shadow-md border border-gray-200
+                  class="map-ctrl-btn w-9 h-9 md:w-8 md:h-8 bg-white rounded-lg shadow-md border border-gray-200
                          flex items-center justify-center text-gray-500
                          hover:border-[#038dd3] hover:text-[#038dd3]
                          transition-all duration-200 focus:outline-none">
@@ -794,7 +817,7 @@ const BASE_MAPS: BaseMap[] = [
                 <!-- Home / Reset -->
                 <button (click)="resetMapView()"
                   matTooltip="Restablecer vista" matTooltipClass="custom-tooltip"
-                  class="map-ctrl-btn w-8 h-8 bg-white rounded-lg shadow-md border border-gray-200
+                  class="map-ctrl-btn w-9 h-9 md:w-8 md:h-8 bg-white rounded-lg shadow-md border border-gray-200
                          flex items-center justify-center text-gray-500
                          hover:border-[#038dd3] hover:text-[#038dd3]
                          transition-all duration-200 focus:outline-none">
@@ -808,14 +831,13 @@ const BASE_MAPS: BaseMap[] = [
                 <div class="relative">
                   <button (click)="toggleBaseMapMenu()"
                     matTooltip="Cambiar mapa base" matTooltipClass="custom-tooltip"
-                    class="map-ctrl-btn w-8 h-8 rounded-lg shadow-md border
+                    class="map-ctrl-btn w-9 h-9 md:w-8 md:h-8 rounded-lg shadow-md border
                            flex items-center justify-center
                            transition-all duration-200 focus:outline-none"
                     [style]="showBaseMapMenu()
                       ? 'background:#038dd3;border-color:#038dd3;color:#fff'
                       : 'background:#fff;border-color:#e5e7eb;color:#6b7280'"
                     [class.hover:border-blue-400]="!showBaseMapMenu()">
-                    <!-- Layers icon -->
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                       <polygon points="12 2 2 7 12 12 22 7 12 2"/>
                       <polyline points="2 17 12 22 22 17"/>
@@ -823,7 +845,6 @@ const BASE_MAPS: BaseMap[] = [
                     </svg>
                   </button>
 
-                  <!-- Dropdown de mapas base -->
                   @if (showBaseMapMenu()) {
                     <div class="absolute right-10 top-0 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                          style="width:148px; animation: dropdownIn 0.15s ease-out forwards">
@@ -835,7 +856,7 @@ const BASE_MAPS: BaseMap[] = [
                         @for (bm of BASE_MAPS; track bm.key) {
                           <button
                             (click)="setBaseMap(bm.key)"
-                            class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs font-semibold
+                            class="w-full flex items-center gap-2 px-2 py-2 md:py-1.5 rounded-lg text-xs font-semibold
                                    transition-all duration-150 focus:outline-none mb-0.5"
                             [style]="activeBaseMap() === bm.key
                               ? 'background:#e8f4fb;color:#038dd3'
@@ -883,12 +904,12 @@ const BASE_MAPS: BaseMap[] = [
 
               @if (mapRegions().length > 0) {
 
-                <!-- Tooltip coroplético -->
+                <!-- Tooltip coroplético — adaptado para móvil -->
                 <div class="absolute top-14 right-3 z-20 pointer-events-none"
                      style="animation: fadeIn 0.15s ease-out">
                   @if (hoveredRegion() || selectedRegion()) {
-                    <div class="bg-gray-900/95 text-white p-3 rounded-xl shadow-2xl
-                                min-w-[160px] max-w-[200px] border border-[#038dd3]/40">
+                    <div class="bg-gray-900/95 text-white p-2.5 md:p-3 rounded-xl shadow-2xl
+                                min-w-[150px] max-w-[180px] md:max-w-[200px] border border-[#038dd3]/40">
                       <div class="text-[8px] uppercase font-black tracking-widest mb-0.5"
                            style="color:#5ec4f5">
                         {{ nivelGeo() === 'Departamental' ? 'Departamento' : nivelGeo() === 'Provincial' ? 'Provincia' : 'Distrito' }}
@@ -956,7 +977,7 @@ const BASE_MAPS: BaseMap[] = [
                   }
                 </div>
 
-                <!-- ── Mapa base: cubre 100% del div, georeferenciado ── -->
+                <!-- ── Mapa base ── -->
                 @if (activeBaseMap() && settledBasemapUrl()) {
                   <img [src]="settledBasemapUrl()"
                        class="absolute inset-0 w-full h-full"
@@ -970,7 +991,7 @@ const BASE_MAPS: BaseMap[] = [
                   }
                 }
 
-                <!-- SVG del mapa: absolute, llena el contenedor, viewBox expandido -->
+                <!-- SVG del mapa -->
                 <svg
                   [attr.viewBox]="svgViewBox()"
                   class="absolute inset-0 w-full h-full"
@@ -1058,19 +1079,51 @@ const BASE_MAPS: BaseMap[] = [
 
             <!-- Nota metodológica -->
             <div class="shrink-0 border-t border-gray-100 bg-gray-50/80 px-3 py-2 text-[9px] text-gray-500 leading-relaxed">
-            <span class="font-black text-gray-600">Nota:</span><br>
-            <div class="mt-1">
+              <span class="font-black text-gray-600">Nota:</span><br>
+              <div class="mt-1">
                 1/ Comprende los 43 distritos de la provincia de Lima.<br>
                 2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí, Huaura, Oyón y Yauyos.<br>
                 3/ Los números entre paréntesis de la leyenda corresponden al número de DEPARTAMENTOS que se encuentran en el rango.
-            </div>
+              </div>
             </div>
 
           </div><!-- /mapa card -->
 
         </div><!-- /panel derecho -->
 
-      </div><!-- /main 40/60 -->
+      </div><!-- /main layout -->
+
+      <!-- ══ FAB MÓVIL: Abrir panel de indicadores ══════════════════════════
+           Solo visible en móvil (md:hidden), fijo en la esquina inferior derecha
+      ══════════════════════════════════════════════════════════════════════ -->
+      <button
+        class="md:hidden fixed bottom-5 right-4 z-40 flex items-center gap-2
+               px-4 py-3 rounded-full shadow-xl font-bold text-sm text-white
+               transition-transform duration-200 active:scale-95"
+        style="background:linear-gradient(135deg,#038dd3,#0056a1);box-shadow:0 6px 20px rgba(3,141,211,0.5)"
+        (click)="toggleMobilePanel($event)">
+        <!-- Icono filtro/lista -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        <span>Indicadores</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="w-3.5 h-3.5 transition-transform"
+             [class.rotate-180]="mobilePanelOpen()">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </button>
+
+      <!-- Backdrop oscuro detrás del panel móvil -->
+      @if (mobilePanelOpen()) {
+        <div class="md:hidden fixed inset-0 bg-black/40 z-30 backdrop-blur-[2px]"
+             style="animation: fadeIn 0.2s ease-out"
+             (click)="mobilePanelOpen.set(false)"></div>
+      }
 
     </section>
     `,
@@ -1081,6 +1134,55 @@ const BASE_MAPS: BaseMap[] = [
         overflow: hidden;
     }
 
+    /* ── Panel izquierdo responsive ─────────────────────────────────────────
+       Móvil (< 768px): bottom sheet deslizable desde abajo
+       Desktop (≥ 768px): columna fija lateral
+    ──────────────────────────────────────────────────────────────────────── */
+    .geo-left-panel {
+        /* Mobile: bottom sheet */
+        position: fixed;
+        inset-inline: 0;
+        bottom: 0;
+        z-index: 40;
+        width: 100%;
+        max-height: 0;
+        height: 0;
+        background: #fff;
+        border-radius: 1.25rem 1.25rem 0 0;
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.14);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: height 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+                    max-height 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+        border-right: none;
+    }
+
+    .geo-left-panel.mobile-open {
+        height: 74vh;
+        max-height: 74vh;
+    }
+
+    @media (min-width: 768px) {
+        .geo-left-panel {
+            /* Desktop: columna lateral estática */
+            position: relative;
+            inset-inline: auto;
+            bottom: auto;
+            z-index: auto;
+            width: 40%;
+            min-width: 280px;
+            max-width: 400px;
+            height: auto !important;
+            max-height: none !important;
+            border-radius: 0;
+            box-shadow: none;
+            border-right: 1px solid #e5e7eb;
+            transition: none;
+        }
+    }
+
+    /* ── Tooltip Angular Material ───────────────────────────────────────── */
     ::ng-deep .custom-tooltip {
         background-color: white !important;
         color: #333 !important;
@@ -1101,7 +1203,7 @@ const BASE_MAPS: BaseMap[] = [
         to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Scrollbar elegante en contenedores de indicadores */
+    /* ── Scrollbars elegantes ──────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 999px; }
@@ -1116,6 +1218,16 @@ const BASE_MAPS: BaseMap[] = [
     }
     .census-toggle-btn {
         user-select: none;
+    }
+
+    /* ── Mejoras touch en móvil ────────────────────────────────────────── */
+    @media (max-width: 767px) {
+        .map-ctrl-btn {
+            touch-action: manipulation;
+        }
+        .geo-dropdown-btn {
+            touch-action: manipulation;
+        }
     }
     `]
 })
@@ -1132,6 +1244,10 @@ export class GeoportalComponent implements OnInit, AfterViewInit, OnDestroy {
         { label: 'Normatividad censal',        route: '/normativa' },
         { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
     ];
+
+    // ── Panel móvil (bottom sheet) ──────────────────────────────────────────
+    mobilePanelOpen = signal(false);
+    toggleMobilePanel(e?: Event) { e?.stopPropagation(); this.mobilePanelOpen.update(v => !v); }
 
     @HostListener('document:click')
     onDocumentClick() {
