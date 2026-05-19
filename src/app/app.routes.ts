@@ -9,6 +9,7 @@ import { DashboardTerritorialComponent} from './components/dashboard/dashboard-t
 import { DashboardEvolucionComponent} from './components/dashboard/dashboard-evolucion'
 import { DashboardTematicoComponent} from './components/dashboard/dashboard-tematico'
 import {DescargaDatosComponent} from './components/descarga/descarga-datos'
+import {GeoportalComponent} from './components/geoportal/geoportal'
 
 // SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
@@ -24,6 +25,7 @@ export const routes: Routes = [
   { path: 'dashboard-evolucion', component: DashboardEvolucionComponent},
   { path: 'dashboard-tematico', component: DashboardTematicoComponent},
   { path: 'descarga-datos', component: DescargaDatosComponent},
+  { path: 'geoportal', component: GeoportalComponent},
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {
