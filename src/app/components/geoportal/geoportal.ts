@@ -452,7 +452,7 @@ const BASE_MAPS: BaseMap[] = [
             ? 'background:#038dd3;color:#fff;box-shadow:0 4px 12px rgba(3,141,211,0.35)'
             : 'background:#e8f4fb;color:#038dd3;box-shadow:none'">
           <app-hero-icon [name]="'globe-americas'" class="w-4 h-4 shrink-0"></app-hero-icon>
-          <span>Com. indígenas</span>
+          <span>Comunidades indígenas</span>
           @if (censusType() !== 'comunidades_indigenas') {
             <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 bg-[#038dd3] pointer-events-none rounded-lg"></span>
           }
@@ -1034,24 +1034,7 @@ const BASE_MAPS: BaseMap[] = [
                       >{{ r.name }}</text>
                     }
                   }
-                  @if (nivelGeo() === 'Distrital') {
-                    @for (r of mapRegions(); track r.geoKey) {
-                      <text
-                        [attr.x]="r.center.x"
-                        [attr.y]="r.center.y"
-                        text-anchor="middle"
-                        dominant-baseline="middle"
-                        font-size="3.5"
-                        font-weight="700"
-                        fill="#000000"
-                        stroke="#ffffff"
-                        stroke-width="1.5"
-                        paint-order="stroke fill"
-                        [attr.opacity]="getLabelOpacity(r)"
-                        style="pointer-events:none; user-select:none; font-family:-apple-system,sans-serif"
-                      >{{ r.name }}</text>
-                    }
-                  }
+
                 </svg>
 
                 <!-- Leyenda coroplética -->
