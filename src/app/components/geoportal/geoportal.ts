@@ -69,6 +69,18 @@ interface IndicatorCategory {
     themes: ThemeGroup[];
 }
 
+// ── Ficha técnica ─────────────────────────────────────────────────────────────
+interface FichaTecnica {
+    nombre: string;
+    definicion: string;
+    formaCalculo: string;
+    interpretacion: string;
+    unidadMedida: string;
+    nivelesDesagregacion: string;
+    relacionPoliticas: string;
+    fuenteInformacion: string;
+}
+
 // ── Census / nivel types ──────────────────────────────────────────────────────
 type CensusType = 'poblacion_vivienda' | 'comunidades_indigenas';
 export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
@@ -100,6 +112,169 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
     '23':{ pob_censada:315000, edad_promedio:33.4,razon_sexo:100.8,densidad_total:3.6 },
     '24':{ pob_censada:489000, edad_promedio:30.6,razon_sexo:103.4,densidad_total:2.1 },
     '25':{ pob_censada:221000, edad_promedio:28.8,razon_sexo:105.6,densidad_total:0.9 },
+};
+
+const FICHA_TECNICA_DATA: Record<string, FichaTecnica> = {
+    default: {
+        nombre: 'Indicador censal',
+        definicion: 'Indicador obtenido a partir del Censo de Población y Vivienda 2017.',
+        formaCalculo: 'Se obtiene del procesamiento de las boletas censales aplicadas a la población.',
+        interpretacion: 'Permite conocer las características de la población y sus condiciones de vida.',
+        unidadMedida: 'Personas / Porcentaje',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'Alineado con los Objetivos de Desarrollo Sostenible (ODS) de las Naciones Unidas y las políticas nacionales del CEPLAN.',
+        fuenteInformacion: 'Instituto Nacional de Estadística e Informática (INEI) – Censo Nacional de Población y Vivienda 2017.',
+    },
+    pob_censada: {
+        nombre: 'Población censada',
+        definicion: 'Total de personas empadronadas en sus viviendas durante el operativo censal en el ámbito geográfico de referencia.',
+        formaCalculo: 'Conteo directo del número de personas registradas en las boletas censales dentro del área geográfica.',
+        interpretacion: 'Indica el tamaño demográfico del territorio. Valores más altos reflejan mayor concentración poblacional.',
+        unidadMedida: 'Personas',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 11 (Ciudades sostenibles). Vinculado al Plan Bicentenario y la política de ordenamiento territorial del CEPLAN.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    pob_hombres: {
+        nombre: 'Población censada hombres',
+        definicion: 'Total de personas de sexo masculino empadronadas en el operativo censal.',
+        formaCalculo: 'Conteo de personas cuyo sexo registrado en la boleta es masculino.',
+        interpretacion: 'Permite identificar la distribución por sexo de la población y analizar brechas de género.',
+        unidadMedida: 'Personas',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 5 (Igualdad de género). Política Nacional de Género.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    pob_mujeres: {
+        nombre: 'Población censada mujeres',
+        definicion: 'Total de personas de sexo femenino empadronadas en el operativo censal.',
+        formaCalculo: 'Conteo de personas cuyo sexo registrado en la boleta es femenino.',
+        interpretacion: 'Permite identificar la distribución por sexo y analizar brechas de género en el territorio.',
+        unidadMedida: 'Personas',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 5 (Igualdad de género). Política Nacional de Género y Plan de Igualdad de Género.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    edad_promedio: {
+        nombre: 'Edad promedio',
+        definicion: 'Promedio aritmético de las edades de la población censada en un ámbito geográfico determinado.',
+        formaCalculo: 'Sumatoria de las edades de todas las personas censadas dividida entre el total de la población censada.',
+        interpretacion: 'Refleja la estructura etaria media de la población. Valores altos indican envejecimiento poblacional; valores bajos señalan predominio de población joven.',
+        unidadMedida: 'Años',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 3 (Salud y bienestar). Vinculado al Plan Nacional para las Personas Adultas Mayores y las políticas de salud del MINSA.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    edad_mediana: {
+        nombre: 'Edad mediana',
+        definicion: 'Valor de edad que divide a la población en dos grupos iguales: la mitad tiene una edad menor y la otra mitad mayor.',
+        formaCalculo: 'Se obtiene ordenando las edades de la población de menor a mayor y seleccionando el valor central.',
+        interpretacion: 'Indica el punto de equilibrio etario de la población. Es más robusta que la edad promedio ante distribuciones asimétricas.',
+        unidadMedida: 'Años',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 3 (Salud y bienestar). Política de atención integral del ciclo de vida.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    razon_sexo: {
+        nombre: 'Razón hombre – mujer',
+        definicion: 'Número de hombres por cada 100 mujeres en la población censada.',
+        formaCalculo: '(Población masculina / Población femenina) × 100.',
+        interpretacion: 'Valores superiores a 100 indican predominio masculino; valores inferiores a 100, predominio femenino. Puede revelar fenómenos migratorios o contextos específicos.',
+        unidadMedida: 'Hombres por cada 100 mujeres',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 5 (Igualdad de género). Política Nacional de Igualdad de Género.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    densidad_total: {
+        nombre: 'Densidad de la población censada',
+        definicion: 'Número de personas censadas por unidad de superficie (km²) en el ámbito geográfico de referencia.',
+        formaCalculo: 'Población censada total / Superficie territorial en km².',
+        interpretacion: 'Mide la concentración poblacional. Valores altos indican alta concentración; valores bajos señalan territorios dispersos con posibles brechas en acceso a servicios.',
+        unidadMedida: 'Habitantes por km²',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 11 (Ciudades y comunidades sostenibles). Plan Nacional de Ordenamiento Territorial.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    tasa_alfabetismo: {
+        nombre: 'Tasa de alfabetismo',
+        definicion: 'Porcentaje de la población de 15 y más años de edad que sabe leer y escribir.',
+        formaCalculo: '(Población de 15 y más años que sabe leer y escribir / Total de población de 15 y más años) × 100.',
+        interpretacion: 'Valores cercanos al 100% indican alto nivel de alfabetización. Valores bajos reflejan rezago educativo y están asociados a condiciones de pobreza.',
+        unidadMedida: 'Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 4 (Educación de calidad). Política Nacional de Educación y Programa Nacional de Movilización por la Alfabetización (PRONAMA).',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    viviendas_censadas: {
+        nombre: 'Viviendas censadas',
+        definicion: 'Total de unidades de vivienda particulares y colectivas empadronadas durante el operativo censal.',
+        formaCalculo: 'Conteo directo del número de viviendas registradas en las boletas censales.',
+        interpretacion: 'Refleja la oferta habitacional del territorio. Permite analizar el déficit cuantitativo de vivienda.',
+        unidadMedida: 'Viviendas',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 11 (Ciudades sostenibles). Plan Nacional de Vivienda y Política Nacional de Vivienda.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    hogares_censados: {
+        nombre: 'Hogares censados',
+        definicion: 'Conjunto de personas que habitan bajo el mismo techo y comparten los alimentos, empadronadas durante el censo.',
+        formaCalculo: 'Conteo de grupos de personas que conviven en la misma unidad habitacional y comparten gastos de alimentación.',
+        interpretacion: 'Permite analizar la estructura familiar y las condiciones de vida de los hogares en el territorio.',
+        unidadMedida: 'Hogares',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 1 (Fin de la pobreza), ODS 10 (Reducción de desigualdades). Plan Nacional de Superación de la Pobreza.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    acceso_agua: {
+        nombre: 'Acceso a agua',
+        definicion: 'Porcentaje de viviendas que disponen de abastecimiento de agua potable procedente de red pública dentro de la vivienda.',
+        formaCalculo: '(Viviendas con acceso a red pública de agua dentro de la vivienda / Total de viviendas ocupadas) × 100.',
+        interpretacion: 'Valores altos reflejan mejor cobertura de servicios básicos. Valores bajos señalan necesidades insatisfechas en infraestructura de saneamiento.',
+        unidadMedida: 'Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 6 (Agua limpia y saneamiento). Plan Nacional de Saneamiento y Política Nacional de Saneamiento.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    energia_electrica: {
+        nombre: 'Energía eléctrica',
+        definicion: 'Porcentaje de viviendas que cuentan con alumbrado eléctrico por red pública.',
+        formaCalculo: '(Viviendas con alumbrado eléctrico por red pública / Total de viviendas ocupadas) × 100.',
+        interpretacion: 'Indicador de cobertura de servicios energéticos. Valores bajos reflejan brechas en infraestructura, especialmente en zonas rurales.',
+        unidadMedida: 'Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 7 (Energía asequible y no contaminante). Plan Nacional de Electrificación Rural.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    migrante_interno: {
+        nombre: 'Población censada migrante interna reciente',
+        definicion: 'Población que 5 años antes del censo residía en un lugar diferente al de su residencia actual dentro del territorio nacional.',
+        formaCalculo: '(Personas que residían en lugar diferente 5 años antes del censo / Total de población censada de 5 y más años) × 100.',
+        interpretacion: 'Mide la movilidad interna de la población. Zonas con alta inmigración pueden indicar polos de atracción económica; alta emigración señala territorios expulsores.',
+        unidadMedida: 'Personas / Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 10 (Reducción de desigualdades), ODS 11 (Ciudades sostenibles). Política Nacional de Desarrollo e Inclusión Social.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    pob_discapacidad: {
+        nombre: 'Población censada con discapacidad',
+        definicion: 'Personas que declaran tener dificultad permanente para realizar actividades cotidianas por limitación física, mental o sensorial.',
+        formaCalculo: '(Personas con al menos una discapacidad declarada / Total de población censada) × 100.',
+        interpretacion: 'Permite identificar la magnitud de la población con discapacidad para orientar políticas de inclusión y accesibilidad.',
+        unidadMedida: 'Personas / Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 10 (Reducción de desigualdades). Política Nacional Multisectorial en Discapacidad y Ley N.° 29973.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
+    conexion_internet: {
+        nombre: 'Conexión a internet',
+        definicion: 'Porcentaje de hogares que cuentan con acceso a internet en la vivienda.',
+        formaCalculo: '(Hogares con acceso a internet / Total de hogares censados) × 100.',
+        interpretacion: 'Refleja el nivel de conectividad digital del hogar. Valores bajos indican brecha digital con impacto en educación, empleo y acceso a servicios.',
+        unidadMedida: 'Porcentaje (%)',
+        nivelesDesagregacion: 'Nacional, departamental, provincial y distrital.',
+        relacionPoliticas: 'ODS 9 (Industria, innovación e infraestructura), ODS 4 (Educación de calidad). Agenda Digital Peruana.',
+        fuenteInformacion: 'INEI – Censo Nacional de Población y Vivienda 2017.',
+    },
 };
 
 const PALETTE = ['#caeae4','#86cec0','#33b3a9','#2d9b90','#4c8c80'];
@@ -772,19 +947,41 @@ const BASE_MAPS: BaseMap[] = [
                  class="flex-1 relative min-h-0 overflow-hidden"
                  [style]="activeBaseMap() ? '' : 'background:#ffffff'">
 
-              <!-- ─── Panel superior izquierdo: nombre geo + valor + indicador ─── -->
-              <div class="absolute top-3 left-3 z-10 pointer-events-none select-none
-                          bg-white/90 backdrop-blur-sm rounded-xl px-2.5 py-2 shadow-md border border-gray-100"
-                   style="min-width:120px;max-width:180px">
-                <div class="text-[9px] font-black tracking-wide mb-0.5" style="color:#038dd3">
-                  {{ mapGeoDisplayTitle() }}
+              <!-- ─── Panel superior izquierdo: nombre geo + valor + indicador + botón ficha ─── -->
+              <div class="absolute top-3 left-3 z-10 flex flex-col gap-1.5"
+                   (click)="$event.stopPropagation()">
+
+                <!-- Tarjeta info -->
+                <div class="select-none pointer-events-none
+                            bg-white/90 backdrop-blur-sm rounded-xl px-2.5 py-2 shadow-md border border-gray-100"
+                     style="min-width:120px;max-width:180px">
+                  <div class="text-[9px] font-black tracking-wide mb-0.5" style="color:#038dd3">
+                    {{ mapGeoDisplayTitle() }}
+                  </div>
+                  <div class="text-base md:text-lg font-black text-gray-900 leading-none tracking-tighter">
+                    {{ mapDisplayValue() }}
+                  </div>
+                  <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5 leading-tight">
+                    {{ activeIndicatorLabel() }}
+                  </div>
                 </div>
-                <div class="text-base md:text-lg font-black text-gray-900 leading-none tracking-tighter">
-                  {{ mapDisplayValue() }}
-                </div>
-                <div class="text-[9px] font-bold text-gray-400 tracking-wide mt-0.5 leading-tight">
-                  {{ activeIndicatorLabel() }}
-                </div>
+
+                <!-- Botón icono ficha técnica -->
+                <button (click)="openFicha()"
+                  matTooltip="Ver ficha técnica" matTooltipClass="custom-tooltip"
+                  class="map-ctrl-btn w-9 h-9 md:w-8 md:h-8 bg-white rounded-lg shadow-md border border-gray-200
+                         flex items-center justify-center
+                         hover:border-[#038dd3] hover:text-[#038dd3]
+                         transition-all duration-200 focus:outline-none"
+                  style="color:#6b7280">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </button>
+
               </div>
 
               <!-- ─── Controles del mapa: Zoom / Home / Capas ─── -->
@@ -1108,6 +1305,74 @@ const BASE_MAPS: BaseMap[] = [
              (click)="mobilePanelOpen.set(false)"></div>
       }
 
+      <!-- ══ MODAL FICHA TÉCNICA ══════════════════════════════════════════════ -->
+      @if (fichaOpen()) {
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4"
+             style="background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);animation:fadeIn 0.18s ease-out"
+             (click)="closeFicha()">
+          <div class="bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+               style="width:100%;max-width:600px;max-height:90vh;animation:dropdownIn 0.2s ease-out"
+               (click)="$event.stopPropagation()">
+
+            <!-- Cabecera del modal -->
+            <div class="h-1.5 w-full shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+            <div class="px-5 pt-4 pb-3 border-b border-gray-100 shrink-0">
+              <div class="text-[9px] font-black tracking-widest uppercase mb-0.5" style="color:#038dd3">
+                FICHA TÉCNICA
+              </div>
+              <p class="text-sm font-black text-gray-900 leading-snug">
+                {{ activeFicha().nombre }}
+              </p>
+              <!-- Botones superiores -->
+              <div class="flex items-center gap-2 mt-3">
+                <button (click)="downloadFichaPdf()"
+                  class="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg
+                         transition-colors focus:outline-none hover:opacity-80"
+                  style="background:#038dd3;color:#fff">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 shrink-0">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Descargar PDF
+                </button>
+                <button (click)="closeFicha()"
+                  class="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg
+                         border border-gray-200 transition-colors focus:outline-none hover:bg-gray-50"
+                  style="color:#6b7280">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                       stroke-linecap="round" class="w-3.5 h-3.5 shrink-0">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Cerrar
+                </button>
+              </div>
+            </div>
+
+            <!-- Cuerpo scrolleable -->
+            <div class="overflow-y-auto px-5 py-4 flex flex-col gap-4">
+              @for (campo of fichaFields(); track campo.key) {
+                <div class="flex flex-col gap-0.5">
+                  <div class="text-[9px] font-black uppercase tracking-widest" style="color:#038dd3">
+                    {{ campo.label }}
+                  </div>
+                  <p class="text-xs text-gray-700 leading-relaxed">{{ campo.value }}</p>
+                </div>
+              }
+            </div>
+
+            <!-- Pie -->
+            <div class="px-5 py-2.5 border-t border-gray-100 shrink-0 flex items-center justify-between">
+              <span class="text-[8px] text-gray-400 font-semibold">INEI – Geoportal Censal 2017</span>
+              <button (click)="closeFicha()"
+                class="text-[9px] font-bold px-3 py-1 rounded-lg focus:outline-none hover:opacity-80"
+                style="background:#f3f4f6;color:#6b7280">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      }
+
     </section>
     `,
     styles: [`
@@ -1211,6 +1476,12 @@ const BASE_MAPS: BaseMap[] = [
         .geo-dropdown-btn {
             touch-action: manipulation;
         }
+    }
+
+    /* ── Impresión de ficha técnica ──────────────────────────────────── */
+    @media print {
+        :host > * { display: none !important; }
+        .ficha-print-area { display: block !important; }
     }
     `]
 })
@@ -1421,6 +1692,54 @@ export class GeoportalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     setActiveIndicatorItem(key: string): void {
         this.activeIndicatorKey.set(key);
+    }
+
+    // ── Ficha técnica modal ──────────────────────────────────────────────────
+    fichaOpen = signal(false);
+
+    openFicha()  { this.fichaOpen.set(true); }
+    closeFicha() { this.fichaOpen.set(false); }
+
+    activeFicha = computed<FichaTecnica>(() => {
+        const key = this.activeIndicatorKey();
+        return FICHA_TECNICA_DATA[key] ?? FICHA_TECNICA_DATA['default'];
+    });
+
+    fichaFields = computed(() => {
+        const f = this.activeFicha();
+        return [
+            { key: 'nombre',               label: 'Nombre',                           value: f.nombre },
+            { key: 'definicion',           label: 'Definición',                       value: f.definicion },
+            { key: 'formaCalculo',         label: 'Forma de cálculo',                 value: f.formaCalculo },
+            { key: 'interpretacion',       label: 'Interpretación',                   value: f.interpretacion },
+            { key: 'unidadMedida',         label: 'Unidad de medida',                 value: f.unidadMedida },
+            { key: 'nivelesDesagregacion', label: 'Niveles de desagregación',         value: f.nivelesDesagregacion },
+            { key: 'relacionPoliticas',    label: 'Relación con políticas nacionales y ODS', value: f.relacionPoliticas },
+            { key: 'fuenteInformacion',    label: 'Fuente de información',            value: f.fuenteInformacion },
+        ];
+    });
+
+    downloadFichaPdf(): void {
+        if (!this.isBrowser) return;
+        const ficha = this.activeFicha();
+        const rows = this.fichaFields().map(f =>
+            `<tr><td style="font-weight:700;color:#038dd3;font-size:10px;padding:6px 10px;border-bottom:1px solid #f3f4f6;white-space:nowrap;vertical-align:top">${f.label}</td>` +
+            `<td style="font-size:11px;color:#374151;padding:6px 10px;border-bottom:1px solid #f3f4f6">${f.value}</td></tr>`
+        ).join('');
+        const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Ficha Técnica – ${ficha.nombre}</title>
+        <style>body{font-family:-apple-system,sans-serif;margin:0;padding:24px;color:#111}
+        h1{font-size:15px;font-weight:900;margin:0 0 4px}
+        .sub{font-size:9px;font-weight:700;color:#038dd3;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+        table{width:100%;border-collapse:collapse}
+        @media print{button{display:none}}</style></head>
+        <body><div style="height:4px;background:linear-gradient(to right,#038dd3,#33b3a9);margin-bottom:16px;border-radius:2px"></div>
+        <div class="sub">FICHA TÉCNICA – INEI Geoportal Censal 2017</div>
+        <h1>${ficha.nombre}</h1><br>
+        <table>${rows}</table>
+        <script>window.onload=()=>{window.print();}<\/script></body></html>`;
+        const blob = new Blob([html], { type: 'text/html' });
+        const url  = URL.createObjectURL(blob);
+        window.open(url, '_blank', 'width=700,height=800');
     }
 
     // ── Mapa base + ResizeObserver ────────────────────────────────────────────
