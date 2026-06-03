@@ -851,7 +851,7 @@ export class ComparativaTerritorialComponent {
     navSections: { id: string; label: string; icon: string; route?: string }[] = [
         { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
         { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
-        { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
+     
     ];
     activeSection = signal<string>('poblacion_total');
     setActiveSection(id: string): void { this.activeSection.set(id); }

@@ -100,13 +100,13 @@ import { RouterLink } from '@angular/router';
           </p>
         </div>
 
-        <!-- Grid de tarjetas-botón -->
-        <div class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <!-- Grid de tarjetas-botón: fila 1 = 2 cards centrados, fila 2 = 3 cards -->
+        <div class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5 md:gap-6">
 
-          <!-- ① Indicadores de población total -->
-          <button routerLink="/resultados" class="group card-btn border-t-4 border-[#0056a1]">
+          <!-- ① Indicadores de población total — fila 1, izquierda -->
+          <button routerLink="/resultados"
+                  class="group card-btn border-t-4 border-[#0056a1] lg:col-start-3 lg:col-span-4">
             <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
-              <!-- Hero Icon: chart-bar -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#0056a1] group-hover:text-white transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -118,10 +118,10 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
-          <!-- ② Indicadores de población y viviendas censadas -->
-          <button routerLink="/dashboard-censada" class="group card-btn border-t-4 border-[#038dd3]">
+          <!-- ② Indicadores de población y viviendas censadas — fila 1, derecha -->
+          <button routerLink="/dashboard-censada"
+                  class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
             <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
-              <!-- Hero Icon: building-office (vivienda + personas) -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#038dd3] group-hover:text-white transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -133,25 +133,10 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 
-          <!-- ③ Indicadores de comunidades indígenas -->
-          <button routerLink="/resultados/comunidades-indigenas" class="group card-btn border-t-4 border-[#33b3a9]">
-            <div class="icon-wrap bg-[#33b3a9]/10 group-hover:bg-[#33b3a9] transition-colors duration-300">
-              <!-- Hero Icon: globe-alt -->
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                   stroke="currentColor" class="w-7 h-7 text-[#33b3a9] group-hover:text-white transition-colors duration-300">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12a8.959 8.959 0 01.284-2.253m0 0A11.953 11.953 0 0112 10.5" />
-              </svg>
-            </div>
-            <span class="card-label">Indicadores de Comunidades Indígenas</span>
-            <span class="card-sub">Datos de pueblos y comunidades originarias del Perú</span>
-            <span class="card-arrow text-[#33b3a9]">→</span>
-          </button>
-
-          <!-- ④ Geoportal -->
-          <button routerLink="/geoportal" class="group card-btn border-t-4 border-[#0056a1]">
+          <!-- ③ Geoportal — fila 2 -->
+          <button routerLink="/geoportal"
+                  class="group card-btn border-t-4 border-[#0056a1] lg:col-span-4">
             <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
-              <!-- Hero Icon: map -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#0056a1] group-hover:text-white transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -163,10 +148,10 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
-          <!-- ⑤ Descarga de datos -->
-          <button routerLink="/descarga-datos" class="group card-btn border-t-4 border-[#038dd3]">
+          <!-- ④ Descarga de datos — fila 2 -->
+          <button routerLink="/descarga-datos"
+                  class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
             <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
-              <!-- Hero Icon: arrow-down-tray -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#038dd3] group-hover:text-white transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -178,10 +163,10 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 
-          <!-- ⑥ Documentación y asistencia -->
-          <button routerLink="/documentacion-tecnica" class="group card-btn border-t-4 border-[#33b3a9]">
+          <!-- ⑤ Documentación y asistencia — fila 2 -->
+          <button routerLink="/documentacion-tecnica"
+                  class="group card-btn border-t-4 border-[#33b3a9] lg:col-span-4">
             <div class="icon-wrap bg-[#33b3a9]/10 group-hover:bg-[#33b3a9] transition-colors duration-300">
-              <!-- Hero Icon: question-mark-circle -->
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#33b3a9] group-hover:text-white transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -192,8 +177,6 @@ import { RouterLink } from '@angular/router';
             <span class="card-sub">Glosarios, metodología y soporte técnico al usuario</span>
             <span class="card-arrow text-[#33b3a9]">→</span>
           </button>
-
-          <!-- PLACEHOLDER (mantiene alineación en grids de 3 columnas si se agregan más) -->
 
         </div><!-- /Grid -->
 

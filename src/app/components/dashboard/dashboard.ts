@@ -114,7 +114,30 @@ const MOCK_DEP: Record<string, Record<string, number>> = {
 const PALETTE = ['#caeae4','#86cec0','#33b3a9','#2d9b90','#4c8c80'];
 //const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
 
-export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
+export type NivelGeoType   = 'Departamental' | 'Provincial' | 'Distrital';
+export type NivelFiltroType = 'region_natural' | 'departamental' | 'provincial' | 'distrital';
+
+const REGIONES_NATURALES: { key: string; label: string; color: string; ccddList: string[] }[] = [
+    { key: 'costa',  label: 'Costa',  color: '#0056a1', ccddList: ['07','11','13','14','15','20','24'] },
+    { key: 'sierra', label: 'Sierra', color: '#038dd3', ccddList: ['02','03','04','05','06','08','09','10','12','18','19','21','23'] },
+    { key: 'selva',  label: 'Selva',  color: '#33b3a9', ccddList: ['01','16','17','22','25'] },
+];
+
+export type AreaFiltroType = 'total' | 'urbano' | 'rural';
+
+// Factores de área sobre valores de población (fracciones aproximadas Perú 2017)
+const AREA_POP_FACTORS: Record<AreaFiltroType, { pop: number; male: number; female: number; density: number }> = {
+    total:  { pop: 1.000, male: 1.000, female: 1.000, density: 1.000 },
+    urbano: { pop: 0.774, male: 0.768, female: 0.780, density: 1.820 },
+    rural:  { pop: 0.226, male: 0.232, female: 0.220, density: 0.180 },
+};
+
+// Ajustes aditivos sobre indicadores de tasa/ratio por área
+const AREA_RATE_DELTA: Record<AreaFiltroType, Partial<Record<string, number>>> = {
+    total:  {},
+    urbano: { edad_promedio:+2.3, edad_mediana:+2.1, razon_sexo:-3.2,  indice_envejecimiento:+8.2,  dep_total:-5.3, dep_juvenil:-4.1, dep_adulta:-1.2, densidad_65:+2.8 },
+    rural:  { edad_promedio:-1.8, edad_mediana:-2.4, razon_sexo:+8.4,  indice_envejecimiento:-8.2,  dep_total:+5.3, dep_juvenil:+4.1, dep_adulta:+1.2, densidad_65:-1.4 },
+};
 
 const B = { minLon: -81.5, maxLon: -68.5, minLat: -18.5, maxLat: 0.3 };
 const S = { w: 380, h: 550 };
@@ -352,7 +375,136 @@ const S = { w: 380, h: 550 };
 
           <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
-          <!-- ★ Departamento -->
+          <!-- ── Dropdown selector de nivel geográfico ── -->
+          <div class="relative shrink-0" (click)="$event.stopPropagation()">
+            <button
+              (click)="openNivelDropdown.update(v => !v)"
+              class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold
+                     transition-all duration-200 focus:outline-none border"
+              [style]="openNivelDropdown()
+                ? 'background:' + activeNivelDef().color + '; color:#fff; border-color:' + activeNivelDef().color
+                : 'background:#f9fafb; color:#374151; border-color:#e5e7eb'">
+              <app-hero-icon [name]="activeNivelDef().icon"
+                class="w-3.5 h-3.5 shrink-0 transition-colors"></app-hero-icon>
+              <span class="hidden sm:inline whitespace-nowrap">{{ activeNivelDef().label }}</span>
+              <app-hero-icon [name]="'chevron-down'"
+                class="w-3 h-3 shrink-0 transition-transform duration-200"
+                [class.rotate-180]="openNivelDropdown()"></app-hero-icon>
+            </button>
+
+            @if (openNivelDropdown()) {
+              <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                           shadow-xl z-50 overflow-hidden"
+                   style="min-width:188px; animation:dropdownIn 0.15s ease-out"
+                   (click)="$event.stopPropagation()">
+                <div class="h-0.5 w-full"
+                     style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
+                <div class="px-3 pt-2 pb-1">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                    Nivel geográfico
+                  </span>
+                </div>
+                @for (n of NIVELES_FILTRO; track n.key) {
+                  <button
+                    (click)="setNivelFiltro(n.key); openNivelDropdown.set(false)"
+                    class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                           transition-colors duration-150 group"
+                    [class.text-white]="nivelFiltro() === n.key"
+                    [class.text-gray-700]="nivelFiltro() !== n.key"
+                    [class.hover\:bg-gray-50]="nivelFiltro() !== n.key"
+                    [style.background]="nivelFiltro() === n.key ? n.color : ''">
+                    <!-- Indicador de selección -->
+                    <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center transition-colors"
+                      [class.border-white]="nivelFiltro() === n.key"
+                      [style.border-color]="nivelFiltro() !== n.key ? n.color : ''">
+                      @if (nivelFiltro() === n.key) {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <!-- Icono -->
+                    <app-hero-icon [name]="n.icon"
+                      class="w-3.5 h-3.5 shrink-0 transition-colors"
+                      [class.text-white]="nivelFiltro() === n.key"
+                      [style.color]="nivelFiltro() !== n.key ? n.color : ''"></app-hero-icon>
+                    <!-- Etiqueta -->
+                    <span class="font-semibold flex-1">{{ n.label }}</span>
+                  </button>
+                }
+                <div class="h-1"></div>
+              </div>
+            }
+          </div>
+
+          <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
+
+          <!-- ★ Región Natural (solo cuando nivelFiltro === region_natural) -->
+          @if (nivelFiltro() === 'region_natural') {
+            <div class="relative">
+              <button
+                (click)="openRegionDropdown.update(v => !v); $event.stopPropagation()"
+                class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                       text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
+                       min-w-[140px] sm:min-w-[156px] justify-between">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
+                  <span class="text-gray-400 mr-0.5">Región:</span>
+                  <span class="truncate max-w-[72px]">{{ regionNaturalLabel() }}</span>
+                </span>
+                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
+                  [class.rotate-180]="openRegionDropdown()"></app-hero-icon>
+              </button>
+              @if (openRegionDropdown()) {
+                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                             shadow-xl z-50 w-48 overflow-hidden"
+                     (click)="$event.stopPropagation()">
+                  <div class="h-0.5 w-full" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Región natural</span>
+                  </div>
+                  <div>
+                    <button (click)="selectRegionNatural('')"
+                      class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                      [class.text-white]="selectedRegionNatural() === ''"
+                      [class.text-gray-700]="selectedRegionNatural() !== ''"
+                      [class.hover\:bg-teal-50]="selectedRegionNatural() !== ''"
+                      [style.background]="selectedRegionNatural() === '' ? '#33b3a9' : ''">
+                      <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
+                        [class.border-white]="selectedRegionNatural() === ''"
+                        [class.border-gray-300]="selectedRegionNatural() !== ''">
+                        @if (selectedRegionNatural() === '') {
+                          <span class="w-1.5 h-1.5 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-bold italic">Todas las regiones</span>
+                    </button>
+                    @for (rn of REGIONES_NATURALES; track rn.key) {
+                      <button (click)="selectRegionNatural(rn.key)"
+                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors group"
+                        [class.text-white]="selectedRegionNatural() === rn.key"
+                        [class.text-gray-700]="selectedRegionNatural() !== rn.key"
+                        [class.hover\:bg-gray-50]="selectedRegionNatural() !== rn.key"
+                        [style.background]="selectedRegionNatural() === rn.key ? rn.color : ''">
+                        <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
+                          [class.border-white]="selectedRegionNatural() === rn.key"
+                          [style.border-color]="selectedRegionNatural() !== rn.key ? rn.color : ''">
+                          @if (selectedRegionNatural() === rn.key) {
+                            <span class="w-1.5 h-1.5 bg-white rounded-full block"></span>
+                          }
+                        </span>
+                        <span class="font-semibold flex-1">{{ rn.label }}</span>
+                        <span class="w-2 h-2 rounded-full shrink-0 opacity-70"
+                          [style.background]="selectedRegionNatural() !== rn.key ? rn.color : 'rgba(255,255,255,0.6)'">
+                        </span>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ★ Departamento (oculto en región natural) -->
+          @if (nivelFiltro() !== 'region_natural') {
             <div class="relative">
               <button
                 (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
@@ -418,8 +570,10 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
+          }<!-- /if nivelFiltro !== region_natural -->
 
-            <!-- ★ Provincia -->
+          <!-- ★ Provincia (oculta en Región Natural) -->
+          @if (nivelFiltro() !== 'region_natural') {
             <div class="relative">
               <button
                 (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
@@ -498,8 +652,10 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
+          }<!-- /if provincia !== region_natural -->
 
-            <!-- ★ Distrito -->
+          <!-- ★ Distrito (oculto en Región Natural) -->
+          @if (nivelFiltro() !== 'region_natural') {
             <div class="relative">
               <button
                 (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
@@ -578,6 +734,55 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
+          }<!-- /if distrito !== region_natural -->
+
+          <!-- ★ Área (Total / Urbano / Rural) — siempre visible -->
+          <div class="relative shrink-0" (click)="$event.stopPropagation()">
+            <button
+              (click)="openAreaDropdown.update(v => !v)"
+              class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
+                     transition-all duration-200 focus:outline-none border whitespace-nowrap"
+              [style]="openAreaDropdown()
+                ? 'background:#003d7a; color:#fff; border-color:#003d7a'
+                : 'background:#0056a1; color:#fff; border-color:#0056a1'">             
+              <span>{{ areaLabel() }}</span>
+              <app-hero-icon [name]="'chevron-down'"
+                class="w-3 h-3 shrink-0 transition-transform duration-200"
+                [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
+            </button>
+
+            @if (openAreaDropdown()) {
+              <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                           shadow-xl z-50 overflow-hidden"
+                   style="min-width:152px; animation:dropdownIn 0.15s ease-out"
+                   (click)="$event.stopPropagation()">
+                <div class="h-0.5 w-full" style="background:#0056a1"></div>
+                <div class="px-3 pt-2 pb-1">
+                  <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
+                </div>
+                @for (a of AREAS_FILTRO; track a.key) {
+                  <button
+                    (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
+                    class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                           transition-colors duration-150"
+                    [class.text-white]="areaFiltro() === a.key"
+                    [class.text-gray-700]="areaFiltro() !== a.key"
+                    [class.hover\:bg-blue-50]="areaFiltro() !== a.key"
+                    [style.background]="areaFiltro() === a.key ? '#0056a1' : ''">
+                    <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                      [class.border-white]="areaFiltro() === a.key"
+                      [class.border-\[\#0056a1\]]="areaFiltro() !== a.key">
+                      @if (areaFiltro() === a.key) {
+                        <span class="w-2 h-2 bg-white rounded-full block"></span>
+                      }
+                    </span>
+                    <span class="font-semibold flex-1">{{ a.label }}</span>
+                  </button>
+                }
+                <div class="h-1"></div>
+              </div>
+            }
+          </div>
 
           </div><!-- /fila dropdowns -->
         </div><!-- /barra de filtros -->
@@ -1399,6 +1604,10 @@ export class DashboardComponent implements OnInit {
     onDocumentClick() {
         this.censosOpen.set(false);
         this.mobileMenuOpen.set(false);
+        this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.openNivelDropdown.set(false);
+        this.openAreaDropdown.set(false);
     }
 
     toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
@@ -1416,13 +1625,55 @@ export class DashboardComponent implements OnInit {
     // ── Geo selector — nivel + prov + dist ───────────────────────────────
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
 
+    readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
+        { key: 'region_natural', label: 'Región Natural', icon: 'globe-americas', color: '#33b3a9' },
+        { key: 'departamental',  label: 'Departamental',  icon: 'map',            color: '#0056a1' },
+        { key: 'provincial',     label: 'Provincial',     icon: 'home',           color: '#038dd3' },
+        { key: 'distrital',      label: 'Distrital',      icon: 'table-cells',    color: '#1a75aa' },
+    ];
+
+    readonly REGIONES_NATURALES = REGIONES_NATURALES;
+
+    nivelFiltro           = signal<NivelFiltroType>('departamental');
+    selectedRegionNatural = signal<string>('');
+    openRegionDropdown    = signal<boolean>(false);
+    openNivelDropdown     = signal<boolean>(false);
+
+    activeNivelDef = computed(() =>
+        this.NIVELES_FILTRO.find(n => n.key === this.nivelFiltro()) ?? this.NIVELES_FILTRO[1]
+    );
+
+    // ── Filtro de área ────────────────────────────────────────────────────
+    areaFiltro       = signal<AreaFiltroType>('total');
+    openAreaDropdown = signal<boolean>(false);
+
+    readonly AREAS_FILTRO: { key: AreaFiltroType; label: string; icon: string }[] = [
+        { key: 'total',  label: 'Nacional',  icon: '' },
+        { key: 'urbano', label: 'Urbano', icon: '' },
+        { key: 'rural',  label: 'Rural',  icon: '' },
+    ];
+
+    areaLabel = computed(() =>
+        this.AREAS_FILTRO.find(a => a.key === this.areaFiltro())?.label ?? 'Total'
+    );
+
+    private areaPopFactor = computed(() => AREA_POP_FACTORS[this.areaFiltro()]);
+    private areaRateDelta = computed(() => AREA_RATE_DELTA[this.areaFiltro()]);
+
+    regionNaturalLabel = computed(() => {
+        const key = this.selectedRegionNatural();
+        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todas';
+    });
+
     nivelGeo         = signal<NivelGeoType>('Departamental');
     openGeoDropdown  = signal<'dep'|'prov'|'dist'|null>(null);
     selectedProv     = signal<string>('');
     selectedDist     = signal<string>('');
 
-    isGeoProvActive  = computed(() => this.nivelGeo() !== 'Departamental');
-    isGeoDistActive  = computed(() => this.nivelGeo() === 'Distrital');
+    isGeoProvActive  = computed(() =>
+        this.nivelFiltro() === 'provincial' || this.nivelFiltro() === 'distrital'
+    );
+    isGeoDistActive  = computed(() => this.nivelFiltro() === 'distrital');
 
     // REQ 5: Provincias ordenadas por CCDD+CCPP
     provinces = computed<GeoOption[]>(() => {
@@ -1475,6 +1726,39 @@ export class DashboardComponent implements OnInit {
         return this.districts().find(d => d.code === code)?.name ?? code;
     });
 
+    setNivelFiltro(nivel: NivelFiltroType): void {
+        this.nivelFiltro.set(nivel);
+        this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.selectedRegionNatural.set('');
+
+        if (nivel === 'region_natural' || nivel === 'departamental') {
+            this.selectedCCDD.set('');
+            this.selectedProv.set('');
+            this.selectedDist.set('');
+            this.selectedMapGeoKey.set('');
+            this.nivelGeo.set('Departamental');
+            this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
+        } else if (nivel === 'provincial') {
+            this.selectedProv.set('');
+            this.selectedDist.set('');
+            this.nivelGeo.set(this.selectedCCDD() ? 'Provincial' : 'Departamental');
+            this.loadGeoJsonProv();
+        } else if (nivel === 'distrital') {
+            this.selectedDist.set('');
+            if (this.selectedProv()) this.nivelGeo.set('Distrital');
+            else if (this.selectedCCDD()) this.nivelGeo.set('Provincial');
+            else this.nivelGeo.set('Departamental');
+            this.loadGeoJsonProv();
+            this.loadGeoJsonDist();
+        }
+    }
+
+    selectRegionNatural(key: string): void {
+        this.selectedRegionNatural.set(key);
+        this.openRegionDropdown.set(false);
+    }
+
     toggleGeoDropdown(key: 'dep'|'prov'|'dist'): void {
         this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key);
     }
@@ -1488,6 +1772,7 @@ export class DashboardComponent implements OnInit {
         this.openGeoDropdown.set(null);
 
         if (dept) {
+            if (this.nivelFiltro() === 'departamental') this.nivelFiltro.set('provincial');
             this.nivelGeo.set('Provincial');
             this.loadGeoJsonProv();
             this.fitRegionByCCDD(dept.ccdd);
@@ -1545,6 +1830,7 @@ export class DashboardComponent implements OnInit {
         this.openGeoDropdown.set(null);
 
         if (code) {
+            if (this.nivelFiltro() === 'provincial') this.nivelFiltro.set('distrital');
             this.nivelGeo.set('Distrital');
             this.loadGeoJsonDist();
         } else if (this.selectedCCDD()) {
@@ -1564,7 +1850,6 @@ export class DashboardComponent implements OnInit {
     readonly navSections = [
         { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
         { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
-        { id: 'comunidades_indigenas', label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
     ];
 
     setActiveSection(id: string): void { this.activeSection.set(id); }
@@ -1688,9 +1973,15 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
     });
 
     mapRegions = computed<MapRegion[]>(() => {
-        const raws = this.parsedRegions();
+        let raws = this.parsedRegions();
         const key  = this.activeIndicator();
         if (!raws.length) return [];
+
+        const regionKey = this.selectedRegionNatural();
+        if (regionKey) {
+            const ccddList = REGIONES_NATURALES.find(r => r.key === regionKey)?.ccddList ?? [];
+            raws = raws.filter(r => ccddList.includes(r.ccdd));
+        }
 
         const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
         const sorted = [...vals].sort((a, b) => a - b);
@@ -1776,8 +2067,15 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
     });
 
     cardData = computed<{ total: number; male: number; female: number; density: number; ccdd: string }>(() => {
+        const f   = this.areaPopFactor();
         const sel = this.selectedRegion();
-        if (sel) return { total: sel.total, male: sel.male, female: sel.female, density: sel.density, ccdd: sel.ccdd };
+        if (sel) return {
+            total:   Math.round(sel.total   * f.pop),
+            male:    Math.round(sel.male    * f.male),
+            female:  Math.round(sel.female  * f.female),
+            density: +(sel.density * f.density).toFixed(2),
+            ccdd:    sel.ccdd,
+        };
 
         const dist = this.selectedDist();
         if (dist) {
@@ -1785,37 +2083,49 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
             const feat = geo?.features?.find((f: any) => String(f.properties.UBIGEO) === dist);
             if (feat) {
                 const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+                return { total: Math.round((Number(p.POBTOTAL)||0)*f.pop), male: Math.round((Number(p.POBHOMBRE)||0)*f.male), female: Math.round((Number(p.POBMUJER)||0)*f.female), density: +((Number(p.DENSIDAD)||0)*f.density).toFixed(2), ccdd: String(p.CCDD) };
             }
         }
 
         const prov = this.selectedProv();
         if (prov) {
             const geo = this.rawGeoJsonProv();
-            const feat = geo?.features?.find((f: any) => String(f.properties.CCPP) === prov);
+            const feat = geo?.features?.find((fn: any) => String(fn.properties.CCPP) === prov);
             if (feat) {
                 const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+                return { total: Math.round((Number(p.POBTOTAL)||0)*f.pop), male: Math.round((Number(p.POBHOMBRE)||0)*f.male), female: Math.round((Number(p.POBMUJER)||0)*f.female), density: +((Number(p.DENSIDAD)||0)*f.density).toFixed(2), ccdd: String(p.CCDD) };
             }
         }
 
         const ccdd = this.selectedCCDD();
         if (ccdd) {
             const geo = this.rawGeoJson();
-            const feat = geo?.features?.find((f: any) => String(f.properties.CCDD) === ccdd);
+            const feat = geo?.features?.find((fn: any) => String(fn.properties.CCDD) === ccdd);
             if (feat) {
                 const p = feat.properties;
-                return { total: Number(p.POBTOTAL)||0, male: Number(p.POBHOMBRE)||0, female: Number(p.POBMUJER)||0, density: Number(p.DENSIDAD)||0, ccdd: String(p.CCDD) };
+                return { total: Math.round((Number(p.POBTOTAL)||0)*f.pop), male: Math.round((Number(p.POBHOMBRE)||0)*f.male), female: Math.round((Number(p.POBMUJER)||0)*f.female), density: +((Number(p.DENSIDAD)||0)*f.density).toFixed(2), ccdd: String(p.CCDD) };
             }
         }
 
-        return { total: this.TOTAL_NAC, male: 17_596_527, female: 18_999_999, density: 25.4, ccdd: '' };
+        return {
+            total:   Math.round(this.TOTAL_NAC   * f.pop),
+            male:    Math.round(17_596_527        * f.male),
+            female:  Math.round(18_999_999        * f.female),
+            density: +(25.4 * f.density).toFixed(2),
+            ccdd:    '',
+        };
     });
 
     cardMock = computed<Record<string, number>>(() => {
-        const ccdd = this.cardData().ccdd;
-        if (ccdd && MOCK_DEP[ccdd]) return MOCK_DEP[ccdd];
-        return { edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3, indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2, dep_adulta: 17.9, densidad_65: 3.6 };
+        const ccdd  = this.cardData().ccdd;
+        const base  = (ccdd && MOCK_DEP[ccdd]) ? MOCK_DEP[ccdd]
+            : { edad_promedio: 31.2, edad_mediana: 29.8, razon_sexo: 94.3, indice_envejecimiento: 45.6, dep_total: 52.1, dep_juvenil: 34.2, dep_adulta: 17.9, densidad_65: 3.6 };
+        const delta = this.areaRateDelta();
+        const result: Record<string, number> = {};
+        for (const k of Object.keys(base)) {
+            result[k] = +(base[k] + (delta[k] ?? 0)).toFixed(1);
+        }
+        return result;
     });
 
     displayedTitle = computed<string>(() => {
@@ -1989,17 +2299,26 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         this.selectedMapGeoKey.set('');
         this.selectedProv.set('');
         this.selectedDist.set('');
+        this.selectedRegionNatural.set('');
         this.nivelGeo.set('Departamental');
+        this.nivelFiltro.set('departamental');
         this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.openNivelDropdown.set(false);
+        this.openAreaDropdown.set(false);
+        this.areaFiltro.set('total');
         this.activeIndicator.set('poblacion');
         this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
     }
 
     // ── Indicador de mapa ─────────────────────────────────────────────────
     getIndicatorValue(r: MapRegion, key: MapIndicatorKey): number {
-        if (key === 'poblacion')      return r.total;
-        if (key === 'densidad_total') return r.density;
-        return MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
+        const f = this.areaPopFactor();
+        const d = this.areaRateDelta();
+        if (key === 'poblacion')      return Math.round(r.total   * f.pop);
+        if (key === 'densidad_total') return +(r.density * f.density).toFixed(2);
+        const base = MOCK_DEP[r.ccdd]?.[key as string] ?? 0;
+        return +(base + (d[key as string] ?? 0)).toFixed(1);
     }
 
     getActiveValue(r: MapRegion): string {
