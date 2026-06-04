@@ -328,7 +328,7 @@ const S = { w: 380, h: 550 };
 
               <!-- Hover overlay -->
               @if (!isBtnActive(btn)) {
-                <span class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none rounded-full bg-white">
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 pointer-events-none rounded-full bg-gray-900">
                 </span>
               }
             </button>
@@ -386,7 +386,7 @@ const S = { w: 380, h: 550 };
           <!-- ── Dropdown selector de ámbito geográfico ── -->
           <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
             <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">
-              División territorial
+              Ámbito geográfico
             </span>
             <div class="relative">
               <button
@@ -448,62 +448,6 @@ const S = { w: 380, h: 550 };
               }
             </div>
           </div>
-
-          <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
-
-          <!-- ★ Área (Todos / Urbano / Rural) — oculto en Región Natural -->
-          @if (nivelFiltro() !== 'region_natural') {
-            <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-              <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">
-                Área
-              </span>
-              <div class="relative">
-                <button
-                  (click)="openAreaDropdown.update(v => !v)"
-                  class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
-                         transition-all duration-200 focus:outline-none border whitespace-nowrap"
-                  [style]="openAreaDropdown()
-                    ? 'background:#026fa3; color:#fff; border-color:#026fa3'
-                    : 'background:#038dd3; color:#fff; border-color:#038dd3'">
-                  <span>{{ areaLabel() }}</span>
-                  <app-hero-icon [name]="'chevron-down'"
-                    class="w-3 h-3 shrink-0 transition-transform duration-200"
-                    [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
-                </button>
-                @if (openAreaDropdown()) {
-                  <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
-                               shadow-xl z-50 overflow-hidden"
-                       style="min-width:148px; animation:dropdownIn 0.15s ease-out"
-                       (click)="$event.stopPropagation()">
-                    <div class="h-0.5 w-full" style="background:#038dd3"></div>
-                    <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
-                    </div>
-                    @for (a of AREAS_FILTRO; track a.key) {
-                      <button
-                        (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
-                               transition-colors duration-150"
-                        [class.text-white]="areaFiltro() === a.key"
-                        [class.text-gray-700]="areaFiltro() !== a.key"
-                        [class.hover\:bg-sky-50]="areaFiltro() !== a.key"
-                        [style.background]="areaFiltro() === a.key ? '#038dd3' : ''">
-                        <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                          [class.border-white]="areaFiltro() === a.key"
-                          [style.border-color]="areaFiltro() !== a.key ? '#038dd3' : ''">
-                          @if (areaFiltro() === a.key) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold flex-1">{{ a.label }}</span>
-                      </button>
-                    }
-                    <div class="h-1"></div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
 
           <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
@@ -805,6 +749,60 @@ const S = { w: 380, h: 550 };
               }
             </div>
           }<!-- /if distrito politico_administrativo -->
+
+          <!-- ★ Área (Todos / Urbano / Rural) — oculto en Región Natural -->
+          @if (nivelFiltro() !== 'region_natural') {
+            <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
+              <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">
+                Área de residencia
+              </span>
+              <div class="relative">
+                <button
+                  (click)="openAreaDropdown.update(v => !v)"
+                  class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
+                         transition-all duration-200 focus:outline-none border whitespace-nowrap"
+                  [style]="openAreaDropdown()
+                    ? 'background:#e0e0e0; color:#374151; border-color:#d1d5db'
+                    : 'background:#efefef; color:#374151; border-color:#e5e7eb'">
+                  <span>{{ areaLabel() }}</span>
+                  <app-hero-icon [name]="'chevron-down'"
+                    class="w-3 h-3 shrink-0 text-gray-500 transition-transform duration-200"
+                    [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
+                </button>
+                @if (openAreaDropdown()) {
+                  <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                               shadow-xl z-50 overflow-hidden"
+                       style="min-width:148px; animation:dropdownIn 0.15s ease-out"
+                       (click)="$event.stopPropagation()">
+                    <div class="h-0.5 w-full" style="background:#0056a1"></div>
+                    <div class="px-3 pt-2 pb-1">
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área de residencia</span>
+                    </div>
+                    @for (a of AREAS_FILTRO; track a.key) {
+                      <button
+                        (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
+                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                               transition-colors duration-150"
+                        [class.text-white]="areaFiltro() === a.key"
+                        [class.text-gray-700]="areaFiltro() !== a.key"
+                        [class.hover\:bg-gray-50]="areaFiltro() !== a.key"
+                        [style.background]="areaFiltro() === a.key ? '#0056a1' : ''">
+                        <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                          [class.border-white]="areaFiltro() === a.key"
+                          [style.border-color]="areaFiltro() !== a.key ? '#0056a1' : ''">
+                          @if (areaFiltro() === a.key) {
+                            <span class="w-2 h-2 bg-white rounded-full block"></span>
+                          }
+                        </span>
+                        <span class="font-semibold flex-1">{{ a.label }}</span>
+                      </button>
+                    }
+                    <div class="h-1"></div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
 
           </div><!-- /fila dropdowns -->
         </div><!-- /inner filtros redondeado -->
@@ -1660,7 +1658,7 @@ export class DashboardComponent implements OnInit {
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
 
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'politico_administrativo', label: 'Político Administrativo', icon: 'map',  color: '#0056a1' },
+        { key: 'politico_administrativo', label: 'División Territorial', icon: 'map',  color: '#0056a1' },
         { key: 'region_natural',          label: 'Región Natural',          icon: '',     color: '#33b3a9' },
     ];
 
