@@ -16,7 +16,7 @@ import { HeroIconComponent } from '../ui/hero-icon.component';
 import * as XLSX from 'xlsx';
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
-export type NivelType = 'Departamental' | 'Provincial' | 'Distrital' | 'Región Natural';
+export type NivelType = 'Departamental' | 'Provincial' | 'Distrital';
 
 export interface FilaDep {
     departamento:        string;
@@ -106,7 +106,6 @@ const MOCK_DIST: FilaDist[] = [
 const DEPS_LIST    = MOCK_DEP.map(r => r.departamento);
 const PROVS_LIST   = MOCK_PROV.map(r => r.provincia);
 const DISTS_LIST   = MOCK_DIST.map(r => r.distrito);
-const REG_NAT_LIST = ['Costa', 'Sierra', 'Selva'];
 
 function allChecked(labels: string[]): DropdownItem[] {
     return labels.map(label => ({ label, checked: true }));
@@ -393,44 +392,7 @@ function allChecked(labels: string[]): DropdownItem[] {
               </div>
             </div>
 
-            <!-- ── Región Natural (multicheck, solo en modo Región Natural) ── -->
-            @if (nivelActivo() === 'Región Natural') {
-              <div class="relative">
-                <button (click)="toggleDropdown('regnat'); $event.stopPropagation()"
-                  class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
-                         text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
-                    <span class="text-gray-400 mr-0.5">Región:</span>{{ regNatLabel() }}
-                  </span>
-                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
-                    [class.rotate-180]="openDropdown() === 'regnat'"></app-hero-icon>
-                </button>
-                @if (openDropdown() === 'regnat') {
-                  <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-44 overflow-hidden"
-                       (click)="$event.stopPropagation()">
-                    <div class="h-0.5 w-full" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
-                    <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
-                      <input type="checkbox" [checked]="allRegNatOn()" (change)="toggleAllRegNat()"
-                             class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Seleccionar todas
-                    </label>
-                    <div class="max-h-48 overflow-y-auto">
-                      @for (item of regNatItems(); track item.label; let i = $index) {
-                        <label class="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-teal-50 text-xs text-gray-700 transition-colors">
-                          <input type="checkbox" [checked]="item.checked" (change)="toggleRegNat(i)"
-                                 class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                          {{ item.label }}
-                        </label>
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            }
-
-            <!-- ── Departamento (oculto en Región Natural) ── -->
-            @if (nivelActivo() !== 'Región Natural') {
+            <!-- ── Departamento ── -->
               <div class="relative">
                 <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -463,7 +425,6 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </div>
                 }
               </div>
-            }
 
             <!-- ── Provincia (Provincial / Distrital) ── -->
             @if (isProvActive()) {
@@ -537,54 +498,6 @@ function allChecked(labels: string[]): DropdownItem[] {
               </div>
             }
 
-            <!-- ── Área de residencia (oculto en Región Natural) ── -->
-            @if (nivelActivo() !== 'Región Natural') {
-              <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Área de residencia</span>
-                <div class="relative">
-                  <button (click)="openAreaDropdown.update(v => !v)"
-                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
-                           transition-all duration-200 focus:outline-none border whitespace-nowrap"
-                    [style]="openAreaDropdown()
-                      ? 'background:#e0e0e0; color:#374151; border-color:#d1d5db'
-                      : 'background:#efefef; color:#374151; border-color:#e5e7eb'">
-                    <span>{{ areaLabel() }}</span>
-                    <app-hero-icon [name]="'chevron-down'"
-                      class="w-3 h-3 shrink-0 text-gray-500 transition-transform duration-200"
-                      [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
-                  </button>
-                  @if (openAreaDropdown()) {
-                    <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
-                                 shadow-xl z-50 overflow-hidden"
-                         style="min-width:148px; animation:dropdownIn 0.15s ease-out"
-                         (click)="$event.stopPropagation()">
-                      <div class="h-0.5 w-full" style="background:#0056a1"></div>
-                      <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
-                      </div>
-                      @for (a of AREAS_FILTRO; track a.key) {
-                        <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
-                          class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
-                          [class.text-white]="areaFiltro() === a.key"
-                          [class.text-gray-700]="areaFiltro() !== a.key"
-                          [class.hover\:bg-gray-50]="areaFiltro() !== a.key"
-                          [style.background]="areaFiltro() === a.key ? '#0056a1' : ''">
-                          <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                            [class.border-white]="areaFiltro() === a.key"
-                            [style.border-color]="areaFiltro() !== a.key ? '#0056a1' : ''">
-                            @if (areaFiltro() === a.key) {
-                              <span class="w-2 h-2 bg-white rounded-full block"></span>
-                            }
-                          </span>
-                          <span class="font-semibold flex-1">{{ a.label }}</span>
-                        </button>
-                      }
-                      <div class="h-1"></div>
-                    </div>
-                  }
-                </div>
-              </div>
-            }
 
           </div><!-- /filtros derecha -->
         </div><!-- /inner redondeado -->
@@ -979,20 +892,17 @@ export class ComparativaTerritorialComponent {
         this.mobileMenuOpen.set(false);
         this.openDropdown.set(null);
         this.openNivelDropdown.set(false);
-        this.openAreaDropdown.set(false);
     }
     toggleCensos(e: Event)      { e.stopPropagation(); this.censosOpen.update(v => !v); }
     toggleMobileMenu(e: Event)  { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
-    readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital', 'Región Natural'];
+    readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];
 
     // Colores e iconos por nivel para el dropdown División Territorial
     readonly NIVELES_META: Record<NivelType, { color: string; icon: string }> = {
-        'Región Natural': { color: '#33b3a9', icon: ''            },
         'Departamental':  { color: '#0056a1', icon: 'map'         },
         'Provincial':     { color: '#038dd3', icon: 'home'        },
         'Distrital':      { color: '#1a75aa', icon: 'table-cells' },
-        
     };
 
     nivelActivo = signal<NivelType>('Departamental');
@@ -1002,35 +912,23 @@ export class ComparativaTerritorialComponent {
         this.depsItems.set(allChecked(DEPS_LIST));
         this.provsItems.set(allChecked(PROVS_LIST));
         this.distItems.set(allChecked(DISTS_LIST));
-        this.regNatItems.set(allChecked(REG_NAT_LIST));
         this.openNivelDropdown.set(false);
         this.openDropdown.set(null);
         this.sortCol.set(null);
         this.sortDir.set('asc');
     }
 
-    openDropdown     = signal<'dep' | 'prov' | 'dist' | 'regnat' | null>(null);
+    openDropdown      = signal<'dep' | 'prov' | 'dist' | null>(null);
     openNivelDropdown = signal<boolean>(false);
-    openAreaDropdown  = signal<boolean>(false);
 
-    toggleDropdown(key: 'dep' | 'prov' | 'dist' | 'regnat'): void {
+    toggleDropdown(key: 'dep' | 'prov' | 'dist'): void {
         this.openDropdown.set(this.openDropdown() === key ? null : key);
     }
     closeAll(): void {
         this.openDropdown.set(null);
         this.openNivelDropdown.set(false);
-        this.openAreaDropdown.set(false);
         this.mobileMenuOpen.set(false);
     }
-
-    // ── Filtro de Área ──────────────────────────────────────────────────────
-    areaFiltro = signal<'total' | 'urbano' | 'rural'>('total');
-    readonly AREAS_FILTRO = [
-        { key: 'total'  as const, label: 'Todos'  },
-        { key: 'urbano' as const, label: 'Urbano' },
-        { key: 'rural'  as const, label: 'Rural'  },
-    ];
-    areaLabel = computed(() => this.AREAS_FILTRO.find(a => a.key === this.areaFiltro())?.label ?? 'Todos');
 
     sortCol = signal<string | null>(null);
     sortDir = signal<'asc' | 'desc'>('asc');
@@ -1043,10 +941,9 @@ export class ComparativaTerritorialComponent {
         }
     }
 
-    depsItems    = signal<DropdownItem[]>(allChecked(DEPS_LIST));
-    provsItems   = signal<DropdownItem[]>(allChecked(PROVS_LIST));
-    distItems    = signal<DropdownItem[]>(allChecked(DISTS_LIST));
-    regNatItems  = signal<DropdownItem[]>(allChecked(REG_NAT_LIST));
+    depsItems  = signal<DropdownItem[]>(allChecked(DEPS_LIST));
+    provsItems = signal<DropdownItem[]>(allChecked(PROVS_LIST));
+    distItems  = signal<DropdownItem[]>(allChecked(DISTS_LIST));
 
     private _toggle(sig: ReturnType<typeof signal<DropdownItem[]>>, i: number) {
         const a = [...sig()]; a[i] = { ...a[i], checked: !a[i].checked }; sig.set(a);
@@ -1056,46 +953,38 @@ export class ComparativaTerritorialComponent {
         sig.set(sig().map(x => ({ ...x, checked: !allOn })));
     }
 
-    toggleDep(i: number)    { this._toggle(this.depsItems, i); }
-    toggleProv(i: number)   { this._toggle(this.provsItems, i); }
-    toggleDist(i: number)   { this._toggle(this.distItems, i); }
-    toggleRegNat(i: number) { this._toggle(this.regNatItems, i); }
-    toggleAllDeps()         { this._toggleAll(this.depsItems); }
-    toggleAllProvs()        { this._toggleAll(this.provsItems); }
-    toggleAllDists()        { this._toggleAll(this.distItems); }
-    toggleAllRegNat()       { this._toggleAll(this.regNatItems); }
+    toggleDep(i: number)  { this._toggle(this.depsItems, i); }
+    toggleProv(i: number) { this._toggle(this.provsItems, i); }
+    toggleDist(i: number) { this._toggle(this.distItems, i); }
+    toggleAllDeps()       { this._toggleAll(this.depsItems); }
+    toggleAllProvs()      { this._toggleAll(this.provsItems); }
+    toggleAllDists()      { this._toggleAll(this.distItems); }
 
     resetFiltros(): void {
         this.nivelActivo.set('Departamental');
         this.depsItems.set(allChecked(DEPS_LIST));
         this.provsItems.set(allChecked(PROVS_LIST));
         this.distItems.set(allChecked(DISTS_LIST));
-        this.regNatItems.set(allChecked(REG_NAT_LIST));
         this.openDropdown.set(null);
         this.openNivelDropdown.set(false);
-        this.openAreaDropdown.set(false);
-        this.areaFiltro.set('total');
         this.sortCol.set(null);
         this.sortDir.set('asc');
     }
 
-    allDepsOn   = computed(() => this.depsItems().every(x => x.checked));
-    allProvsOn  = computed(() => this.provsItems().every(x => x.checked));
-    allDistsOn  = computed(() => this.distItems().every(x => x.checked));
-    allRegNatOn = computed(() => this.regNatItems().every(x => x.checked));
+    allDepsOn  = computed(() => this.depsItems().every(x => x.checked));
+    allProvsOn = computed(() => this.provsItems().every(x => x.checked));
+    allDistsOn = computed(() => this.distItems().every(x => x.checked));
 
-    cntDeps    = computed(() => this.depsItems().filter(x => x.checked).length);
-    cntProvs   = computed(() => this.provsItems().filter(x => x.checked).length);
-    cntDists   = computed(() => this.distItems().filter(x => x.checked).length);
-    cntRegNat  = computed(() => this.regNatItems().filter(x => x.checked).length);
+    cntDeps  = computed(() => this.depsItems().filter(x => x.checked).length);
+    cntProvs = computed(() => this.provsItems().filter(x => x.checked).length);
+    cntDists = computed(() => this.distItems().filter(x => x.checked).length);
 
-    isProvActive = computed(() => this.nivelActivo() !== 'Departamental' && this.nivelActivo() !== 'Región Natural');
+    isProvActive = computed(() => this.nivelActivo() !== 'Departamental');
     isDistActive = computed(() => this.nivelActivo() === 'Distrital');
 
-    depLabel    = computed(() => this.cntDeps()   === DEPS_LIST.length    ? 'Todas' : `${this.cntDeps()} sel.`);
-    provLabel   = computed(() => this.cntProvs()  === PROVS_LIST.length   ? 'Todas' : `${this.cntProvs()} sel.`);
-    distLabel   = computed(() => this.cntDists()  === DISTS_LIST.length   ? 'Todos' : `${this.cntDists()} sel.`);
-    regNatLabel = computed(() => this.cntRegNat() === REG_NAT_LIST.length ? 'Todas' : `${this.cntRegNat()} sel.`);
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas' : `${this.cntDeps()} sel.`);
+    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas' : `${this.cntProvs()} sel.`);
+    distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos' : `${this.cntDists()} sel.`);
 
     private selDeps  = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
     private selProvs = computed(() => new Set(this.provsItems().filter(x => x.checked).map(x => x.label)));

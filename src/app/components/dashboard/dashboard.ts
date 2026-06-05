@@ -115,13 +115,7 @@ const PALETTE = ['#caeae4','#86cec0','#33b3a9','#2d9b90','#4c8c80'];
 //const PALETTE = ['#c9eae3','#33b3a9','#038dd2','#8383fc','#0055a0'];
 
 export type NivelGeoType   = 'Departamental' | 'Provincial' | 'Distrital';
-export type NivelFiltroType = 'politico_administrativo' | 'region_natural';
-
-const REGIONES_NATURALES: { key: string; label: string; color: string; ccddList: string[] }[] = [
-    { key: 'costa',  label: 'Costa',  color: '#0056a1', ccddList: ['07','11','13','14','15','20','24'] },
-    { key: 'sierra', label: 'Sierra', color: '#038dd3', ccddList: ['02','03','04','05','06','08','09','10','12','18','19','21','23'] },
-    { key: 'selva',  label: 'Selva',  color: '#33b3a9', ccddList: ['01','16','17','22','25'] },
-];
+export type NivelFiltroType = 'politico_administrativo';
 
 export type AreaFiltroType = 'total' | 'urbano' | 'rural';
 
@@ -383,64 +377,50 @@ const S = { w: 380, h: 550 };
 
           <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
-          <!-- ── Dropdown selector de ámbito geográfico ── -->
+          <!-- ★ Nivel geográfico -->
           <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-            <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">
-              Ámbito geográfico
+            <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">
+              Nivel
             </span>
             <div class="relative">
-              <button
-                (click)="openNivelDropdown.update(v => !v)"
+              <button (click)="openNivelGeoDropdown.update(v => !v)"
                 class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold
                        transition-all duration-200 focus:outline-none border whitespace-nowrap"
-                [style]="openNivelDropdown()
+                [style]="openNivelGeoDropdown()
                   ? 'background:#003d7a; color:#fff; border-color:#003d7a'
                   : 'background:#0056a1; color:#fff; border-color:#0056a1'">
-                @if (activeNivelDef().icon) {
-                  <app-hero-icon [name]="activeNivelDef().icon"
-                    class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-                }
-                <span class="hidden sm:inline">{{ activeNivelDef().label }}</span>
+                <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
+                <span class="hidden sm:inline">{{ nivelGeo() }}</span>
                 <app-hero-icon [name]="'chevron-down'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
-                  [class.rotate-180]="openNivelDropdown()"></app-hero-icon>
+                  [class.rotate-180]="openNivelGeoDropdown()"></app-hero-icon>
               </button>
-
-              @if (openNivelDropdown()) {
+              @if (openNivelGeoDropdown()) {
                 <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
                              shadow-xl z-50 overflow-hidden"
-                     style="min-width:188px; animation:dropdownIn 0.15s ease-out"
+                     style="min-width:168px; animation:dropdownIn 0.15s ease-out"
                      (click)="$event.stopPropagation()">
                   <div class="h-0.5 w-full"
-                       style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
+                       style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                   <div class="px-3 pt-2 pb-1">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">
-                      
-                    </span>
+                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
                   </div>
-                  @for (n of NIVELES_FILTRO; track n.key) {
-                    <button
-                      (click)="setNivelFiltro(n.key); openNivelDropdown.set(false)"
+                  @for (n of NIVELES_GEO; track n) {
+                    <button (click)="setNivelGeo(n); openNivelGeoDropdown.set(false)"
                       class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
                              transition-colors duration-150"
-                      [class.text-white]="nivelFiltro() === n.key"
-                      [class.text-gray-700]="nivelFiltro() !== n.key"
-                      [class.hover\:bg-gray-50]="nivelFiltro() !== n.key"
-                      [style.background]="nivelFiltro() === n.key ? '#0056a1' : ''">
+                      [class.text-white]="nivelGeo() === n"
+                      [class.text-gray-700]="nivelGeo() !== n"
+                      [class.hover\:bg-gray-50]="nivelGeo() !== n"
+                      [style.background]="nivelGeo() === n ? '#0056a1' : ''">
                       <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                        [class.border-white]="nivelFiltro() === n.key"
-                        [style.border-color]="nivelFiltro() !== n.key ? '#0056a1' : ''">
-                        @if (nivelFiltro() === n.key) {
+                        [class.border-white]="nivelGeo() === n"
+                        [style.border-color]="nivelGeo() !== n ? '#0056a1' : ''">
+                        @if (nivelGeo() === n) {
                           <span class="w-2 h-2 bg-white rounded-full block"></span>
                         }
                       </span>
-                      @if (n.icon) {
-                        <app-hero-icon [name]="n.icon"
-                          class="w-3.5 h-3.5 shrink-0"
-                          [class.text-white]="nivelFiltro() === n.key"
-                          [style.color]="nivelFiltro() !== n.key ? '#0056a1' : ''"></app-hero-icon>
-                      }
-                      <span class="font-semibold flex-1">{{ n.label }}</span>
+                      <span class="font-semibold flex-1">{{ n }}</span>
                     </button>
                   }
                   <div class="h-1"></div>
@@ -449,76 +429,7 @@ const S = { w: 380, h: 550 };
             </div>
           </div>
 
-          <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
-
-          <!-- ★ Región Natural (solo cuando nivelFiltro === region_natural) -->
-          @if (nivelFiltro() === 'region_natural') {
-            <div class="relative">
-              <button
-                (click)="openRegionDropdown.update(v => !v); $event.stopPropagation()"
-                class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
-                       text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
-                       min-w-[140px] sm:min-w-[156px] justify-between">
-                <span class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
-                  <span class="text-gray-400 mr-0.5">Región:</span>
-                  <span class="truncate max-w-[72px]">{{ regionNaturalLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
-                  [class.rotate-180]="openRegionDropdown()"></app-hero-icon>
-              </button>
-              @if (openRegionDropdown()) {
-                <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
-                             shadow-xl z-50 w-48 overflow-hidden"
-                     (click)="$event.stopPropagation()">
-                  <div class="h-0.5 w-full" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Región natural</span>
-                  </div>
-                  <div>
-                    <button (click)="selectRegionNatural('')"
-                      class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
-                      [class.text-white]="selectedRegionNatural() === ''"
-                      [class.text-gray-700]="selectedRegionNatural() !== ''"
-                      [class.hover\:bg-teal-50]="selectedRegionNatural() !== ''"
-                      [style.background]="selectedRegionNatural() === '' ? '#33b3a9' : ''">
-                      <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
-                        [class.border-white]="selectedRegionNatural() === ''"
-                        [class.border-gray-300]="selectedRegionNatural() !== ''">
-                        @if (selectedRegionNatural() === '') {
-                          <span class="w-1.5 h-1.5 bg-white rounded-full block"></span>
-                        }
-                      </span>
-                      <span class="font-bold italic">Todas las regiones</span>
-                    </button>
-                    @for (rn of REGIONES_NATURALES; track rn.key) {
-                      <button (click)="selectRegionNatural(rn.key)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors group"
-                        [class.text-white]="selectedRegionNatural() === rn.key"
-                        [class.text-gray-700]="selectedRegionNatural() !== rn.key"
-                        [class.hover\:bg-gray-50]="selectedRegionNatural() !== rn.key"
-                        [style.background]="selectedRegionNatural() === rn.key ? rn.color : ''">
-                        <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
-                          [class.border-white]="selectedRegionNatural() === rn.key"
-                          [style.border-color]="selectedRegionNatural() !== rn.key ? rn.color : ''">
-                          @if (selectedRegionNatural() === rn.key) {
-                            <span class="w-1.5 h-1.5 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold flex-1">{{ rn.label }}</span>
-                        <span class="w-2 h-2 rounded-full shrink-0 opacity-70"
-                          [style.background]="selectedRegionNatural() !== rn.key ? rn.color : 'rgba(255,255,255,0.6)'">
-                        </span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          }
-
-          <!-- ★ Departamento (solo en Político Administrativo) -->
-          @if (nivelFiltro() === 'politico_administrativo') {
+          <!-- ★ Departamento -->
             <div class="relative">
               <button
                 (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
@@ -584,10 +495,8 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
-          }<!-- /if nivelFiltro !== region_natural -->
 
-          <!-- ★ Provincia (solo en Político Administrativo, activa si hay dep seleccionado) -->
-          @if (nivelFiltro() === 'politico_administrativo') {
+          <!-- ★ Provincia (activa si hay dep seleccionado) -->
             <div class="relative">
               <button
                 (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
@@ -666,10 +575,8 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
-          }<!-- /if provincia !== region_natural -->
 
-          <!-- ★ Distrito (solo en Político Administrativo, activo si hay prov seleccionada) -->
-          @if (nivelFiltro() === 'politico_administrativo') {
+          <!-- ★ Distrito (activo si hay prov seleccionada) -->
             <div class="relative">
               <button
                 (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
@@ -748,61 +655,6 @@ const S = { w: 380, h: 550 };
                 </div>
               }
             </div>
-          }<!-- /if distrito politico_administrativo -->
-
-          <!-- ★ Área (Todos / Urbano / Rural) — oculto en Región Natural -->
-          @if (nivelFiltro() !== 'region_natural') {
-            <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-              <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">
-                Área de residencia
-              </span>
-              <div class="relative">
-                <button
-                  (click)="openAreaDropdown.update(v => !v)"
-                  class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
-                         transition-all duration-200 focus:outline-none border whitespace-nowrap"
-                  [style]="openAreaDropdown()
-                    ? 'background:#e0e0e0; color:#374151; border-color:#d1d5db'
-                    : 'background:#efefef; color:#374151; border-color:#e5e7eb'">
-                  <span>{{ areaLabel() }}</span>
-                  <app-hero-icon [name]="'chevron-down'"
-                    class="w-3 h-3 shrink-0 text-gray-500 transition-transform duration-200"
-                    [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
-                </button>
-                @if (openAreaDropdown()) {
-                  <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
-                               shadow-xl z-50 overflow-hidden"
-                       style="min-width:148px; animation:dropdownIn 0.15s ease-out"
-                       (click)="$event.stopPropagation()">
-                    <div class="h-0.5 w-full" style="background:#0056a1"></div>
-                    <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
-                    </div>
-                    @for (a of AREAS_FILTRO; track a.key) {
-                      <button
-                        (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
-                               transition-colors duration-150"
-                        [class.text-white]="areaFiltro() === a.key"
-                        [class.text-gray-700]="areaFiltro() !== a.key"
-                        [class.hover\:bg-gray-50]="areaFiltro() !== a.key"
-                        [style.background]="areaFiltro() === a.key ? '#0056a1' : ''">
-                        <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                          [class.border-white]="areaFiltro() === a.key"
-                          [style.border-color]="areaFiltro() !== a.key ? '#0056a1' : ''">
-                          @if (areaFiltro() === a.key) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold flex-1">{{ a.label }}</span>
-                      </button>
-                    }
-                    <div class="h-1"></div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
 
           </div><!-- /fila dropdowns -->
         </div><!-- /inner filtros redondeado -->
@@ -1637,9 +1489,7 @@ export class DashboardComponent implements OnInit {
         this.censosOpen.set(false);
         this.mobileMenuOpen.set(false);
         this.openGeoDropdown.set(null);
-        this.openRegionDropdown.set(false);
-        this.openNivelDropdown.set(false);
-        this.openAreaDropdown.set(false);
+        this.openNivelGeoDropdown.set(false);
     }
 
     toggleCensos(e: Event) { e.stopPropagation(); this.censosOpen.update(v => !v); }
@@ -1657,21 +1507,6 @@ export class DashboardComponent implements OnInit {
     // ── Geo selector — nivel + prov + dist ───────────────────────────────
     readonly NIVELES_GEO: NivelGeoType[] = ['Departamental', 'Provincial', 'Distrital'];
 
-    readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'politico_administrativo', label: 'División Territorial', icon: 'map',  color: '#0056a1' },
-        { key: 'region_natural',          label: 'Región Natural',          icon: '',     color: '#33b3a9' },
-    ];
-
-    readonly REGIONES_NATURALES = REGIONES_NATURALES;
-
-    nivelFiltro           = signal<NivelFiltroType>('politico_administrativo');
-    selectedRegionNatural = signal<string>('');
-    openRegionDropdown    = signal<boolean>(false);
-    openNivelDropdown     = signal<boolean>(false);
-
-    activeNivelDef = computed(() =>
-        this.NIVELES_FILTRO.find(n => n.key === this.nivelFiltro()) ?? this.NIVELES_FILTRO[1]
-    );
 
     // ── Filtro de área ────────────────────────────────────────────────────
     areaFiltro       = signal<AreaFiltroType>('total');
@@ -1690,22 +1525,14 @@ export class DashboardComponent implements OnInit {
     private areaPopFactor = computed(() => AREA_POP_FACTORS[this.areaFiltro()]);
     private areaRateDelta = computed(() => AREA_RATE_DELTA[this.areaFiltro()]);
 
-    regionNaturalLabel = computed(() => {
-        const key = this.selectedRegionNatural();
-        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todas';
-    });
-
-    nivelGeo         = signal<NivelGeoType>('Departamental');
-    openGeoDropdown  = signal<'dep'|'prov'|'dist'|null>(null);
+    nivelGeo              = signal<NivelGeoType>('Departamental');
+    openNivelGeoDropdown  = signal<boolean>(false);
+    openGeoDropdown       = signal<'dep'|'prov'|'dist'|null>(null);
     selectedProv     = signal<string>('');
     selectedDist     = signal<string>('');
 
-    isGeoProvActive  = computed(() =>
-        this.nivelFiltro() === 'politico_administrativo' && !!this.selectedCCDD()
-    );
-    isGeoDistActive  = computed(() =>
-        this.nivelFiltro() === 'politico_administrativo' && !!this.selectedProv()
-    );
+    isGeoProvActive  = computed(() => !!this.selectedCCDD());
+    isGeoDistActive  = computed(() => !!this.selectedProv());
 
     // REQ 5: Provincias ordenadas por CCDD+CCPP
     provinces = computed<GeoOption[]>(() => {
@@ -1758,27 +1585,21 @@ export class DashboardComponent implements OnInit {
         return this.districts().find(d => d.code === code)?.name ?? code;
     });
 
-    setNivelFiltro(nivel: NivelFiltroType): void {
-        this.nivelFiltro.set(nivel);
+    setNivelGeo(nivel: NivelGeoType): void {
+        this.nivelGeo.set(nivel);
         this.openGeoDropdown.set(null);
-        this.openRegionDropdown.set(false);
-        this.openNivelDropdown.set(false);
-        this.selectedRegionNatural.set('');
-        // Al cambiar de modo siempre se limpian las selecciones geográficas
-        this.selectedCCDD.set('');
-        this.selectedProv.set('');
-        this.selectedDist.set('');
-        this.selectedMapGeoKey.set('');
-        this.nivelGeo.set('Departamental');
-        this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
-        if (nivel === 'politico_administrativo') {
+        if (nivel === 'Departamental') {
+            this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
+            this.selectedMapGeoKey.set('');
+        } else if (nivel === 'Provincial') {
+            this.selectedProv.set(''); this.selectedDist.set('');
+            this.selectedMapGeoKey.set('');
             this.loadGeoJsonProv();
+        } else {
+            this.selectedDist.set('');
+            this.selectedMapGeoKey.set('');
+            this.loadGeoJsonProv(); this.loadGeoJsonDist();
         }
-    }
-
-    selectRegionNatural(key: string): void {
-        this.selectedRegionNatural.set(key);
-        this.openRegionDropdown.set(false);
     }
 
     toggleGeoDropdown(key: 'dep'|'prov'|'dist'): void {
@@ -1998,12 +1819,6 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         let raws = this.parsedRegions();
         const key  = this.activeIndicator();
         if (!raws.length) return [];
-
-        const regionKey = this.selectedRegionNatural();
-        if (regionKey) {
-            const ccddList = REGIONES_NATURALES.find(r => r.key === regionKey)?.ccddList ?? [];
-            raws = raws.filter(r => ccddList.includes(r.ccdd));
-        }
 
         const vals   = raws.map(r => this.getIndicatorValue(r as MapRegion, key));
         const sorted = [...vals].sort((a, b) => a - b);
@@ -2321,14 +2136,9 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         this.selectedMapGeoKey.set('');
         this.selectedProv.set('');
         this.selectedDist.set('');
-        this.selectedRegionNatural.set('');
         this.nivelGeo.set('Departamental');
-        this.nivelFiltro.set('politico_administrativo');
         this.openGeoDropdown.set(null);
-        this.openRegionDropdown.set(false);
-        this.openNivelDropdown.set(false);
-        this.openAreaDropdown.set(false);
-        this.areaFiltro.set('total');
+        this.openNivelGeoDropdown.set(false);
         this.activeIndicator.set('poblacion');
         this.animateViewBox(this.parseViewBox(this.svgViewBox()), { x: 0, y: 0, w: S.w, h: S.h });
     }

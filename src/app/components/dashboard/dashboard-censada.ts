@@ -291,18 +291,53 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                     flex flex-wrap items-center gap-2 md:gap-3"
              style="border-radius:12px">
 
-          <!-- Primeros Resultados / Comparativo Territorial -->
-          <div class="flex bg-white border border-gray-100 shadow-sm p-1 rounded-xl gap-1 shrink-0">
-            <button class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all shadow-sm
-                           tracking-wide cursor-default"
-                    style="background:#33b3a9; color:#ffffff;">
-              Primeros Resultados
+          <!-- Ind. Principales / Ind. Temáticos -->
+          <div class="flex items-center gap-1 shrink-0" (click)="$event.stopPropagation()">
+
+            <!-- Agrupación Ind. Principales con sub-opciones en contenedor #efefef -->
+            <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
+              <button (click)="toggleNavSection('principales')"
+                class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
+                       tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
+                [style]="expandedSection() === 'principales'
+                  ? 'background:#33b3a9;color:#fff;'
+                  : 'color:#6b7280;'">
+                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                <span>Ind. Principales</span>
+                <app-hero-icon [name]="'chevron-right'"
+                  class="w-3 h-3 shrink-0 transition-transform duration-200"
+                  [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
+              </button>
+              @if (expandedSection() === 'principales') {
+                <div class="flex items-center gap-0.5 pr-1"
+                     style="animation:fadeIn 0.12s ease-out forwards">
+                  @for (tab of viewTabs; track tab.route) {
+                    <button [routerLink]="tab.route"
+                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
+                             font-bold tracking-wide transition-all whitespace-nowrap"
+                      [style]="isViewTabActive(tab.route)
+                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
+                        : 'color:#9ca3af;'">
+                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                      <span>{{ tab.label }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Ind. Temáticos -->
+            <button routerLink="/dashboard-tematico" (click)="$event.stopPropagation()"
+              class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs
+                     font-bold tracking-wide whitespace-nowrap transition-all shrink-0"
+              [style]="isViewTabActive('/dashboard-tematico')
+                ? 'background:#33b3a9;color:#fff;'
+                : 'background:#f3f4f6;color:#6b7280;'">
+              <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+              <span>Ind. Temáticos</span>
+              <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
             </button>
-            <button routerLink="/comparativa"
-              class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
-                     text-gray-400 hover:text-gray-600 tracking-wide">
-              Comparativo Territorial
-            </button>
+
           </div>
 
           <!-- Separador -->
@@ -435,53 +470,6 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                     <div class="h-1"></div>
                   </div>
                 }
-              </div>
-            }
-
-            <!-- ★ Área (oculto en Región Natural) -->
-            @if (nivelFiltro() !== 'region_natural') {
-              <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest px-0.5 leading-none hidden sm:block">Área</span>
-                <div class="relative">
-                  <button (click)="openAreaDropdown.update(v => !v)"
-                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
-                           transition-all duration-200 focus:outline-none border whitespace-nowrap"
-                    [style]="openAreaDropdown()
-                      ? 'background:#026fa3; color:#fff; border-color:#026fa3'
-                      : 'background:#038dd3; color:#fff; border-color:#038dd3'">
-                    <span>{{ areaLabel() }}</span>
-                    <app-hero-icon [name]="'chevron-down'"
-                      class="w-3 h-3 shrink-0 transition-transform duration-200"
-                      [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
-                  </button>
-                  @if (openAreaDropdown()) {
-                    <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
-                                 shadow-xl z-50 overflow-hidden"
-                         style="min-width:148px; animation:dropdownIn 0.15s ease-out"
-                         (click)="$event.stopPropagation()">
-                      <div class="h-0.5 w-full" style="background:#038dd3"></div>
-                      <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
-                      </div>
-                      @for (a of AREAS_FILTRO; track a.key) {
-                        <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
-                          class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
-                          [class.text-white]="areaFiltro() === a.key"
-                          [class.text-gray-700]="areaFiltro() !== a.key"
-                          [class.hover\:bg-sky-50]="areaFiltro() !== a.key"
-                          [style.background]="areaFiltro() === a.key ? '#038dd3' : ''">
-                          <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                            [class.border-white]="areaFiltro() === a.key"
-                            [style.border-color]="areaFiltro() !== a.key ? '#038dd3' : ''">
-                            @if (areaFiltro() === a.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
-                          </span>
-                          <span class="font-semibold flex-1">{{ a.label }}</span>
-                        </button>
-                      }
-                      <div class="h-1"></div>
-                    </div>
-                  }
-                </div>
               </div>
             }
 
@@ -648,64 +636,57 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
             }
 
+            <!-- ★ Área (después de Distrito, oculta en Región Natural) -->
+            @if (nivelFiltro() !== 'region_natural') {
+              <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
+                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest px-0.5 leading-none hidden sm:block">Área</span>
+                <div class="relative">
+                  <button (click)="openAreaDropdown.update(v => !v)"
+                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
+                           transition-all duration-200 focus:outline-none border whitespace-nowrap"
+                    [style]="openAreaDropdown()
+                      ? 'background:#dcdcdc; color:#374151; border-color:#d1d5db'
+                      : 'background:#efefef; color:#374151; border-color:#e5e7eb'">
+                    <span>{{ areaLabel() }}</span>
+                    <app-hero-icon [name]="'chevron-down'"
+                      class="w-3 h-3 shrink-0 transition-transform duration-200"
+                      [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
+                  </button>
+                  @if (openAreaDropdown()) {
+                    <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                                 shadow-xl z-50 overflow-hidden"
+                         style="min-width:148px; animation:dropdownIn 0.15s ease-out"
+                         (click)="$event.stopPropagation()">
+                      <div class="h-0.5 w-full" style="background:#d1d5db"></div>
+                      <div class="px-3 pt-2 pb-1">
+                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
+                      </div>
+                      @for (a of AREAS_FILTRO; track a.key) {
+                        <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                          [class.text-white]="areaFiltro() === a.key"
+                          [class.text-gray-700]="areaFiltro() !== a.key"
+                          [class.hover\:bg-gray-50]="areaFiltro() !== a.key"
+                          [style.background]="areaFiltro() === a.key ? '#6b7280' : ''">
+                          <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                            [class.border-white]="areaFiltro() === a.key"
+                            [style.border-color]="areaFiltro() !== a.key ? '#6b7280' : ''">
+                            @if (areaFiltro() === a.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                          </span>
+                          <span class="font-semibold flex-1">{{ a.label }}</span>
+                        </button>
+                      }
+                      <div class="h-1"></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
           </div><!-- /geo-dropdowns -->
         </div><!-- /inner filtros redondeado -->
       </div><!-- /sticky wrapper barra de filtros -->
 
-      <!-- ══ BARRA SECUNDARIA: Ind. Principales + Ind. Temáticos ══════════ -->
-      <div class="bg-white border-b border-gray-100 shadow-sm shrink-0
-                  px-2 py-1.5 md:px-4
-                  flex flex-nowrap items-center gap-2 overflow-x-auto"
-           (click)="$event.stopPropagation()">
-
-        <div class="flex items-center gap-1 shrink-0">
-
-          <!-- Botón padre: Ind. Principales -->
-          <button (click)="toggleNavSection('principales'); $event.stopPropagation()"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            [style]="expandedSection() === 'principales'
-              ? 'background:linear-gradient(to right,#0056a1,#33b3a9);color:#fff;box-shadow:0 1px 6px rgba(0,86,161,0.30);'
-              : 'background:#f3f4f6;color:#6b7280;'">
-            <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Principales</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0 transition-transform duration-200"
-              [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
-          </button>
-
-          <!-- Sub-botones de Ind. Principales -->
-          @if (expandedSection() === 'principales') {
-            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
-                 style="animation:fadeIn 0.15s ease-out forwards">
-              @for (tab of viewTabs; track tab.route) {
-                <button [routerLink]="tab.route"
-                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
-                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
-                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-                  <span>{{ tab.label }}</span>
-                </button>
-              }
-            </div>
-          }
-
-          <!-- Botón padre: Ind. Temáticos -->
-          <button (click)="$event.stopPropagation()"
-            routerLink="/dashboard-tematico"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            style="background:#f3f4f6;color:#6b7280;">
-            <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Temáticos</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
-          </button>
-
-        </div>
-
-        <!-- Ámbito geográfico actual -->
-        <div class="ml-auto shrink-0 flex items-center gap-1.5 bg-[#0056a1]/5 border border-[#0056a1]/20 rounded-lg px-2 py-1">
-          <app-hero-icon [name]="'map-pin'" class="w-3 h-3 text-[#0056a1] shrink-0"></app-hero-icon>
-          <span class="text-[10px] font-black text-[#0056a1] whitespace-nowrap">{{ displayedTitle() }}</span>
-        </div>
-
-      </div><!-- /barra secundaria -->
 
       <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════════════
            Wrapper que en xl activa scroll interno para que el header quede fijo
