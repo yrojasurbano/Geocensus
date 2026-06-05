@@ -776,7 +776,7 @@ const S = { w: 380, h: 550 };
                        (click)="$event.stopPropagation()">
                     <div class="h-0.5 w-full" style="background:#0056a1"></div>
                     <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área de residencia</span>
+                      <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
                     </div>
                     @for (a of AREAS_FILTRO; track a.key) {
                       <button
@@ -1876,8 +1876,10 @@ export class DashboardComponent implements OnInit {
     private router = inject(Router);
 
 isBtnActive(btn: { id: string; route?: string }): boolean {
-    return this.router.url === btn.route
-        || this.router.url.startsWith(btn.route + '/');
+    if (btn.id === 'poblacion_total') return true;
+    return btn.route
+        ? this.router.url === btn.route || this.router.url.startsWith(btn.route + '/')
+        : this.activeSection() === btn.id;
 }
 
     // ── Estado primitivo ──────────────────────────────────────────────────

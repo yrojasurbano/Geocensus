@@ -22,7 +22,7 @@ echarts.use([BarChart, PieChart, LineChart, TooltipComponent, LegendComponent, G
 interface GeoOption { code: string; name: string; sortKey?: string; }
 
 export type NivelGeoType    = 'Departamental' | 'Provincial' | 'Distrital';
-export type NivelFiltroType = 'region_natural' | 'departamental' | 'provincial' | 'distrital';
+export type NivelFiltroType = 'politico_administrativo' | 'region_natural';
 export type AreaFiltroType  = 'total' | 'urbano' | 'rural';
 
 const REGIONES_NATURALES: { key: string; label: string; color: string; ccddList: string[] }[] = [
@@ -1620,20 +1620,18 @@ export class DashboardCensadaComponent implements OnInit {
 
     // ── Nivel de filtro geográfico ─────────────────────────────────────────
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'region_natural', label: 'Región Natural', icon: 'globe-americas', color: '#33b3a9' },
-        { key: 'departamental',  label: 'Departamental',  icon: 'map',            color: '#0056a1' },
-        { key: 'provincial',     label: 'Provincial',     icon: 'home',           color: '#038dd3' },
-        { key: 'distrital',      label: 'Distrital',      icon: 'table-cells',    color: '#1a75aa' },
+        { key: 'politico_administrativo', label: 'Político Administrativo', icon: 'map',            color: '#0056a1' },
+        { key: 'region_natural',          label: 'Región Natural',          icon: 'globe-americas', color: '#33b3a9' },
     ];
     readonly REGIONES_NATURALES = REGIONES_NATURALES;
 
-    nivelFiltro           = signal<NivelFiltroType>('departamental');
+    nivelFiltro           = signal<NivelFiltroType>('politico_administrativo');
     selectedRegionNatural = signal<string>('');
     openRegionDropdown    = signal<boolean>(false);
     openNivelDropdown     = signal<boolean>(false);
 
     activeNivelDef = computed(() =>
-        this.NIVELES_FILTRO.find(n => n.key === this.nivelFiltro()) ?? this.NIVELES_FILTRO[1]
+        this.NIVELES_FILTRO.find(n => n.key === this.nivelFiltro()) ?? this.NIVELES_FILTRO[0]
     );
     regionNaturalLabel = computed(() => {
         const key = this.selectedRegionNatural();
@@ -1653,9 +1651,11 @@ export class DashboardCensadaComponent implements OnInit {
     private areaRateDelta = computed(() => AREA_RATE_DELTA[this.areaFiltro()]);
 
     isGeoProvActive = computed(() =>
-        this.nivelFiltro() === 'provincial' || this.nivelFiltro() === 'distrital'
+        this.nivelFiltro() === 'politico_administrativo' && this.nivelGeo() !== 'Departamental'
     );
-    isGeoDistActive = computed(() => this.nivelFiltro() === 'distrital');
+    isGeoDistActive = computed(() =>
+        this.nivelFiltro() === 'politico_administrativo' && this.nivelGeo() === 'Distrital'
+    );
 
     private rawGeoJson     = signal<any>(null);
     private rawGeoJsonProv = signal<any>(null);
@@ -1718,19 +1718,9 @@ export class DashboardCensadaComponent implements OnInit {
         this.openRegionDropdown.set(false);
         this.openNivelDropdown.set(false);
         this.selectedRegionNatural.set('');
-        if (nivel === 'region_natural' || nivel === 'departamental') {
+        if (nivel === 'region_natural') {
             this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
             this.nivelGeo.set('Departamental');
-        } else if (nivel === 'provincial') {
-            this.selectedProv.set(''); this.selectedDist.set('');
-            this.nivelGeo.set(this.selectedCCDD() ? 'Provincial' : 'Departamental');
-            this.loadGeoJsonProv();
-        } else if (nivel === 'distrital') {
-            this.selectedDist.set('');
-            if (this.selectedProv()) this.nivelGeo.set('Distrital');
-            else if (this.selectedCCDD()) this.nivelGeo.set('Provincial');
-            else this.nivelGeo.set('Departamental');
-            this.loadGeoJsonProv(); this.loadGeoJsonDist();
         }
     }
 
@@ -1743,7 +1733,6 @@ export class DashboardCensadaComponent implements OnInit {
         this.selectedCCDD.set(dept?.ccdd ?? '');
         this.selectedProv.set(''); this.selectedDist.set(''); this.openGeoDropdown.set(null);
         if (dept) {
-            if (this.nivelFiltro() === 'departamental') this.nivelFiltro.set('provincial');
             this.nivelGeo.set('Provincial'); this.loadGeoJsonProv();
         } else { this.nivelGeo.set('Departamental'); }
     }
@@ -1751,7 +1740,6 @@ export class DashboardCensadaComponent implements OnInit {
     selectProv(code: string): void {
         this.selectedProv.set(code); this.selectedDist.set(''); this.openGeoDropdown.set(null);
         if (code) {
-            if (this.nivelFiltro() === 'provincial') this.nivelFiltro.set('distrital');
             this.nivelGeo.set('Distrital'); this.loadGeoJsonDist();
         } else if (this.selectedCCDD()) { this.nivelGeo.set('Provincial'); }
     }
@@ -1761,7 +1749,7 @@ export class DashboardCensadaComponent implements OnInit {
     resetFilters(): void {
         this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
         this.selectedRegionNatural.set('');
-        this.nivelGeo.set('Departamental'); this.nivelFiltro.set('departamental');
+        this.nivelGeo.set('Departamental'); this.nivelFiltro.set('politico_administrativo');
         this.openGeoDropdown.set(null); this.openRegionDropdown.set(false);
         this.openNivelDropdown.set(false); this.openAreaDropdown.set(false);
         this.areaFiltro.set('total');

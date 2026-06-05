@@ -1605,9 +1605,8 @@ export class DashboardTematicoComponent implements OnInit {
 
     // ── Botonera de secciones ─────────────────────────────────────────────
     readonly navSections = [
-        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar',      route: '/dashboard' },
-        { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
-        { id: 'comunidades',         label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
+        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar', route: '/dashboard' },
+        { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',      route: '/dashboard-censada' },
     ];
 
     isBtnActive(btn: { id: string; route?: string }): boolean {
