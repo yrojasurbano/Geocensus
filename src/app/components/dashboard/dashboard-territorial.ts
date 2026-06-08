@@ -415,7 +415,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             <!-- ★ Sub-nivel (Dep / Prov / Dist — solo en División Territorial) -->
             @if (nivelActivo() !== 'Región Natural') {
               <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Nivel</span>
+                
                 <div class="relative">
                   <button (click)="toggleDropdown('subnivel')"
                     class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -605,7 +605,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             <!-- ★ Área (oculto en Región Natural) -->
             @if (nivelActivo() !== 'Región Natural') {
               <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Área</span>
+                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Área de residencia</span>
                 <div class="relative">
                   <button (click)="openAreaDropdown.update(v => !v)"
                     class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
@@ -625,7 +625,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                          (click)="$event.stopPropagation()">
                       <div class="h-0.5 w-full" style="background:#d1d5db"></div>
                       <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
+                        <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
                       </div>
                       @for (a of AREAS_FILTRO; track a.key) {
                         <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"

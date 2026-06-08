@@ -218,28 +218,27 @@ import { RouterLink } from '@angular/router';
                 <!-- Viviendas Censadas -->
                 <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
                   <!-- Hero Icon: home (outline) -->
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                       class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                  </svg>
+                  <img
+                    src="vivienda.svg"
+                    alt="Viviendas"
+                    class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                  >
                   <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Viviendas Censadas</span>
                   <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                     {{ formatNumber(viviendasCensadas) }}
                   </span>
-                </div>
-
+                </div>            
+               
                 <div class="hidden md:block w-px h-24 2xl:h-32 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-4 2xl:mx-8"></div>
                 <div class="block md:hidden w-full h-px bg-gradient-to-r from-transparent via-white/40 to-transparent my-6"></div>
 
                 <!-- Hogares Censados -->
                 <div class="flex-1 flex flex-col items-center w-full text-white transform transition-transform hover:scale-105">
-                  <!-- Hero Icon: user-group (outline) -->
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                       class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                  </svg>
+                  <img
+                    src="hogar.svg"
+                    alt="Hogares"
+                    class="w-10 h-10 2xl:w-12 2xl:h-12 mb-2 2xl:mb-3 drop-shadow-md object-contain brightness-0 invert"
+                  >
                   <span class="text-xs md:text-sm 2xl:text-base font-medium tracking-widest uppercase opacity-90 drop-shadow-md text-center">Hogares Censados</span>
                   <span class="text-3xl md:text-4xl 2xl:text-[2.75rem] font-black mt-1 drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300 text-center w-full">
                     {{ formatNumber(hogaresCensados) }}

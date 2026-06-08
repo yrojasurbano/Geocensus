@@ -126,12 +126,155 @@ const DOC_TYPES = ['Solo tiene partida de nacimiento','Solo tiene carné de extr
 // ══════════════════════════════════════════════════════════════════════════════
 
 // ── Fecundidad: datos mock ────────────────────────────────────────────────────
-const FECU_AGE = ['15-19','20-24','25-29','30-34','35-39','40-44','45-49'] as const;
+const FECU_AGE = ['15-19 años','20-24 años','25-29 años','30-34 años','35-39 años','40-44 años','45-49 años'] as const;
 const FECU_CON_HIJOS  = [18.4, 48.2, 68.4, 78.6, 84.2, 87.3, 88.4] as const;
 const FECU_SIN_HIJOS  = [81.6, 51.8, 31.6, 21.4, 15.8, 12.7, 11.6] as const;
 const FECU_PROM_EDAD  = [0.3,  1.1,  1.8,  2.4,  2.9,  3.2,  3.5 ] as const;
-const FECU_EC_CATS    = ['Soltera','Conviviente','Divorciada','Separada','Casada','Viuda'] as const;
+const FECU_EC_CATS    = ['Viuda','Casada','Separada','Divorciada','Conviviente','Soltera'] as const;
 const FECU_EC_PROM    = [1.2, 2.6, 2.4, 2.8, 3.1, 4.2] as const;
+
+// ── Migración inmigrante extranjera: datos mock ───────────────────────
+const MIGR_GRUPOS_EDAD      = ['0 a 14 años', '15 a 59 años', '60 y más años'] as const;
+const MIGR_GRUPOS_EDAD_DATA = [287_293, 2_134_000, 426_000] as const;
+
+const MIGR_PIRAMIDE_GRUPOS = [
+    '0 a 4 años',  '5 a 9 años',  '10 a 14 años', '15 a 19 años', '20 a 24 años',
+    '25 a 29 años','30 a 34 años','35 a 39 años',  '40 a 44 años', '45 a 49 años',
+    '50 a 54 años','55 a 59 años','60 a 64 años',  '65 a 69 años', '70 a 74 años',
+    '75 a 79 años','80 a 84 años','85 y más años',
+] as const;
+const MIGR_PIRAMIDE_HOMBRE = [
+    45_293,  52_892,  48_293,  87_293, 234_892, 298_293, 267_892, 198_293,
+    142_892, 112_293,  87_892,  62_293,  47_892,  32_293,  22_892,  14_293, 8_892, 4_293,
+] as const;
+const MIGR_PIRAMIDE_MUJER = [
+    43_892,  50_293,  46_892,  92_892, 247_293, 312_892, 278_293, 207_892,
+    152_293, 122_892,  92_293,  67_892,  52_293,  37_892,  27_293,  17_892, 11_293, 5_892,
+] as const;
+
+const MIGR_SEGURO      = ['Con algún seguro de salud', 'No tiene ningún seguro'] as const;
+const MIGR_SEGURO_DATA = [1_234_892, 1_612_401] as const;
+
+const MIGR_NIVEL_EDU      = ['Sin nivel / Inicial', 'Primaria', 'Secundaria', 'Superior no universitaria', 'Superior universitaria'] as const;
+const MIGR_NIVEL_EDU_DATA = [127_293, 234_892, 892_293, 547_892, 1_044_923] as const;
+
+const MIGR_PAISES      = ['Venezuela', 'Argentina', 'Chile', 'Colombia', 'Bolivia', 'Estados Unidos'] as const;
+const MIGR_PAISES_DATA = [1_234_892, 347_892, 289_293, 234_892, 187_892, 127_892] as const;
+
+// ── Identidad y Protección Social: datos mock ─────────────────────────
+const ESTCIV_COL_CATS  = ['Soltero/a', 'Conviviente', 'Casado/a', 'Viudo/a', 'Separado/a'] as const;
+const ESTCIV_COL_DATA  = [12_847_293, 4_234_892, 8_234_847, 1_847_293, 892_293] as const;
+
+const ESTCIV_PIR_CATS   = ['Divorciado/a', 'Viudo/a', 'Separado/a', 'Casado/a', 'Conviviente', 'Soltero/a'] as const;
+const ESTCIV_PIR_HOMBRE = [110_000, 700_000, 380_000, 4_100_000, 2_100_000, 6_400_000] as const;
+const ESTCIV_PIR_MUJER  = [124_892, 1_147_293, 512_293, 4_134_847, 2_134_892, 6_447_293] as const;
+
+const ESTCIV_EDAD_CATS   = ['12 a 17 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const ESTCIV_ACTUALMENTE = [12_000, 1_420_000, 5_340_000, 3_120_000, 1_940_000] as const;
+const ESTCIV_ANTERIORM   = [500, 200_000, 620_000, 950_000, 1_450_000] as const;
+const ESTCIV_NUNCA       = [2_980_000, 4_180_000, 2_140_000, 630_000, 410_000] as const;
+
+const DNI_EDAD_CATS  = ['0 a 17 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const DNI_EDAD_DATA  = [6_234_892, 7_847_293, 9_234_892, 6_847_293, 3_835_630] as const;
+
+const DOC_INMIGR_CATS = ['Tiene DNI', 'Solo tiene carné de extranjería', 'Solo tiene permiso temporal de permanencia', 'Solo tiene partida de nacimiento', 'No tiene documento alguno'] as const;
+const DOC_INMIGR_DATA = [892_293, 1_234_892, 347_892, 127_892, 244_314] as const;
+
+const SEG_EDAD_CATS  = ['0 a 17 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const SEG_EDAD_DATA  = [8_534_892, 6_847_293, 7_234_892, 4_847_293, 1_816_522] as const;
+
+const SEG_TIPO_CATS  = ['Únicamente SIS', 'Únicamente EsSalud', 'Únicamente otro seguro de salud', 'Con 2 o más seguros'] as const;
+const SEG_TIPO_DATA  = [18_234_892, 7_847_293, 1_192_293, 2_006_414] as const;
+
+// ── Educación: datos mock ──────────────────────────────────────────────
+const EDU_NIVEL_CATS = [
+    'Sin nivel', 'Educación inicial', 'Primaria', 'Secundaria', 'Básica especial',
+    'Superior no universitaria incompleta', 'Superior no universitaria completa',
+    'Superior universitaria incompleta', 'Superior universitaria completa',
+    'Maestría / Doctorado',
+] as const;
+const EDU_NIVEL_DATA = [
+    1_234_892, 187_293, 4_847_293, 7_234_892, 47_293,
+    892_293, 1_234_892, 687_293, 2_234_892, 347_892,
+] as const;
+
+const EDU_NIV_SEX_CATS   = ['Sin nivel / Educación inicial', 'Primaria / Básica especial', 'Secundaria', 'Superior no universitaria', 'Superior universitaria'] as const;
+const EDU_NIV_SEX_HOMBRE = [712_293, 2_734_892, 3_817_293, 1_012_293, 1_487_293] as const;
+const EDU_NIV_SEX_MUJER  = [709_892, 2_347_293, 3_417_892, 1_112_892, 1_794_892] as const;
+
+const EDU_ALFA_EDAD_CATS = ['15 a 17 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const EDU_ALFA_EDAD_DATA = [99.1, 99.4, 98.7, 94.2, 81.4] as const;
+
+const EDU_TIC_EDAD_CATS  = ['15 a 17 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const EDU_TIC_EDAD_DATA  = [89.4, 92.8, 78.4, 58.7, 32.1] as const;
+
+// ── Discapacidad: datos mock ───────────────────────────────────────────
+const DISC_PIR_CATS = [
+    '0 – 4 años',  '5 – 9 años',   '10 – 14 años', '15 – 19 años', '20 – 24 años',
+    '25 – 29 años', '30 – 34 años', '35 – 39 años',  '40 – 44 años', '45 – 49 años',
+    '50 – 54 años', '55 – 59 años', '60 – 64 años',  '65 – 69 años', '70 – 74 años',
+    '75 – 79 años', '80 – 84 años', '85 y más años',
+] as const;
+const DISC_PIR_HOMBRE = [8_293, 12_892, 15_293, 18_892, 22_293, 24_892, 27_293, 29_892, 34_293, 38_892, 45_293, 52_892, 67_293, 72_892, 78_293, 62_892, 45_293, 52_892] as const;
+const DISC_PIR_MUJER  = [7_892, 11_293, 14_892, 17_293, 21_892, 23_293, 26_892, 29_293, 33_892, 38_293, 44_892, 51_293, 65_892, 70_293, 76_892, 65_293, 52_892, 67_293] as const;
+
+const DISC_SEGURO_CATS = ['Seguro Integral de Salud (SIS)', 'EsSalud', 'Seguro de Fuerzas Armadas', 'Seguro privado de salud', 'Otro seguro', 'Ninguno'] as const;
+const DISC_SEGURO_DATA = [892_293, 347_892, 12_293, 87_892, 24_293, 534_892] as const;
+
+const DISC_EDU_CATS = ['Sin nivel', 'Educación inicial', 'Primaria', 'Secundaria', 'Básica especial', 'Superior no universitaria', 'Superior universitaria', 'Maestría / Doctorado'] as const;
+const DISC_EDU_DATA = [234_892, 12_293, 387_892, 412_293, 24_892, 87_293, 124_892, 18_293] as const;
+
+const DISC_ESFERAS_CATS = [
+    'Discapacidad para ver', 'Discapacidad para caminar', 'Discapacidad para oír',
+    'Discapacidad para relacionarse con los demás', 'Discapacidad para concentrarse',
+    'Discapacidad para comunicarse', 'Discapacidad para el cuidado personal',
+] as const;
+const DISC_ESFERAS_DATA = [623_892, 547_293, 389_892, 234_293, 287_892, 198_293, 312_892] as const;
+
+// ── Etnicidad: datos mock ──────────────────────────────────────────────
+const ETNIC_AUTO_CATS = [
+    'Mestizo',
+    'Blanco',
+    'Negro, moreno, zambo, mulato, del pueblo, afroperuano o afrodescendiente',
+    'Quechua',
+    'Aimara',
+    'De un pueblo indígena u originario de la Amazonía',
+    'Otro',
+    'De otro pueblo indígena u originario',
+    'Tusan',
+    'Nikkei',
+] as const;
+const ETNIC_AUTO_DATA  = [18_847_293, 4_234_892, 1_847_293, 5_234_892, 892_293, 347_892, 2_834_293, 234_892, 234_892, 127_892] as const;
+
+const ETNIC_IDIOMA_CATS = [
+    'Castellano',
+    'Quechua',
+    'Aimara',
+    'Shipibo-Konibo',
+    'Awajún / Aguaruna',
+    'Lengua de señas peruana',
+    'Otro idioma o lengua extranjera',
+    'No escucha / No habla',
+    'Otros idiomas o lenguas indígenas u originarias',
+    'Asháninka',
+] as const;
+const ETNIC_IDIOMA_DATA = [26_234_892, 5_847_293, 892_293, 234_892, 187_892, 47_892, 127_892, 32_892, 347_892, 127_892] as const;
+
+const ETNIC_EDAD_CATS     = ['Menores de 18 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
+const ETNIC_IND_EDAD_DATA = [2_234_892, 1_847_293, 2_134_892, 1_234_892, 892_293] as const;
+const ETNIC_AFR_EDAD_DATA = [87_293, 47_892, 67_293, 47_892, 27_892] as const;
+
+const ETNIC_EDU_CATS = [
+    'Sin nivel', 'Educación inicial', 'Primaria', 'Secundaria', 'Básica especial',
+    'Superior no universitaria incompleta', 'Superior no universitaria',
+    'Superior universitaria', 'Maestría / Doctorado',
+] as const;
+const ETNIC_IND_EDU_DATA = [734_892, 234_293, 2_847_293, 2_134_892, 47_293, 287_293, 487_293, 634_892, 87_293] as const;
+const ETNIC_AFR_EDU_DATA = [47_293, 12_293, 87_892, 67_293, 3_892, 17_293, 21_000, 15_000, 3_292] as const;
+
+const ETNIC_ESTCIV_CATS     = ['Conviviente', 'Casado/a', 'Anteriormente unido/a', 'Soltero/a'] as const;
+const ETNIC_IND_ESTCIV_DATA = [1_234_892, 2_293_847, 847_293, 2_518_847] as const;
+const ETNIC_AFR_ESTCIV_DATA = [47_293, 87_293, 27_892, 95_293] as const;
 
 const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
     {
@@ -179,7 +322,7 @@ const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
             },
             // ── IDENTIDAD Y PROTECCIÓN SOCIAL ─────────────────────────────
             {
-                id: 'identidad_proteccion', label: 'Identidad y Protección Social', icon: 'shield-check',
+                id: 'identidad_proteccion', label: 'Estado civil, Identidad y seguro de salud', icon: 'shield-check',
                 gridClass: 'grid grid-cols-1 lg:grid-cols-3',
                 indicators: [
                     // Col 1 — Estado civil
@@ -301,7 +444,7 @@ const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
             },
             // ── IDENTIFICACIÓN ÉTNICA ──────────────────────────────────────
             {
-                id: 'identidad_etnica', label: 'Identificación étnica', icon: 'globe-americas',
+                id: 'identidad_etnica', label: 'Etnicidad', icon: 'globe-americas',
                 gridClass: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
                 indicators: [
                     { id: 'id_etnica', title: 'Población censada según identificación étnica', icon: 'globe-americas', type: 'pie', span: 1, showValues: false,
@@ -351,7 +494,7 @@ const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
             },
             // ── CARACTERÍSTICAS ECONÓMICAS ─────────────────────────────────
             {
-                id: 'caracteristicas_economicas', label: 'Características económicas', icon: 'briefcase',
+                id: 'caracteristicas_economicas', label: 'Población en edad de trabajar', icon: 'briefcase',
                 gridClass: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
                 indicators: [
                     { id: 'pet',               title: 'Población en edad de trabajar',                              icon: 'briefcase',       type: 'kpi',  span: 1, kpiValue: '26 847 293' },
@@ -617,6 +760,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             <!-- Ind. Principales en contenedor #efefef -->
             <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
               <button (click)="toggleNavSection('principales')"
+              routerLink="/dashboard-censada"
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'principales'
@@ -1029,12 +1173,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ══ SECCIONES TEMÁTICAS (sub-nivel dentro del grupo activo) ══════════ -->
       @if (activeGroup(); as grp) {
         @if (grp.sections.length > 1) {
-          <div class="bg-white border-b border-gray-100 shrink-0 px-2 py-1.5 flex items-stretch gap-1.5 overflow-x-auto"
+          <div class="bg-white border-b border-gray-100 shrink-0 px-2 py-1.5 flex items-stretch justify-center gap-1.5 overflow-x-auto"
                (click)="$event.stopPropagation()"
                style="animation: fadeIn 0.18s ease-out forwards">
             @for (sec of grp.sections; track sec.id) {
               <button (click)="setActiveSection(sec.id)"
-                class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[100px] border transition-all duration-200 shrink-0"
+                class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[130px] border transition-all duration-200 shrink-0"
                 [style]="activeSectionId() === sec.id
                   ? 'background:' + grp.color + ';border-color:' + grp.color + ';color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
                   : 'background:#f9fafb;border-color:#e5e7eb;color:#6b7280;'">
@@ -1074,9 +1218,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres en edad fértil (15-49 años)</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
                         <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1093,9 +1237,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'check-circle'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">MEF con hijos/as</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68.4%</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Mujeres entre 15 y 49 años con hijos/as</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1112,9 +1256,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'x-circle'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">MEF sin hijos/as</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31.6%</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">Mujeres entre 15 y 49 años sin hijos/as</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1125,7 +1269,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
                         <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">MEF según tenencia de hijos/as por grupo de edad</p>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Mujeres entre 15 y 49 años según tenencia de hijos/as nacidos/as vivos/as por grupos de edad</p>
                       <button matTooltip="Mujeres de 15 a 49 años según grupo quinquenal de edad y tenencia de hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1156,39 +1300,34 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Tasa de fecundidad global</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2.3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3%</p>
+
                       </div>
                     </div>
                   </div>
 
-                  <!-- KPI 2: Razón niño/a – mujer (diseño censada) -->
+                  <!-- KPI 2: Razón niño/a – mujer -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
                     <div class="px-4 py-3 relative">
-                      <button matTooltip="Número de niños/as de 0-4 años por cada 1 000 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
+                      <button matTooltip="Número de niños/as de 0-4 años por cada 100 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
-                      <p class="text-[10px] font-black text-black tracking-wide leading-none mb-2">Razón niño/a – mujer</p>
-                      <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-1.5 shrink-0">
-                          <div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:#038dd318">
-                            <app-hero-icon [name]="'user'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                          </div>
-                          <div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:#33b3a918">
-                            <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                      <p class="text-[10px] font-black text-black tracking-wide leading-none mb-3">Razón de niño/a mujer</p>
+                      <div class="flex items-center gap-5">
+                        <div class="flex items-center gap-2.5">
+                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
+                          <div class="flex flex-col leading-tight">
+                            <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
+                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
                           </div>
                         </div>
-                        <div class="flex-1 flex flex-col gap-1 min-w-0">
-                          <div class="flex items-baseline gap-1.5">
-                            <span class="text-2xl font-black text-gray-800 leading-none tabular-nums">305</span>
-                            <span class="text-[8px] font-bold text-gray-400 leading-tight">niños/as 0-4<br>por c/1 000 MEF</span>
-                          </div>
-                          <div class="relative h-2 w-full rounded-full overflow-hidden mt-0.5" style="background:#e5e7eb">
-                            <div class="absolute inset-y-0 left-0 rounded-full transition-all duration-500" style="width:23.4%;background:#038dd3"></div>
-                          </div>
-                          <div class="flex justify-between text-[7px] font-bold text-gray-400">
-                            <span>Niños/as</span><span>Mujeres MEF</span>
+                        <div class="flex items-center gap-2.5">
+                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
+                          <div class="flex flex-col leading-tight">
+                            <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
+                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                            <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                           </div>
                         </div>
                       </div>
@@ -1207,9 +1346,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'calculator'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as (MEF 15-49 años)</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2.3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
+
                       </div>
                     </div>
                   </div>
@@ -1220,7 +1359,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
                         <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as por grupo de edad de la madre</p>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as nacidos/as vivos/as por grupos de edad de las mujeres entre 15 y 49 años</p>
                       <button matTooltip="Promedio de hijos/as nacidos/as vivos/as según grupo quinquenal de edad de la madre" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1252,7 +1391,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
                         <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1263,7 +1402,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
                         <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12+ años por estado civil</p>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil</p>
                     </div>
                     @if (isBrowser) {
                       <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:160px">
@@ -1272,7 +1411,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     }
                   </div>
 
-                  <!-- KPI 2: Madres adolescentes 12-17 años -->
+                  <!-- KPI 2: Madres adolescentes de 12 a 17 años -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
                     <div class="h-1" style="background:linear-gradient(to right,#f59e0b,#0056a1)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
@@ -1284,9 +1423,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#f59e0b"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes (12 a 17 años)</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes de 12 a 17 años</p>
                         <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1303,9 +1442,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'exclamation-triangle'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as (mujeres 12 y más años)</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
                         <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
-                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                        
                       </div>
                     </div>
                   </div>
@@ -1316,394 +1455,1411 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             </div>
           }
 
-          <!-- ── MIGRACIÓN: Layout premium analítico, ocupa todo el main ──── -->
+          <!-- ── MIGRACIÓN: Layout 4 columnas centrado ──────────────────── -->
           @if (sec.id === 'migracion') {
-            <div class="h-full flex flex-col p-3 sm:p-4 gap-4 min-h-0">
-              <!-- Fila superior: gráficos de barras (60% del alto) -->
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4"
-                   style="flex: 3 1 0%; min-height: 200px; grid-auto-rows: 1fr">
-                @for (ind of getMigracionCharts(sec); track ind.id; let ci = $index) {
-                  <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-l-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [style]="'border-left-color:' + getMigracionChartColor(ci)">
-                    <div class="flex items-start gap-3 px-5 pt-4 pb-3 border-b border-gray-50 shrink-0">
-                      <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                           [style]="'background:' + getMigracionChartColor(ci) + '18'">
-                        <app-hero-icon [name]="ind.icon" class="w-5 h-5"
-                                       [style]="'color:' + getMigracionChartColor(ci)"></app-hero-icon>
+            <div class="h-full overflow-y-auto px-4 py-4">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-4 gap-3 items-stretch">
+
+                <!-- ════ COLUMNA 1 ════ -->
+                <div class="h-full flex flex-col gap-3">
+
+                  <!-- KPI: Población inmigrante extranjera -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Total de personas nacidas en el extranjero que residen en el país al momento del censo" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'globe-alt'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[11px] sm:text-[12px] font-black leading-snug text-gray-800 pt-0.5 min-w-0">{{ ind.title }}</p>
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all"
-                              [style]="'color:' + getMigracionChartColor(ci) + '80'">
-                        <app-hero-icon [name]="'information-circle'" class="w-5 h-5"></app-hero-icon>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Población inmigrante extranjera</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2 847 293</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pie: Por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por sexo</p>
+                      <button matTooltip="Distribución de la población inmigrante extranjera según sexo declarado al momento del censo" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
                     @if (isBrowser) {
-                      <div class="flex-1 min-h-0 px-2 pb-3 pt-2" style="min-height:160px">
-                        <div echarts [options]="getChartOpt(ind, getMigracionChartColor(ci))" class="w-full h-full"></div>
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:170px">
+                        <div echarts [options]="migrSexoPieOpt" class="w-full h-full"></div>
                       </div>
                     }
                   </div>
-                }
-              </div>
-              <!-- Fila inferior: KPI cards (40% del alto) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                   style="flex: 2 1 0%; min-height: 160px; grid-auto-rows: 1fr">
-                @for (ind of getMigracionKpis(sec); track ind.id; let ki = $index) {
-                  <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-2 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [style]="'border-color:' + getMigracionKpiColor(ki)">
-                    <div class="h-1.5 w-full shrink-0"
-                         [style]="'background:linear-gradient(to right,' + getMigracionKpiGradient(ki) + ')'"></div>
-                    <div class="relative flex-1 flex flex-col px-5 py-4 gap-3 min-h-0">
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all z-10"
-                              [style]="'color:' + getMigracionKpiColor(ki) + '80'">
-                        <app-hero-icon [name]="'information-circle'" class="w-5 h-5"></app-hero-icon>
-                      </button>
-                      <div class="flex items-start gap-3 pr-8">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                             [style]="'background:' + getMigracionKpiColor(ki) + '18'">
-                          <app-hero-icon [name]="ind.icon" class="w-6 h-6"
-                                         [style]="'color:' + getMigracionKpiColor(ki)"></app-hero-icon>
-                        </div>
-                        <p class="text-[11px] sm:text-[12px] font-bold leading-snug pt-0.5"
-                           [style]="'color:' + getMigracionKpiColor(ki)">{{ ind.title }}</p>
+
+                  <!-- Barras: Por grandes grupos de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:190px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
                       </div>
-                      <div class="h-px w-full shrink-0" [style]="'background:' + getMigracionKpiColor(ki) + '22'"></div>
-                      <div class="flex-1 flex flex-col justify-center gap-1.5">
-                        <span class="text-5xl sm:text-6xl font-black text-gray-800 tabular-nums tracking-tight leading-none">
-                          {{ ind.kpiValue ?? '—' }}
-                        </span>
-                        <span class="text-[9px] font-semibold uppercase tracking-widest text-gray-400">Censo 2025</span>
-                        @if (ind.note) {
-                          <div class="mt-1 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5">
-                            <p class="text-[7.5px] text-amber-700 font-semibold leading-tight">{{ ind.note }}</p>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por grandes grupos de edad</p>
+                      <button matTooltip="Distribución de la población inmigrante extranjera según grandes grupos de edad" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:150px">
+                        <div echarts [options]="migrGruposEdadOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- KPI: Razón hombre - mujer -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="px-4 py-3 relative">
+                      <button matTooltip="Número de hombres por cada 100 mujeres de la población inmigrante extranjera" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <p class="text-[10px] font-black text-black tracking-wide leading-snug mb-3 pr-6">Razón hombre - mujer de la población inmigrante extranjera</p>
+                      <div class="flex items-center gap-5">
+                        <div class="flex items-center gap-2.5">
+                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
+                          <div class="flex flex-col leading-tight">
+                            <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
+                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">99,5</span>
                           </div>
-                        }
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
+                          <div class="flex flex-col leading-tight">
+                            <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
+                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                            <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                }
-              </div>
+
+                </div><!-- /col 1 -->
+
+                <!-- ════ COLUMNAS 2 + 3 ════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
+
+                  <!-- Fila: 3 KPIs -->
+                  <div class="grid grid-cols-3 gap-3 shrink-0">
+
+                    <!-- KPI: Edad promedio -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                        <button matTooltip="Promedio de edad de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
+                                class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                          <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                        </button>
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a118">
+                          <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <div class="flex-1 min-w-0 pr-5">
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#0056a1">Edad promedio de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">32,4 <span class="text-xs font-bold text-gray-400">años</span></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- KPI: Edad mediana -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                        <button matTooltip="Edad mediana de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
+                                class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                          <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                        </button>
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd318">
+                          <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
+                        </div>
+                        <div class="flex-1 min-w-0 pr-5">
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#038dd3">Edad mediana de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">29,7 <span class="text-xs font-bold text-gray-400">años</span></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- KPI: Índice de envejecimiento -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#0056a1)"></div>
+                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                        <button matTooltip="Razón entre la población de 60 y más años y la de 0 a 14 años, multiplicada por 100" matTooltipClass="custom-tooltip"
+                                class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                          <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                        </button>
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a918">
+                          <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                        </div>
+                        <div class="flex-1 min-w-0 pr-5">
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#33b3a9">Índice de envejecimiento de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">148,3</p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /3 KPIs -->
+
+                  <!-- Pirámide poblacional -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:500px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por sexo y grupos de edad</p>
+                      <button matTooltip="Distribución de la población inmigrante extranjera según sexo y grupos quinquenales de edad" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:460px">
+                        <div echarts [options]="migrPiramideOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                </div><!-- /col 2+3 -->
+
+                <!-- ════ COLUMNA 4 ════ -->
+                <div class="h-full flex flex-col gap-3">
+
+                  <!-- Pie: Por seguro de salud -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'shield-check'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por tenencia de seguro de salud</p>
+                      <button matTooltip="Distribución de la población inmigrante extranjera según tenencia de algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:170px">
+                        <div echarts [options]="migrSeguroOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- hbar: Por nivel educativo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:190px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'academic-cap'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por nivel educativo</p>
+                      <button matTooltip="Distribución de la población inmigrante extranjera según nivel educativo alcanzado" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:150px">
+                        <div echarts [options]="migrNivelEduOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- hbar: Principales países de origen -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:210px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'map-pin'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Principales países de origen de la población inmigrante extranjera</p>
+                      <button matTooltip="Países de nacimiento más frecuentes de la población inmigrante extranjera residente en el país" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:170px">
+                        <div echarts [options]="migrPaisesOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                </div><!-- /col 4 -->
+
+              </div><!-- /grid 4 cols -->
             </div>
           }
 
-          <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 3 columnas + fila ancha ── -->
+          <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 5 columnas ── -->
           @if (sec.id === 'identidad_proteccion') {
-            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+            <div class="h-full overflow-y-auto px-4 py-4">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
 
-              <!-- ══ ESTADO CIVIL ══════════════════════════════════════════════ -->
-              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                   style="background:#0056a118;border-left:3px solid #0056a1">
-                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">Estado Civil</span>
-              </div>
+                <!-- ════ COL 1: Estado Civil ════════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">
 
-              <!-- Fila 1 (min 250px): hbar estado civil (2col) + grouped_hbar por sexo (2col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:250px">
-                @for (ind of getIndicatorsForGroup(sec,['estado_civil','estado_civil_sexo']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
-                               col-span-1 sm:col-span-1 lg:col-span-2">
-                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#0056a1'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                       style="background:#0056a118;border-left:3px solid #0056a1">
+                    <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">Estado Civil</span>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 2 (min 320px): grouped_bar estado civil × edad — ancho completo -->
-              @for (ind of getIndicatorsForGroup(sec,['estado_civil_edad']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:320px">
-                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9,#8282fb)"></div>
-                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#0056a1'}"></ng-container>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
-                </div>
-              }
-
-              <!-- ══ DOCUMENTOS DE IDENTIDAD ═══════════════════════════════════ -->
-              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                   style="background:#038dd318;border-left:3px solid #038dd3">
-                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#038dd3">Documentos de Identidad</span>
-              </div>
-
-              <!-- Fila 3 (min 240px): pie tenencia DNI (2col) + grouped_hbar sin DNI por sexo (2col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:240px">
-                @for (ind of getIndicatorsForGroup(sec,['tenencia_dni','dni_sexo']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default
-                               col-span-1 sm:col-span-1 lg:col-span-2">
-                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
-                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#038dd3'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#038dd3'}"></ng-container>
+                  <!-- Columnas: población por estado civil -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:200px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población de 12 y más años por estado civil o conyugal</p>
+                      <button matTooltip="Distribución de la población de 12 y más años según su estado civil o conyugal" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identEstCivColOpt" class="w-full h-full"></div>
+                    </div>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 4 (min 295px): grouped_bar documento × edad — ancho completo -->
-              @for (ind of getIndicatorsForGroup(sec,['dni_edad']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:295px">
-                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9,#8282fb,#0056a1)"></div>
-                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#038dd3'}"></ng-container>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#038dd3'}"></ng-container>
-                </div>
-              }
-
-              <!-- ══ SEGURO DE SALUD ════════════════════════════════════════════ -->
-              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                   style="background:#33b3a918;border-left:3px solid #33b3a9">
-                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">Seguro de Salud</span>
-              </div>
-
-              <!-- Fila 5 (min 220px): kpi cobertura (1col) + hbar tipo seguro (3col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:220px">
-                @for (ind of getIndicatorsForGroup(sec,['cobertura_seguro','tipo_seguro']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="ind.id === 'tipo_seguro' ? 'col-span-1 sm:col-span-1 lg:col-span-3' : 'col-span-1'">
-                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
-                    <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#33b3a9'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
+                  <!-- Pirámide: estado civil por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:220px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por sexo</p>
+                      <button matTooltip="Pirámide comparativa de estado civil entre hombres y mujeres" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identEstCivPirOpt" class="w-full h-full"></div>
+                    </div>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 6 (min 250px): grouped_hbar seguro × sexo — ancho completo -->
-              @for (ind of getIndicatorsForGroup(sec,['seguro_sexo']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:250px">
-                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
-                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#33b3a9'}"></ng-container>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
-                </div>
-              }
+                  <!-- Barras apiladas: estado civil por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:200px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por grupo de edad</p>
+                      <button matTooltip="Distribución del estado civil según grupos de edad: actualmente unidos, anteriormente unidos y nunca unidos" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identEstCivEdadOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
 
-              <!-- Fila 7 (min 320px): grouped_bar seguro × edad — ancho completo -->
-              @for (ind of getIndicatorsForGroup(sec,['seguro_edad']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:320px">
-                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#8282fb,#0056a1,#038dd3,#33b3a9)"></div>
-                  <ng-container *ngTemplateOutlet="identHeaderTpl;context:{$implicit:ind,clr:'#8282fb'}"></ng-container>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#8282fb'}"></ng-container>
-                </div>
-              }
+                </div><!-- /col 1 -->
 
+                <!-- ════ COLS 2+3: Identidad ═══════════════════════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
+
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                       style="background:#038dd318;border-left:3px solid #038dd3">
+                    <span class="text-[9px] font-black uppercase tracking-widest" style="color:#038dd3">Identidad</span>
+                  </div>
+
+                  <!-- KPI: Población con DNI -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Total de personas que cuentan con Documento Nacional de Identidad (DNI) vigente" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'identification'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que tiene DNI</p>
+                        <div class="flex items-baseline gap-2">
+                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">34 000 000</p>
+                          <span class="text-sm font-bold" style="color:#038dd3">94,4%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Fila pies DNI por sexo -->
+                  <div class="grid grid-cols-2 gap-2 shrink-0">
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
+                      <div class="h-0.5 shrink-0" style="background:#0056a1"></div>
+                      <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
+                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población masculina con tenencia de DNI</p>
+                        <button matTooltip="Porcentaje de hombres que cuentan con DNI sobre el total de población masculina" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1">
+                        <div echarts [options]="identDniMascPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
+                      <div class="h-0.5 shrink-0" style="background:#33b3a9"></div>
+                      <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
+                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población femenina con tenencia de DNI</p>
+                        <button matTooltip="Porcentaje de mujeres que cuentan con DNI sobre el total de población femenina" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1">
+                        <div echarts [options]="identDniFemPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+                  </div><!-- /fila pies DNI -->
+
+                  <!-- Columnas: DNI por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población que tiene DNI por grupo de edad</p>
+                      <button matTooltip="Distribución de personas con DNI según grupos de edad" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identDniEdadOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: documentos de inmigrante extranjero -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población inmigrante extranjera según tipo de documento de identidad</p>
+                      <button matTooltip="Tipo de documento de identidad que posee la población inmigrante extranjera residente en el país" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identDocInmigrOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /cols 2+3 -->
+
+                <!-- ════ COLS 4+5: Seguro de Salud ═════════════════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
+
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                       style="background:#33b3a918;border-left:3px solid #33b3a9">
+                    <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">Seguro de Salud</span>
+                  </div>
+
+                  <!-- KPI: Con algún seguro de salud -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Total de personas que cuentan con algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'shield-check'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que tiene algún seguro de salud</p>
+                        <div class="flex items-baseline gap-2">
+                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">29 280 892</p>
+                          <span class="text-sm font-bold" style="color:#33b3a9">81,3%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Fila pies seguro por sexo -->
+                  <div class="grid grid-cols-2 gap-2 shrink-0">
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
+                      <div class="h-0.5 shrink-0" style="background:#0056a1"></div>
+                      <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
+                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población masculina con algún seguro de salud</p>
+                        <button matTooltip="Porcentaje de hombres que cuentan con algún seguro de salud sobre el total de población masculina" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1">
+                        <div echarts [options]="identSegMascPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
+                      <div class="h-0.5 shrink-0" style="background:#33b3a9"></div>
+                      <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
+                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población femenina con algún seguro de salud</p>
+                        <button matTooltip="Porcentaje de mujeres que cuentan con algún seguro de salud sobre el total de población femenina" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1">
+                        <div echarts [options]="identSegFemPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+                  </div><!-- /fila pies seguro -->
+
+                  <!-- Columnas: seguro por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud por grupo de edad</p>
+                      <button matTooltip="Distribución de personas con algún seguro de salud según grupos de edad" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identSegEdadOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: seguro por tipo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud según tipo de seguro</p>
+                      <button matTooltip="Distribución de la población asegurada según el tipo de seguro de salud que posee" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="identSegTipoOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /cols 4+5 -->
+
+              </div><!-- /grid 5 cols -->
             </div>
           }
 
-          <!-- ── EDUCACIÓN: 4 colores cíclicos, ocupa todo el main ──────────── -->
+          <!-- ── EDUCACIÓN: 5 columnas ─────────────────────────────────────── -->
           @if (sec.id === 'educacion') {
-            <div class="h-full flex flex-col p-2 sm:p-3 md:p-4 min-h-0">
-              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 flex-1 min-h-0"
-                   style="grid-auto-rows: minmax(180px, 1fr); align-content: stretch;">
-                @for (ind of sec.indicators; track ind.id; let i = $index) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getColSpanClass(ind.span)">
-                    <div class="h-1 w-full shrink-0"
-                         [style]="'background:linear-gradient(to right,' + getEduColor(i) + ',' + getEduColorNext(i) + ')'"></div>
-                    <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                           [style]="'background:' + getEduColor(i) + '18'">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4"
-                                       [style]="'color:' + getEduColor(i)"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4"
-                                       [style]="'color:' + getEduColor(i) + '60'"></app-hero-icon>
+            <div class="h-full overflow-y-auto px-4 py-4">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
+
+                <!-- ════ COL 1: Nivel Educativo ══════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">
+
+                 
+
+                  <!-- H-bar: nivel educativo alcanzado -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:280px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 15 y más años según nivel educativo alcanzado</p>
+                      <button matTooltip="Distribución de la población censada de 15 y más años según el mayor nivel educativo alcanzado" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:getEduColor(i)}"></ng-container>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduNivelHbarOpt" class="w-full h-full"></div>
+                    </div>
                   </div>
-                }
-              </div>
+
+                  <!-- Columnas agrupadas: nivel educativo por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:210px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Nivel educativo alcanzado de la población censada de 15 y más años por sexo</p>
+                      <button matTooltip="Comparación del nivel educativo alcanzado entre hombres y mujeres de 15 y más años" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduNivelSexColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 1 -->
+
+                <!-- ════ COL 2: Asistencia Escolar ════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">
+                  
+                  <!-- KPI: tasa asistencia 3-24 años -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Porcentaje de la población de 3 a 24 años que asiste a algún centro de enseñanza" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'academic-cap'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Tasa de asistencia escolar de la población censada de 3 a 24 años</p>
+                        <div class="flex items-baseline gap-2">
+                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">6 758 293</p>
+                          <span class="text-sm font-bold" style="color:#038dd3">78,4%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- KPI: desplazamiento fuera de distrito -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Población que se desplaza hacia otro distrito para asistir a su centro de enseñanza" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
+                        <app-hero-icon [name]="'map'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se desplaza fuera de su distrito para asistir a su centro de enseñanza</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: asistencia 3-5 años por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 3 a 5 años por sexo</p>
+                      <button matTooltip="Tasa de asistencia escolar de la población de 3 a 5 años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAsist3a5ColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: asistencia 12-16 años por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 12 a 16 años por sexo</p>
+                      <button matTooltip="Tasa de asistencia escolar de la población de 12 a 16 años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAsist12a16ColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 2 -->
+
+                <!-- ════ COL 3: Asistencia Escolar ════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">
+
+                  <!-- Columnas: asistencia 3-24 según sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 3 a 24 años según sexo</p>
+                      <button matTooltip="Tasa de asistencia escolar de la población de 3 a 24 años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAsist3a24ColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: asistencia 6-11 años por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 6 a 11 años por sexo</p>
+                      <button matTooltip="Tasa de asistencia escolar de la población de 6 a 11 años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAsist6a11ColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: asistencia 17-24 años por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 17 a 24 años por sexo</p>
+                      <button matTooltip="Tasa de asistencia escolar de la población de 17 a 24 años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAsist17a24ColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 3 -->
+
+                <!-- ════ COL 4: Alfabetismo ════════════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">                
+
+                  <!-- KPI: tasa de alfabetismo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Porcentaje de la población de 15 y más años que sabe leer y escribir" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'book-open'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Tasa de alfabetismo de la población censada de 15 y más años</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#33b3a9">94,8%</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: alfabetismo por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de alfabetismo de la población censada de 15 y más años por sexo</p>
+                      <button matTooltip="Tasa de alfabetismo de la población de 15 y más años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAlfaSexColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- H-bar: alfabetismo por grupos de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#0056a1)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de alfabetismo de la población censada de 15 y más años por grupos de edad</p>
+                      <button matTooltip="Tasa de alfabetismo de la población de 15 y más años según grupos de edad" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduAlfaEdadHbarOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 4 -->
+
+                <!-- ════ COL 5: TIC ════════════════════════════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">                  
+
+                  <!-- KPI: uso TIC -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Porcentaje de la población de 3 y más años que utilizó al menos una tecnología de información y comunicación" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
+                        <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población censada de 3 y más años que utilizó al menos una TIC</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#8282fb">68,4%</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Columnas: TIC por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 3 y más años que utilizó al menos una TIC por sexo</p>
+                      <button matTooltip="Uso de TIC por la población de 3 y más años según sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduTicSexColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- H-bar: TIC por grupos de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 3 y más años que utilizó al menos una TIC por grupos de edad</p>
+                      <button matTooltip="Uso de TIC por la población de 3 y más años según grupos de edad" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="eduTicEdadHbarOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 5 -->
+
+              </div><!-- /grid 5 cols -->
             </div>
           }
 
-          <!-- ── IDENTIFICACIÓN ÉTNICA: filas explícitas, scroll natural ───── -->
+          <!-- ── ETNICIDAD: 8 columnas ──────────────────────────────────────── -->
           @if (sec.id === 'identidad_etnica') {
-            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+            <div class="h-full overflow-y-auto px-4 py-4">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-8 gap-3 items-stretch">
 
-              <!-- ·· Bloque: Pueblo indígena u originario ················ -->
-              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                   style="background:#0056a118;border-left:3px solid #0056a1">
-                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">
-                  Pueblo indígena u originario
-                </span>
-              </div>
+                <!-- ════ COLS 1+2: Autoidentificación étnica e Idioma ════════════ -->
+                <div class="col-span-2 flex flex-col gap-3 h-full">
 
-              <!-- Fila 1: pie identificación (1 col) + hbar agrupado por sexo (3 cols) -->
-              <div class="grid grid-cols-1 lg:grid-cols-4 gap-3" style="min-height:300px">
-                @for (ind of getIndicatorsForGroup(sec, ['id_etnica','indigena_sexo']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getEtnicaColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0"
-                         style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                  <!-- Bar: Población según autoidentificación étnica -->
+                  <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
+                        <app-hero-icon [name]="'globe-americas'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+                      <p class="flex-1 text-[10px] font-bold text-gray-600 leading-tight min-w-0">Población según autoidentificación étnica</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#0056a160"></app-hero-icon>
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
-                  </div>
-                }
-              </div>
-
-              <!-- Fila 2: grouped_bar por grupos de edad — ancho total, 10 series -->
-              @for (ind of getIndicatorsForGroup(sec, ['indigena_edad']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:360px">
-                  <div class="h-1 w-full shrink-0"
-                       style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                  <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-                      <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="etnicAutoBarOpt" class="w-full h-full"></div>
                     </div>
-                    <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
-                    <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                            class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#0056a160"></app-hero-icon>
-                    </button>
                   </div>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
-                </div>
-              }
 
-              <!-- Fila 3: hbar nivel educativo (2col) + pie TICs (1col) + hbar estado civil (1col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:260px">
-                @for (ind of getIndicatorsForGroup(sec, ['indigena_edu','indigena_tics','indigena_estado_civil']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getEtnicaColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0"
-                         style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                  <!-- Bar: Idioma o lengua aprendida en la niñez -->
+                  <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd315">
+                        <app-hero-icon [name]="'chat-bubble-left'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
                       </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+                      <p class="flex-1 text-[10px] font-bold text-gray-600 leading-tight min-w-0">Población censada según idiomas o lenguas con las que aprendió a hablar en su niñez</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#0056a160"></app-hero-icon>
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
-                  </div>
-                }
-              </div>
-
-              <!-- ·· Bloque: Afroperuano o afrodescendiente ·············· -->
-              <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
-                   style="background:#33b3a918;border-left:3px solid #33b3a9">
-                <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">
-                  Afroperuano o afrodescendiente
-                </span>
-              </div>
-
-              <!-- Fila 4: hbar sexo (1col) + hbar grupos de edad (1col) + hbar nivel educativo (2col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:240px">
-                @for (ind of getIndicatorsForGroup(sec, ['afro_sexo','afro_edad','afro_edu']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getEtnicaColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0"
-                         style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
-                    <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a915">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4" style="color:#33b3a960"></app-hero-icon>
-                      </button>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="etnicIdiomaBarOpt" class="w-full h-full"></div>
                     </div>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#33b3a9'}"></ng-container>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 5: pie TICs (1col) + hbar estado civil (1col) + hbar idioma niñez (2col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:230px">
-                @for (ind of getIndicatorsForGroup(sec, ['afro_tics','afro_estado_civil','idioma_ninez']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getEtnicaColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0"
-                         [style]="ind.id === 'idioma_ninez'
-                           ? 'background:linear-gradient(to right,#038dd3,#33b3a9)'
-                           : 'background:linear-gradient(to right,#33b3a9,#038dd3)'"></div>
-                    <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                           [style]="ind.id === 'idioma_ninez' ? 'background:#038dd315' : 'background:#33b3a915'">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4"
-                                       [style]="ind.id === 'idioma_ninez' ? 'color:#038dd3' : 'color:#33b3a9'"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+                </div><!-- /cols 1+2 -->
+
+                <!-- ════ COLS 3+4+5: Población indígena u originaria ═════════════ -->
+                <div class="col-span-3 flex flex-col gap-3">
+
+                  <!-- Encabezado de bloque -->
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                       style="background:#0056a118;border-left:3px solid #0056a1">
+                    <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">
+                      Población que se autoidentifica como parte de un pueblo indígena u originario
+                    </span>
+                  </div>
+
+                  <!-- KPI total — fila 1 -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4"
-                                       [style]="ind.id === 'idioma_ninez' ? 'color:#038dd360' : 'color:#33b3a960'"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#0056a1">8 344 891</p>
+                      </div>
                     </div>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,
-                      color:(ind.id === 'idioma_ninez' ? '#038dd3' : '#33b3a9')}"></ng-container>
                   </div>
-                }
-              </div>
 
+                  <!-- Fila 2: pie sexo (1col) + col grupo de edad (2cols) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:190px">
+
+                    <!-- Pie: Sexo -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
+                          <app-hero-icon [name]="'users'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Sexo</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicIndSexoPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Col: Grupo de edad -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
+                          <app-hero-icon [name]="'chart-bar'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Grupo de edad</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicIndEdadColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fila 2 -->
+
+                  <!-- Filas 3+4: col nivel educativo (2cols) + KPI TIC + KPI analfabeto (1col flex) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:230px">
+
+                    <!-- Col: Nivel educativo alcanzado -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
+                          <app-hero-icon [name]="'academic-cap'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Nivel educativo alcanzado</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicIndEduColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Columna derecha: KPI TIC + KPI analfabeto -->
+                    <div class="flex flex-col gap-3">
+
+                      <!-- KPI: Sí utiliza TIC's -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                        <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
+                          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
+                            <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-4">
+                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">Sí utiliza TIC's</p>
+                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">3 124 892</p>
+                            <span class="text-xs font-bold" style="color:#8282fb">37,5%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- KPI: No sabe leer ni escribir -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
+                        <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
+                          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                            <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-4">
+                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">No sabe leer ni escribir</p>
+                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">892 293</p>
+                            <span class="text-xs font-bold" style="color:#0056a1">10,7%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div><!-- /columna KPIs -->
+
+                  </div><!-- /filas 3+4 -->
+
+                  <!-- Fila 5: pie seguro de salud (2cols) + col estado civil (1col) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:200px">
+
+                    <!-- Pie: Acceso a seguro de salud -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
+                          <app-hero-icon [name]="'heart'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Acceso a seguro de salud</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicIndSeguroPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Col: Estado civil o conyugal -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#038dd315">
+                          <app-hero-icon [name]="'user-group'" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Estado civil o conyugal</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicIndEstcivColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fila 5 -->
+
+                </div><!-- /cols 3+4+5 indígena -->
+
+                <!-- ════ COLS 6+7+8: Población afroperuana o afrodescendiente ═════ -->
+                <div class="col-span-3 flex flex-col gap-3">
+
+                  <!-- Encabezado de bloque -->
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
+                       style="background:#33b3a918;border-left:3px solid #33b3a9">
+                    <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">
+                      Población que se autoidentifica como afroperuano o afrodescendiente
+                    </span>
+                  </div>
+
+                  <!-- KPI total — fila 1 -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se autoidentifica como afroperuano o afrodescendiente</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#33b3a9">275 185</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Fila 2: pie sexo (1col) + col grupo de edad (2cols) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:190px">
+
+                    <!-- Pie: Sexo -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
+                          <app-hero-icon [name]="'users'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Sexo</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicAfrSexoPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Col: Grupo de edad -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
+                          <app-hero-icon [name]="'chart-bar'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Grupo de edad</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicAfrEdadColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fila 2 afro -->
+
+                  <!-- Filas 3+4: col nivel educativo (2cols) + KPI TIC + KPI analfabeto (1col flex) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:230px">
+
+                    <!-- Col: Nivel educativo alcanzado -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
+                          <app-hero-icon [name]="'academic-cap'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Nivel educativo alcanzado</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicAfrEduColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Columna derecha: KPI TIC + KPI analfabeto -->
+                    <div class="flex flex-col gap-3">
+
+                      <!-- KPI: Sí utiliza TIC's -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
+                        <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
+                          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
+                            <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-4">
+                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">Sí utiliza TIC's</p>
+                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">134 892</p>
+                            <span class="text-xs font-bold" style="color:#8282fb">49,0%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- KPI: No sabe leer ni escribir -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
+                        <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
+                          <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                            <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-4">
+                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">No sabe leer ni escribir</p>
+                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">18 293</p>
+                            <span class="text-xs font-bold" style="color:#33b3a9">6,6%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div><!-- /columna KPIs afro -->
+
+                  </div><!-- /filas 3+4 afro -->
+
+                  <!-- Fila 5: pie seguro de salud (2cols) + col estado civil (1col) -->
+                  <div class="grid grid-cols-3 gap-3" style="min-height:200px">
+
+                    <!-- Pie: Acceso a seguro de salud -->
+                    <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
+                          <app-hero-icon [name]="'heart'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Acceso a seguro de salud</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicAfrSeguroPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Col: Estado civil o conyugal -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
+                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#038dd315">
+                          <app-hero-icon [name]="'user-group'" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
+                        </div>
+                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Estado civil o conyugal</p>
+                        <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-1.5">
+                        <div echarts [options]="etnicAfrEstcivColOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fila 5 afro -->
+
+                </div><!-- /cols 6+7+8 afro -->
+
+              </div><!-- /grid 8 cols -->
             </div>
           }
 
           <!-- ── DISCAPACIDAD: filas explícitas, scroll natural ───────────────── -->
+          <!-- ── DISCAPACIDAD: 5 columnas ──────────────────────────────────── -->
           @if (sec.id === 'discapacidad') {
-            <div class="p-2 sm:p-3 md:p-4 flex flex-col gap-3">
+            <div class="h-full overflow-y-auto px-4 py-4">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
 
-              <!-- Fila 1 (min 280px): grouped_hbar sexo (2col) + kpi_list edad promedio (1) + kpi_list edad mediana (1) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:280px">
-                @for (ind of getIndicatorsForGroup(sec,['disc_sexo','edad_prom_disc','edad_mediana_disc']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getDiscColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                <!-- ════ COLS 1+2: Estructura Demográfica ════════════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
+
+                
+                  <!-- Fila 1: 2 KPIs lado a lado -->
+                  <div class="grid grid-cols-2 gap-3 shrink-0">
+
+                    <!-- KPI: Población con discapacidad -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                      <div class="px-4 py-3 flex items-center gap-3 relative">
+                        <button matTooltip="Total de personas que presentan algún tipo de discapacidad" matTooltipClass="custom-tooltip"
+                                class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                          <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                        </button>
+                        <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                          <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                        </div>
+                        <div class="flex-1 min-w-0 pr-5">
+                          <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población con discapacidad</p>
+                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">3 209 257</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- KPI: Hogares con al menos una persona con discapacidad -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                      <div class="px-4 py-3 flex items-center gap-3 relative">
+                        <button matTooltip="Hogares que tienen al menos una persona con algún tipo de discapacidad" matTooltipClass="custom-tooltip"
+                                class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                          <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                        </button>
+                        <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                          <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                        </div>
+                        <div class="flex-1 min-w-0 pr-5">
+                          <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Hogares con al menos una persona con discapacidad</p>
+                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2 847 293</p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fila 1 KPIs -->
+
+                  <!-- Pirámide poblacional (flex-1) -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:420px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Pirámide de la población con discapacidad</p>
+                      <button matTooltip="Distribución de la población con discapacidad por grupos de edad y sexo" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="discPiramideOpt" class="w-full h-full"></div>
+                    </div>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 2 (min 260px): hbar nivel educativo (3col) + kpi hogares (1col) -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" style="min-height:260px">
-                @for (ind of getIndicatorsForGroup(sec,['disc_nivel_edu','hogares_disc']); track ind.id) {
-                  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                               hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                       [class]="getDiscColClass(ind.id)">
-                    <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
-                    <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
+                </div><!-- /cols 1+2 -->
+
+                <!-- ════ COLS 3+4: Salud, Educación y TIC ═════════════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
+
+                  
+
+                  <!-- Columnas: tipo de seguro de salud -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col shrink-0" style="min-height:210px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por acceso a tipo de seguro de salud</p>
+                      <button matTooltip="Distribución de la población con discapacidad según el tipo de seguro de salud al que accede" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="discSeguroColOpt" class="w-full h-full"></div>
+                    </div>
                   </div>
-                }
-              </div>
 
-              <!-- Fila 3 (min 340px): grouped_column por tipo × grupo edad — ancho completo -->
-              @for (ind of getIndicatorsForGroup(sec,['disc_edad']); track ind.id) {
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden
-                             hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                     style="min-height:340px">
-                  <div class="h-1 w-full shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                  <ng-container *ngTemplateOutlet="discHeaderTpl;context:{$implicit:ind}"></ng-container>
-                  <ng-container *ngTemplateOutlet="cardBodyTpl;context:{$implicit:ind,color:'#0056a1'}"></ng-container>
-                </div>
-              }
+                  <!-- Columnas: nivel educativo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col shrink-0" style="min-height:210px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por nivel educativo alcanzado</p>
+                      <button matTooltip="Distribución de la población con discapacidad según el mayor nivel educativo alcanzado" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="discEduColOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
 
+                  <!-- Fila inferior: pie asistencia (izq) + 2 KPIs (der) -->
+                  <div class="grid grid-cols-2 gap-3 flex-1" style="min-height:280px">
+
+                    <!-- Pie: asistencia a centro de enseñanza -->
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
+                      <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-4">Población con discapacidad de 3 a 24 años por asistencia a un centro de enseñanza</p>
+                        <button matTooltip="Distribución de la población con discapacidad de 3 a 24 años según su asistencia a un centro de enseñanza" matTooltipClass="custom-tooltip"
+                                class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                          <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                        </button>
+                      </div>
+                      <div class="flex-1 min-h-0 p-2">
+                        <div echarts [options]="discAsistPieOpt" class="w-full h-full"></div>
+                      </div>
+                    </div>
+
+                    <!-- Columna derecha: 2 KPIs apilados -->
+                    <div class="flex flex-col gap-3">
+
+                      <!-- KPI: no sabe leer ni escribir -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                        <div class="px-4 py-3 flex items-start gap-3 relative h-full">
+                          <button matTooltip="Población con discapacidad que declara no saber leer ni escribir" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#8282fb18">
+                            <app-hero-icon [name]="'pencil'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-5">
+                            <p class="text-[10px] font-bold leading-tight mb-2 text-gray-500">Población con discapacidad que no sabe leer ni escribir</p>
+                            <p class="text-xl font-black text-gray-800 tabular-nums leading-none mb-0.5">534 892</p>
+                            <span class="text-sm font-bold" style="color:#8282fb">16,6%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- KPI: uso de TIC's -->
+                      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
+                        <div class="px-4 py-3 flex items-start gap-3 relative h-full">
+                          <button matTooltip="Población con discapacidad que hace uso de tecnologías de información y comunicación" matTooltipClass="custom-tooltip"
+                                  class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                            <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                          </button>
+                          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#8282fb18">
+                            <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
+                          </div>
+                          <div class="flex-1 min-w-0 pr-5">
+                            <p class="text-[10px] font-bold leading-tight mb-2 text-gray-500">Población con discapacidad que hace uso de TIC's</p>
+                            <p class="text-xl font-black text-gray-800 tabular-nums leading-none mb-0.5">892 293</p>
+                            <span class="text-sm font-bold" style="color:#8282fb">27,8%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div><!-- /columna derecha KPIs -->
+
+                  </div><!-- /fila inferior -->
+
+                </div><!-- /cols 3+4 -->
+
+                <!-- ════ COL 5: Esferas de Funcionamiento ════════════════════════ -->
+                <div class="h-full flex flex-col gap-3">
+
+                  
+
+                  <!-- H-bar: esferas de funcionamiento -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:260px">
+                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad según esfera de funcionamiento</p>
+                      <button matTooltip="Distribución de la población con discapacidad según la esfera de funcionamiento que declara" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="discEsferasHbarOpt" class="w-full h-full"></div>
+                    </div>
+                  </div>
+
+                  <!-- KPI especial: edad promedio y mediana -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
+                    <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
+                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-4">Edad promedio y mediana de la población con discapacidad</p>
+                      <button matTooltip="Edad promedio y mediana de la población con discapacidad, desagregada por esfera de funcionamiento" matTooltipClass="custom-tooltip"
+                              class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
+                        <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    <!-- Valores principales destacados -->
+                    <div class="flex items-stretch gap-0 px-3 pt-2.5 pb-2 border-b border-gray-100">
+                      <div class="flex flex-col items-center flex-1 gap-0.5">
+                        <span class="text-[8px] font-semibold text-gray-400 uppercase tracking-wide">Promedio</span>
+                        <span class="text-3xl font-black tabular-nums leading-none" style="color:#0056a1">58,4</span>
+                        <span class="text-[7.5px] text-gray-400">años</span>
+                      </div>
+                      <div class="w-px bg-gray-100 mx-2"></div>
+                      <div class="flex flex-col items-center flex-1 gap-0.5">
+                        <span class="text-[8px] font-semibold text-gray-400 uppercase tracking-wide">Mediana</span>
+                        <span class="text-3xl font-black tabular-nums leading-none" style="color:#33b3a9">60,0</span>
+                        <span class="text-[7.5px] text-gray-400">años</span>
+                      </div>
+                    </div>
+                    <!-- Desglose por esfera -->
+                    <div class="px-3 pt-2 pb-2.5">
+                      <div class="grid grid-cols-3 gap-x-2 mb-1.5">
+                        <span class="text-[7.5px] font-bold text-gray-400 col-span-1">Esfera</span>
+                        <span class="text-[7.5px] font-bold text-gray-400 text-right">Prom.</span>
+                        <span class="text-[7.5px] font-bold text-gray-400 text-right">Med.</span>
+                      </div>
+                      @for (row of discEdadEsferas; track row.label) {
+                        <div class="grid grid-cols-3 gap-x-2 py-1 border-t border-gray-50">
+                          <span class="text-[7.5px] text-gray-600 leading-tight col-span-1">{{ row.label }}</span>
+                          <span class="text-[8px] font-black text-right tabular-nums" style="color:#0056a1">{{ row.prom }}</span>
+                          <span class="text-[8px] font-black text-right tabular-nums" style="color:#33b3a9">{{ row.med }}</span>
+                        </div>
+                      }
+                    </div>
+                  </div><!-- /KPI especial -->
+
+                </div><!-- /col 5 -->
+
+              </div><!-- /grid 5 cols -->
             </div>
           }
 
@@ -2284,6 +3440,1119 @@ export class DashboardTematicoComponent implements OnInit {
         return (['#038dd3,#33b3a9', '#0056a1,#038dd3'] as const)[i % 2] ?? '#038dd3,#33b3a9';
     }
 
+    // ── Migración: constructores de gráficos ──────────────────────────────
+    private buildMigrSexoPieOpt(): EChartsOption {
+        const cats   = ['Hombre', 'Mujer'];
+        const data   = [1_420_000, 1_427_293];
+        const colors = [CLR.blue, CLR.teal];
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 10 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${colors[p.dataIndex]}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${p.percent?.toFixed(1)}%)</span>`,
+            },
+            legend: {
+                orient: 'horizontal', bottom: 0, left: 'center',
+                textStyle: { fontSize: 7, color: '#6b7280' }, itemWidth: 8, itemHeight: 8,
+                formatter: (name: string) => { const idx = cats.indexOf(name); return idx >= 0 ? `${name}: ${this.fmt(data[idx])}` : name; },
+            },
+            series: [{
+                type: 'pie', radius: ['30%', '62%'], center: ['50%', '44%'], avoidLabelOverlap: true,
+                data: cats.map((name, i) => ({ name, value: data[i], itemStyle: { color: colors[i] } })),
+                label: { show: false }, labelLine: { show: false },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildMigrGruposEdadOpt(): EChartsOption {
+        const cats = [...MIGR_GRUPOS_EDAD];
+        const data = [...MIGR_GRUPOS_EDAD_DATA];
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 24, right: 8, bottom: 28, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category', data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break', width: 55 },
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            series: [{
+                type: 'bar', data,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
+                    borderRadius: [4, 4, 0, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 40, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildMigrPiramideOpt(): EChartsOption {
+        const grupos = [...MIGR_PIRAMIDE_GRUPOS];
+        const hombreNeg = MIGR_PIRAMIDE_HOMBRE.map(v => -v);
+        const mujer     = [...MIGR_PIRAMIDE_MUJER];
+        const maxVal    = Math.max(...MIGR_PIRAMIDE_HOMBRE, ...MIGR_PIRAMIDE_MUJER);
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: {
+                data: ['Hombre', 'Mujer'], top: 4, right: 8,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            grid: { top: 28, right: 12, bottom: 16, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: -maxVal * 1.15, max: maxVal * 1.15,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(Math.abs(v)) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: grupos,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [
+                {
+                    name: 'Hombre', type: 'bar', stack: 'total', data: hombreNeg,
+                    itemStyle: { color: CLR.blue, borderRadius: [2, 0, 0, 2] as [number, number, number, number] },
+                    barMaxWidth: 18, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+                {
+                    name: 'Mujer', type: 'bar', stack: 'total', data: mujer,
+                    itemStyle: { color: CLR.teal, borderRadius: [0, 2, 2, 0] as [number, number, number, number] },
+                    barMaxWidth: 18, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+            ],
+        };
+    }
+
+    private buildMigrSeguroOpt(): EChartsOption {
+        const cats: string[] = [...MIGR_SEGURO];
+        const data           = [...MIGR_SEGURO_DATA];
+        const colors = [CLR.blue, '#9ca3af'];
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 10 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${colors[p.dataIndex]}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${p.percent?.toFixed(1)}%)</span>`,
+            },
+            legend: {
+                orient: 'horizontal', bottom: 0, left: 'center',
+                textStyle: { fontSize: 7, color: '#6b7280', overflow: 'break', width: 90 } as any,
+                itemWidth: 8, itemHeight: 8,
+                formatter: (name: string) => { const idx = cats.indexOf(name); return idx >= 0 ? `${name}: ${this.fmt(data[idx])}` : name; },
+            },
+            series: [{
+                type: 'pie', radius: ['30%', '62%'], center: ['50%', '42%'], avoidLabelOverlap: true,
+                data: cats.map((name, i) => ({ name, value: data[i], itemStyle: { color: colors[i] } })),
+                label: { show: false }, labelLine: { show: false },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildMigrNivelEduOpt(): EChartsOption {
+        const cats = [...MIGR_NIVEL_EDU].reverse();
+        const data = [...MIGR_NIVEL_EDU_DATA].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', overflow: 'break', width: 85 },
+            },
+            series: [{
+                type: 'bar', data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.4) }] },
+                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildMigrPaisesOpt(): EChartsOption {
+        const cats = [...MIGR_PAISES].reverse();
+        const data = [...MIGR_PAISES_DATA].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar', data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
+                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    // ── Identidad y Protección Social: builders ──────────────────────────
+    private buildIdentEstCivColOpt(): EChartsOption {
+        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#038dd3'];
+        const data = [...ESTCIV_COL_DATA].map((v, i) => ({
+            value: v,
+            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 24, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...ESTCIV_COL_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 8, color: '#9ca3af', interval: 0 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{
+                type: 'bar' as const, data, barMaxWidth: 36,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildIdentEstCivPirOpt(): EChartsOption {
+        const hombreNeg = [...ESTCIV_PIR_HOMBRE].map(v => -v);
+        const maxVal    = Math.max(...ESTCIV_PIR_HOMBRE, ...ESTCIV_PIR_MUJER);
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: {
+                data: ['Hombre', 'Mujer'], top: 2, right: 6,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            grid: { top: 24, right: 10, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: -maxVal * 1.15, max: maxVal * 1.15,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(Math.abs(v)) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: [...ESTCIV_PIR_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [
+                {
+                    name: 'Hombre', type: 'bar' as const, stack: 'total', data: hombreNeg,
+                    itemStyle: { color: CLR.blue, borderRadius: [2, 0, 0, 2] as [number, number, number, number] },
+                    barMaxWidth: 18, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+                {
+                    name: 'Mujer', type: 'bar' as const, stack: 'total', data: [...ESTCIV_PIR_MUJER],
+                    itemStyle: { color: CLR.teal, borderRadius: [0, 2, 2, 0] as [number, number, number, number] },
+                    barMaxWidth: 18, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+            ],
+        };
+    }
+
+    private buildIdentEstCivEdadOpt(): EChartsOption {
+        const cats = [...ESTCIV_EDAD_CATS].reverse();
+        const act  = [...ESTCIV_ACTUALMENTE].reverse();
+        const ant  = [...ESTCIV_ANTERIORM].reverse();
+        const nun  = [...ESTCIV_NUNCA].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${this.fmt(it.value)}</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: {
+                data: ['Actualmente unidos', 'Anteriormente unidos', 'Nunca unidos'],
+                top: 2, left: 'center' as const,
+                textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            grid: { top: 28, right: 16, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [
+                { name: 'Actualmente unidos', type: 'bar' as const, stack: 'total', data: act,
+                  itemStyle: { color: CLR.blue }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+                { name: 'Anteriormente unidos', type: 'bar' as const, stack: 'total', data: ant,
+                  itemStyle: { color: CLR.sky }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+                { name: 'Nunca unidos', type: 'bar' as const, stack: 'total', data: nun,
+                  itemStyle: { color: CLR.teal, borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+            ],
+        };
+    }
+
+    private buildIdentDniPieOpt(conVal: number, sinVal: number, color: string): EChartsOption {
+        const total = conVal + sinVal;
+        const pct = ((conVal / total) * 100).toFixed(1).replace('.', ',');
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+            },
+            graphic: [{
+                type: 'text',
+                left: 'center', top: '36%',
+                style: { text: `${pct}%`, fontSize: 13, fontWeight: 'bold' as const, fill: '#1f2937' },
+            }],
+            series: [{
+                type: 'pie', radius: ['38%', '64%'], center: ['50%', '50%'],
+                avoidLabelOverlap: true,
+                data: [
+                    { name: 'Con documento', value: conVal, itemStyle: { color } },
+                    { name: 'Sin documento', value: sinVal, itemStyle: { color: '#e5e7eb' } },
+                ],
+                label: { show: false }, labelLine: { show: false },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildIdentDniEdadOpt(): EChartsOption {
+        const data = [...DNI_EDAD_DATA].map(v => ({
+            value: v,
+            itemStyle: {
+                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
+                    colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.5) }] },
+                borderRadius: [4, 4, 0, 0] as [number, number, number, number],
+            },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...DNI_EDAD_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 32,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildIdentDocInmigrOpt(): EChartsOption {
+        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#6b7280'];
+        const data = [...DOC_INMIGR_DATA].map((v, i) => ({
+            value: v,
+            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...DOC_INMIGR_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 28,
+                             overflow: 'break' as const, width: 72 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 36,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildIdentSegEdadOpt(): EChartsOption {
+        const data = [...SEG_EDAD_DATA].map(v => ({
+            value: v,
+            itemStyle: {
+                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
+                    colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.5) }] },
+                borderRadius: [4, 4, 0, 0] as [number, number, number, number],
+            },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...SEG_EDAD_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 32,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildIdentSegTipoOpt(): EChartsOption {
+        const colors = [CLR.blue, CLR.teal, CLR.sky, CLR.purple];
+        const data = [...SEG_TIPO_DATA].map((v, i) => ({
+            value: v,
+            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...SEG_TIPO_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 20,
+                             overflow: 'break' as const, width: 80 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 44,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    // ── Educación: builders ───────────────────────────────────────────────
+    private buildEduNivelHbarOpt(): EChartsOption {
+        const cats = [...EDU_NIVEL_CATS].reverse();
+        const data = [...EDU_NIVEL_DATA].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar' as const, data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.blue }, { offset: 1, color: this.hexToRgba(CLR.blue, 0.4) }] },
+                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildEduNivelSexColOpt(): EChartsOption {
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${this.fmt(it.value)}</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: {
+                data: ['Hombre', 'Mujer'], top: 2, right: 6,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            grid: { top: 26, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...EDU_NIV_SEX_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                             overflow: 'break' as const, width: 72 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [
+                {
+                    name: 'Hombre', type: 'bar' as const, data: [...EDU_NIV_SEX_HOMBRE],
+                    itemStyle: { color: CLR.blue, borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+                    barMaxWidth: 18, emphasis: { focus: 'series' as const },
+                },
+                {
+                    name: 'Mujer', type: 'bar' as const, data: [...EDU_NIV_SEX_MUJER],
+                    itemStyle: { color: CLR.teal, borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+                    barMaxWidth: 18, emphasis: { focus: 'series' as const },
+                },
+            ],
+        };
+    }
+
+    private buildEduAsist2BarColOpt(hVal: number, mVal: number): EChartsOption {
+        const maxV = Math.max(hVal, mVal);
+        const yMax = maxV < 20 ? 25 : maxV < 70 ? Math.ceil(maxV / 10) * 10 + 8 : 105;
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${(p.value as number).toFixed(1).replace('.', ',')}%</span>`;
+                },
+            },
+            grid: { top: 22, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: ['Hombre', 'Mujer'],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 9, color: '#9ca3af' },
+            },
+            yAxis: {
+                type: 'value' as const, min: 0, max: yMax,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v + '%' },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{
+                type: 'bar' as const, barMaxWidth: 56,
+                data: [
+                    { value: hVal, itemStyle: { color: CLR.blue, borderRadius: [4, 4, 0, 0] as [number, number, number, number] } },
+                    { value: mVal, itemStyle: { color: CLR.teal, borderRadius: [4, 4, 0, 0] as [number, number, number, number] } },
+                ],
+                label: { show: true, position: 'top' as const, fontSize: 10, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => `${(p.value as number).toFixed(1).replace('.', ',')}%` },
+                emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildEduPctHbarOpt(cats: readonly string[], data: readonly number[], color: string): EChartsOption {
+        const reversed_cats = [...cats].reverse();
+        const reversed_data = [...data].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${color}">${(p.value as number).toFixed(1).replace('.', ',')}%</span>`;
+                },
+            },
+            grid: { top: 6, right: 44, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: 0, max: 100,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v + '%' },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: reversed_cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar' as const, data: reversed_data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => `${(p.value as number).toFixed(1).replace('.', ',')}%` },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color }, { offset: 1, color: this.hexToRgba(color, 0.4) }] },
+                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    // ── Discapacidad: builders ────────────────────────────────────────────
+    private buildDiscPiramideOpt(): EChartsOption {
+        const cats      = [...DISC_PIR_CATS];
+        const hombreNeg = [...DISC_PIR_HOMBRE].map(v => -v);
+        const maxVal    = Math.max(...DISC_PIR_HOMBRE, ...DISC_PIR_MUJER);
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: {
+                data: ['Hombre', 'Mujer'], top: 2, right: 6,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            grid: { top: 24, right: 10, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: -maxVal * 1.15, max: maxVal * 1.15,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(Math.abs(v)) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [
+                {
+                    name: 'Hombre', type: 'bar' as const, stack: 'total', data: hombreNeg,
+                    itemStyle: { color: CLR.blue, borderRadius: [2, 0, 0, 2] as [number, number, number, number] },
+                    barMaxWidth: 16, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+                {
+                    name: 'Mujer', type: 'bar' as const, stack: 'total', data: [...DISC_PIR_MUJER],
+                    itemStyle: { color: CLR.teal, borderRadius: [0, 2, 2, 0] as [number, number, number, number] },
+                    barMaxWidth: 16, label: { show: false }, emphasis: { focus: 'series' as const },
+                },
+            ],
+        };
+    }
+
+    private buildDiscSeguroColOpt(): EChartsOption {
+        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#038dd3', '#6b7280'];
+        const data = [...DISC_SEGURO_DATA].map((v, i) => ({
+            value: v,
+            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...DISC_SEGURO_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 18,
+                             overflow: 'break' as const, width: 80 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 44,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildDiscEduColOpt(): EChartsOption {
+        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#038dd3', '#33b3a9', '#0056a1', '#8282fb'];
+        const data = [...DISC_EDU_DATA].map((v, i) => ({
+            value: v,
+            itemStyle: { color: colors[i % colors.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...DISC_EDU_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                             overflow: 'break' as const, width: 72 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data, barMaxWidth: 36,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildDiscAsistPieOpt(): EChartsOption {
+        const cats: string[] = ['Sí asiste', 'No asiste'];
+        const data = [89_293, 47_892];
+        const colors = [CLR.sky, '#e5e7eb'];
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+            },
+            legend: {
+                orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            series: [{
+                type: 'pie', radius: ['34%', '62%'], center: ['50%', '44%'],
+                data: cats.map((name, i) => ({ name, value: data[i], itemStyle: { color: colors[i] } })),
+                label: {
+                    show: true, fontSize: 9, fontWeight: 700 as const,
+                    formatter: (p: any) => `${p.name}\n${(p.percent as number).toFixed(1).replace('.', ',')}%`,
+                    color: '#374151',
+                },
+                labelLine: { show: true, length: 8, length2: 12 },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildDiscEsferasHbarOpt(): EChartsOption {
+        const cats = [...DISC_ESFERAS_CATS].reverse();
+        const data = [...DISC_ESFERAS_DATA].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.purple}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar' as const, data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.purple }, { offset: 1, color: this.hexToRgba(CLR.purple, 0.4) }] },
+                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    // ── Helpers: Etnicidad ────────────────────────────────────────────────
+
+    private buildEtnicHBarOpt(cats: string[], data: number[]): EChartsOption {
+        const revCats = [...cats].reverse();
+        const revData = [...data].reverse().map((v, i) => ({
+            value: v,
+            itemStyle: { color: PIE_COLORS[i % PIE_COLORS.length], borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color ?? CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: revCats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', width: 110, overflow: 'break' as const },
+            },
+            series: [{
+                type: 'bar' as const, data: revData,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildEtnicSexoPieOpt(hombreVal: number, mujerVal: number, color1: string, color2: string): EChartsOption {
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+            },
+            legend: {
+                orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            series: [{
+                type: 'pie', radius: ['38%', '64%'], center: ['50%', '44%'],
+                data: [
+                    { name: 'Hombre', value: hombreVal, itemStyle: { color: color1 } },
+                    { name: 'Mujer',  value: mujerVal,  itemStyle: { color: color2 } },
+                ],
+                label: {
+                    show: true, fontSize: 9, fontWeight: 700 as const, color: '#374151',
+                    formatter: (p: any) => `${p.name}\n${(p.percent as number).toFixed(1).replace('.', ',')}%`,
+                },
+                labelLine: { show: true, length: 8, length2: 10 },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildEtnicEdadColOpt(data: number[], color: string): EChartsOption {
+        const barData = data.map(v => ({
+            value: v,
+            itemStyle: {
+                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
+                    colorStops: [{ offset: 0, color }, { offset: 1, color: this.hexToRgba(color, 0.35) }] },
+                borderRadius: [4, 4, 0, 0] as [number, number, number, number],
+            },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 24, right: 6, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...ETNIC_EDAD_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 52 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data: barData, barMaxWidth: 36,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildEtnicEduColOpt(data: number[], color: string): EChartsOption {
+        const palette = [color, CLR.sky, CLR.teal, CLR.purple, '#004a8a', '#27a09c', '#0275af', '#6b6be8', '#005fa8'];
+        const barData = data.map((v, i) => ({
+            value: v,
+            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...ETNIC_EDU_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                             overflow: 'break' as const, width: 68 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data: barData, barMaxWidth: 28,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
+    private buildEtnicSeguroPieOpt(siVal: number, noVal: number, color: string): EChartsOption {
+        return {
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (p: any) =>
+                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                  + `<span style="font-size:11px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
+                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+            },
+            legend: {
+                orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
+                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+            },
+            series: [{
+                type: 'pie', radius: ['38%', '64%'], center: ['50%', '44%'],
+                data: [
+                    { name: 'Sí tiene seguro',  value: siVal, itemStyle: { color } },
+                    { name: 'No tiene seguro', value: noVal, itemStyle: { color: '#e5e7eb' } },
+                ],
+                label: {
+                    show: true, fontSize: 9, fontWeight: 700 as const, color: '#374151',
+                    formatter: (p: any) => `${p.name}\n${(p.percent as number).toFixed(1).replace('.', ',')}%`,
+                },
+                labelLine: { show: true, length: 8, length2: 10 },
+                emphasis: { scale: true, scaleSize: 4 },
+            }],
+        };
+    }
+
+    private buildEtnicEstcivColOpt(data: number[], color: string): EChartsOption {
+        const palette = [color, CLR.sky, CLR.teal, CLR.purple];
+        const barData = data.map((v, i) => ({
+            value: v,
+            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+        }));
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                },
+            },
+            grid: { top: 24, right: 6, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'category' as const, data: [...ETNIC_ESTCIV_CATS],
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 52 },
+            },
+            yAxis: {
+                type: 'value' as const,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => this.fmtAxis(p.value as number) },
+                emphasis: { itemStyle: { opacity: 0.85 } } }],
+        };
+    }
+
     // ── Helpers: Características Económicas (4-color palette) ────────────
     private readonly ECON_COLORS = ['#0056a1', '#038dd3', '#33b3a9', '#8282fb'] as const;
     getEconColor(i: number): string { return this.ECON_COLORS[i % this.ECON_COLORS.length]; }
@@ -2361,7 +4630,7 @@ export class DashboardTematicoComponent implements OnInit {
 
     // ── Filtro de ámbito (División Territorial / Región Natural) ──────────
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'politico_administrativo', label: 'Político Administrativo', icon: 'map',            color: '#0056a1' },
+        { key: 'politico_administrativo', label: 'División territorial', icon: 'map',            color: '#0056a1' },
         { key: 'region_natural',          label: 'Región Natural',          icon: 'globe-americas', color: '#33b3a9' },
     ];
     readonly REGIONES_NATURALES = REGIONES_NATURALES;
@@ -2515,11 +4784,121 @@ export class DashboardTematicoComponent implements OnInit {
     readonly fecuPromEdadOpt!:  EChartsOption;
     readonly fecuEstCivilOpt!:  EChartsOption;
 
+    // ── Migración: opciones de gráficos pre-computadas ────────────────────
+    readonly migrSexoPieOpt!:    EChartsOption;
+    readonly migrGruposEdadOpt!: EChartsOption;
+    readonly migrPiramideOpt!:   EChartsOption;
+    readonly migrSeguroOpt!:     EChartsOption;
+    readonly migrNivelEduOpt!:   EChartsOption;
+    readonly migrPaisesOpt!:     EChartsOption;
+
+    // ── Identidad y Protección Social ─────────────────────────────────
+    readonly identEstCivColOpt!:  EChartsOption;
+    readonly identEstCivPirOpt!:  EChartsOption;
+    readonly identEstCivEdadOpt!: EChartsOption;
+    readonly identDniMascPieOpt!: EChartsOption;
+    readonly identDniFemPieOpt!:  EChartsOption;
+    readonly identDniEdadOpt!:    EChartsOption;
+    readonly identDocInmigrOpt!:  EChartsOption;
+    readonly identSegMascPieOpt!: EChartsOption;
+    readonly identSegFemPieOpt!:  EChartsOption;
+    readonly identSegEdadOpt!:    EChartsOption;
+    readonly identSegTipoOpt!:    EChartsOption;
+
+    // ── Educación ─────────────────────────────────────────────────────
+    readonly eduNivelHbarOpt!:     EChartsOption;
+    readonly eduNivelSexColOpt!:   EChartsOption;
+    readonly eduAsist3a24ColOpt!:  EChartsOption;
+    readonly eduAsist3a5ColOpt!:   EChartsOption;
+    readonly eduAsist6a11ColOpt!:  EChartsOption;
+    readonly eduAsist12a16ColOpt!: EChartsOption;
+    readonly eduAsist17a24ColOpt!: EChartsOption;
+    readonly eduAlfaSexColOpt!:    EChartsOption;
+    readonly eduAlfaEdadHbarOpt!:  EChartsOption;
+    readonly eduTicSexColOpt!:     EChartsOption;
+    readonly eduTicEdadHbarOpt!:   EChartsOption;
+
+    // ── Discapacidad ──────────────────────────────────────────────────
+    readonly discPiramideOpt!:    EChartsOption;
+    readonly discSeguroColOpt!:   EChartsOption;
+    readonly discEduColOpt!:      EChartsOption;
+    readonly discAsistPieOpt!:    EChartsOption;
+    readonly discEsferasHbarOpt!: EChartsOption;
+
+    // ── Etnicidad ──────────────────────────────────────────────────────────
+    readonly etnicAutoBarOpt!:      EChartsOption;
+    readonly etnicIdiomaBarOpt!:    EChartsOption;
+    readonly etnicIndSexoPieOpt!:   EChartsOption;
+    readonly etnicIndEdadColOpt!:   EChartsOption;
+    readonly etnicIndEduColOpt!:    EChartsOption;
+    readonly etnicIndSeguroPieOpt!: EChartsOption;
+    readonly etnicIndEstcivColOpt!: EChartsOption;
+    readonly etnicAfrSexoPieOpt!:   EChartsOption;
+    readonly etnicAfrEdadColOpt!:   EChartsOption;
+    readonly etnicAfrEduColOpt!:    EChartsOption;
+    readonly etnicAfrSeguroPieOpt!: EChartsOption;
+    readonly etnicAfrEstcivColOpt!: EChartsOption;
+
+    readonly discEdadEsferas: Array<{label: string; prom: string; med: string}> = [
+        { label: 'Discapacidad para ver',                        prom: '62,3', med: '64,0' },
+        { label: 'Discapacidad para oír',                        prom: '64,8', med: '66,0' },
+        { label: 'Discapacidad para comunicarse',                prom: '54,2', med: '55,0' },
+        { label: 'Discapacidad para caminar',                    prom: '65,7', med: '67,0' },
+        { label: 'Discapacidad para el cuidado personal',        prom: '67,3', med: '70,0' },
+        { label: 'Discapacidad para concentrarse',               prom: '56,1', med: '57,0' },
+        { label: 'Discapacidad para relacionarse con los demás', prom: '53,4', med: '54,0' },
+    ];
+
     constructor() {
-        this.isBrowser       = isPlatformBrowser(this.platformId);
+        this.isBrowser        = isPlatformBrowser(this.platformId);
         this.fecuHijosEdadOpt = this.buildFecuHijosEdadOpt();
         this.fecuPromEdadOpt  = this.buildFecuPromEdadOpt();
         this.fecuEstCivilOpt  = this.buildFecuEstCivilOpt();
+        this.migrSexoPieOpt    = this.buildMigrSexoPieOpt();
+        this.migrGruposEdadOpt = this.buildMigrGruposEdadOpt();
+        this.migrPiramideOpt   = this.buildMigrPiramideOpt();
+        this.migrSeguroOpt     = this.buildMigrSeguroOpt();
+        this.migrNivelEduOpt   = this.buildMigrNivelEduOpt();
+        this.migrPaisesOpt     = this.buildMigrPaisesOpt();
+        this.identEstCivColOpt  = this.buildIdentEstCivColOpt();
+        this.identEstCivPirOpt  = this.buildIdentEstCivPirOpt();
+        this.identEstCivEdadOpt = this.buildIdentEstCivEdadOpt();
+        this.identDniMascPieOpt = this.buildIdentDniPieOpt(16_500_000, 1_000_000, CLR.blue);
+        this.identDniFemPieOpt  = this.buildIdentDniPieOpt(17_500_000, 1_000_000, CLR.teal);
+        this.identSegMascPieOpt = this.buildIdentDniPieOpt(14_200_000, 3_300_000, CLR.blue);
+        this.identSegFemPieOpt  = this.buildIdentDniPieOpt(15_080_892, 3_419_108, CLR.teal);
+        this.identDniEdadOpt    = this.buildIdentDniEdadOpt();
+        this.identDocInmigrOpt  = this.buildIdentDocInmigrOpt();
+        this.identSegEdadOpt    = this.buildIdentSegEdadOpt();
+        this.identSegTipoOpt    = this.buildIdentSegTipoOpt();
+        this.eduNivelHbarOpt     = this.buildEduNivelHbarOpt();
+        this.eduNivelSexColOpt   = this.buildEduNivelSexColOpt();
+        this.eduAsist3a24ColOpt  = this.buildEduAsist2BarColOpt(77.2, 79.6);
+        this.eduAsist3a5ColOpt   = this.buildEduAsist2BarColOpt(63.2, 64.8);
+        this.eduAsist6a11ColOpt  = this.buildEduAsist2BarColOpt(96.4, 96.8);
+        this.eduAsist12a16ColOpt = this.buildEduAsist2BarColOpt(94.1, 95.3);
+        this.eduAsist17a24ColOpt = this.buildEduAsist2BarColOpt(52.3, 57.8);
+        this.eduAlfaSexColOpt    = this.buildEduAsist2BarColOpt(97.2, 92.6);
+        this.eduAlfaEdadHbarOpt  = this.buildEduPctHbarOpt(EDU_ALFA_EDAD_CATS, EDU_ALFA_EDAD_DATA, CLR.teal);
+        this.eduTicSexColOpt     = this.buildEduAsist2BarColOpt(71.2, 65.8);
+        this.eduTicEdadHbarOpt   = this.buildEduPctHbarOpt(EDU_TIC_EDAD_CATS, EDU_TIC_EDAD_DATA, CLR.purple);
+        this.discPiramideOpt    = this.buildDiscPiramideOpt();
+        this.discSeguroColOpt   = this.buildDiscSeguroColOpt();
+        this.discEduColOpt      = this.buildDiscEduColOpt();
+        this.discAsistPieOpt    = this.buildDiscAsistPieOpt();
+        this.discEsferasHbarOpt = this.buildDiscEsferasHbarOpt();
+        this.etnicAutoBarOpt      = this.buildEtnicHBarOpt([...ETNIC_AUTO_CATS],   [...ETNIC_AUTO_DATA]);
+        this.etnicIdiomaBarOpt    = this.buildEtnicHBarOpt([...ETNIC_IDIOMA_CATS], [...ETNIC_IDIOMA_DATA]);
+        this.etnicIndSexoPieOpt   = this.buildEtnicSexoPieOpt(4_344_891, 4_000_000, CLR.blue, CLR.teal);
+        this.etnicIndEdadColOpt   = this.buildEtnicEdadColOpt([...ETNIC_IND_EDAD_DATA], CLR.blue);
+        this.etnicIndEduColOpt    = this.buildEtnicEduColOpt([...ETNIC_IND_EDU_DATA],   CLR.blue);
+        this.etnicIndSeguroPieOpt = this.buildEtnicSeguroPieOpt(6_234_892, 2_109_999, CLR.blue);
+        this.etnicIndEstcivColOpt = this.buildEtnicEstcivColOpt([...ETNIC_IND_ESTCIV_DATA], CLR.blue);
+        this.etnicAfrSexoPieOpt   = this.buildEtnicSexoPieOpt(127_293, 147_892, CLR.teal, CLR.sky);
+        this.etnicAfrEdadColOpt   = this.buildEtnicEdadColOpt([...ETNIC_AFR_EDAD_DATA], CLR.teal);
+        this.etnicAfrEduColOpt    = this.buildEtnicEduColOpt([...ETNIC_AFR_EDU_DATA],   CLR.teal);
+        this.etnicAfrSeguroPieOpt = this.buildEtnicSeguroPieOpt(175_293, 99_892, CLR.teal);
+        this.etnicAfrEstcivColOpt = this.buildEtnicEstcivColOpt([...ETNIC_AFR_ESTCIV_DATA], CLR.teal);
     }
 
     ngOnInit(): void { this.loadGeoJson(); }
