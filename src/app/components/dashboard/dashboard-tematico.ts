@@ -25,7 +25,15 @@ echarts.use([BarChart, PieChart, LineChart, TooltipComponent, LegendComponent, G
 // ══════════════════════════════════════════════════════════════════════════════
 
 interface GeoOption { code: string; name: string; sortKey?: string; }
-export type NivelGeoType = 'Departamental' | 'Provincial' | 'Distrital';
+export type NivelGeoType    = 'Departamental' | 'Provincial' | 'Distrital';
+export type NivelFiltroType = 'politico_administrativo' | 'region_natural';
+export type AreaFiltroType  = 'total' | 'urbano' | 'rural';
+
+const REGIONES_NATURALES: { key: string; label: string; color: string; ccddList: string[] }[] = [
+    { key: 'costa',  label: 'Costa',  color: '#0056a1', ccddList: ['07','11','13','14','15','20','24'] },
+    { key: 'sierra', label: 'Sierra', color: '#038dd3', ccddList: ['02','03','04','05','06','08','09','10','12','18','19','21','23'] },
+    { key: 'selva',  label: 'Selva',  color: '#33b3a9', ccddList: ['01','16','17','22','25'] },
+];
 
 interface ThematicSeriesDef {
     readonly name:  string;
@@ -116,6 +124,14 @@ const DOC_TYPES = ['Solo tiene partida de nacimiento','Solo tiene carné de extr
 // ══════════════════════════════════════════════════════════════════════════════
 // CONFIGURACIÓN DE GRUPOS TEMÁTICOS
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ── Fecundidad: datos mock ────────────────────────────────────────────────────
+const FECU_AGE = ['15-19','20-24','25-29','30-34','35-39','40-44','45-49'] as const;
+const FECU_CON_HIJOS  = [18.4, 48.2, 68.4, 78.6, 84.2, 87.3, 88.4] as const;
+const FECU_SIN_HIJOS  = [81.6, 51.8, 31.6, 21.4, 15.8, 12.7, 11.6] as const;
+const FECU_PROM_EDAD  = [0.3,  1.1,  1.8,  2.4,  2.9,  3.2,  3.5 ] as const;
+const FECU_EC_CATS    = ['Soltera','Conviviente','Divorciada','Separada','Casada','Viuda'] as const;
+const FECU_EC_PROM    = [1.2, 2.6, 2.4, 2.8, 3.1, 4.2] as const;
 
 const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
     {
@@ -467,31 +483,38 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <div class="w-px h-6 md:h-7 bg-gray-200 hidden md:block"></div>
           <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-base font-medium tracking-wide" style="color:#0056a1">
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
           <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
             Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
           <div class="relative">
-            <button (click)="toggleCensos($event)" class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
+            <button (click)="toggleCensos($event)"
+              class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
               Censos 2025
-              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="censosOpen()"></app-hero-icon>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.rotate-180]="censosOpen()"></app-hero-icon>
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             @if (censosOpen()) {
               <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
-                   style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
+                   style="animation: dropdownIn 0.18s ease-out forwards"
+                   (click)="$event.stopPropagation()">
                 <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                 <ul class="py-1">
                   @for (item of censosMenu; track item.label) {
                     <li>
                       <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                        class="w-full text-left px-4 py-2.5 text-base font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700
+                               hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10
+                               hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary
+                                     opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                         {{ item.label }}
                       </button>
                     </li>
@@ -514,315 +537,782 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       @if (mobileMenuOpen()) {
         <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3 flex flex-col gap-1 shrink-0"
              style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
-          <button routerLink="/" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Inicio</button>
-          <button routerLink="/resultados" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-black text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide underline">Resultados</button>
-          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Noticias</button>
+          <button routerLink="/" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Inicio
+          </button>
+          <button routerLink="/intermedia" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Resultados
+          </button>
+          <button (click)="toggleCensos($event)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide flex items-center justify-between">
+            Censos 2025
+            <app-hero-icon [name]="'chevron-down'" class="w-4 h-4 transition-transform"
+              [class.rotate-180]="censosOpen()"></app-hero-icon>
+          </button>
+          @if (censosOpen()) {
+            <div class="pl-4 flex flex-col gap-0.5 border-l-2 border-blue-100 ml-3">
+              @for (item of censosMenu; track item.label) {
+                <button [routerLink]="item.route"
+                  (click)="censosOpen.set(false); mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                  {{ item.label }}
+                </button>
+              }
+            </div>
+          }
+          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Noticias
+          </button>
         </div>
       }
 
-      <!-- ══ BOTONERA DE SECCIONES + FILTROS GEO ══════════════════════════ -->
-      <div class="w-full shrink-0" style="background:#ffffff; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
-        <div class="flex items-center px-3 sm:px-5 py-1.5 gap-2" (click)="$event.stopPropagation()">
-          <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-            @for (btn of navSections; track btn.id) {
-              <button [routerLink]="btn.route"
-                class="flex flex-row items-center justify-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full
-                       text-[11px] sm:text-[12px] font-semibold whitespace-nowrap transition-all duration-200 focus:outline-none shrink-0"
-                [style]="isBtnActive(btn)
-                  ? 'background:#003d7a;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                  : 'background:#0056a1;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.15);'">
-                <app-hero-icon [name]="btn.icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-                <span class="text-white">{{ btn.label }}</span>
-              </button>
-            }
-          </div>
-
-          <!-- Filtros Geo (right) -->
-          <div class="ml-auto flex items-center gap-2 overflow-x-auto">
-            <button (click)="resetFilters()" class="flex items-center gap-1 text-gray-400 hover:text-[#0056a1] transition-colors text-[10px] font-black tracking-wide shrink-0 group whitespace-nowrap">
-              <app-hero-icon [name]="'arrow-path'" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-              <span>Restablecer</span>
+      <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════ -->
+      <div class="w-full shrink-0"
+           style="background:#efefef; box-shadow: 0 2px 8px rgba(0,86,161,0.10);">
+        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
+          @for (btn of navSections; track btn.id) {
+            <button [routerLink]="btn.route"
+              class="relative flex flex-row items-center justify-center gap-1.5 sm:gap-2
+                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
+                     text-[10px] sm:text-[11px] md:text-xs font-semibold text-center leading-tight
+                     whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
+              [style]="isBtnActive(btn)
+                ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
+              <app-hero-icon [name]="btn.icon"
+                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
+                [class.text-white]="isBtnActive(btn)"
+                [class.text-gray-500]="!isBtnActive(btn)">
+              </app-hero-icon>
+              <span class="transition-colors duration-200"
+                    [class.text-white]="isBtnActive(btn)"
+                    [class.text-gray-600]="!isBtnActive(btn)">
+                {{ btn.label }}
+              </span>
+              @if (!isBtnActive(btn)) {
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 pointer-events-none rounded-full bg-gray-900"></span>
+              }
             </button>
-            <div class="h-6 w-px bg-gray-200 shrink-0"></div>
-
-            <!-- Departamento -->
-            <div class="relative shrink-0">
-              <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap justify-between" style="min-width:120px">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                  <span class="text-gray-400">Dep.:</span>
-                  <span class="truncate max-w-[70px]">{{ geoDepLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 text-gray-400 transition-transform" [class.rotate-180]="openGeoDropdown() === 'dep'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dep') {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectDep(null)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedCCDD() === ''" [class.from-\[\#0056a1\]]="selectedCCDD() === ''" [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
-                      [class.text-white]="selectedCCDD() === ''" [class.text-gray-700]="selectedCCDD() !== ''" [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
-                        @if (selectedCCDD() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic text-[11px]">Todos los departamentos</span>
-                    </button>
-                    @for (dept of departments(); track dept.ccdd) {
-                      <button (click)="selectDep(dept)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd" [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd" [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
-                        [class.text-white]="selectedCCDD() === dept.ccdd" [class.text-gray-700]="selectedCCDD() !== dept.ccdd" [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === dept.ccdd" [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
-                          @if (selectedCCDD() === dept.ccdd) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ dept.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-
-            <!-- Provincia -->
-            <div class="relative shrink-0">
-              <button (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
-                [class.bg-gray-50]="isGeoProvActive()" [class.border-gray-200]="isGeoProvActive()" [class.text-gray-700]="isGeoProvActive()" [class.hover\:bg-gray-100]="isGeoProvActive()"
-                [class.bg-gray-50\/50]="!isGeoProvActive()" [class.border-gray-100]="!isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()" [class.cursor-not-allowed]="!isGeoProvActive()">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#0056a1\]]="isGeoProvActive()" [class.bg-gray-200]="!isGeoProvActive()"></span>
-                  <span [class.text-gray-400]="isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
-                  <span class="truncate max-w-[60px]">{{ geoProvLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
-                  [class.text-gray-400]="isGeoProvActive()" [class.text-gray-200]="!isGeoProvActive()" [class.rotate-180]="openGeoDropdown() === 'prov'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectProv('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedProv() === ''" [class.from-\[\#0056a1\]]="selectedProv() === ''" [class.to-\[\#1a75aa\]]="selectedProv() === ''"
-                      [class.text-white]="selectedProv() === ''" [class.text-gray-700]="selectedProv() !== ''" [class.hover\:bg-blue-50]="selectedProv() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === ''" [class.border-gray-300]="selectedProv() !== ''">
-                        @if (selectedProv() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic">Todas las provincias</span>
-                    </button>
-                    @for (p of provinces(); track p.code) {
-                      <button (click)="selectProv(p.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedProv() === p.code" [class.from-\[\#0056a1\]]="selectedProv() === p.code" [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
-                        [class.text-white]="selectedProv() === p.code" [class.text-gray-700]="selectedProv() !== p.code" [class.hover\:bg-blue-50]="selectedProv() !== p.code">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === p.code" [class.border-gray-300]="selectedProv() !== p.code">
-                          @if (selectedProv() === p.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ p.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-
-            <!-- Distrito -->
-            <div class="relative shrink-0">
-              <button (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
-                [class.bg-gray-50]="isGeoDistActive()" [class.border-gray-200]="isGeoDistActive()" [class.text-gray-700]="isGeoDistActive()" [class.hover\:bg-gray-100]="isGeoDistActive()"
-                [class.bg-gray-50\/50]="!isGeoDistActive()" [class.border-gray-100]="!isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()" [class.cursor-not-allowed]="!isGeoDistActive()">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#33b3a9\]]="isGeoDistActive()" [class.bg-gray-200]="!isGeoDistActive()"></span>
-                  <span [class.text-gray-400]="isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
-                  <span class="truncate max-w-[60px]">{{ geoDistLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
-                  [class.text-gray-400]="isGeoDistActive()" [class.text-gray-200]="!isGeoDistActive()" [class.rotate-180]="openGeoDropdown() === 'dist'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectDist('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedDist() === ''" [class.from-\[\#0056a1\]]="selectedDist() === ''" [class.to-\[\#1a75aa\]]="selectedDist() === ''"
-                      [class.text-white]="selectedDist() === ''" [class.text-gray-700]="selectedDist() !== ''" [class.hover\:bg-blue-50]="selectedDist() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === ''" [class.border-gray-300]="selectedDist() !== ''">
-                        @if (selectedDist() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic">Todos los distritos</span>
-                    </button>
-                    @for (d of districts(); track d.code) {
-                      <button (click)="selectDist(d.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedDist() === d.code" [class.from-\[\#0056a1\]]="selectedDist() === d.code" [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
-                        [class.text-white]="selectedDist() === d.code" [class.text-gray-700]="selectedDist() !== d.code" [class.hover\:bg-blue-50]="selectedDist() !== d.code">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === d.code" [class.border-gray-300]="selectedDist() !== d.code">
-                          @if (selectedDist() === d.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ d.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          </div><!-- /filtros geo -->
+          }
         </div>
       </div><!-- /botonera -->
 
-      <!-- ══ BARRA DE FILTROS ══════════════════════════════════════════════ -->
-      <div class="bg-white border-b border-gray-100 shadow-sm sticky z-40
+      <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════ -->
+      <div class="sticky z-40 shrink-0
                   top-[38px] sm:top-[43px] md:top-[47px] lg:top-[50px]
-                  px-2 py-1.5 md:px-4 shrink-0
-                  flex flex-nowrap items-center gap-2 overflow-x-auto"
+                  px-3 md:px-4 2xl:px-5 py-2"
            (click)="$event.stopPropagation()">
-        <div class="flex items-center gap-1 shrink-0">
+        <div class="bg-white border border-gray-200 shadow-sm
+                    px-3 py-2 sm:px-4 md:px-5 2xl:px-6
+                    flex flex-wrap items-center gap-2 md:gap-3"
+             style="border-radius:12px">
 
-          <!-- Botón padre: Ind. Principales -->
-          <button (click)="$event.stopPropagation()"
-            routerLink="/dashboard-censada"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            [style]="expandedSection() === 'principales'
-              ? 'background:linear-gradient(to right,#0056a1,#33b3a9);color:#fff;box-shadow:0 1px 6px rgba(0,86,161,0.30);'
-              : 'background:#f3f4f6;color:#6b7280;'">
-            <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Principales</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0 transition-transform duration-200"
-              [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
-          </button>
+          <!-- Ind. Principales / Ind. Temáticos -->
+          <div class="flex items-center gap-1 shrink-0" (click)="$event.stopPropagation()">
 
-          <!-- Sub-botones de Ind. Principales -->
-          @if (expandedSection() === 'principales') {
-            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
-                 style="animation:fadeIn 0.15s ease-out forwards">
-              @for (tab of viewTabs; track tab.route) {
-                <button [routerLink]="tab.route"
-                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
-                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
-                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-                  <span>{{ tab.label }}</span>
-                </button>
+            <!-- Ind. Principales en contenedor #efefef -->
+            <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
+              <button (click)="toggleNavSection('principales')"
+                class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
+                       tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
+                [style]="expandedSection() === 'principales'
+                  ? 'background:#33b3a9;color:#fff;'
+                  : 'color:#6b7280;'">
+                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                <span>Ind. Principales</span>
+                <app-hero-icon [name]="'chevron-right'"
+                  class="w-3 h-3 shrink-0 transition-transform duration-200"
+                  [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
+              </button>
+              @if (expandedSection() === 'principales') {
+                <div class="flex items-center gap-0.5 pr-1"
+                     style="animation:fadeIn 0.12s ease-out forwards">
+                  @for (tab of viewTabs; track tab.route) {
+                    <button [routerLink]="tab.route"
+                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
+                             font-bold tracking-wide transition-all whitespace-nowrap"
+                      [style]="isViewTabActive(tab.route)
+                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
+                        : 'color:#9ca3af;'">
+                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                      <span>{{ tab.label }}</span>
+                    </button>
+                  }
+                </div>
               }
             </div>
-          }
 
-          <!-- Botón padre: Ind. Temáticos — activo por defecto en esta vista -->
-          <button (click)="toggleNavSection('tematicos'); $event.stopPropagation()"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            [style]="expandedSection() === 'tematicos'
-              ? 'background:linear-gradient(to right,#0056a1,#33b3a9);color:#fff;box-shadow:0 1px 6px rgba(0,86,161,0.30);'
-              : 'background:#f3f4f6;color:#6b7280;'">
-            <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Temáticos</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0 transition-transform duration-200"
-              [class.rotate-90]="expandedSection() === 'tematicos'"></app-hero-icon>
-          </button>
+            <!-- Ind. Temáticos — contenedor #efefef con sub-botones de grupos -->
+            <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
+              <button (click)="toggleNavSection('tematicos')"
+                class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
+                       tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
+                [style]="expandedSection() === 'tematicos'
+                  ? 'background:#33b3a9;color:#fff;'
+                  : 'color:#6b7280;'">
+                <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                <span>Ind. Temáticos</span>
+                <app-hero-icon [name]="'chevron-right'"
+                  class="w-3 h-3 shrink-0 transition-transform duration-200"
+                  [class.rotate-90]="expandedSection() === 'tematicos'"></app-hero-icon>
+              </button>
+              @if (expandedSection() === 'tematicos') {
+                <div class="flex items-center gap-0.5 pr-1"
+                     style="animation:fadeIn 0.12s ease-out forwards">
+                  @for (group of thematicGroups; track group.id) {
+                    <button (click)="setActiveGroup(group.id)"
+                      class="flex items-center px-2 py-1 rounded-lg text-[10px] sm:text-xs
+                             font-bold tracking-wide transition-all whitespace-nowrap"
+                      [style]="activeGroupId() === group.id
+                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
+                        : 'color:#9ca3af;'">
+                      <span>{{ group.label }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
 
-        </div>
+          </div>
 
-        <!-- Ámbito geográfico actual -->
-        <div class="ml-auto shrink-0 flex items-center gap-1.5 bg-[#0056a1]/5 border border-[#0056a1]/20 rounded-lg px-2 py-1">
-          <app-hero-icon [name]="'map-pin'" class="w-3 h-3 text-[#0056a1] shrink-0"></app-hero-icon>
-          <span class="text-[10px] font-black text-[#0056a1] whitespace-nowrap">{{ displayedTitle() }}</span>
-        </div>
-      </div><!-- /barra filtros -->
+          <!-- Separador -->
+          <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
-      <!-- ══ NAVEGACIÓN TEMÁTICA: GRUPOS + SECCIONES ════════════════════════ -->
-      <div class="bg-white border-b border-gray-100 shrink-0" (click)="$event.stopPropagation()">
+          <!-- Geo-dropdowns -->
+          <div class="flex flex-wrap items-center gap-2 ml-auto">
 
-        <!-- Fila 1: Tabs de grupos -->
-        <div class="flex items-center gap-0 border-b border-gray-100 px-2 overflow-x-auto">
-          @for (group of thematicGroups; track group.id) {
-            <button (click)="setActiveGroup(group.id)"
-              class="flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold whitespace-nowrap border-b-2 transition-all duration-200 shrink-0"
-              [style]="activeGroupId() === group.id
-                ? 'border-color:' + group.color + ';color:' + group.color + ';'
-                : 'border-color:transparent;color:#9ca3af;'">
-              <app-hero-icon [name]="group.icon" class="w-3.5 h-3.5 shrink-0"></app-hero-icon>
-              <span>{{ group.label }}</span>
+            <!-- Restablecer filtros -->
+            <button (click)="resetFilters()"
+              class="flex items-center gap-1.5 text-gray-400 hover:text-[#0056a1]
+                     transition-colors text-xs font-black tracking-wide shrink-0 group">
+              <app-hero-icon [name]="'arrow-path'"
+                class="w-4 h-4 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
+              <span class="hidden sm:inline">Restablecer Filtros</span>
             </button>
-          }
-        </div>
 
-        <!-- Fila 2: Iconos de secciones — solo si el grupo tiene más de una sección -->
-        @if (activeGroup(); as grp) {
-          @if (grp.sections.length > 1) {
-            <div class="flex items-stretch gap-1.5 px-2 py-1.5 overflow-x-auto"
-                 style="animation: fadeIn 0.18s ease-out forwards">
-              @for (sec of grp.sections; track sec.id) {
-                <button (click)="setActiveSection(sec.id)"
-                  class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[100px] border transition-all duration-200 shrink-0"
-                  [style]="activeSectionId() === sec.id
-                    ? 'background:' + grp.color + ';border-color:' + grp.color + ';color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
-                    : 'background:#f9fafb;border-color:#e5e7eb;color:#6b7280;'">
-                  <div class="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200"
-                       [style]="activeSectionId() === sec.id ? 'background:rgba(255,255,255,0.25);' : 'background:rgba(0,86,161,0.08);'">
-                    <app-hero-icon [name]="sec.icon" class="w-4 h-4 shrink-0"></app-hero-icon>
-                  </div>
-                  <span class="text-[8.5px] font-bold text-center leading-tight line-clamp-2">{{ sec.label }}</span>
+            <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
+
+            <!-- División Territorial / Región Natural -->
+            <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
+              <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">
+                Ámbito geográfico
+              </span>
+              <div class="relative">
+                <button (click)="openNivelDropdown.update(v => !v)"
+                  class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold
+                         transition-all duration-200 focus:outline-none border whitespace-nowrap"
+                  [style]="openNivelDropdown()
+                    ? 'background:#003d7a; color:#fff; border-color:#003d7a'
+                    : 'background:#0056a1; color:#fff; border-color:#0056a1'">
+                  @if (activeNivelDef().icon) {
+                    <app-hero-icon [name]="activeNivelDef().icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
+                  }
+                  <span class="hidden sm:inline">{{ activeNivelDef().label }}</span>
+                  <app-hero-icon [name]="'chevron-down'"
+                    class="w-3 h-3 shrink-0 transition-transform duration-200"
+                    [class.rotate-180]="openNivelDropdown()"></app-hero-icon>
                 </button>
-              }
+                @if (openNivelDropdown()) {
+                  <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                               shadow-xl z-50 overflow-hidden"
+                       style="min-width:188px; animation:dropdownIn 0.15s ease-out"
+                       (click)="$event.stopPropagation()">
+                    <div class="h-0.5 w-full" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
+                    <div class="px-3 pt-2 pb-1">
+                      <span class="text-[9px] font-black text-gray-400 tracking-widest">Ámbito Geográfico</span>
+                    </div>
+                    @for (n of NIVELES_FILTRO; track n.key) {
+                      <button (click)="setNivelFiltro(n.key); openNivelDropdown.set(false)"
+                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors duration-150"
+                        [class.text-white]="nivelFiltro() === n.key"
+                        [class.text-gray-700]="nivelFiltro() !== n.key"
+                        [class.hover\:bg-gray-50]="nivelFiltro() !== n.key"
+                        [style.background]="nivelFiltro() === n.key ? '#0056a1' : ''">
+                        <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                          [class.border-white]="nivelFiltro() === n.key"
+                          [style.border-color]="nivelFiltro() !== n.key ? '#0056a1' : ''">
+                          @if (nivelFiltro() === n.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                        </span>
+                        @if (n.icon) {
+                          <app-hero-icon [name]="n.icon" class="w-3.5 h-3.5 shrink-0"
+                            [class.text-white]="nivelFiltro() === n.key"
+                            [style.color]="nivelFiltro() !== n.key ? '#0056a1' : ''"></app-hero-icon>
+                        }
+                        <span class="font-semibold flex-1">{{ n.label }}</span>
+                      </button>
+                    }
+                    <div class="h-1"></div>
+                  </div>
+                }
+              </div>
             </div>
-          }
+
+            <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
+
+            <!-- ★ Región Natural -->
+            @if (nivelFiltro() === 'region_natural') {
+              <div class="relative shrink-0">
+                <button (click)="openRegionDropdown.update(v => !v)"
+                  class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                         text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
+                         min-w-[140px] sm:min-w-[156px] justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
+                    <span class="text-gray-400 mr-0.5">Región:</span>
+                    <span class="truncate max-w-[72px]">{{ regionNaturalLabel() }}</span>
+                  </span>
+                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
+                    [class.rotate-180]="openRegionDropdown()"></app-hero-icon>
+                </button>
+                @if (openRegionDropdown()) {
+                  <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                               shadow-xl z-50 w-48 overflow-hidden"
+                       (click)="$event.stopPropagation()">
+                    <div class="h-0.5 w-full" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Región natural</span>
+                    </div>
+                    <button (click)="selectRegionNatural('')"
+                      class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                      [class.text-white]="selectedRegionNatural() === ''"
+                      [class.text-gray-700]="selectedRegionNatural() !== ''"
+                      [class.hover\:bg-teal-50]="selectedRegionNatural() !== ''"
+                      [style.background]="selectedRegionNatural() === '' ? '#33b3a9' : ''">
+                      <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
+                        [class.border-white]="selectedRegionNatural() === ''"
+                        [class.border-gray-300]="selectedRegionNatural() !== ''">
+                        @if (selectedRegionNatural() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                      </span>
+                      <span class="font-bold italic">Todas las regiones</span>
+                    </button>
+                    @for (rn of REGIONES_NATURALES; track rn.key) {
+                      <button (click)="selectRegionNatural(rn.key)"
+                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                        [class.text-white]="selectedRegionNatural() === rn.key"
+                        [class.text-gray-700]="selectedRegionNatural() !== rn.key"
+                        [class.hover\:bg-gray-50]="selectedRegionNatural() !== rn.key"
+                        [style.background]="selectedRegionNatural() === rn.key ? rn.color : ''">
+                        <span class="w-3 h-3 rounded-full border-2 shrink-0 flex items-center justify-center"
+                          [class.border-white]="selectedRegionNatural() === rn.key"
+                          [style.border-color]="selectedRegionNatural() !== rn.key ? rn.color : ''">
+                          @if (selectedRegionNatural() === rn.key) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
+                        </span>
+                        <span class="font-semibold flex-1">{{ rn.label }}</span>
+                        <span class="w-2 h-2 rounded-full shrink-0 opacity-70"
+                          [style.background]="selectedRegionNatural() !== rn.key ? rn.color : 'rgba(255,255,255,0.6)'"></span>
+                      </button>
+                    }
+                    <div class="h-1"></div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- ★ Departamento (oculto en Región Natural) -->
+            @if (nivelFiltro() !== 'region_natural') {
+              <div class="relative">
+                <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
+                  class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                         text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
+                         min-w-[130px] sm:min-w-[148px] justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
+                    <span class="text-gray-400 mr-0.5">Dep.:</span>
+                    <span class="truncate max-w-[70px] sm:max-w-[80px]">{{ geoDepLabel() }}</span>
+                  </span>
+                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
+                    [class.rotate-180]="openGeoDropdown() === 'dep'"></app-hero-icon>
+                </button>
+                @if (openGeoDropdown() === 'dep') {
+                  <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                               shadow-xl z-50 w-56 sm:w-60 overflow-hidden"
+                       (click)="$event.stopPropagation()">
+                    <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
+                    </div>
+                    <div class="max-h-56 sm:max-h-60 overflow-y-auto">
+                      <button (click)="selectDep(null)"
+                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                        [class.bg-gradient-to-r]="selectedCCDD() === ''" [class.from-\[\#0056a1\]]="selectedCCDD() === ''" [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
+                        [class.text-white]="selectedCCDD() === ''" [class.text-gray-700]="selectedCCDD() !== ''" [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
+                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                          [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
+                          @if (selectedCCDD() === '') { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                        </span>
+                        <span class="font-bold italic text-xs">Todos los departamentos</span>
+                      </button>
+                      @for (dept of departments(); track dept.ccdd) {
+                        <button (click)="selectDep(dept)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                          [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd" [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd" [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
+                          [class.text-white]="selectedCCDD() === dept.ccdd" [class.text-gray-700]="selectedCCDD() !== dept.ccdd" [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
+                          <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                            [class.border-white]="selectedCCDD() === dept.ccdd" [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
+                            @if (selectedCCDD() === dept.ccdd) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                          </span>
+                          <span class="font-semibold">{{ dept.name }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- ★ Provincia (oculta en Región Natural) -->
+            @if (nivelFiltro() !== 'region_natural') {
+              <div class="relative">
+                <button (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
+                  class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
+                         min-w-[130px] sm:min-w-[148px] justify-between"
+                  [class.bg-gray-50]="isGeoProvActive()" [class.border-gray-200]="isGeoProvActive()"
+                  [class.text-gray-700]="isGeoProvActive()" [class.hover\:bg-gray-100]="isGeoProvActive()"
+                  [class.bg-gray-50\/50]="!isGeoProvActive()" [class.border-gray-100]="!isGeoProvActive()"
+                  [class.text-gray-300]="!isGeoProvActive()" [class.cursor-not-allowed]="!isGeoProvActive()">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                      [class.bg-\[\#1a75aa\]]="isGeoProvActive()" [class.bg-gray-200]="!isGeoProvActive()"></span>
+                    <span class="mr-0.5" [class.text-gray-400]="isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
+                    <span class="truncate max-w-[60px] sm:max-w-[70px]">{{ geoProvLabel() }}</span>
+                  </span>
+                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                    [class.text-gray-400]="isGeoProvActive()" [class.text-gray-200]="!isGeoProvActive()"
+                    [class.rotate-180]="openGeoDropdown() === 'prov'"></app-hero-icon>
+                </button>
+                @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
+                  <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                               shadow-xl z-50 w-60 sm:w-64 overflow-hidden"
+                       (click)="$event.stopPropagation()">
+                    <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
+                    </div>
+                    <div class="max-h-56 sm:max-h-60 overflow-y-auto">
+                      <button (click)="selectProv('')"
+                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                        [class.bg-gradient-to-r]="selectedProv() === ''" [class.from-\[\#0056a1\]]="selectedProv() === ''" [class.to-\[\#1a75aa\]]="selectedProv() === ''"
+                        [class.text-white]="selectedProv() === ''" [class.text-gray-700]="selectedProv() !== ''" [class.hover\:bg-blue-50]="selectedProv() !== ''">
+                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                          [class.border-white]="selectedProv() === ''" [class.border-gray-300]="selectedProv() !== ''">
+                          @if (selectedProv() === '') { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                        </span>
+                        <span class="font-bold italic">Todas las provincias</span>
+                      </button>
+                      @for (p of provinces(); track p.code) {
+                        <button (click)="selectProv(p.code)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                          [class.bg-gradient-to-r]="selectedProv() === p.code" [class.from-\[\#0056a1\]]="selectedProv() === p.code" [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
+                          [class.text-white]="selectedProv() === p.code" [class.text-gray-700]="selectedProv() !== p.code" [class.hover\:bg-blue-50]="selectedProv() !== p.code">
+                          <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                            [class.border-white]="selectedProv() === p.code" [class.border-gray-300]="selectedProv() !== p.code">
+                            @if (selectedProv() === p.code) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                          </span>
+                          <span class="font-semibold">{{ p.name }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- ★ Distrito (oculto en Región Natural) -->
+            @if (nivelFiltro() !== 'region_natural') {
+              <div class="relative">
+                <button (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
+                  class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
+                         min-w-[120px] sm:min-w-[140px] justify-between"
+                  [class.bg-gray-50]="isGeoDistActive()" [class.border-gray-200]="isGeoDistActive()"
+                  [class.text-gray-700]="isGeoDistActive()" [class.hover\:bg-gray-100]="isGeoDistActive()"
+                  [class.bg-gray-50\/50]="!isGeoDistActive()" [class.border-gray-100]="!isGeoDistActive()"
+                  [class.text-gray-300]="!isGeoDistActive()" [class.cursor-not-allowed]="!isGeoDistActive()">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full shrink-0"
+                      [class.bg-\[\#33b3a9\]]="isGeoDistActive()" [class.bg-gray-200]="!isGeoDistActive()"></span>
+                    <span class="mr-0.5" [class.text-gray-400]="isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
+                    <span class="truncate max-w-[55px] sm:max-w-[65px]">{{ geoDistLabel() }}</span>
+                  </span>
+                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                    [class.text-gray-400]="isGeoDistActive()" [class.text-gray-200]="!isGeoDistActive()"
+                    [class.rotate-180]="openGeoDropdown() === 'dist'"></app-hero-icon>
+                </button>
+                @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
+                  <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
+                               shadow-xl z-50 w-72 sm:w-80 overflow-hidden"
+                       (click)="$event.stopPropagation()">
+                    <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
+                    </div>
+                    <div class="max-h-56 sm:max-h-60 overflow-y-auto">
+                      <button (click)="selectDist('')"
+                        class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                        [class.bg-gradient-to-r]="selectedDist() === ''" [class.from-\[\#0056a1\]]="selectedDist() === ''" [class.to-\[\#1a75aa\]]="selectedDist() === ''"
+                        [class.text-white]="selectedDist() === ''" [class.text-gray-700]="selectedDist() !== ''" [class.hover\:bg-blue-50]="selectedDist() !== ''">
+                        <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                          [class.border-white]="selectedDist() === ''" [class.border-gray-300]="selectedDist() !== ''">
+                          @if (selectedDist() === '') { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                        </span>
+                        <span class="font-bold italic">Todos los distritos</span>
+                      </button>
+                      @for (d of districts(); track d.code) {
+                        <button (click)="selectDist(d.code)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors"
+                          [class.bg-gradient-to-r]="selectedDist() === d.code" [class.from-\[\#0056a1\]]="selectedDist() === d.code" [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
+                          [class.text-white]="selectedDist() === d.code" [class.text-gray-700]="selectedDist() !== d.code" [class.hover\:bg-blue-50]="selectedDist() !== d.code">
+                          <span class="w-3.5 h-3.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center"
+                            [class.border-white]="selectedDist() === d.code" [class.border-gray-300]="selectedDist() !== d.code">
+                            @if (selectedDist() === d.code) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                          </span>
+                          <span class="font-semibold">{{ d.name }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- ★ Área de residencia (oculta en Región Natural) -->
+            @if (nivelFiltro() !== 'region_natural') {
+              <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
+                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Área de residencia</span>
+                <div class="relative">
+                  <button (click)="openAreaDropdown.update(v => !v)"
+                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
+                           transition-all duration-200 focus:outline-none border whitespace-nowrap"
+                    [style]="openAreaDropdown()
+                      ? 'background:#dcdcdc; color:#374151; border-color:#d1d5db'
+                      : 'background:#efefef; color:#374151; border-color:#e5e7eb'">
+                    <span>{{ areaLabel() }}</span>
+                    <app-hero-icon [name]="'chevron-down'"
+                      class="w-3 h-3 shrink-0 transition-transform duration-200"
+                      [class.rotate-180]="openAreaDropdown()"></app-hero-icon>
+                  </button>
+                  @if (openAreaDropdown()) {
+                    <div class="absolute right-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                                 shadow-xl z-50 overflow-hidden"
+                         style="min-width:148px; animation:dropdownIn 0.15s ease-out"
+                         (click)="$event.stopPropagation()">
+                      <div class="h-0.5 w-full" style="background:#d1d5db"></div>
+                      <div class="px-3 pt-2 pb-1">
+                        <span class="text-[9px] font-black text-gray-400 tracking-widest">Área de residencia</span>
+                      </div>
+                      @for (a of AREAS_FILTRO; track a.key) {
+                        <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left transition-colors"
+                          [class.text-white]="areaFiltro() === a.key"
+                          [class.text-gray-700]="areaFiltro() !== a.key"
+                          [class.hover\:bg-gray-50]="areaFiltro() !== a.key"
+                          [style.background]="areaFiltro() === a.key ? '#6b7280' : ''">
+                          <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                            [class.border-white]="areaFiltro() === a.key"
+                            [style.border-color]="areaFiltro() !== a.key ? '#6b7280' : ''">
+                            @if (areaFiltro() === a.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
+                          </span>
+                          <span class="font-semibold flex-1">{{ a.label }}</span>
+                        </button>
+                      }
+                      <div class="h-1"></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
+          </div><!-- /geo-dropdowns -->
+        </div><!-- /inner barra filtros -->
+      </div><!-- /sticky barra filtros -->
+
+      <!-- ══ SECCIONES TEMÁTICAS (sub-nivel dentro del grupo activo) ══════════ -->
+      @if (activeGroup(); as grp) {
+        @if (grp.sections.length > 1) {
+          <div class="bg-white border-b border-gray-100 shrink-0 px-2 py-1.5 flex items-stretch gap-1.5 overflow-x-auto"
+               (click)="$event.stopPropagation()"
+               style="animation: fadeIn 0.18s ease-out forwards">
+            @for (sec of grp.sections; track sec.id) {
+              <button (click)="setActiveSection(sec.id)"
+                class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[100px] border transition-all duration-200 shrink-0"
+                [style]="activeSectionId() === sec.id
+                  ? 'background:' + grp.color + ';border-color:' + grp.color + ';color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
+                  : 'background:#f9fafb;border-color:#e5e7eb;color:#6b7280;'">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200"
+                     [style]="activeSectionId() === sec.id ? 'background:rgba(255,255,255,0.25);' : 'background:rgba(0,86,161,0.08);'">
+                  <app-hero-icon [name]="sec.icon" class="w-4 h-4 shrink-0"></app-hero-icon>
+                </div>
+                <span class="text-[8.5px] font-bold text-center leading-tight line-clamp-2">{{ sec.label }}</span>
+              </button>
+            }
+          </div>
         }
-      </div><!-- /navegación temática -->
+      }
 
       <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
       <main class="flex-1 min-h-0 overflow-y-auto">
 
         @if (activeSection(); as sec) {
 
-          <!-- ── FECUNDIDAD: KPIs premium, ocupa todo el main ──────────────── -->
+          <!-- ── FECUNDIDAD: 3 columnas equilibradas ───────────────────────── -->
           @if (sec.id === 'fecundidad') {
-            <div class="h-full flex flex-col p-3 sm:p-4 lg:p-5 min-h-0">
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 flex-1 min-h-0"
-                   style="grid-auto-rows: minmax(160px, 1fr); align-content: stretch;">
-                @for (ind of sec.indicators; track ind.id; let i = $index) {
-                  <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-2 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 cursor-default"
-                       [class]="i === 4 ? 'lg:row-span-2 lg:col-start-3 lg:row-start-1' : ''"
-                       [style]="'border-color:' + getFecundidadColor(i)">
-                    <!-- Banda superior degradada -->
-                    <div class="h-1.5 w-full shrink-0"
-                         [style]="'background:linear-gradient(to right,' + getFecundidadGradient(i) + ')'"></div>
-                    <!-- Cuerpo -->
-                    <div class="relative flex-1 flex flex-col px-5 py-4 gap-3 min-h-0">
-                      <!-- Icono info: esquina superior derecha -->
-                      <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all z-10"
-                              [style]="'color:' + getFecundidadColor(i) + '80'">
-                        <app-hero-icon [name]="'information-circle'" class="w-5 h-5"></app-hero-icon>
+            <div class="flex-1 min-h-0 overflow-y-auto px-3 py-3 sm:px-5 sm:py-4">
+              <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
+
+                <!-- ═══ COLUMNA 1: MEF + Con/Sin hijos + Gráfico apilado ════ -->
+                <div class="flex flex-col gap-3">
+
+                  <!-- KPI 1: MEF -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Mujeres de 15 a 49 años de edad en el momento del censo" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
-                      <!-- Icono + Título -->
-                      <div class="flex items-start gap-3 pr-8">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                             [style]="'background:' + getFecundidadColor(i) + '18'">
-                          <app-hero-icon [name]="getFecundidadIcon(i)" class="w-7 h-7"
-                                         [style]="'color:' + getFecundidadColor(i)"></app-hero-icon>
-                        </div>
-                        <p class="text-[11px] sm:text-[12px] font-bold leading-snug pt-0.5"
-                           [style]="'color:' + getFecundidadColor(i)">{{ ind.title }}</p>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
-                      <!-- Separador -->
-                      <div class="h-px w-full shrink-0" [style]="'background:' + getFecundidadColor(i) + '22'"></div>
-                      <!-- Valor KPI: aumentado 30% -->
-                      <div class="flex-1 flex flex-col justify-center gap-1.5" [class.items-center]="i === 4">
-                        <span class="font-black text-gray-800 tabular-nums tracking-tight leading-none"
-                              [class.text-5xl]="i !== 4"
-                              [class.sm:text-6xl]="i !== 4"
-                              [class.text-6xl]="i === 4"
-                              [class.sm:text-7xl]="i === 4">
-                          {{ ind.kpiValue ?? '—' }}
-                        </span>
-                        <span class="text-[9px] font-semibold uppercase tracking-widest text-gray-400">Censo 2025</span>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres en edad fértil (15-49 años)</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
                       </div>
                     </div>
                   </div>
-                }
-              </div>
+
+                  <!-- KPI 2: % con hijos -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Porcentaje de mujeres de 15 a 49 años que declararon tener hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'check-circle'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">MEF con hijos/as</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68.4%</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- KPI 3: % sin hijos -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Porcentaje de mujeres de 15 a 49 años sin hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'x-circle'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">MEF sin hijos/as</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31.6%</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Gráfico: MEF por grupo de edad con/sin hijos (barras apiladas verticales) -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:200px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">MEF según tenencia de hijos/as por grupo de edad</p>
+                      <button matTooltip="Mujeres de 15 a 49 años según grupo quinquenal de edad y tenencia de hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
+                        <div echarts [options]="fecuHijosEdadOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                </div><!-- /col 1 -->
+
+                <!-- ═══ COLUMNA 2: Tasa + Razón + Promedio + Gráfico columnas ═══ -->
+                <div class="flex flex-col gap-3">
+
+                  <!-- KPI 1: Tasa de fecundidad global -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Promedio de hijos/as que tendría una mujer a lo largo de su vida fértil, dado el nivel de fecundidad del año censal" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'chart-bar'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Tasa de fecundidad global</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2.3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- KPI 2: Razón niño/a – mujer (diseño censada) -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="px-4 py-3 relative">
+                      <button matTooltip="Número de niños/as de 0-4 años por cada 1 000 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <p class="text-[10px] font-black text-black tracking-wide leading-none mb-2">Razón niño/a – mujer</p>
+                      <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-1.5 shrink-0">
+                          <div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:#038dd318">
+                            <app-hero-icon [name]="'user'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
+                          </div>
+                          <div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:#33b3a918">
+                            <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                          </div>
+                        </div>
+                        <div class="flex-1 flex flex-col gap-1 min-w-0">
+                          <div class="flex items-baseline gap-1.5">
+                            <span class="text-2xl font-black text-gray-800 leading-none tabular-nums">305</span>
+                            <span class="text-[8px] font-bold text-gray-400 leading-tight">niños/as 0-4<br>por c/1 000 MEF</span>
+                          </div>
+                          <div class="relative h-2 w-full rounded-full overflow-hidden mt-0.5" style="background:#e5e7eb">
+                            <div class="absolute inset-y-0 left-0 rounded-full transition-all duration-500" style="width:23.4%;background:#038dd3"></div>
+                          </div>
+                          <div class="flex justify-between text-[7px] font-bold text-gray-400">
+                            <span>Niños/as</span><span>Mujeres MEF</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- KPI 3: Promedio hijos 15-49 -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Promedio de hijos/as nacidos/as vivos/as declarados por mujeres de 15 a 49 años" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'calculator'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as (MEF 15-49 años)</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2.3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Gráfico: Promedio hijos por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:200px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as por grupo de edad de la madre</p>
+                      <button matTooltip="Promedio de hijos/as nacidos/as vivos/as según grupo quinquenal de edad de la madre" matTooltipClass="custom-tooltip"
+                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
+                        <div echarts [options]="fecuPromEdadOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                </div><!-- /col 2 -->
+
+                <!-- ═══ COLUMNA 3: Madres solteras + Gráfico estado civil ═══════ -->
+                <div class="flex flex-col gap-3">
+
+                  <!-- KPI 1: Madres solteras 12+ -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#8383fd,#0056a1)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Mujeres de 12 y más años que declararon ser madres y tener estado civil soltero" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8383fd18">
+                        <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#8383fd"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Gráfico: Promedio hijos por estado civil -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:220px">
+                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
+                      </div>
+                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12+ años por estado civil</p>
+                    </div>
+                    @if (isBrowser) {
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:160px">
+                        <div echarts [options]="fecuEstCivilOpt" class="w-full h-full"></div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- KPI 2: Madres adolescentes 12-17 años -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#f59e0b,#0056a1)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Mujeres de 12 a 17 años que declararon ser madres al momento del censo" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#f59e0b18">
+                        <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#f59e0b"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes (12 a 17 años)</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- KPI 3: Hijos/as fallecidos/as de mujeres de 12+ años -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
+                    <div class="px-4 py-3 flex items-center gap-3 relative">
+                      <button matTooltip="Total de hijos/as fallecidos/as declarados por mujeres de 12 y más años al momento del censo" matTooltipClass="custom-tooltip"
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                      </button>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                        <app-hero-icon [name]="'exclamation-triangle'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      </div>
+                      <div class="flex-1 min-w-0 pr-5">
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as (mujeres 12 y más años)</p>
+                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
+                        <p class="text-[8px] text-gray-400 font-semibold uppercase tracking-widest mt-0.5">Censo 2025</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- /col 3 -->
+
+              </div><!-- /grid 3 cols -->
             </div>
           }
 
@@ -1656,6 +2146,127 @@ export class DashboardTematicoComponent implements OnInit {
         return (['user-group', 'heart', 'check-circle', 'user', 'exclamation-circle'] as const)[i] ?? 'chart-bar';
     }
 
+    // ── Fecundidad: constructores de gráficos ─────────────────────────────
+    private buildFecuHijosEdadOpt(): EChartsOption {
+        const ages = [...FECU_AGE].reverse();
+        const con  = [...FECU_CON_HIJOS].reverse();
+        const sin  = [...FECU_SIN_HIJOS].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#111">${(it.value as number).toFixed(1)}%</span></div>`;
+                    });
+                    return h;
+                },
+            },
+            legend: { data: ['Con hijos', 'Sin hijos'], top: 2, left: 'center', textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8 },
+            grid: { top: 26, right: 8, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0, max: 100,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => `${v}%` },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: ages,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [
+                { name: 'Con hijos', type: 'bar', stack: 'total', data: con,
+                  itemStyle: { color: CLR.blue, borderRadius: [0,0,0,0] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+                { name: 'Sin hijos', type: 'bar', stack: 'total', data: sin,
+                  itemStyle: { color: CLR.teal, borderRadius: [0,3,3,0] as [number,number,number,number] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+            ],
+        };
+    }
+
+    private buildFecuPromEdadOpt(): EChartsOption {
+        const ages = [...FECU_AGE].reverse();
+        const data = [...FECU_PROM_EDAD].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${(p.value as number).toFixed(1)} hijos</span>`;
+                },
+            },
+            grid: { top: 10, right: 28, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v.toFixed(1) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: ages,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar', data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => (p.value as number).toFixed(1) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.4) }] },
+                    borderRadius: [0,4,4,0] as [number,number,number,number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    private buildFecuEstCivilOpt(): EChartsOption {
+        const cats = [...FECU_EC_CATS].reverse();
+        const data = [...FECU_EC_PROM].reverse();
+        return {
+            tooltip: {
+                trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${(p.value as number).toFixed(1)} hijos</span>`;
+                },
+            },
+            grid: { top: 10, right: 28, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v.toFixed(1) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#9ca3af' },
+            },
+            series: [{
+                type: 'bar', data,
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                         formatter: (p: any) => (p.value as number).toFixed(1) },
+                itemStyle: {
+                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
+                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
+                    borderRadius: [0,4,4,0] as [number,number,number,number],
+                },
+                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
     // ── Helpers: Migración ────────────────────────────────────────────────
     getMigracionCharts(section: ThematicSectionDef): ThematicIndicatorDef[] {
         return section.indicators.filter(i => i.type !== 'kpi') as ThematicIndicatorDef[];
@@ -1748,8 +2359,42 @@ export class DashboardTematicoComponent implements OnInit {
     selectedProv    = signal<string>('');
     selectedDist    = signal<string>('');
 
-    isGeoProvActive = computed(() => this.nivelGeo() !== 'Departamental');
-    isGeoDistActive = computed(() => this.nivelGeo() === 'Distrital');
+    // ── Filtro de ámbito (División Territorial / Región Natural) ──────────
+    readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
+        { key: 'politico_administrativo', label: 'Político Administrativo', icon: 'map',            color: '#0056a1' },
+        { key: 'region_natural',          label: 'Región Natural',          icon: 'globe-americas', color: '#33b3a9' },
+    ];
+    readonly REGIONES_NATURALES = REGIONES_NATURALES;
+
+    nivelFiltro           = signal<NivelFiltroType>('politico_administrativo');
+    selectedRegionNatural = signal<string>('');
+    openRegionDropdown    = signal<boolean>(false);
+    openNivelDropdown     = signal<boolean>(false);
+
+    activeNivelDef = computed(() =>
+        this.NIVELES_FILTRO.find(n => n.key === this.nivelFiltro()) ?? this.NIVELES_FILTRO[0]
+    );
+    regionNaturalLabel = computed(() => {
+        const key = this.selectedRegionNatural();
+        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todas';
+    });
+
+    // ── Filtro de área ────────────────────────────────────────────────────
+    readonly AREAS_FILTRO: { key: AreaFiltroType; label: string }[] = [
+        { key: 'total',  label: 'Total'  },
+        { key: 'urbano', label: 'Urbano' },
+        { key: 'rural',  label: 'Rural'  },
+    ];
+    areaFiltro       = signal<AreaFiltroType>('total');
+    openAreaDropdown = signal<boolean>(false);
+    areaLabel        = computed(() => this.AREAS_FILTRO.find(a => a.key === this.areaFiltro())?.label ?? 'Total');
+
+    isGeoProvActive = computed(() =>
+        this.nivelFiltro() === 'politico_administrativo' && this.nivelGeo() !== 'Departamental'
+    );
+    isGeoDistActive = computed(() =>
+        this.nivelFiltro() === 'politico_administrativo' && this.nivelGeo() === 'Distrital'
+    );
 
     private rawGeoJson     = signal<any>(null);
     private rawGeoJsonProv = signal<any>(null);
@@ -1807,8 +2452,30 @@ export class DashboardTematicoComponent implements OnInit {
         return 'Perú (Nacional)';
     });
 
+    setNivelFiltro(nivel: NivelFiltroType): void {
+        this.nivelFiltro.set(nivel);
+        this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.openNivelDropdown.set(false);
+        this.selectedRegionNatural.set('');
+        if (nivel === 'region_natural') {
+            this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
+            this.nivelGeo.set('Departamental');
+        }
+    }
+
+    selectRegionNatural(key: string): void {
+        this.selectedRegionNatural.set(key);
+        this.openRegionDropdown.set(false);
+    }
+
     toggleGeoDropdown(key: 'dep' | 'prov' | 'dist'): void { this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key); }
-    closeGeoDropdowns(): void { this.openGeoDropdown.set(null); }
+    closeGeoDropdowns(): void {
+        this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.openNivelDropdown.set(false);
+        this.openAreaDropdown.set(false);
+    }
 
     selectDep(dept: { ccdd: string; name: string } | null): void {
         this.selectedCCDD.set(dept?.ccdd ?? '');
@@ -1827,7 +2494,14 @@ export class DashboardTematicoComponent implements OnInit {
 
     resetFilters(): void {
         this.selectedCCDD.set(''); this.selectedProv.set(''); this.selectedDist.set('');
-        this.nivelGeo.set('Departamental'); this.openGeoDropdown.set(null);
+        this.selectedRegionNatural.set('');
+        this.nivelGeo.set('Departamental');
+        this.nivelFiltro.set('politico_administrativo');
+        this.openGeoDropdown.set(null);
+        this.openRegionDropdown.set(false);
+        this.openNivelDropdown.set(false);
+        this.openAreaDropdown.set(false);
+        this.areaFiltro.set('total');
     }
 
     // ── Platform e inyecciones ────────────────────────────────────────────
@@ -1836,7 +2510,17 @@ export class DashboardTematicoComponent implements OnInit {
     private http       = inject(HttpClient);
     private router     = inject(Router);
 
-    constructor() { this.isBrowser = isPlatformBrowser(this.platformId); }
+    // ── Fecundidad: opciones de gráficos pre-computadas ──────────────────
+    readonly fecuHijosEdadOpt!: EChartsOption;
+    readonly fecuPromEdadOpt!:  EChartsOption;
+    readonly fecuEstCivilOpt!:  EChartsOption;
+
+    constructor() {
+        this.isBrowser       = isPlatformBrowser(this.platformId);
+        this.fecuHijosEdadOpt = this.buildFecuHijosEdadOpt();
+        this.fecuPromEdadOpt  = this.buildFecuPromEdadOpt();
+        this.fecuEstCivilOpt  = this.buildFecuEstCivilOpt();
+    }
 
     ngOnInit(): void { this.loadGeoJson(); }
 

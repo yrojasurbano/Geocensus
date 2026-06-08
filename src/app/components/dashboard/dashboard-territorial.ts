@@ -346,9 +346,9 @@ function allChecked(labels: string[]): DropdownItem[] {
 
             <div class="hidden sm:block h-7 w-px bg-gray-200 shrink-0"></div>
 
-            <!-- ★ Nivel geográfico -->
+            <!-- ★ Ámbito geográfico (División Territorial / Región Natural) -->
             <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-              <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Nivel</span>
+              <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Ámbito geográfico</span>
               <div class="relative">
                 <button (click)="toggleDropdown('nivel')"
                   class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold
@@ -357,7 +357,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     ? 'background:#003d7a; color:#fff; border-color:#003d7a'
                     : 'background:#0056a1; color:#fff; border-color:#0056a1'">
                   <app-hero-icon [name]="'map'" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-                  <span class="hidden sm:inline">{{ nivelActivo() }}</span>
+                  <span class="hidden sm:inline">{{ ambitoLabel() }}</span>
                   <app-hero-icon [name]="'chevron-down'"
                     class="w-3 h-3 shrink-0 transition-transform duration-200"
                     [class.rotate-180]="openDropdown() === 'nivel'"></app-hero-icon>
@@ -365,36 +365,97 @@ function allChecked(labels: string[]): DropdownItem[] {
                 @if (openDropdown() === 'nivel') {
                   <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
                                shadow-xl z-50 overflow-hidden"
-                       style="min-width:168px; animation:dropdownIn 0.15s ease-out"
+                       style="min-width:210px; animation:dropdownIn 0.15s ease-out"
                        (click)="$event.stopPropagation()">
                     <div class="h-0.5 w-full"
                          style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
                     <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Ámbito geográfico</span>
                     </div>
-                    @for (n of NIVELES; track n) {
-                      <button (click)="setNivel(n)"
-                        class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
-                               transition-colors duration-150"
-                        [class.text-white]="nivelActivo() === n"
-                        [class.text-gray-700]="nivelActivo() !== n"
-                        [class.hover\:bg-gray-50]="nivelActivo() !== n"
-                        [style.background]="nivelActivo() === n ? '#0056a1' : ''">
-                        <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
-                          [class.border-white]="nivelActivo() === n"
-                          [style.border-color]="nivelActivo() !== n ? '#0056a1' : ''">
-                          @if (nivelActivo() === n) {
-                            <span class="w-2 h-2 bg-white rounded-full block"></span>
-                          }
-                        </span>
-                        <span class="font-semibold flex-1">{{ n }}</span>
-                      </button>
-                    }
+                    <!-- División Territorial -->
+                    <button (click)="selectAmbito('division')"
+                      class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                             transition-colors duration-150"
+                      [class.text-white]="nivelActivo() !== 'Región Natural'"
+                      [class.text-gray-700]="nivelActivo() === 'Región Natural'"
+                      [class.hover\:bg-gray-50]="nivelActivo() === 'Región Natural'"
+                      [style.background]="nivelActivo() !== 'Región Natural' ? '#0056a1' : ''">
+                      <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                        [class.border-white]="nivelActivo() !== 'Región Natural'"
+                        [style.border-color]="nivelActivo() === 'Región Natural' ? '#0056a1' : ''">
+                        @if (nivelActivo() !== 'Región Natural') {
+                          <span class="w-2 h-2 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-semibold flex-1">División Territorial</span>
+                    </button>
+                    <!-- Región Natural -->
+                    <button (click)="selectAmbito('region_natural')"
+                      class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                             transition-colors duration-150"
+                      [class.text-white]="nivelActivo() === 'Región Natural'"
+                      [class.text-gray-700]="nivelActivo() !== 'Región Natural'"
+                      [class.hover\:bg-gray-50]="nivelActivo() !== 'Región Natural'"
+                      [style.background]="nivelActivo() === 'Región Natural' ? '#0056a1' : ''">
+                      <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                        [class.border-white]="nivelActivo() === 'Región Natural'"
+                        [style.border-color]="nivelActivo() !== 'Región Natural' ? '#0056a1' : ''">
+                        @if (nivelActivo() === 'Región Natural') {
+                          <span class="w-2 h-2 bg-white rounded-full block"></span>
+                        }
+                      </span>
+                      <span class="font-semibold flex-1">Región Natural</span>
+                    </button>
                     <div class="h-1"></div>
                   </div>
                 }
               </div>
             </div>
+
+            <!-- ★ Sub-nivel (Dep / Prov / Dist — solo en División Territorial) -->
+            @if (nivelActivo() !== 'Región Natural') {
+              <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
+                <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">Nivel</span>
+                <div class="relative">
+                  <button (click)="toggleDropdown('subnivel')"
+                    class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
+                           text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all justify-between whitespace-nowrap"
+                    style="min-width:130px">
+                    <span class="hidden sm:inline">{{ nivelActivo() }}</span>
+                    <app-hero-icon [name]="'chevron-down'"
+                      class="w-3 h-3 shrink-0 transition-transform duration-200"
+                      [class.rotate-180]="openDropdown() === 'subnivel'"></app-hero-icon>
+                  </button>
+                  @if (openDropdown() === 'subnivel') {
+                    <div class="absolute left-0 top-full mt-1.5 bg-white rounded-xl border border-gray-200
+                                 shadow-xl z-50 overflow-hidden"
+                         style="min-width:148px; animation:dropdownIn 0.15s ease-out"
+                         (click)="$event.stopPropagation()">
+                      <div class="h-0.5 w-full" style="background:#0056a1"></div>
+                      @for (n of NIVELES_DIVISION; track n) {
+                        <button (click)="setNivel(n)"
+                          class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
+                                 transition-colors duration-150"
+                          [class.text-white]="nivelActivo() === n"
+                          [class.text-gray-700]="nivelActivo() !== n"
+                          [class.hover\:bg-gray-50]="nivelActivo() !== n"
+                          [style.background]="nivelActivo() === n ? '#0056a1' : ''">
+                          <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
+                            [class.border-white]="nivelActivo() === n"
+                            [style.border-color]="nivelActivo() !== n ? '#0056a1' : ''">
+                            @if (nivelActivo() === n) {
+                              <span class="w-2 h-2 bg-white rounded-full block"></span>
+                            }
+                          </span>
+                          <span class="font-semibold flex-1">{{ n }}</span>
+                        </button>
+                      }
+                      <div class="h-1"></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
 
             <!-- ★ Región Natural (solo cuando nivel = Región Natural) -->
             @if (nivelActivo() === 'Región Natural') {
@@ -1201,7 +1262,12 @@ export class DashboardTerritorialComponent {
     toggleMobileMenu(e: Event) { e.stopPropagation(); this.mobileMenuOpen.update(v => !v); }
 
     readonly NIVELES: NivelType[] = ['Departamental', 'Provincial', 'Distrital', 'Región Natural'];
+    readonly NIVELES_DIVISION: NivelType[] = ['Departamental', 'Provincial', 'Distrital'];
     nivelActivo = signal<NivelType>('Departamental');
+
+    ambitoLabel = computed(() =>
+        this.nivelActivo() === 'Región Natural' ? 'Región Natural' : 'División Territorial'
+    );
 
     setNivel(n: NivelType): void {
         this.nivelActivo.set(n);
@@ -1214,8 +1280,17 @@ export class DashboardTerritorialComponent {
         this.sortDir.set('asc');
     }
 
-    openDropdown = signal<'nivel' | 'dep' | 'prov' | 'dist' | 'regnat' | null>(null);
-    toggleDropdown(key: 'nivel' | 'dep' | 'prov' | 'dist' | 'regnat'): void {
+    selectAmbito(ambito: 'division' | 'region_natural'): void {
+        if (ambito === 'region_natural') {
+            this.setNivel('Región Natural');
+        } else if (this.nivelActivo() === 'Región Natural') {
+            this.setNivel('Departamental');
+        }
+        this.openDropdown.set(null);
+    }
+
+    openDropdown = signal<'nivel' | 'subnivel' | 'dep' | 'prov' | 'dist' | 'regnat' | null>(null);
+    toggleDropdown(key: 'nivel' | 'subnivel' | 'dep' | 'prov' | 'dist' | 'regnat'): void {
         this.openDropdown.set(this.openDropdown() === key ? null : key);
     }
     closeAll(): void { this.openDropdown.set(null); this.mobileMenuOpen.set(false); }

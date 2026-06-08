@@ -153,31 +153,38 @@ const CLR = {
           <div class="w-px h-6 md:h-7 bg-gray-200 hidden md:block"></div>
           <img src="logo_cpv.png" alt="Logo CPV 2025" class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain hidden md:block">
         </div>
-        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-base font-medium tracking-wide" style="color:#0056a1">
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium tracking-wide" style="color:#0056a1">
           <button routerLink="/" class="hover:text-secondary transition-colors uppercase relative group">
             Inicio<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group font-black underline">
+          <button routerLink="/intermedia" class="hover:text-secondary transition-colors uppercase relative group">
             Resultados<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
-          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors uppercase relative group">
+          <button routerLink="/publicaciones" class="hover:text-secondary transition-colors duration-300 uppercase relative group">
             Publicaciones<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
           </button>
           <div class="relative">
-            <button (click)="toggleCensos($event)" class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
+            <button (click)="toggleCensos($event)"
+              class="hover:text-secondary transition-colors uppercase relative group flex items-center gap-1">
               Censos 2025
-              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="censosOpen()"></app-hero-icon>
+              <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
+                [class.rotate-180]="censosOpen()"></app-hero-icon>
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"></span>
             </button>
             @if (censosOpen()) {
               <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
-                   style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
+                   style="animation: dropdownIn 0.18s ease-out forwards"
+                   (click)="$event.stopPropagation()">
                 <div class="h-1 w-full bg-gradient-to-r from-primary to-secondary"></div>
                 <ul class="py-1">
                   @for (item of censosMenu; track item.label) {
                     <li>
                       <button [routerLink]="item.route" (click)="censosOpen.set(false)"
-                        class="w-full text-left px-4 py-2.5 text-base font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:text-primary transition-all flex items-center gap-2 group/item">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
+                        class="w-full text-left px-4 py-2.5 text-sm font-semibold text-gray-700
+                               hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10
+                               hover:text-primary transition-all flex items-center gap-2 group/item">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-secondary
+                                     opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"></span>
                         {{ item.label }}
                       </button>
                     </li>
@@ -200,235 +207,130 @@ const CLR = {
       @if (mobileMenuOpen()) {
         <div class="lg:hidden bg-white border-b border-gray-100 shadow-md z-40 px-4 py-3 flex flex-col gap-1 shrink-0"
              style="animation: dropdownIn 0.18s ease-out forwards" (click)="$event.stopPropagation()">
-          <button routerLink="/" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Inicio</button>
-          <button routerLink="/resultados" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-black text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide underline">Resultados</button>
-          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)" class="text-left px-3 py-2.5 rounded-xl text-base font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">Noticias</button>
+          <button routerLink="/" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Inicio
+          </button>
+          <button routerLink="/intermedia" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Resultados
+          </button>
+          <button (click)="toggleCensos($event)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1]
+                   hover:bg-blue-50 transition-colors uppercase tracking-wide flex items-center justify-between">
+            Censos 2025
+            <app-hero-icon [name]="'chevron-down'" class="w-4 h-4 transition-transform"
+              [class.rotate-180]="censosOpen()"></app-hero-icon>
+          </button>
+          @if (censosOpen()) {
+            <div class="pl-4 flex flex-col gap-0.5 border-l-2 border-blue-100 ml-3">
+              @for (item of censosMenu; track item.label) {
+                <button [routerLink]="item.route"
+                  (click)="censosOpen.set(false); mobileMenuOpen.set(false)"
+                  class="text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                  {{ item.label }}
+                </button>
+              }
+            </div>
+          }
+          <button routerLink="/noticias" (click)="mobileMenuOpen.set(false)"
+            class="text-left px-3 py-2.5 rounded-xl text-sm font-bold text-[#0056a1] hover:bg-blue-50 transition-colors uppercase tracking-wide">
+            Noticias
+          </button>
         </div>
       }
 
-      <!-- ══ BOTONERA DE SECCIONES + FILTROS GEO ══════════════════════════ -->
-      <div class="w-full shrink-0" style="background:#ffffff; box-shadow: 0 2px 8px rgba(0,86,161,0.15);">
-        <div class="flex items-center px-3 sm:px-5 py-1.5 gap-2" (click)="$event.stopPropagation()">
-          <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-            @for (btn of navSections; track btn.id) {
-              <button [routerLink]="btn.route"
-                class="relative flex flex-row items-center justify-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full
-                       text-[11px] sm:text-[12px] font-semibold whitespace-nowrap transition-all duration-200 focus:outline-none group shrink-0"
-                [style]="isBtnActive(btn) ? 'background:#003d7a;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);' : 'background:#0056a1;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.15);'">
-                <app-hero-icon [name]="btn.icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-                <span class="text-white">{{ btn.label }}</span>
-                @if (!isBtnActive(btn)) {
-                  <span class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none rounded-full bg-white"></span>
-                }
-              </button>
-            }
-          </div>
-
-          <!-- Filtros Geo (right) -->
-          <div class="ml-auto flex items-center gap-2 overflow-x-auto">
-            <button (click)="resetFilters()" class="flex items-center gap-1 text-gray-400 hover:text-[#0056a1] transition-colors text-[10px] font-black tracking-wide shrink-0 group whitespace-nowrap">
-              <app-hero-icon [name]="'arrow-path'" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-300"></app-hero-icon>
-              <span>Restablecer</span>
+      <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════ -->
+      <div class="w-full shrink-0"
+           style="background:#efefef; box-shadow: 0 2px 8px rgba(0,86,161,0.10);">
+        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
+          @for (btn of navSections; track btn.id) {
+            <button [routerLink]="btn.route"
+              class="relative flex flex-row items-center justify-center gap-1.5 sm:gap-2
+                     px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-full
+                     text-[10px] sm:text-[11px] md:text-xs font-semibold text-center leading-tight
+                     whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
+              [style]="isBtnActive(btn)
+                ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
+              <app-hero-icon [name]="btn.icon"
+                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
+                [class.text-white]="isBtnActive(btn)"
+                [class.text-gray-500]="!isBtnActive(btn)">
+              </app-hero-icon>
+              <span class="transition-colors duration-200"
+                    [class.text-white]="isBtnActive(btn)"
+                    [class.text-gray-600]="!isBtnActive(btn)">
+                {{ btn.label }}
+              </span>
+              @if (!isBtnActive(btn)) {
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 pointer-events-none rounded-full bg-gray-900"></span>
+              }
             </button>
-            <div class="h-6 w-px bg-gray-200 shrink-0"></div>
-            <!-- Departamento -->
-            <div class="relative shrink-0">
-              <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all whitespace-nowrap justify-between" style="min-width:120px">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                  <span class="text-gray-400">Dep.:</span>
-                  <span class="truncate max-w-[70px]">{{ geoDepLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 text-gray-400 transition-transform" [class.rotate-180]="openGeoDropdown() === 'dep'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dep') {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectDep(null)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedCCDD() === ''" [class.from-\[\#0056a1\]]="selectedCCDD() === ''" [class.to-\[\#1a75aa\]]="selectedCCDD() === ''"
-                      [class.text-white]="selectedCCDD() === ''" [class.text-gray-700]="selectedCCDD() !== ''" [class.hover\:bg-blue-50]="selectedCCDD() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
-                        @if (selectedCCDD() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic text-[11px]">Todos los departamentos</span>
-                    </button>
-                    @for (dept of departments(); track dept.ccdd) {
-                      <button (click)="selectDep(dept)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedCCDD() === dept.ccdd" [class.from-\[\#0056a1\]]="selectedCCDD() === dept.ccdd" [class.to-\[\#1a75aa\]]="selectedCCDD() === dept.ccdd"
-                        [class.text-white]="selectedCCDD() === dept.ccdd" [class.text-gray-700]="selectedCCDD() !== dept.ccdd" [class.hover\:bg-blue-50]="selectedCCDD() !== dept.ccdd">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedCCDD() === dept.ccdd" [class.border-gray-300]="selectedCCDD() !== dept.ccdd">
-                          @if (selectedCCDD() === dept.ccdd) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ dept.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-            <!-- Provincia -->
-            <div class="relative shrink-0">
-              <button (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
-                [class.bg-gray-50]="isGeoProvActive()" [class.border-gray-200]="isGeoProvActive()" [class.text-gray-700]="isGeoProvActive()" [class.hover\:bg-gray-100]="isGeoProvActive()"
-                [class.bg-gray-50\/50]="!isGeoProvActive()" [class.border-gray-100]="!isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()" [class.cursor-not-allowed]="!isGeoProvActive()">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#0056a1\]]="isGeoProvActive()" [class.bg-gray-200]="!isGeoProvActive()"></span>
-                  <span [class.text-gray-400]="isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
-                  <span class="truncate max-w-[60px]">{{ geoProvLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
-                  [class.text-gray-400]="isGeoProvActive()" [class.text-gray-200]="!isGeoProvActive()" [class.rotate-180]="openGeoDropdown() === 'prov'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'prov' && isGeoProvActive()) {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-56 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar provincia</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectProv('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedProv() === ''" [class.from-\[\#0056a1\]]="selectedProv() === ''" [class.to-\[\#1a75aa\]]="selectedProv() === ''"
-                      [class.text-white]="selectedProv() === ''" [class.text-gray-700]="selectedProv() !== ''" [class.hover\:bg-blue-50]="selectedProv() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === ''" [class.border-gray-300]="selectedProv() !== ''">
-                        @if (selectedProv() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic">Todas las provincias</span>
-                    </button>
-                    @for (p of provinces(); track p.code) {
-                      <button (click)="selectProv(p.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedProv() === p.code" [class.from-\[\#0056a1\]]="selectedProv() === p.code" [class.to-\[\#1a75aa\]]="selectedProv() === p.code"
-                        [class.text-white]="selectedProv() === p.code" [class.text-gray-700]="selectedProv() !== p.code" [class.hover\:bg-blue-50]="selectedProv() !== p.code">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedProv() === p.code" [class.border-gray-300]="selectedProv() !== p.code">
-                          @if (selectedProv() === p.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ p.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-            <!-- Distrito -->
-            <div class="relative shrink-0">
-              <button (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
-                class="flex items-center gap-1.5 px-2.5 py-1 border rounded-xl text-[10px] font-bold transition-all whitespace-nowrap justify-between" style="min-width:110px"
-                [class.bg-gray-50]="isGeoDistActive()" [class.border-gray-200]="isGeoDistActive()" [class.text-gray-700]="isGeoDistActive()" [class.hover\:bg-gray-100]="isGeoDistActive()"
-                [class.bg-gray-50\/50]="!isGeoDistActive()" [class.border-gray-100]="!isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()" [class.cursor-not-allowed]="!isGeoDistActive()">
-                <span class="flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" [class.bg-\[\#33b3a9\]]="isGeoDistActive()" [class.bg-gray-200]="!isGeoDistActive()"></span>
-                  <span [class.text-gray-400]="isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
-                  <span class="truncate max-w-[60px]">{{ geoDistLabel() }}</span>
-                </span>
-                <app-hero-icon [name]="'chevron-down'" class="w-3 h-3 transition-transform"
-                  [class.text-gray-400]="isGeoDistActive()" [class.text-gray-200]="!isGeoDistActive()" [class.rotate-180]="openGeoDropdown() === 'dist'"></app-hero-icon>
-              </button>
-              @if (openGeoDropdown() === 'dist' && isGeoDistActive()) {
-                <div class="absolute left-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-50 w-64 overflow-hidden" (click)="$event.stopPropagation()">
-                  <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar distrito</span>
-                  </div>
-                  <div class="max-h-52 overflow-y-auto">
-                    <button (click)="selectDist('')" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                      [class.bg-gradient-to-r]="selectedDist() === ''" [class.from-\[\#0056a1\]]="selectedDist() === ''" [class.to-\[\#1a75aa\]]="selectedDist() === ''"
-                      [class.text-white]="selectedDist() === ''" [class.text-gray-700]="selectedDist() !== ''" [class.hover\:bg-blue-50]="selectedDist() !== ''">
-                      <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === ''" [class.border-gray-300]="selectedDist() !== ''">
-                        @if (selectedDist() === '') { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                      </span>
-                      <span class="font-bold italic">Todos los distritos</span>
-                    </button>
-                    @for (d of districts(); track d.code) {
-                      <button (click)="selectDist(d.code)" class="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-left transition-colors"
-                        [class.bg-gradient-to-r]="selectedDist() === d.code" [class.from-\[\#0056a1\]]="selectedDist() === d.code" [class.to-\[\#1a75aa\]]="selectedDist() === d.code"
-                        [class.text-white]="selectedDist() === d.code" [class.text-gray-700]="selectedDist() !== d.code" [class.hover\:bg-blue-50]="selectedDist() !== d.code">
-                        <span class="w-3 h-3 rounded-full border-2 flex-shrink-0 flex items-center justify-center" [class.border-white]="selectedDist() === d.code" [class.border-gray-300]="selectedDist() !== d.code">
-                          @if (selectedDist() === d.code) { <span class="w-1.5 h-1.5 bg-white rounded-full block"></span> }
-                        </span>
-                        <span class="font-semibold">{{ d.name }}</span>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          </div><!-- /filtros geo -->
+          }
         </div>
       </div><!-- /botonera -->
 
-      <!-- ══ BARRA DE FILTROS ══════════════════════════════════════════════ -->
-      <div class="bg-white border-b border-gray-100 shadow-sm sticky z-40
+      <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════ -->
+      <div class="sticky z-40 shrink-0
                   top-[38px] sm:top-[43px] md:top-[47px] lg:top-[50px]
-                  px-2 py-1.5 md:px-4 shrink-0
-                  flex flex-nowrap items-center gap-2 overflow-x-auto"
+                  px-3 md:px-4 2xl:px-5 py-2"
            (click)="$event.stopPropagation()">
-        <!-- ── Ind. Principales (expandible) + Ind. Temáticos (expandible) ── -->
-        <div class="flex items-center gap-1 shrink-0">
+        <div class="bg-white border border-gray-200 shadow-sm
+                    px-3 py-2 sm:px-4 md:px-5 2xl:px-6
+                    flex flex-wrap items-center gap-2 md:gap-3"
+             style="border-radius:12px">
 
-          <!-- Botón padre: Ind. Principales -->
-          <button (click)="$event.stopPropagation()"
-            routerLink="/dashboard-censada"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            [style]="expandedSection() === 'principales'
-              ? 'background:linear-gradient(to right,#0056a1,#33b3a9);color:#fff;box-shadow:0 1px 6px rgba(0,86,161,0.30);'
-              : 'background:#f3f4f6;color:#6b7280;'">
-            <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Principales</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0 transition-transform duration-200"
-              [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
-          </button>
+          <!-- Ind. Principales / Ind. Temáticos -->
+          <div class="flex items-center gap-1 shrink-0" (click)="$event.stopPropagation()">
 
-          <!-- Sub-botones de Ind. Principales -->
-          @if (expandedSection() === 'principales') {
-            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
-                 style="animation:fadeIn 0.15s ease-out forwards">
-              @for (tab of viewTabs; track tab.route) {
-                <button [routerLink]="tab.route"
-                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
-                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
-                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-                  <span>{{ tab.label }}</span>
-                </button>
+            <!-- Agrupación Ind. Principales con sub-opciones en contenedor #efefef -->
+            <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
+              <button (click)="toggleNavSection('principales')"
+                class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
+                       tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
+                [style]="expandedSection() === 'principales'
+                  ? 'background:#33b3a9;color:#fff;'
+                  : 'color:#6b7280;'">
+                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                <span>Ind. Principales</span>
+                <app-hero-icon [name]="'chevron-right'"
+                  class="w-3 h-3 shrink-0 transition-transform duration-200"
+                  [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
+              </button>
+              @if (expandedSection() === 'principales') {
+                <div class="flex items-center gap-0.5 pr-1"
+                     style="animation:fadeIn 0.12s ease-out forwards">
+                  @for (tab of viewTabs; track tab.route) {
+                    <button [routerLink]="tab.route"
+                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
+                             font-bold tracking-wide transition-all whitespace-nowrap"
+                      [style]="isViewTabActive(tab.route)
+                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
+                        : 'color:#9ca3af;'">
+                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                      <span>{{ tab.label }}</span>
+                    </button>
+                  }
+                </div>
               }
             </div>
-          }
 
-          <!-- Botón padre: Ind. Temáticos -->
-          <button (click)="$event.stopPropagation()"
-            routerLink="/dashboard-tematico"
-            class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold tracking-wide whitespace-nowrap transition-all duration-200 shrink-0"
-            style="background:#f3f4f6;color:#6b7280;">
-            <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
-            <span>Ind. Temáticos</span>
-            <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
-          </button>
+            <!-- Ind. Temáticos -->
+            <button routerLink="/dashboard-tematico" (click)="$event.stopPropagation()"
+              class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs
+                     font-bold tracking-wide whitespace-nowrap transition-all shrink-0"
+              [style]="isViewTabActive('/dashboard-tematico')
+                ? 'background:#33b3a9;color:#fff;'
+                : 'background:#f3f4f6;color:#6b7280;'">
+              <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+              <span>Ind. Temáticos</span>
+              <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
+            </button>
 
-          <!-- Sub-botones de Ind. Temáticos (ELIMINADO — navegación directa a /dashboard-tematico) -->
-          @if (false) {
-            <div class="flex bg-gradient-to-r from-[#0056a1]/10 to-[#33b3a9]/10 border border-[#0056a1]/20 p-0.5 rounded-xl gap-0.5 shrink-0"
-                 style="animation:fadeIn 0.15s ease-out forwards">
-              @for (tab of tematicTabs; track tab.route) {
-                <button [routerLink]="tab.route"
-                  class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wide transition-all whitespace-nowrap"
-                  [style]="isViewTabActive(tab.route) ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);' : 'color:#9ca3af;'">
-                  <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-                  <span>{{ tab.label }}</span>
-                </button>
-              }
-            </div>
-          }
+          </div>
 
         </div>
-        
-
-        <!-- Ámbito geográfico actual -->
-        <div class="ml-auto shrink-0 flex items-center gap-1.5 bg-[#0056a1]/5 border border-[#0056a1]/20 rounded-lg px-2 py-1">
-          <app-hero-icon [name]="'map-pin'" class="w-3 h-3 text-[#0056a1] shrink-0"></app-hero-icon>
-          <span class="text-[10px] font-black text-[#0056a1] whitespace-nowrap">{{ displayedTitle() }}</span>
-        </div>
-
       </div><!-- /barra filtros -->
 
       <!-- ══ MAIN — Grid de 6 columnas ═════════════════════════════════════ -->
@@ -436,15 +338,21 @@ const CLR = {
         <div class="grid grid-cols-6 gap-2 xl:gap-3 h-full">
 
           <!-- ─────────────────────────────────────────────────────────────
-               COLUMNA 1 — POBLACIÓN (3 gráficos de línea)
+               COLUMNAS 1-2 — POBLACIÓN (cabecera unificada)
           ───────────────────────────────────────────────────────────────── -->
-          <div class="col-span-1 flex flex-col gap-2 min-h-0">
+          <div class="col-span-2 flex flex-col gap-2 min-h-0">
 
-            <!-- Cabecera de sección -->
+            <!-- Cabecera unificada -->
             <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0056a1]/6 border border-[#0056a1]/15 shrink-0">
               <app-hero-icon [name]="'users'" class="w-3 h-3 text-[#0056a1]"></app-hero-icon>
-              <span class="text-[8.5px] font-black text-[#0056a1] uppercase tracking-widest leading-none">Población</span>
+              <span class="text-[8.5px] font-black text-[#0056a1] uppercase tracking-widest leading-none">POBLACIÓN</span>
             </div>
+
+            <!-- Grid interno: 2 sub-columnas iguales -->
+            <div class="grid grid-cols-2 gap-2 xl:gap-3 flex-1 min-h-0">
+
+            <!-- Sub-columna 1 -->
+            <div class="flex flex-col gap-2 min-h-0">
 
             <!-- 1.1 · Población censada -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
@@ -500,17 +408,10 @@ const CLR = {
               }
             </div>
 
-          </div><!-- /col 1 -->
+            </div><!-- /sub-columna 1 -->
 
-          <!-- ─────────────────────────────────────────────────────────────
-               COLUMNA 2 — ESTRUCTURA DE EDAD (3 gráficos de línea)
-          ───────────────────────────────────────────────────────────────── -->
-          <div class="col-span-1 flex flex-col gap-2 min-h-0">
-
-            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#038dd3]/6 border border-[#038dd3]/15 shrink-0">
-              <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 text-[#038dd3]"></app-hero-icon>
-              <span class="text-[8.5px] font-black text-[#038dd3] uppercase tracking-widest leading-none">Estructura de edad</span>
-            </div>
+            <!-- Sub-columna 2 -->
+            <div class="flex flex-col gap-2 min-h-0">
 
             <!-- 2.1 · % 0 a 14 años -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
@@ -569,7 +470,11 @@ const CLR = {
               }
             </div>
 
-          </div><!-- /col 2 -->
+            </div><!-- /sub-columna 2 -->
+
+            </div><!-- /grid interno -->
+
+          </div><!-- /cols 1-2 población -->
 
           <!-- ─────────────────────────────────────────────────────────────
                COLUMNAS 3-4 — VIVIENDA (col-span-2, 3 gráficos de área)
@@ -579,7 +484,7 @@ const CLR = {
             <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#1a7a56]/6 border border-[#1a7a56]/15 shrink-0">
               <app-hero-icon [name]="'home'" class="w-3 h-3 text-[#1a7a56]"></app-hero-icon>
               <span class="text-[8.5px] font-black text-[#1a7a56] uppercase tracking-widest leading-none">Vivienda</span>
-              <span class="ml-auto text-[7.5px] font-semibold text-gray-400">Censos: 2007 · 2017 · 2025</span>
+              
             </div>
 
             <!-- 3.1 · Viviendas censadas -->
@@ -658,7 +563,7 @@ const CLR = {
             <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#8383fd]/6 border border-[#8383fd]/15 shrink-0">
               <app-hero-icon [name]="'home-modern'" class="w-3 h-3 text-[#8383fd]"></app-hero-icon>
               <span class="text-[8.5px] font-black text-[#8383fd] uppercase tracking-widest leading-none">Hogar</span>
-              <span class="ml-auto text-[7.5px] font-semibold text-gray-400">Censos: 2007 · 2017 · 2025</span>
+              
             </div>
 
             <!-- 4.1 · Hogares censados -->
@@ -803,7 +708,7 @@ export class DashboardEvolucionComponent implements OnInit {
     readonly navSections = [
         { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar',      route: '/dashboard' },
         { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
-        { id: 'comunidades',         label: 'Indicadores de comunidades indígenas',          icon: 'globe-americas', route: '/dashboard-ccomunidades' },
+        
     ];
 
     /**

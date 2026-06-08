@@ -359,8 +359,8 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
 
             <!-- División Territorial -->
             <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-              <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest px-0.5 leading-none hidden sm:block">
-                División Territorial
+              <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">
+                Ámbito geográfico
               </span>
               <div class="relative">
                 <button (click)="openNivelDropdown.update(v => !v)"
@@ -384,7 +384,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                        (click)="$event.stopPropagation()">
                     <div class="h-0.5 w-full" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
                     <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">División Territorial</span>
+                      <span class="text-[9px] font-black text-gray-400  tracking-widest">Ámbito Geográfico</span>
                     </div>
                     @for (n of NIVELES_FILTRO; track n.key) {
                       <button (click)="setNivelFiltro(n.key); openNivelDropdown.set(false)"
@@ -639,7 +639,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <!-- ★ Área (después de Distrito, oculta en Región Natural) -->
             @if (nivelFiltro() !== 'region_natural') {
               <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest px-0.5 leading-none hidden sm:block">Área</span>
+                <span class="text-[9px] font-black text-gray-400  tracking-widest px-0.5 leading-none hidden sm:block">Área de residencia</span>
                 <div class="relative">
                   <button (click)="openAreaDropdown.update(v => !v)"
                     class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold
@@ -659,7 +659,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                          (click)="$event.stopPropagation()">
                       <div class="h-0.5 w-full" style="background:#d1d5db"></div>
                       <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Área</span>
+                        <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
                       </div>
                       @for (a of AREAS_FILTRO; track a.key) {
                         <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
@@ -1097,7 +1097,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
           <div class="col-span-1 xl:row-span-2 xl:min-h-0 flex flex-col gap-1.5 2xl:gap-2 min-h-0">
 
             <!-- 1. KPI: Viviendas Censadas — 10% -->
-            <div class="bg-gradient-to-br from-[#0056a1] to-[#038dd3] rounded-xl p-2.5 text-white
+            <div class="bg-gradient-to-br from-[#0056a1] to-[#33b3a9] rounded-xl p-2.5 text-white
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
               <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
@@ -1107,9 +1107,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Viviendas Censadas</div>
                 <div class="text-3xl 2xl:text-4xl font-black tracking-tight leading-tight mt-0.5">{{ fmt(viviendaCensadaTotal()) }}</div>
                 <div class="flex gap-2 mt-1 text-[9.5px] font-semibold opacity-75">
-                  <span>Part.: {{ fmt(viviendaMock()['viv_particulares']) }}</span>
-                  <span>·</span>
-                  <span>Col.: {{ fmt(viviendaMock()['viv_colectivas']) }}</span>
+              
                 </div>
               </div>
               <span matTooltip="Total de viviendas particulares y colectivas registradas en el censo" matTooltipClass="custom-tooltip"
@@ -1123,7 +1121,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <app-hero-icon [name]="'home'" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
+                    
                   </div>
                   <span class="text-[10px] font-black text-gray-700 leading-tight">Viviendas particulares y colectivas</span>
                 </div>
@@ -1318,7 +1316,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
           <div class="col-span-1 xl:row-span-2 xl:min-h-0 flex flex-col gap-1.5 2xl:gap-2 min-h-0">
 
             <!-- 1. Hogares Censados — 10% (gradient púrpura) -->
-            <div class="bg-gradient-to-br from-[#343b9f] to-[#0056a1] rounded-xl p-2.5 text-white
+            <div class="bg-gradient-to-br from-[#0056a1] to-[#33b3a9] rounded-xl p-2.5 text-white
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
               <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
@@ -1601,8 +1599,8 @@ export class DashboardCensadaComponent implements OnInit {
 
     // ── Nivel de filtro geográfico ─────────────────────────────────────────
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'politico_administrativo', label: 'Político Administrativo', icon: 'map',            color: '#0056a1' },
-        { key: 'region_natural',          label: 'Región Natural',          icon: 'globe-americas', color: '#33b3a9' },
+        { key: 'politico_administrativo', label: 'División territorial', icon: 'map',            color: '#0056a1' },
+        { key: 'region_natural',          label: 'Región Natural',          icon: '', color: '#33b3a9' },
     ];
     readonly REGIONES_NATURALES = REGIONES_NATURALES;
 
