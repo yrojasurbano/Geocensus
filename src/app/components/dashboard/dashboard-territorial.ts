@@ -653,6 +653,27 @@ function allChecked(labels: string[]): DropdownItem[] {
         </div><!-- /inner filtros redondeado -->
       </div><!-- /sticky wrapper barra de filtros -->
 
+      <!-- ══ SELECTOR DE CATEGORÍA ══════════════════════════════════════════════ -->
+      <div class="shrink-0 px-3 md:px-4 xl:px-5 py-2 flex items-center gap-2"
+           style="background:#f8f9fb; border-bottom:1px solid #e5e7eb;"
+           (click)="$event.stopPropagation()">
+        @for (tab of categoryTabs; track tab.id) {
+          <button (click)="setActiveCategory(tab.id)"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold
+                   transition-all duration-200 focus:outline-none whitespace-nowrap"
+            [style]="activeCategory() === tab.id
+              ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.18);'
+              : 'background:#efefef; color:#6b7280;'">
+            <app-hero-icon [name]="tab.icon"
+              class="w-3.5 h-3.5 shrink-0"
+              [class.text-white]="activeCategory() === tab.id"
+              [class.text-gray-500]="activeCategory() !== tab.id">
+            </app-hero-icon>
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </div>
+
       <!-- ══ CUERPO ════════════════════════════════════════════════════════════ -->
       <main class="flex-1 h-0 flex flex-col min-h-0 p-2 md:p-3 xl:p-4 2xl:p-6">
         <div class="flex-1 h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -1219,8 +1240,8 @@ export class DashboardTerritorialComponent {
     // ── Category sub-nav ──────────────────────────────────────────────────────
     categoryTabs: { id: string; label: string; icon: string }[] = [
         { id: 'poblacion', label: 'Población', icon: 'users' },
-        { id: 'vivienda',  label: 'Vivienda',  icon: 'users' },
-        { id: 'hogar',     label: 'Hogar',     icon: 'users' },
+        { id: 'vivienda',  label: 'Vivienda',  icon: 'home' },
+        { id: 'hogar',     label: 'Hogar',     icon: 'user-group' },
     ];
     activeCategory = signal<string>('poblacion');
     setActiveCategory(id: string): void {

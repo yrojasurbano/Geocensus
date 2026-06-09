@@ -618,7 +618,7 @@ const BASE_MAPS: BaseMap[] = [
             <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 bg-[#038dd3] pointer-events-none rounded-lg"></span>
           }
         </button>
-        <button
+        <!-- <button
           (click)="setCensusType('comunidades_indigenas'); $event.stopPropagation()"
           class="census-toggle-btn relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg
                  text-[11px] sm:text-xs md:text-sm font-bold transition-all duration-200
@@ -631,7 +631,7 @@ const BASE_MAPS: BaseMap[] = [
           @if (censusType() !== 'comunidades_indigenas') {
             <span class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-200 bg-[#038dd3] pointer-events-none rounded-lg"></span>
           }
-        </button>
+        </button> -->
         <button routerLink="/intermedia"
           class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0056a1] text-[#0056a1]
                  font-semibold text-xs tracking-wide hover:bg-[#0056a1] hover:text-white
