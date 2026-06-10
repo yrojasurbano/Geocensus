@@ -1242,7 +1242,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       }
 
       <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
-      <main class="flex-1 min-h-0 overflow-y-auto">
+      <main class="flex-1 min-h-0 flex flex-col overflow-hidden">
 
         @if (activeSection(); as sec) {
 
@@ -1445,7 +1445,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Gráfico: Promedio hijos por estado civil -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:220px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:220px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
                         <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
@@ -1453,7 +1453,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil</p>
                     </div>
                     @if (isBrowser) {
-                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1" style="min-height:160px">
+                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
                         <div echarts [options]="fecuEstCivilOpt" class="w-full h-full"></div>
                       </div>
                     }
@@ -1505,7 +1505,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── MIGRACIÓN: Layout 4 columnas centrado ──────────────────── -->
           @if (sec.id === 'migracion') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1400px] mx-auto grid grid-cols-4 gap-3 items-stretch">
 
                 <!-- ════ COLUMNA 1 ════ -->
@@ -1748,7 +1748,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 5 columnas ── -->
           @if (sec.id === 'identidad_proteccion') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
 
                 <!-- ════ COL 1: Estado Civil ════════════════════════════════════ -->
@@ -1994,7 +1994,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── EDUCACIÓN: 5 columnas ─────────────────────────────────────── -->
           @if (sec.id === 'educacion') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
 
                 <!-- ════ COL 1: Nivel Educativo ══════════════════════════════════ -->
@@ -2270,7 +2270,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── ETNICIDAD: 8 columnas ──────────────────────────────────────── -->
           @if (sec.id === 'identidad_etnica') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1600px] mx-auto grid grid-cols-8 gap-3 items-stretch">
 
                 <!-- ════ COLS 1+2: Autoidentificación étnica e Idioma ════════════ -->
@@ -2679,7 +2679,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── DISCAPACIDAD: filas explícitas, scroll natural ───────────────── -->
           <!-- ── DISCAPACIDAD: 5 columnas ──────────────────────────────────── -->
           @if (sec.id === 'discapacidad') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
 
                 <!-- ════ COLS 1+2: Estructura Demográfica ════════════════════════ -->
@@ -2913,7 +2913,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── VIVIENDA: 6 columnas × 7 filas (3 bloques de 2 cols) ──────── -->
           @if (sec.id === 'caract_tecnicas_viviendas') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1600px] mx-auto grid grid-cols-6 gap-3 items-stretch">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════ -->
@@ -3152,7 +3152,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── PET (Población en Edad de Trabajar): 4 columnas ──────────── -->
           @if (sec.id === 'caracteristicas_economicas') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1600px] mx-auto grid grid-cols-4 gap-3 items-stretch">
 
                 <!-- ════ COL 1: Estructura Demográfica ═══════════════════════ -->
@@ -3405,7 +3405,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── HOGAR: 7 columnas × 5 filas (3 bloques) ─────────────────────── -->
           @if (sec.id === 'caract_servicios_hogares') {
-            <div class="h-full overflow-y-auto px-4 py-4">
+            <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
               <div class="max-w-[1600px] mx-auto grid grid-cols-7 gap-3 items-stretch">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════════ -->
@@ -3662,7 +3662,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── SECCIONES GENÉRICAS: grids que ocupan todo el main ──────────── -->
           @if (sec.id !== 'fecundidad' && sec.id !== 'migracion' && sec.id !== 'identidad_proteccion' && sec.id !== 'educacion' && sec.id !== 'identidad_etnica' && sec.id !== 'discapacidad' && sec.id !== 'caract_tecnicas_viviendas' && sec.id !== 'caracteristicas_economicas' && sec.id !== 'caract_servicios_hogares') {
-            <div class="h-full flex flex-col p-2 sm:p-3 md:p-4 min-h-0">
+            <div class="flex-1 min-h-0 flex flex-col p-2 sm:p-3 md:p-4">
               <div [class]="sec.gridClass + ' gap-3 flex-1 min-h-0'"
                    style="grid-auto-rows: minmax(180px, 1fr); align-content: stretch;">
                 @for (ind of sec.indicators; track ind.id) {
