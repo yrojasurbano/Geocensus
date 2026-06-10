@@ -764,7 +764,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════ -->
       <div class="w-full shrink-0"
            style="background:#efefef; box-shadow: 0 2px 8px rgba(0,86,161,0.10);">
-        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2">
+        <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 overflow-x-auto">
           @for (btn of navSections; track btn.id) {
             <button [routerLink]="btn.route"
               class="relative flex flex-row items-center justify-center gap-1.5 sm:gap-2
@@ -1246,267 +1246,244 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
         @if (activeSection(); as sec) {
 
-          <!-- ── FECUNDIDAD: 3 columnas equilibradas ───────────────────────── -->
+          <!-- ── FECUNDIDAD: grid 3 col × 6 filas con placement explícito ──── -->
           @if (sec.id === 'fecundidad') {
             <div class="flex-1 min-h-0 overflow-y-auto px-3 py-3 sm:px-5 sm:py-4">
-              <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
+              <div class="max-w-6xl mx-auto grid grid-cols-1 gap-3 lg:grid-cols-3 lg:h-[640px] lg:[grid-template-rows:auto_auto_auto_1fr_auto_auto]">
 
-                <!-- ═══ COLUMNA 1: MEF + Con/Sin hijos + Gráfico apilado ════ -->
-                <div class="flex flex-col gap-3">
-
-                  <!-- KPI 1: MEF -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Mujeres de 15 a 49 años de edad en el momento del censo" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
-                        
-                      </div>
+                <!-- ── C1·R1 ── KPI: MEF ──────────────────────────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-1">
+                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Mujeres de 15 a 49 años de edad en el momento del censo" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                      <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- KPI 2: % con hijos -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Porcentaje de mujeres de 15 a 49 años que declararon tener hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'check-circle'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Mujeres entre 15 y 49 años con hijos/as</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
-                        
-                      </div>
+                <!-- ── C1·R2 ── KPI: Con hijos ───────────────────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-2">
+                  <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Porcentaje de mujeres de 15 a 49 años que declararon tener hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                      <app-hero-icon [name]="'check-circle'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Mujeres entre 15 y 49 años con hijos/as</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- KPI 3: % sin hijos -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Porcentaje de mujeres de 15 a 49 años sin hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'x-circle'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">Mujeres entre 15 y 49 años sin hijos/as</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
-                        
-                      </div>
+                <!-- ── C1·R3 ── KPI: Sin hijos ───────────────────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-3">
+                  <div class="h-1" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Porcentaje de mujeres de 15 a 49 años sin hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                      <app-hero-icon [name]="'x-circle'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">Mujeres entre 15 y 49 años sin hijos/as</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Gráfico: MEF por grupo de edad con/sin hijos (barras apiladas verticales) -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:200px">
-                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Mujeres entre 15 y 49 años según tenencia de hijos/as nacidos/as vivos/as por grupos de edad</p>
-                      <button matTooltip="Mujeres de 15 a 49 años según grupo quinquenal de edad y tenencia de hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
+                <!-- ── C1·R4-6 ── Gráfico: MEF por grupo de edad ─────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-1 lg:row-start-4 lg:row-span-3">
+                  <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
                     </div>
-                    @if (isBrowser) {
-                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
-                        <div echarts [options]="fecuHijosEdadOpt" class="w-full h-full"></div>
-                      </div>
-                    }
+                    <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Mujeres entre 15 y 49 años según tenencia de hijos/as nacidos/as vivos/as por grupos de edad</p>
+                    <button matTooltip="Mujeres de 15 a 49 años según grupo quinquenal de edad y tenencia de hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
+                            class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
                   </div>
+                  @if (isBrowser) {
+                    <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
+                      <div echarts [options]="fecuHijosEdadOpt" class="w-full h-full"></div>
+                    </div>
+                  }
+                </div>
 
-                </div><!-- /col 1 -->
-
-                <!-- ═══ COLUMNA 2: Tasa + Razón + Promedio + Gráfico columnas ═══ -->
-                <div class="flex flex-col gap-3">
-
-                  <!-- KPI 1: Tasa de fecundidad global -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Promedio de hijos/as que tendría una mujer a lo largo de su vida fértil, dado el nivel de fecundidad del año censal" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'chart-bar'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Tasa de fecundidad global</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3%</p>
-
-                      </div>
+                <!-- ── C2·R1 ── KPI: Tasa de fecundidad global ───────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-1">
+                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Promedio de hijos/as que tendría una mujer a lo largo de su vida fértil, dado el nivel de fecundidad del año censal" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                      <app-hero-icon [name]="'chart-bar'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Tasa de fecundidad global</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3%</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- KPI 2: Razón niño/a – mujer -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="px-4 py-3 relative">
-                      <button matTooltip="Número de niños/as de 0-4 años por cada 100 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <p class="text-[10px] font-black text-black tracking-wide leading-none mb-3">Razón de niño/a mujer</p>
-                      <div class="flex items-center gap-5">
-                        <div class="flex items-center gap-2.5">
-                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
-                          <div class="flex flex-col leading-tight">
-                            <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
-                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
-                          </div>
+                <!-- ── C2·R2 ── KPI: Razón niño/a – mujer ───────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-2">
+                  <div class="px-4 py-3 relative">
+                    <button matTooltip="Número de niños/as de 0-4 años por cada 100 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <p class="text-[10px] font-black text-black tracking-wide leading-none mb-3">Razón de niño/a mujer</p>
+                    <div class="flex items-center gap-5">
+                      <div class="flex items-center gap-2.5">
+                        <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
+                        <div class="flex flex-col leading-tight">
+                          <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
+                          <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
                         </div>
-                        <div class="flex items-center gap-2.5">
-                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
-                          <div class="flex flex-col leading-tight">
-                            <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
-                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
-                            <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
-                          </div>
+                      </div>
+                      <div class="flex items-center gap-2.5">
+                        <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
+                        <div class="flex flex-col leading-tight">
+                          <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
+                          <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                          <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <!-- KPI 3: Promedio hijos 15-49 -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Promedio de hijos/as nacidos/as vivos/as declarados por mujeres de 15 a 49 años" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'calculator'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
-
-                      </div>
+                <!-- ── C2·R3 ── KPI: Promedio hijos 15–49 ───────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-3">
+                  <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Promedio de hijos/as nacidos/as vivos/as declarados por mujeres de 15 a 49 años" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                      <app-hero-icon [name]="'calculator'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Gráfico: Promedio hijos por grupo de edad -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:200px">
-                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as nacidos/as vivos/as por grupos de edad de las mujeres entre 15 y 49 años</p>
-                      <button matTooltip="Promedio de hijos/as nacidos/as vivos/as según grupo quinquenal de edad de la madre" matTooltipClass="custom-tooltip"
-                              class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
+                <!-- ── C2·R4-6 ── Gráfico: Promedio hijos por edad ──────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-2 lg:row-start-4 lg:row-span-3">
+                  <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
+                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
                     </div>
-                    @if (isBrowser) {
-                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
-                        <div echarts [options]="fecuPromEdadOpt" class="w-full h-full"></div>
-                      </div>
-                    }
+                    <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as nacidos/as vivos/as por grupos de edad de las mujeres entre 15 y 49 años</p>
+                    <button matTooltip="Promedio de hijos/as nacidos/as vivos/as según grupo quinquenal de edad de la madre" matTooltipClass="custom-tooltip"
+                            class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
                   </div>
+                  @if (isBrowser) {
+                    <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
+                      <div echarts [options]="fecuPromEdadOpt" class="w-full h-full"></div>
+                    </div>
+                  }
+                </div>
 
-                </div><!-- /col 2 -->
-
-                <!-- ═══ COLUMNA 3: Madres solteras + Gráfico estado civil ═══════ -->
-                <div class="flex flex-col gap-3">
-
-                  <!-- KPI 1: Madres solteras 12+ -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#8383fd,#0056a1)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Mujeres de 12 y más años que declararon ser madres y tener estado civil soltero" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8383fd18">
-                        <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#8383fd"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
-                        
-                      </div>
+                <!-- ── C3·R1 ── KPI: Madres solteras ────────────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-1">
+                  <div class="h-1" style="background:linear-gradient(to right,#8383fd,#0056a1)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Mujeres de 12 y más años que declararon ser madres y tener estado civil soltero" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8383fd18">
+                      <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#8383fd"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Gráfico: Promedio hijos por estado civil -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0" style="min-height:220px">
-                    <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil</p>
+                <!-- ── C3·R2-4 ── Gráfico: Promedio hijos por estado civil ─ -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-3 lg:row-start-2 lg:row-span-3">
+                  <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
+                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
                     </div>
-                    @if (isBrowser) {
-                      <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
-                        <div echarts [options]="fecuEstCivilOpt" class="w-full h-full"></div>
-                      </div>
-                    }
+                    <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil</p>
                   </div>
-
-                  <!-- KPI 2: Madres adolescentes de 12 a 17 años -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#f59e0b,#0056a1)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Mujeres de 12 a 17 años que declararon ser madres al momento del censo" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#f59e0b18">
-                        <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#f59e0b"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes de 12 a 17 años</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
-                        
-                      </div>
+                  @if (isBrowser) {
+                    <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
+                      <div echarts [options]="fecuEstCivilOpt" class="w-full h-full"></div>
                     </div>
-                  </div>
+                  }
+                </div>
 
-                  <!-- KPI 3: Hijos/as fallecidos/as de mujeres de 12+ años -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
-                    <div class="px-4 py-3 flex items-center gap-3 relative">
-                      <button matTooltip="Total de hijos/as fallecidos/as declarados por mujeres de 12 y más años al momento del censo" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                      </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'exclamation-triangle'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
-                        
-                      </div>
+                <!-- ── C3·R5 ── KPI: Madres adolescentes ─────────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-5">
+                  <div class="h-1" style="background:linear-gradient(to right,#f59e0b,#0056a1)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Mujeres de 12 a 17 años que declararon ser madres al momento del censo" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#f59e0b18">
+                      <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#f59e0b"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes de 12 a 17 años</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
                     </div>
                   </div>
+                </div>
 
-                </div><!-- /col 3 -->
+                <!-- ── C3·R6 ── KPI: Hijos/as fallecidos/as ──────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-6">
+                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
+                  <div class="px-4 py-3 flex items-center gap-3 relative">
+                    <button matTooltip="Total de hijos/as fallecidos/as declarados por mujeres de 12 y más años al momento del censo" matTooltipClass="custom-tooltip"
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                    </button>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
+                      <app-hero-icon [name]="'exclamation-triangle'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                    </div>
+                    <div class="flex-1 min-w-0 pr-5">
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
+                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
+                    </div>
+                  </div>
+                </div>
 
-              </div><!-- /grid 3 cols -->
+              </div>
             </div>
           }
 
           <!-- ── MIGRACIÓN: Layout 4 columnas centrado ──────────────────── -->
           @if (sec.id === 'migracion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-4 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch">
 
                 <!-- ════ COLUMNA 1 ════ -->
                 <div class="h-full flex flex-col gap-3">
@@ -1601,7 +1578,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="col-span-2 h-full flex flex-col gap-3">
 
                   <!-- Fila: 3 KPIs -->
-                  <div class="grid grid-cols-3 gap-3 shrink-0">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 shrink-0">
 
                     <!-- KPI: Edad promedio -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -1749,10 +1726,10 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 5 columnas ── -->
           @if (sec.id === 'identidad_proteccion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:items-stretch">
 
                 <!-- ════ COL 1: Estado Civil ════════════════════════════════════ -->
-                <div class="h-full flex flex-col gap-3">
+                <div class="h-full grid gap-3 lg:[grid-template-rows:auto_1fr_1fr_1fr_1fr]">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#0056a118;border-left:3px solid #0056a1">
@@ -1760,7 +1737,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Columnas: población por estado civil -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:200px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0 lg:row-span-2">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población de 12 y más años por estado civil o conyugal</p>
@@ -1775,7 +1752,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Pirámide: estado civil por sexo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:220px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por sexo</p>
@@ -1790,7 +1767,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Barras apiladas: estado civil por grupo de edad -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:200px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por grupo de edad</p>
@@ -1807,7 +1784,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 </div><!-- /col 1 -->
 
                 <!-- ════ COLS 2+3: Identidad ═══════════════════════════════════ -->
-                <div class="col-span-2 h-full flex flex-col gap-3">
+                <div class="col-span-2 flex flex-col gap-3">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#038dd318;border-left:3px solid #038dd3">
@@ -1866,7 +1843,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /fila pies DNI -->
 
                   <!-- Columnas: DNI por grupo de edad -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población que tiene DNI por grupo de edad</p>
@@ -1881,7 +1858,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Columnas: documentos de inmigrante extranjero -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población inmigrante extranjera según tipo de documento de identidad</p>
@@ -1898,7 +1875,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 </div><!-- /cols 2+3 -->
 
                 <!-- ════ COLS 4+5: Seguro de Salud ═════════════════════════════ -->
-                <div class="col-span-2 h-full flex flex-col gap-3">
+                <div class="col-span-2 flex flex-col gap-3">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#33b3a918;border-left:3px solid #33b3a9">
@@ -1957,7 +1934,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /fila pies seguro -->
 
                   <!-- Columnas: seguro por grupo de edad -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud por grupo de edad</p>
@@ -1972,7 +1949,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Columnas: seguro por tipo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:190px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud según tipo de seguro</p>
@@ -1995,7 +1972,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── EDUCACIÓN: 5 columnas ─────────────────────────────────────── -->
           @if (sec.id === 'educacion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch">
 
                 <!-- ════ COL 1: Nivel Educativo ══════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">
@@ -2271,7 +2248,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── ETNICIDAD: 8 columnas ──────────────────────────────────────── -->
           @if (sec.id === 'identidad_etnica') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-8 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-8 gap-3 items-stretch">
 
                 <!-- ════ COLS 1+2: Autoidentificación étnica e Idioma ════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">
@@ -2344,7 +2321,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Fila 2: pie sexo (2cols) + col grupo de edad (3cols) -->
-                  <div class="grid grid-cols-5 gap-3" style="min-height:220px">
+                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:220px">
 
                     <!-- Pie: Sexo -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2385,7 +2362,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /fila 2 -->
 
                   <!-- Filas 3+4: col nivel educativo (2cols) + KPI TIC + KPI analfabeto (1col flex) -->
-                  <div class="grid grid-cols-3 gap-3" style="min-height:230px">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" style="min-height:230px">
 
                     <!-- Col: Nivel educativo alcanzado -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2451,7 +2428,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /filas 3+4 -->
 
                   <!-- Fila 5: radar seguro de salud (3cols) + col estado civil (2cols) -->
-                  <div class="grid grid-cols-5 gap-3" style="min-height:240px">
+                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:240px">
 
                     <!-- Radar: Acceso a seguro de salud -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2523,7 +2500,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Fila 2: pie sexo (2cols) + col grupo de edad (3cols) -->
-                  <div class="grid grid-cols-5 gap-3" style="min-height:220px">
+                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:220px">
 
                     <!-- Pie: Sexo -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2564,7 +2541,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /fila 2 afro -->
 
                   <!-- Filas 3+4: col nivel educativo (2cols) + KPI TIC + KPI analfabeto (1col flex) -->
-                  <div class="grid grid-cols-3 gap-3" style="min-height:230px">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" style="min-height:230px">
 
                     <!-- Col: Nivel educativo alcanzado -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2630,7 +2607,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div><!-- /filas 3+4 afro -->
 
                   <!-- Fila 5: radar seguro de salud (3cols) + col estado civil (2cols) -->
-                  <div class="grid grid-cols-5 gap-3" style="min-height:240px">
+                  <div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:240px">
 
                     <!-- Radar: Acceso a seguro de salud -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
@@ -2680,7 +2657,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── DISCAPACIDAD: 5 columnas ──────────────────────────────────── -->
           @if (sec.id === 'discapacidad') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-5 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch">
 
                 <!-- ════ COLS 1+2: Estructura Demográfica ════════════════════════ -->
                 <div class="col-span-2 h-full flex flex-col gap-3">
@@ -2914,7 +2891,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── VIVIENDA: 6 columnas × 7 filas (3 bloques de 2 cols) ──────── -->
           @if (sec.id === 'caract_tecnicas_viviendas') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-6 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-stretch">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">
@@ -3153,7 +3130,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── PET (Población en Edad de Trabajar): 4 columnas ──────────── -->
           @if (sec.id === 'caracteristicas_economicas') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-4 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch">
 
                 <!-- ════ COL 1: Estructura Demográfica ═══════════════════════ -->
                 <div class="flex flex-col gap-3 h-full">
@@ -3406,7 +3383,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── HOGAR: 7 columnas × 5 filas (3 bloques) ─────────────────────── -->
           @if (sec.id === 'caract_servicios_hogares') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-7 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-7 gap-3 items-stretch">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">

@@ -1237,7 +1237,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                   <div class="w-7 h-7 bg-[#343b9f]/10 rounded-lg flex items-center justify-center shrink-0">
                     <app-hero-icon [name]="'user-group'" class="w-4 h-4 text-[#343b9f]"></app-hero-icon>
                   </div>
-                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares según número de miembros</span>
+                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares según número de personas que lo conforman</span>
                 </div>
                 <span matTooltip="Distribución porcentual de hogares según el número de personas que los conforman" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
