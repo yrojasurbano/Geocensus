@@ -273,11 +273,7 @@ function allChecked(labels: string[]): DropdownItem[] {
               [style]="isBtnActive(btn)
                 ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
                 : 'background:#efefef; color:#4b5563; box-shadow:none;'">
-              <app-hero-icon [name]="btn.icon"
-                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
-                [class.text-white]="isBtnActive(btn)"
-                [class.text-gray-500]="!isBtnActive(btn)">
-              </app-hero-icon>
+             
               <span class="transition-colors duration-200"
                     [class.text-white]="isBtnActive(btn)"
                     [class.text-gray-600]="!isBtnActive(btn)">
@@ -305,12 +301,12 @@ function allChecked(labels: string[]): DropdownItem[] {
           <div class="flex bg-white border border-gray-100 shadow-sm p-1 rounded-xl gap-1 shrink-0">
             <button routerLink="/dashboard"
               class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
-                     text-gray-400 hover:text-gray-600 tracking-wide">
+                     color = #424242 hover:text-gray-600 tracking-wide">
               Primeros Resultados
             </button>
             <button class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm
                            tracking-wide cursor-default"
-                    style="background:#33b3a9; color:#ffffff;">
+                    style="background:#caeae4; color:#424242;">
               Comparativo Territorial
             </button>
           </div>

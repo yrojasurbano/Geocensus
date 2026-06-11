@@ -135,47 +135,38 @@ import { RouterLink } from '@angular/router';
 
           <!-- ③ Geoportal — fila 2 -->
           <button routerLink="/geoportal"
-                  class="group card-btn border-t-4 border-[#0056a1] lg:col-span-4">
-            <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                   stroke="currentColor" class="w-7 h-7 text-[#0056a1] group-hover:text-white transition-colors duration-300">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
-              </svg>
+                  class="group card-btn border-t-4 border-[#8383fd] lg:col-span-4">
+            <div class="icon-wrap bg-[#8383fd]/10 group-hover:bg-[#8383fd] transition-colors duration-300"> 
+              <img src="intermedia/geoportal.svg" alt="Geoportal"
+                   class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
             <span class="card-label">Geoportal</span>
             <span class="card-sub">Visualización georreferenciada de los resultados censales</span>
-            <span class="card-arrow text-[#0056a1]">→</span>
+            <span class="card-arrow text-[#8383fd]">→</span>
           </button>
 
           <!-- ④ Descarga de datos — fila 2 -->
           <button routerLink="/descarga-datos"
-                  class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
-            <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                   stroke="currentColor" class="w-7 h-7 text-[#038dd3] group-hover:text-white transition-colors duration-300">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-              </svg>
+                  class="group card-btn border-t-4 border-[#0056a1] lg:col-span-4">
+            <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
+              <img src="intermedia/descarga_datos.svg" alt="Descarga de datos"
+                   class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
             <span class="card-label">Descarga de Datos</span>
             <span class="card-sub">Microdatos y bases censales en formatos abiertos</span>
-            <span class="card-arrow text-[#038dd3]">→</span>
+            <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
           <!-- ⑤ Documentación y asistencia — fila 2 -->
           <button routerLink="/documentacion-tecnica"
-                  class="group card-btn border-t-4 border-[#33b3a9] lg:col-span-4">
-            <div class="icon-wrap bg-[#33b3a9]/10 group-hover:bg-[#33b3a9] transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                   stroke="currentColor" class="w-7 h-7 text-[#33b3a9] group-hover:text-white transition-colors duration-300">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-              </svg>
+                  class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
+            <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
+              <img src="intermedia/documentacion.svg" alt="Documentación y asistencia"
+                   class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
             <span class="card-label">Documentación y Asistencia</span>
             <span class="card-sub">Glosarios, metodología y soporte técnico al usuario</span>
-            <span class="card-arrow text-[#33b3a9]">→</span>
+            <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 
         </div><!-- /Grid -->

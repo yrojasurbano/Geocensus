@@ -262,12 +262,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                      whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
               [style]="isBtnActive(btn)
                 ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
-              <app-hero-icon [name]="btn.icon"
-                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
-                [class.text-white]="isBtnActive(btn)"
-                [class.text-gray-500]="!isBtnActive(btn)">
-              </app-hero-icon>
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">              
               <span class="transition-colors duration-200"
                     [class.text-white]="isBtnActive(btn)"
                     [class.text-gray-600]="!isBtnActive(btn)">
@@ -300,9 +295,8 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'principales'
-                  ? 'background:#33b3a9;color:#fff;'
-                  : 'color:#6b7280;'">
-                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                  ? 'background:#caeae4;color:#424242;'
+                  : 'color:#6b7280;'">                
                 <span>Ind. Principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
@@ -318,7 +312,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                       [style]="isViewTabActive(tab.route)
                         ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
                         : 'color:#9ca3af;'">
-                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                      
                       <span>{{ tab.label }}</span>
                     </button>
                   }
@@ -333,7 +327,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               [style]="isViewTabActive('/dashboard-tematico')
                 ? 'background:#33b3a9;color:#fff;'
                 : 'background:#f3f4f6;color:#6b7280;'">
-              <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+              
               <span>Ind. Temáticos</span>
               <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
             </button>

@@ -251,12 +251,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                      whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
               [style]="isBtnActive(btn)
                 ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
-              <app-hero-icon [name]="btn.icon"
-                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
-                [class.text-white]="isBtnActive(btn)"
-                [class.text-gray-500]="!isBtnActive(btn)">
-              </app-hero-icon>
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">              
               <span class="transition-colors duration-200"
                     [class.text-white]="isBtnActive(btn)"
                     [class.text-gray-600]="!isBtnActive(btn)">
@@ -289,9 +284,9 @@ function allChecked(labels: string[]): DropdownItem[] {
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'principales'
-                  ? 'background:#33b3a9;color:#fff;'
+                  ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
-                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                
                 <span>Ind. Principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
@@ -307,7 +302,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                       [style]="isViewTabActive(tab.route)
                         ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
                         : 'color:#9ca3af;'">
-                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
+                      
                       <span>{{ tab.label }}</span>
                     </button>
                   }
@@ -320,11 +315,9 @@ function allChecked(labels: string[]): DropdownItem[] {
               class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs
                      font-bold tracking-wide whitespace-nowrap transition-all shrink-0"
               [style]="isViewTabActive('/dashboard-tematico')
-                ? 'background:#33b3a9;color:#fff;'
-                : 'background:#f3f4f6;color:#6b7280;'">
-              <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
-              <span>Ind. Temáticos</span>
-              <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                ? 'background:#caeae4;color:#424242;'
+                : 'background:#f3f4f6;color:#6b7280;'">              
+              <span>Ind. Temáticos</span>              
             </button>
 
           </div>
@@ -659,16 +652,14 @@ function allChecked(labels: string[]): DropdownItem[] {
            (click)="$event.stopPropagation()">
         @for (tab of categoryTabs; track tab.id) {
           <button (click)="setActiveCategory(tab.id)"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold
+            class="flex items-center gap-1.5 px-3 py-1.5 text-[11px]
                    transition-all duration-200 focus:outline-none whitespace-nowrap"
             [style]="activeCategory() === tab.id
-              ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.18);'
-              : 'background:#efefef; color:#6b7280;'">
-            <app-hero-icon [name]="tab.icon"
-              class="w-3.5 h-3.5 shrink-0"
-              [class.text-white]="activeCategory() === tab.id"
-              [class.text-gray-500]="activeCategory() !== tab.id">
-            </app-hero-icon>
+              ? 'color:#003d7a; font-weight:700; border-bottom:2px solid #003d7a; padding-bottom:4px;'
+              : 'color:#424242; font-weight:400; border-bottom:2px solid transparent; padding-bottom:4px;'">
+            <img [src]="tab.icon" [alt]="tab.label"
+              class="w-3.5 h-3.5 shrink-0 transition-all duration-200"
+              [style.filter]="activeCategory() === tab.id ? 'brightness(0) saturate(100%) invert(14%) sepia(80%) saturate(1500%) hue-rotate(200deg)' : 'brightness(0) opacity(0.45)'">
             <span>{{ tab.label }}</span>
           </button>
         }
@@ -1239,9 +1230,9 @@ export class DashboardTerritorialComponent {
 
     // ── Category sub-nav ──────────────────────────────────────────────────────
     categoryTabs: { id: string; label: string; icon: string }[] = [
-        { id: 'poblacion', label: 'Población', icon: 'users' },
-        { id: 'vivienda',  label: 'Vivienda',  icon: 'home' },
-        { id: 'hogar',     label: 'Hogar',     icon: 'user-group' },
+        { id: 'poblacion', label: 'Población', icon: 'pobcensada.svg' },
+        { id: 'vivienda',  label: 'Vivienda',  icon: 'vivienda.svg' },
+        { id: 'hogar',     label: 'Hogar',     icon: 'hogar.svg' },
     ];
     activeCategory = signal<string>('poblacion');
     setActiveCategory(id: string): void {

@@ -812,7 +812,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'principales'
-                  ? 'background:#33b3a9;color:#fff;'
+                  ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
                 <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
                 <span>Ind. Principales</span>
@@ -844,7 +844,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'tematicos'
-                  ? 'background:#33b3a9;color:#fff;'
+                  ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
                 <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
                 <span>Ind. Temáticos</span>
@@ -913,7 +913,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                shadow-xl z-50 overflow-hidden"
                        style="min-width:188px; animation:dropdownIn 0.15s ease-out"
                        (click)="$event.stopPropagation()">
-                    <div class="h-0.5 w-full" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
+                    <div class="h-0.5 w-full" style="background:linear-gradient(to right,#0056a1,#038dd3,#caeae4)"></div>
                     <div class="px-3 pt-2 pb-1">
                       <span class="text-[9px] font-black text-gray-400 tracking-widest">Ámbito Geográfico</span>
                     </div>

@@ -290,7 +290,7 @@ const CLR = {
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'principales'
-                  ? 'background:#33b3a9;color:#fff;'
+                  ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
                 <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
                 <span>Ind. Principales</span>
