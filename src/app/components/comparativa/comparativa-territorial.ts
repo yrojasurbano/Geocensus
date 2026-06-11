@@ -389,13 +389,15 @@ function allChecked(labels: string[]): DropdownItem[] {
             </div>
 
             <!-- ── Departamento ── -->
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400 tracking-widest px-1">Región</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                    <span class="text-gray-400 mr-0.5">Dep.:</span>{{ depLabel() }}
+                    {{ depLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'dep'"></app-hero-icon>
@@ -407,7 +409,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
                              class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                      Seleccionar todas
+                      Todas las regiones
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of depsItems(); track item.label; let i = $index) {
@@ -421,16 +423,19 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </div>
                 }
               </div>
+              </div>
 
             <!-- ── Provincia (Provincial / Distrital) ── -->
             @if (isProvActive()) {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Provincia</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('prov'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#038dd3"></span>
-                    <span class="text-gray-400 mr-0.5">Prov.:</span>{{ provLabel() }}
+                    {{ provLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'prov'"></app-hero-icon>
@@ -442,7 +447,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allProvsOn()" (change)="toggleAllProvs()"
                              class="rounded border-gray-300 text-[#038dd3] focus:ring-[#038dd3] w-3.5 h-3.5">
-                      Seleccionar todas
+                      Todas las provincias
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of provsItems(); track item.label; let i = $index) {
@@ -456,17 +461,20 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </div>
                 }
               </div>
+              </div>
             }
 
             <!-- ── Distrito (solo Distrital) ── -->
             @if (isDistActive()) {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Distrito</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('dist'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
-                    <span class="text-gray-400 mr-0.5">Dist.:</span>{{ distLabel() }}
+                    {{ distLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'dist'"></app-hero-icon>
@@ -478,7 +486,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDistsOn()" (change)="toggleAllDists()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Seleccionar todos
+                      Todos los distritos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of distItems(); track item.label; let i = $index) {
@@ -491,6 +499,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     </div>
                   </div>
                 }
+              </div>
               </div>
             }
 

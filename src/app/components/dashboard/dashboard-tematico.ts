@@ -895,7 +895,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     ? 'background:#003d7a; color:#fff; border-color:#003d7a'
                     : 'background:#0056a1; color:#fff; border-color:#0056a1'">
                   @if (activeNivelDef().icon) {
-                    <app-hero-icon [name]="activeNivelDef().icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
+                    
                   }
                   <span class="hidden sm:inline">{{ activeNivelDef().label }}</span>
                   <app-hero-icon [name]="'chevron-down'"
@@ -909,7 +909,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                        (click)="$event.stopPropagation()">
                     <div class="h-0.5 w-full" style="background:linear-gradient(to right,#0056a1,#038dd3,#caeae4)"></div>
                     <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400 tracking-widest">Ámbito Geográfico</span>
+                      <span class="text-[9px] font-black text-gray-400 tracking-widest">Seleciconar Ámbito</span>
                     </div>
                     @for (n of NIVELES_FILTRO; track n.key) {
                       <button (click)="setNivelFiltro(n.key); openNivelDropdown.set(false)"
@@ -951,8 +951,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     <span class="text-gray-400 mr-0.5">Región:</span>
                     <span class="truncate max-w-[72px]">{{ regionNaturalLabel() }}</span>
                   </span>
-                  <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
-                    [class.rotate-180]="openRegionDropdown()"></app-hero-icon>
+                  
                 </button>
                 @if (openRegionDropdown()) {
                   <div class="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl
@@ -1000,15 +999,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
             <!-- ★ Departamento (oculto en Región Natural) -->
             @if (nivelFiltro() !== 'region_natural') {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400 tracking-widest px-1">Región</span>
+                <div class="relative">
                 <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all
                          min-w-[130px] sm:min-w-[148px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                    <span class="text-gray-400 mr-0.5">Dep.:</span>
-                    <span class="truncate max-w-[70px] sm:max-w-[80px]">{{ geoDepLabel() }}</span>
+                    <span class="truncate max-w-[90px] sm:max-w-[100px]">{{ geoDepLabel() }}</span>
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openGeoDropdown() === 'dep'"></app-hero-icon>
@@ -1018,7 +1018,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                shadow-xl z-50 w-56 sm:w-60 overflow-hidden"
                        (click)="$event.stopPropagation()">
                     <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar región</span>
                     </div>
                     <div class="max-h-56 sm:max-h-60 overflow-y-auto">
                       <button (click)="selectDep(null)"
@@ -1029,7 +1029,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
                           @if (selectedCCDD() === '') { <span class="w-2 h-2 bg-white rounded-full block"></span> }
                         </span>
-                        <span class="font-bold italic text-xs">Todos los departamentos</span>
+                        <span class="font-bold italic text-xs">Todas las regiones</span>
                       </button>
                       @for (dept of departments(); track dept.ccdd) {
                         <button (click)="selectDep(dept)"
@@ -1047,11 +1047,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
                 }
               </div>
+              </div>
             }
 
             <!-- ★ Provincia (oculta en Región Natural) -->
             @if (nivelFiltro() !== 'region_natural') {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold  tracking-widest px-1"
+                  [class.text-gray-400]="isGeoProvActive()"
+                  [class.text-gray-300]="!isGeoProvActive()">Provincia</span>
+                <div class="relative">
                 <button (click)="isGeoProvActive() && toggleGeoDropdown('prov'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
                          min-w-[130px] sm:min-w-[148px] justify-between"
@@ -1062,8 +1067,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0"
                       [class.bg-\[\#1a75aa\]]="isGeoProvActive()" [class.bg-gray-200]="!isGeoProvActive()"></span>
-                    <span class="mr-0.5" [class.text-gray-400]="isGeoProvActive()" [class.text-gray-300]="!isGeoProvActive()">Prov.:</span>
-                    <span class="truncate max-w-[60px] sm:max-w-[70px]">{{ geoProvLabel() }}</span>
+                    <span class="truncate max-w-[80px] sm:max-w-[90px]">{{ geoProvLabel() }}</span>
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
                     [class.text-gray-400]="isGeoProvActive()" [class.text-gray-200]="!isGeoProvActive()"
@@ -1103,11 +1107,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
                 }
               </div>
+              </div>
             }
 
             <!-- ★ Distrito (oculto en Región Natural) -->
             @if (nivelFiltro() !== 'region_natural') {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold  tracking-widest px-1"
+                  [class.text-gray-400]="isGeoDistActive()"
+                  [class.text-gray-300]="!isGeoDistActive()">Distrito</span>
+                <div class="relative">
                 <button (click)="isGeoDistActive() && toggleGeoDropdown('dist'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 border rounded-xl text-xs font-bold transition-all
                          min-w-[120px] sm:min-w-[140px] justify-between"
@@ -1118,8 +1127,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0"
                       [class.bg-\[\#33b3a9\]]="isGeoDistActive()" [class.bg-gray-200]="!isGeoDistActive()"></span>
-                    <span class="mr-0.5" [class.text-gray-400]="isGeoDistActive()" [class.text-gray-300]="!isGeoDistActive()">Dist.:</span>
-                    <span class="truncate max-w-[55px] sm:max-w-[65px]">{{ geoDistLabel() }}</span>
+                    <span class="truncate max-w-[75px] sm:max-w-[85px]">{{ geoDistLabel() }}</span>
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 transition-transform"
                     [class.text-gray-400]="isGeoDistActive()" [class.text-gray-200]="!isGeoDistActive()"
@@ -1159,6 +1167,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
                 }
               </div>
+              </div>
             }
 
             <!-- ★ Área de residencia (oculta en Región Natural) -->
@@ -1184,7 +1193,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                          (click)="$event.stopPropagation()">
                       <div class="h-0.5 w-full" style="background:#d1d5db"></div>
                       <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400 tracking-widest">Área de residencia</span>
+                        <span class="text-[9px] font-black text-gray-400 tracking-widest">Seleccionar área</span>
                       </div>
                       @for (a of AREAS_FILTRO; track a.key) {
                         <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
@@ -6151,7 +6160,7 @@ export class DashboardTematicoComponent implements OnInit {
     // ── Filtro de ámbito (División Territorial / Región Natural) ──────────
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
         { key: 'politico_administrativo', label: 'División territorial', icon: 'map',            color: '#0056a1' },
-        { key: 'region_natural',          label: 'Región Natural',          icon: 'globe-americas', color: '#33b3a9' },
+        { key: 'region_natural',          label: 'Región Natural',          icon: '', color: '#33b3a9' },
     ];
     readonly REGIONES_NATURALES = REGIONES_NATURALES;
 

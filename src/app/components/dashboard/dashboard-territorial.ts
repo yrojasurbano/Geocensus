@@ -408,7 +408,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             <!-- ★ Sub-nivel (Dep / Prov / Dist — solo en División Territorial) -->
             @if (nivelActivo() !== 'Región Natural') {
               <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
-                
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Nivel geográfico</span>
                 <div class="relative">
                   <button (click)="toggleDropdown('subnivel')"
                     class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -470,7 +470,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allRegNatOn()" (change)="toggleAllRegNat()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Seleccionar todas
+                      Todas las regiones
                     </label>
                     <div class="max-h-48 overflow-y-auto">
                       @for (item of regNatItems(); track item.label; let i = $index) {
@@ -488,13 +488,15 @@ function allChecked(labels: string[]): DropdownItem[] {
 
             <!-- ★ Departamento (oculto en Región Natural) -->
             @if (nivelActivo() !== 'Región Natural') {
-            <div class="relative">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Región</span>
+              <div class="relative">
               <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
                 class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                        text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                 <span class="flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                  <span class="text-gray-400 mr-0.5">Dep.:</span>{{ depLabel() }}
+                  {{ depLabel() }}
                 </span>
                 <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                   [class.rotate-180]="openDropdown() === 'dep'"></app-hero-icon>
@@ -506,7 +508,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                   <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                     <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
                            class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                    Seleccionar todas
+                    Todas las regiones
                   </label>
                   <div class="max-h-60 overflow-y-auto">
                     @for (item of depsItems(); track item.label; let i = $index) {
@@ -520,17 +522,19 @@ function allChecked(labels: string[]): DropdownItem[] {
                 </div>
               }
             </div>
+            </div>
 
             <!-- ★ Provincia (Provincial / Distrital) -->
             @if (isProvActive()) {
-
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Provincia</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('prov'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#038dd3"></span>
-                    <span class="text-gray-400 mr-0.5">Prov.:</span>{{ provLabel() }}
+                    {{ provLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'prov'"></app-hero-icon>
@@ -542,7 +546,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allProvsOn()" (change)="toggleAllProvs()"
                              class="rounded border-gray-300 text-[#038dd3] focus:ring-[#038dd3] w-3.5 h-3.5">
-                      Seleccionar todas
+                      Todas las provincias
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of provsItems(); track item.label; let i = $index) {
@@ -556,17 +560,20 @@ function allChecked(labels: string[]): DropdownItem[] {
                   </div>
                 }
               </div>
+              </div>
             }
 
             <!-- ★ Distrito (solo Distrital) -->
             @if (isDistActive()) {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Distrito</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('dist'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
-                    <span class="text-gray-400 mr-0.5">Dist.:</span>{{ distLabel() }}
+                    {{ distLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'dist'"></app-hero-icon>
@@ -578,7 +585,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDistsOn()" (change)="toggleAllDists()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Seleccionar todos
+                      Todos los distritos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of distItems(); track item.label; let i = $index) {
@@ -591,6 +598,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     </div>
                   </div>
                 }
+              </div>
               </div>
             }
             }<!-- /if nivelActivo !== Región Natural -->
@@ -618,7 +626,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                          (click)="$event.stopPropagation()">
                       <div class="h-0.5 w-full" style="background:#d1d5db"></div>
                       <div class="px-3 pt-2 pb-1">
-                        <span class="text-[9px] font-black text-gray-400  tracking-widest">Área de residencia</span>
+                        <span class="text-[9px] font-black text-gray-400  tracking-widest">Seleccionar área</span>
                       </div>
                       @for (a of AREAS_FILTRO; track a.key) {
                         <button (click)="areaFiltro.set(a.key); openAreaDropdown.set(false)"
@@ -1382,9 +1390,9 @@ export class DashboardTerritorialComponent {
         this.cntRegNat() === REG_NAT_LIST.length ? 'Todas' : `${this.cntRegNat()} sel.`
     );
 
-    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas las reg.' : `${this.cntDeps()} reg. sel.`);
-    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas las prov.' : `${this.cntProvs()} prov. sel.`);
-    distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos los dist.' : `${this.cntDists()} dist. sel.`);
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas' : `${this.cntDeps()} reg. sel.`);
+    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas' : `${this.cntProvs()} prov. sel.`);
+    distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todas' : `${this.cntDists()} dist. sel.`);
 
     private selDeps  = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
     private selProvs = computed(() => new Set(this.provsItems().filter(x => x.checked).map(x => x.label)));
