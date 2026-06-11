@@ -1105,7 +1105,12 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
               <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
-                <app-hero-icon [name]="'home'" class="w-6 h-6 text-white"></app-hero-icon>
+                 <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
+                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
+                </div>
               </div>
               <div class="min-w-0 relative z-10 flex-1">
                 <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Viviendas Censadas</div>
@@ -1129,9 +1134,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 </span>
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
-                <div class="w-[46px] h-[46px] md:w-[50px] md:h-[50px] xl:w-[46px] xl:h-[46px]
+                <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
                             rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <app-hero-icon [name]="'home'" class="w-6 h-6 md:w-7 md:h-7 text-[#0056a1]"></app-hero-icon>
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="vivparticular.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Viviendas particulares</div>
@@ -1151,9 +1158,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 </span>
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
-                <div class="w-[46px] h-[46px] md:w-[50px] md:h-[50px] xl:w-[46px] xl:h-[46px]
-                            rounded-xl bg-[#33b3a9]/10 flex items-center justify-center shrink-0">
-                  <app-hero-icon [name]="'building-office'" class="w-6 h-6 md:w-7 md:h-7 text-[#33b3a9]"></app-hero-icon>
+                <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
+                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Viviendas colectivas</div>
@@ -1169,9 +1178,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <app-hero-icon [name]="'home'" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
+                    <img src="vivparticular.svg" class="w-4 h-4">
                   </div>
-                  <span class="text-[10px] font-black text-gray-700 leading-tight">Tipo de vivienda particular</span>
+                  <span class="text-[13px] font-black text-gray-700 leading-tight">Tipo de vivienda particular</span>
                 </div>
                 <span matTooltip="Distribución de viviendas particulares según tipo de estructura o construcción" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1192,9 +1201,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7 bg-[#038dd3]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <app-hero-icon [name]="'key'" class="w-4 h-4 text-[#038dd3]"></app-hero-icon>
+                    <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="vivparticular.svg" class="w-4 h-4">
                   </div>
-                  <span class="text-[10px] font-black text-gray-700 leading-tight">Condición de ocupación de la vivienda</span>
+                  </div>
+                  <span class="text-[13px] font-black text-gray-700 leading-tight">Condición de ocupación de la vivienda</span>
                 </div>
                 <span matTooltip="Estado de ocupación de las viviendas particulares al momento del empadronamiento" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1222,7 +1233,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
               <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
-                <app-hero-icon [name]="'home-modern'" class="w-6 h-6 text-white"></app-hero-icon>
+                <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
               </div>
               <div class="min-w-0 relative z-10">
                 <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Hogares Censados</div>
@@ -1239,9 +1252,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7 bg-[#343b9f]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <app-hero-icon [name]="'user-group'" class="w-4 h-4 text-[#343b9f]"></app-hero-icon>
+                    <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <img src="hogarpromedio.svg" class="w-4 h-4">
                   </div>
-                  <span class="text-[10px] font-black text-gray-700 leading-tight">Hogares según número de personas que lo conforman</span>
+                  </div>
+                  <span class="text-[13px] font-black color = #424242 leading-tight">Hogares según número de personas que lo conforman</span>
                 </div>
                 <span matTooltip="Distribución porcentual de hogares según el número de personas que los conforman" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1250,85 +1265,67 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex-1 flex flex-col justify-around min-h-0 overflow-hidden">
                 <!-- 1 persona -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#343b9f]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'user'" class="w-4 h-4 text-[#343b9f]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">1 persona</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD(hogarMock()['pct_unipersonales'], 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                    
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">1 persona</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD(hogarMock()['pct_unipersonales'], 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#343b9f,#0056a1)"
+                    <div class="h-full rounded-full" style="background:#0056a1"
                          [style.width.%]="hogarMock()['pct_unipersonales']"></div>
                   </div>
                 </div>
                 <!-- 2 personas -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'user-plus'" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">2 personas</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.235, 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                   
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">2 personas</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.235, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#0056a1,#038dd3)"
+                    <div class="h-full rounded-full" style="background:#038dd3"
                          [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.235"></div>
                   </div>
                 </div>
                 <!-- 3 personas -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#038dd3]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'users'" class="w-4 h-4 text-[#038dd3]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">3 personas</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.220, 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                    
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">3 personas</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.220, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#038dd3,#33b3a9)"
+                    <div class="h-full rounded-full" style="background:#33b3a9"
                          [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.220"></div>
                   </div>
                 </div>
                 <!-- 4 personas -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#33b3a9]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'user-group'" class="w-4 h-4 text-[#33b3a9]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">4 personas</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.215, 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                    
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">4 personas</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.215, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#33b3a9,#343b9f)"
+                    <div class="h-full rounded-full" style="background:#caeae4"
                          [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.215"></div>
                   </div>
                 </div>
                 <!-- 5 personas -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#343b9f]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'home-modern'" class="w-4 h-4 text-[#343b9f]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">5 personas</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.195, 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                    
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">5 personas</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.195, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#343b9f,#038dd3)"
+                    <div class="h-full rounded-full" style="background:#8383fd"
                          [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.195"></div>
                   </div>
                 </div>
                 <!-- 6 a más personas -->
                 <div class="flex flex-col gap-0.5">
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-7 h-7 rounded-md bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                      <app-hero-icon [name]="'building-office-2'" class="w-4 h-4 text-[#0056a1]"></app-hero-icon>
-                    </div>
-                    <span class="text-[9px] font-bold text-gray-600 leading-tight flex-1">6 a más personas</span>
-                    <span class="text-[11px] font-black text-gray-800 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.135, 1) }}%</span>
+                  <div class="flex items-center gap-1.5">                   
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">6 a más personas</span>
+                    <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.135, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
-                    <div class="h-full rounded-full" style="background:linear-gradient(90deg,#0056a1,#033b9f)"
+                    <div class="h-full rounded-full" style="background:#038dd3"
                          [style.width.%]="(100 - hogarMock()['pct_unipersonales']) * 0.135"></div>
                   </div>
                 </div>
@@ -1347,7 +1344,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
                             rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <app-hero-icon [name]="'user-group'" class="w-6 h-6 md:w-7 md:h-7 text-[#0056a1]"></app-hero-icon>
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Promedio de personas por hogar</div>
@@ -1371,7 +1370,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
                             rounded-xl bg-[#038dd3]/10 flex items-center justify-center shrink-0">
-                  <app-hero-icon [name]="'face-smile'" class="w-6 h-6 md:w-7 md:h-7 text-[#038dd3]"></app-hero-icon>
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Hogares con niños/as</div>
@@ -1396,7 +1397,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
                             rounded-xl bg-[#343b9f]/10 flex items-center justify-center shrink-0">
-                  <app-hero-icon [name]="'heart'" class="w-6 h-6 md:w-7 md:h-7 text-[#343b9f]"></app-hero-icon>
+                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
+                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Hogares con adultas/os mayores</div>
@@ -1811,7 +1814,7 @@ export class DashboardCensadaComponent implements OnInit {
         const pcts   = [0.732, 0.158, 0.029, 0.018, 0.063];
         const vals   = pcts.map(p => Math.round(part * p));
         const total  = vals.reduce((a, b) => a + b, 0);
-        const colors = ['#0056a1', '#038dd3', '#33b3a9', '#343b9f', '#8282fb'];
+        const colors = ['#0056a1', '#038dd3', '#33b3a9', '#caeae4', '#8282fb'];
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
@@ -1852,7 +1855,7 @@ export class DashboardCensadaComponent implements OnInit {
         ];
         const vals   = [Math.round(ocup * 0.92), Math.round(ocup * 0.08), Math.round(desoc * 0.40), Math.round(desoc * 0.60)];
         const total  = vals.reduce((a, b) => a + b, 0);
-        const colors = ['#0056a1', '#038dd3', '#33b3a9', '#343b9f'];
+        const colors = ['#0056a1', '#038dd3', '#33b3a9', '#caeae4'];
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
