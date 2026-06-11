@@ -374,7 +374,7 @@ const S = { w: 380, h: 550 };
           <!-- ★ Nivel geográfico -->
           <div class="flex flex-col items-start gap-0.5 shrink-0" (click)="$event.stopPropagation()">
             <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">
-              Nivel
+              División territorial
             </span>
             <div class="relative">
               <button (click)="openNivelGeoDropdown.update(v => !v)"
@@ -397,7 +397,7 @@ const S = { w: 380, h: 550 };
                   <div class="h-0.5 w-full"
                        style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                   <div class="px-3 pt-2 pb-1">
-                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel geográfico</span>
+                    <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">División territorial</span>
                   </div>
                   @for (n of NIVELES_GEO; track n) {
                     <button (click)="setNivelGeo(n); openNivelGeoDropdown.set(false)"

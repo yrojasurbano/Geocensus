@@ -331,7 +331,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             <!-- ── División Territorial (4 opciones) ── -->
             <div class="flex flex-col items-start gap-0.5 shrink-0">
               <span class="text-[9px] font-black text-gray-400 tracking-widest px-0.5 leading-none hidden sm:block">
-                Ámbito Geográfico
+                División territorial
               </span>
               <div class="relative">
                 <button (click)="openNivelDropdown.update(v => !v)"
@@ -357,7 +357,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <div class="h-0.5 w-full"
                          style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
                     <div class="px-3 pt-2 pb-1">
-                      <span class="text-[9px] font-black text-gray-400  tracking-widest">Ámbito geográfico</span>
+                      <span class="text-[9px] font-black text-gray-400  tracking-widest">División territorial</span>
                     </div>
                     @for (n of NIVELES; track n) {
                       <button (click)="setNivel(n)"

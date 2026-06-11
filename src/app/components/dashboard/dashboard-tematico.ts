@@ -773,12 +773,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                      whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
               [style]="isBtnActive(btn)
                 ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
-              <app-hero-icon [name]="btn.icon"
-                class="w-3.5 h-3.5 shrink-0 transition-colors duration-200"
-                [class.text-white]="isBtnActive(btn)"
-                [class.text-gray-500]="!isBtnActive(btn)">
-              </app-hero-icon>
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">              
               <span class="transition-colors duration-200"
                     [class.text-white]="isBtnActive(btn)"
                     [class.text-gray-600]="!isBtnActive(btn)">
@@ -814,7 +809,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 [style]="expandedSection() === 'principales'
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
-                <app-hero-icon [name]="'chart-bar'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                
                 <span>Ind. Principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
@@ -845,8 +840,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                        tracking-wide whitespace-nowrap transition-all duration-200 rounded-xl"
                 [style]="expandedSection() === 'tematicos'
                   ? 'background:#caeae4;color:#424242;'
-                  : 'color:#6b7280;'">
-                <app-hero-icon [name]="'squares-2x2'" class="w-3 h-3 shrink-0"></app-hero-icon>
+                  : 'color:#6b7280;'">                
                 <span>Ind. Temáticos</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
