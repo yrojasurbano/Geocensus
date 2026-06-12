@@ -704,13 +704,12 @@ const S = { w: 380, h: 550 };
               <!-- Acciones -->
               <div class="absolute top-1.5 right-2 z-10 flex items-center gap-1.5">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('poblacion')"
                     class="w-4 h-4 cursor-pointer transition-all"
                     [class.animate-pulse]="activeIndicator() !== 'poblacion'"
                     [class.scale-125]="activeIndicator() === 'poblacion'"
                     [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#e0f7f5'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Cantidad de residentes habituales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                   <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/60"></app-hero-icon>
@@ -718,7 +717,7 @@ const S = { w: 380, h: 550 };
               </div>
               <!-- Ícono -->
               <div class="shrink-0 relative z-10">
-                <img src="pobcensada.svg" class="w-8 h-8 md:w-10 md:h-10 xl:w-9 xl:h-9" style="filter: brightness(0) invert(1);">
+                <img src="pobtotal.svg" class="w-8 h-8 md:w-10 md:h-10 xl:w-9 xl:h-9" style="filter: brightness(0) invert(1);">
               </div>
               <!-- Datos -->
               <div class="relative z-10 flex flex-col min-w-0">
@@ -737,13 +736,12 @@ const S = { w: 380, h: 550 };
               <div class="flex justify-between items-center mb-2 shrink-0">
                 <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight">Población por sexo</h4>
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('poblacion')"
                     class="w-4 h-4 cursor-pointer transition-all"
                     [class.animate-pulse]="activeIndicator() !== 'poblacion'"
                     [class.scale-125]="activeIndicator() === 'poblacion'"
                     [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
               </div>
               <div class="flex-1 min-h-0">
@@ -800,13 +798,12 @@ const S = { w: 380, h: 550 };
               <div class="flex-1 flex flex-col relative min-w-0 pr-2">
                 <div class="absolute top-0 right-2 flex items-center gap-1 z-10">
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'globe-americas'"
+                    <img src="logo-mapa.svg"
                       (click)="setMapIndicator('edad_promedio')"
                       class="w-4 h-4 cursor-pointer transition-all animate-pulse"
                       [class.animate-none]="activeIndicator() === 'edad_promedio'"
                       [class.scale-125]="activeIndicator() === 'edad_promedio'"
                       [style.color]="activeIndicator() === 'edad_promedio' ? '#0056a1' : '#343b9f'">
-                    </app-hero-icon>
                   </span>
                   <span matTooltip="Promedio aritmético de las edades" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -833,13 +830,12 @@ const S = { w: 380, h: 550 };
               <div class="flex-1 flex flex-col relative min-w-0 pl-2">
                 <div class="absolute top-0 right-0 flex items-center gap-1 z-10">
                   <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                    <app-hero-icon [name]="'globe-americas'"
+                    <img src="logo-mapa.svg"
                       (click)="setMapIndicator('edad_mediana')"
                       class="w-4 h-4 cursor-pointer transition-all animate-pulse"
                       [class.animate-none]="activeIndicator() === 'edad_mediana'"
                       [class.scale-125]="activeIndicator() === 'edad_mediana'"
                       [style.color]="activeIndicator() === 'edad_mediana' ? '#0056a1' : '#343b9f'">
-                    </app-hero-icon>
                   </span>
                   <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="custom-tooltip" class="inline-flex items-center">
                     <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -867,14 +863,12 @@ const S = { w: 380, h: 550 };
   
   <div class="absolute top-2 right-2 flex items-center gap-1.5 z-10">
     <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-      <app-hero-icon 
-        [name]="'globe-americas'"
+      <img src="logo-mapa.svg"
         (click)="setMapIndicator('razon_sexo')"
         class="w-3.5 h-3.5 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
         [class.animate-none]="activeIndicator() === 'razon_sexo'"
         [class.scale-125]="activeIndicator() === 'razon_sexo'"
         [style.color]="activeIndicator() === 'razon_sexo' ? '#0056a1' : '#343b9f'">
-      </app-hero-icon>
     </span>
     <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="custom-tooltip" class="inline-flex items-center">
       <app-hero-icon [name]="'information-circle'" class="w-5.5 h-5.5 text-gray-300"></app-hero-icon>
@@ -917,13 +911,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('indice_envejecimiento')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'indice_envejecimiento'"
                     [class.scale-125]="activeIndicator() === 'indice_envejecimiento'"
                     [style.color]="activeIndicator() === 'indice_envejecimiento' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -948,13 +941,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('dep_total')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_total'"
                     [class.scale-125]="activeIndicator() === 'dep_total'"
                     [style.color]="activeIndicator() === 'dep_total' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años y de 60 y más años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -981,13 +973,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('dep_juvenil')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_juvenil'"
                     [class.scale-125]="activeIndicator() === 'dep_juvenil'"
                     [style.color]="activeIndicator() === 'dep_juvenil' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 0 a 14 años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -1012,13 +1003,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('dep_adulta')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'dep_adulta'"
                     [class.scale-125]="activeIndicator() === 'dep_adulta'"
                     [style.color]="activeIndicator() === 'dep_adulta' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 15 a 59 años"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -1045,13 +1035,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('densidad_total')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'densidad_total'"
                     [class.scale-125]="activeIndicator() === 'densidad_total'"
                     [style.color]="activeIndicator() === 'densidad_total' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Cantidad de habitantes por kilómetro cuadrado"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">
@@ -1077,13 +1066,12 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
               <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
                 <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'globe-americas'"
+                  <img src="logo-mapa.svg"
                     (click)="setMapIndicator('densidad_65')"
                     class="w-4 h-4 xl:w-5 xl:h-5 cursor-pointer transition-all animate-pulse"
                     [class.animate-none]="activeIndicator() === 'densidad_65'"
                     [class.scale-125]="activeIndicator() === 'densidad_65'"
                     [style.color]="activeIndicator() === 'densidad_65' ? '#0056a1' : '#343b9f'">
-                  </app-hero-icon>
                 </span>
                 <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado"
                       matTooltipClass="custom-tooltip" class="inline-flex items-center">

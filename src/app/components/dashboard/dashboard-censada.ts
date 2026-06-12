@@ -1108,12 +1108,12 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                  <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
                             rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
                   <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
-                </div>
+                    <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
+                  </div>
                 </div>
               </div>
               <div class="min-w-0 relative z-10 flex-1">
-                <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Viviendas Censadas</div>
+                <div class="text-[12px] font-bold   tracking-widest leading-none">Viviendas censadas</div>
                 <div class="text-3xl 2xl:text-4xl font-black tracking-tight leading-tight mt-0.5">{{ fmt(viviendaCensadaTotal()) }}</div>
                 <div class="flex gap-2 mt-1 text-[9.5px] font-semibold opacity-75">
               
@@ -1192,7 +1192,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 }
               </div>
               <div class="shrink-0 mt-1 pt-1 border-t border-gray-100">
-                <p class="text-[7px] text-gray-400 leading-tight">1/ Comprende choza o cabaña, vivienda improvisada, local no destinado para habitación humana y otro tipo de vivienda.</p>
+                <p class="text-[9px] text-gray-400 leading-tight">1/ Comprende choza o cabaña, vivienda improvisada, local no destinado para habitación humana y otro tipo de vivienda.</p>
               </div>
             </div>
 
@@ -1234,13 +1234,16 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
               <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
                 <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
+                
                 </div>
               </div>
-              <div class="min-w-0 relative z-10">
-                <div class="text-[9.5px] font-bold opacity-70 uppercase tracking-widest leading-none">Hogares Censados</div>
+              <div class="min-w-0 relative z-10 flex-1">
+                <div class="text-[12px] font-bold tracking-widest leading-none">Hogares censados</div>
                 <div class="text-3xl 2xl:text-4xl font-black tracking-tight leading-tight mt-0.5">{{ fmt(hogarMock()['hog_censados']) }}</div>
               </div>
+             
+
               <span matTooltip="Total de hogares censados: grupo de personas con presupuesto alimentario común" matTooltipClass="custom-tooltip"
                     class="absolute top-1.5 right-1.5 inline-flex">
                 <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/40"></app-hero-icon>
@@ -1371,7 +1374,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
                             rounded-xl bg-[#038dd3]/10 flex items-center justify-center shrink-0">
                   <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                  <img src="hogar-ninos.svg" class="w-[26px] h-[26px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
                 </div>
                 </div>
                 <div class="min-w-0">
@@ -1398,7 +1401,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
                             rounded-xl bg-[#343b9f]/10 flex items-center justify-center shrink-0">
                   <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                  <img src="hogar-admayor.svg" class="w-[26px] h-[26px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
                 </div>
                 </div>
                 <div class="min-w-0">
@@ -1825,7 +1828,7 @@ export class DashboardCensadaComponent implements OnInit {
             yAxis: {
                 type: 'category', data: cats, inverse: true,
                 axisTick: { show: false }, axisLine: { show: false },
-                axisLabel: { fontSize: 8, fontWeight: 'bold', color: '#374151', width: 130, overflow: 'break' },
+                axisLabel: { fontSize: 10, fontWeight: 'bold', color: '#424242', width: 130, overflow: 'break' },
             },
             series: [{
                 type: 'bar', barMaxWidth: 18, barCategoryGap: '28%',
@@ -1835,8 +1838,8 @@ export class DashboardCensadaComponent implements OnInit {
                     show: true, position: 'right',
                     formatter: (p: any) => { const pct = ((p.value / total) * 100).toFixed(1).replace('.', ','); return `{num|${this.fmt(p.value as number)}}  {pct|${pct}%}`; },
                     rich: {
-                        num: { fontSize: 8, fontWeight: 'bold', color: '#374151' },
-                        pct: { fontSize: 7.5, fontWeight: 600 as any, color: '#9ca3af' },
+                        num: { fontSize: 9, fontWeight: 'bold', color: '#424242' },
+                        pct: { fontSize: 8.5, fontWeight: 600 as any, color: '#9ca3af' },
                     },
                 },
             }],

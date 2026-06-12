@@ -1235,7 +1235,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   : 'background:#f9fafb;border-color:#e5e7eb;color:#6b7280;'">
                 <div class="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200"
                      [style]="activeSectionId() === sec.id ? 'background:rgba(255,255,255,0.25);' : 'background:rgba(0,86,161,0.08);'">
-                  <app-hero-icon [name]="sec.icon" class="w-4 h-4 shrink-0"></app-hero-icon>
+                  <img src="generico.svg" class="w-4 h-4 shrink-0">
                 </div>
                 <span class="text-[8.5px] font-bold text-center leading-tight line-clamp-2">{{ sec.label }}</span>
               </button>
@@ -1263,7 +1263,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
@@ -1327,26 +1327,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   }
                 </div>
 
-                <!-- ── C2·R1 ── KPI: Tasa de fecundidad global ───────────── -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-1">
-                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
-                  <div class="px-4 py-3 flex items-center gap-3 relative">
-                    <button matTooltip="Promedio de hijos/as que tendría una mujer a lo largo de su vida fértil, dado el nivel de fecundidad del año censal" matTooltipClass="custom-tooltip"
-                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                    </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <app-hero-icon [name]="'chart-bar'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
-                    </div>
-                    <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Tasa de fecundidad global</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3%</p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ── C2·R2 ── KPI: Razón niño/a – mujer ───────────────── -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-2">
+                <!-- ── C2·R1-2 ── KPI: Razón niño/a – mujer ────────────── -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-1 lg:row-span-2">
                   <div class="px-4 py-3 relative">
                     <button matTooltip="Número de niños/as de 0-4 años por cada 100 mujeres de 15-49 años" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">

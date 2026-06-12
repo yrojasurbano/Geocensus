@@ -32,7 +32,7 @@ import { RouterLink } from '@angular/router';
             playsinline
             class="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2 opacity-90"
           >
-            <source src="video_web.mp4" type="video/mp4">
+            <source src="video_web.webm" type="video/webm">
             Tu navegador no soporta la etiqueta de video.
           </video>
           <div class="absolute inset-0 bg-black/20"></div>
