@@ -1251,8 +1251,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
           <!-- ── FECUNDIDAD: grid 3 col × 6 filas con placement explícito ──── -->
           @if (sec.id === 'fecundidad') {
-            <div class="flex-1 min-h-0 overflow-y-auto px-3 py-3 sm:px-5 sm:py-4">
-              <div class="max-w-6xl mx-auto grid grid-cols-1 gap-3 lg:grid-cols-3 lg:h-[640px] lg:[grid-template-rows:auto_auto_auto_1fr_auto_auto]">
+            <div class="flex-1 min-h-0 overflow-y-auto px-3 py-3 sm:px-5 sm:py-4 xl:px-8 xl:py-5">
+              <div class="max-w-6xl xl:max-w-[1400px] mx-auto grid grid-cols-1 gap-3 lg:gap-4 lg:grid-cols-3 lg:h-[680px] xl:h-[780px] 2xl:h-[860px] lg:[grid-template-rows:auto_auto_auto_1fr_auto_auto]">
 
                 <!-- ── C1·R1 ── KPI: MEF ──────────────────────────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-1">
@@ -1267,7 +1267,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
                     </div>
                   </div>
                 </div>
@@ -1285,7 +1285,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Mujeres entre 15 y 49 años con hijos/as</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
                     </div>
                   </div>
                 </div>
@@ -1303,13 +1303,13 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">Mujeres entre 15 y 49 años sin hijos/as</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C1·R4-6 ── Gráfico: MEF por grupo de edad ─────────── -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-1 lg:row-start-4 lg:row-span-3">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-1 lg:row-start-4 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
                       <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
@@ -1340,14 +1340,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
-                          <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
+                          <span class="text-[22px] xl:text-[30px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
                         </div>
                       </div>
                       <div class="flex items-center gap-2.5">
                         <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
-                          <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                          <span class="text-[22px] xl:text-[30px] font-black text-gray-800 tabular-nums leading-none">100</span>
                           <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                         </div>
                       </div>
@@ -1368,13 +1368,13 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm font-bold text-gray-400">hijos</span></p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm xl:text-base font-bold text-gray-400">hijos</span></p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C2·R4-6 ── Gráfico: Promedio hijos por edad ──────── -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-2 lg:row-start-4 lg:row-span-3">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-2 lg:row-start-4 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
                       <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
@@ -1405,13 +1405,13 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C3·R2-4 ── Gráfico: Promedio hijos por estado civil ─ -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[240px] lg:min-h-0 lg:col-start-3 lg:row-start-2 lg:row-span-3">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-3 lg:row-start-2 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
                       <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
@@ -1438,7 +1438,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes de 12 a 17 años</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
                     </div>
                   </div>
                 </div>
@@ -1456,7 +1456,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
-                      <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
+                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
                     </div>
                   </div>
                 </div>
@@ -3844,6 +3844,7 @@ export class DashboardTematicoComponent implements OnInit {
         { label: 'Características técnicas',  route: '/aspectos-generales' },
         { label: 'Innovaciones tecnológicas', route: '/innovaciones' },
         { label: 'Normatividad censal',        route: '/normativa' },
+        { label: 'Actividades censales',        route: '/actividades' },
         { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
     ];
 

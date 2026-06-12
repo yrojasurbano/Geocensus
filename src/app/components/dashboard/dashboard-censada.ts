@@ -1135,10 +1135,10 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
-                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="vivparticular.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
-                </div>
+                                 flex items-center justify-center shrink-0">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="vivparticular.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                  </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Viviendas particulares</div>
@@ -1159,10 +1159,10 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
-                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
-                </div>
+                            flex items-center justify-center shrink-0">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="vivcolectiva.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                  </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Viviendas colectivas</div>
@@ -1177,8 +1177,8 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 5.5 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
-                  <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="vivparticular.svg" class="w-4 h-4">
+                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
+                    <img src="vivparticular.svg" class="w-5 h-5">
                   </div>
                   <span class="text-[13px] font-black text-gray-700 leading-tight">Tipo de vivienda particular</span>
                 </div>
@@ -1200,9 +1200,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 2.5 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
-                  <div class="w-7 h-7 bg-[#038dd3]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="vivparticular.svg" class="w-4 h-4">
+                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
+                    <div class="w-7 h-7  flex items-center justify-center shrink-0">
+                    <img src="vivparticular.svg" class="w-5 h-5">
                   </div>
                   </div>
                   <span class="text-[13px] font-black text-gray-700 leading-tight">Condición de ocupación de la vivienda</span>
@@ -1254,9 +1254,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 6 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
-                  <div class="w-7 h-7 bg-[#343b9f]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <div class="w-7 h-7 bg-[#0056a1]/10 rounded-lg flex items-center justify-center shrink-0">
-                    <img src="hogarpromedio.svg" class="w-4 h-4">
+                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
+                    <div class="w-7 h-7  flex items-center justify-center shrink-0">
+                    <img src="hogarpromedio.svg" class="w-5 h-5">
                   </div>
                   </div>
                   <span class="text-[13px] font-black color = #424242 leading-tight">Hogares según número de personas que lo conforman</span>
@@ -1346,10 +1346,10 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
-                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
-                </div>
+                             flex items-center justify-center shrink-0">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="hogarpromedio.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                  </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Promedio de personas por hogar</div>
@@ -1372,10 +1372,10 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
-                            rounded-xl bg-[#038dd3]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogar-ninos.svg" class="w-[26px] h-[26px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
-                </div>
+                              flex items-center justify-center shrink-0">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="hogar-ninos.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                  </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Hogares con niños/as</div>
@@ -1398,11 +1398,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 </span>
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
-                <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]
-                            rounded-xl bg-[#343b9f]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogar-admayor.svg" class="w-[26px] h-[26px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
-                </div>
+                <div class="w-[46px] h-[46px] md:w-[52px] md:h-[52px] xl:w-[48px] xl:h-[48px]                            
+                 flex items-center justify-center shrink-0">
+                  <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
+                    <img src="hogar-admayor.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                  </div>
                 </div>
                 <div class="min-w-0">
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Hogares con adultas/os mayores</div>
@@ -1446,6 +1446,7 @@ export class DashboardCensadaComponent implements OnInit {
         { label: 'Características técnicas', route: '/aspectos-generales' },
         { label: 'Innovaciones tecnológicas', route: '/innovaciones' },
         { label: 'Normatividad censal',       route: '/normativa' },
+        { label: 'Actividades censales',        route: '/actividades' },
         { label: 'Documentación Técnica',     route: '/documentacion-tecnica' },
     ];
 

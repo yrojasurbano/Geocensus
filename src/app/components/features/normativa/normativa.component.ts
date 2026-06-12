@@ -174,6 +174,7 @@ export class NormativaComponent {
     { label: 'Características técnicas',  route: '/aspectos-generales' },
     { label: 'Innovaciones Tecnológicas',      route: '/innovaciones' },
     { label: 'Normatividad censal',        route: '/normativa' },
+    { label: 'Actividades censales',        route: '/actividades' },
     { label: 'Documentación Técnica',      route: '/documentacion-tecnica' },
   ];
 
