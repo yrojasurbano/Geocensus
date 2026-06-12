@@ -1955,7 +1955,7 @@ export class DashboardCensadaComponent implements OnInit {
             },
             yAxis: { type: 'value', show: false, max: (v: any) => Math.round(v.max * 1.75) },
             series: [{
-                type: 'bar', barMaxWidth: 32, barCategoryGap: '22%',
+                type: 'bar', barMaxWidth: 52, barCategoryGap: '8%',
                 itemStyle: { borderRadius: [6, 6, 0, 0] },
                 data: vals.map((v, i) => ({ value: v, itemStyle: { color: colors[i] } })),
                 label: {

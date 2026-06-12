@@ -2642,7 +2642,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── DISCAPACIDAD: 5 columnas ──────────────────────────────────── -->
           @if (sec.id === 'discapacidad') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch lg:h-[700px]">
 
                 <!-- ════ COLS 1+2: Estructura Demográfica ════════════════════════ -->
                 <div class="col-span-2 h-full flex flex-col gap-3">
@@ -2712,7 +2712,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   
 
                   <!-- Columnas: tipo de seguro de salud -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col shrink-0" style="min-height:210px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-[180px]">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por acceso a tipo de seguro de salud</p>
@@ -2727,7 +2727,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Columnas: nivel educativo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col shrink-0" style="min-height:210px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-[180px]">
                     <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por nivel educativo alcanzado</p>
@@ -2742,7 +2742,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Fila inferior: pie asistencia (izq) + 2 KPIs (der) -->
-                  <div class="grid grid-cols-2 gap-3 flex-1" style="min-height:280px">
+                  <div class="grid grid-cols-2 gap-3 flex-1 min-h-[200px]">
 
                     <!-- Pie: asistencia a centro de enseñanza -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
