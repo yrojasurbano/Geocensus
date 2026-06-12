@@ -1177,9 +1177,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 5.5 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
-                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                    <img src="vivparticular.svg" class="w-5 h-5">
-                  </div>
+                  
                   <span class="text-[13px] font-black text-gray-700 leading-tight">Tipo de vivienda particular</span>
                 </div>
                 <span matTooltip="Distribución de viviendas particulares según tipo de estructura o construcción" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
@@ -1201,9 +1199,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                    <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                    <img src="vivparticular.svg" class="w-5 h-5">
-                  </div>
+                   
                   </div>
                   <span class="text-[13px] font-black text-gray-700 leading-tight">Condición de ocupación de la vivienda</span>
                 </div>
@@ -1255,9 +1251,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               <div class="flex items-center justify-between shrink-0 mb-1">
                 <div class="flex items-center gap-1">
                   <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                    <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                    <img src="hogarpromedio.svg" class="w-5 h-5">
-                  </div>
+                   
                   </div>
                   <span class="text-[13px] font-black color = #424242 leading-tight">Hogares según número de personas que lo conforman</span>
                 </div>
