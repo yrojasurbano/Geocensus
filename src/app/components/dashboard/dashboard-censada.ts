@@ -470,7 +470,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <!-- ★ Departamento (oculto en Región Natural) -->
             @if (nivelFiltro() !== 'region_natural') {
               <div class="flex flex-col gap-0.5">
-                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Región</span>
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Departamento</span>
                 <div class="relative">
                 <button (click)="toggleGeoDropdown('dep'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -488,7 +488,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                                shadow-xl z-50 w-56 sm:w-60 overflow-hidden"
                        (click)="$event.stopPropagation()">
                     <div class="px-3 py-2 bg-gray-50 border-b border-gray-100">
-                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar región</span>
+                      <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Seleccionar departamento</span>
                     </div>
                     <div class="max-h-56 sm:max-h-60 overflow-y-auto">
                       <button (click)="selectDep(null)"
@@ -499,7 +499,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                           [class.border-white]="selectedCCDD() === ''" [class.border-gray-300]="selectedCCDD() !== ''">
                           @if (selectedCCDD() === '') { <span class="w-2 h-2 bg-white rounded-full block"></span> }
                         </span>
-                        <span class="font-bold italic text-xs">Todas las regiones</span>
+                        <span class="font-bold italic text-xs">Todos los departamentos</span>
                       </button>
                       @for (dept of departments(); track dept.ccdd) {
                         <button (click)="selectDep(dept)"
@@ -1108,7 +1108,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                  <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
                             rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
                   <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]">
+                  <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
                 </div>
                 </div>
               </div>

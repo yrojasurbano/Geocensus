@@ -390,7 +390,7 @@ function allChecked(labels: string[]): DropdownItem[] {
 
             <!-- ── Departamento ── -->
               <div class="flex flex-col gap-0.5">
-                <span class="text-[9px] font-bold text-gray-400 tracking-widest px-1">Región</span>
+                <span class="text-[9px] font-bold text-gray-400 tracking-widest px-1">Departamento</span>
                 <div class="relative">
                 <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -409,7 +409,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
                              class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                      Todas las regiones
+                      Todos los departamentos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of depsItems(); track item.label; let i = $index) {

@@ -411,9 +411,9 @@ function allChecked(labels: string[]): DropdownItem[] {
                 <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Nivel geográfico</span>
                 <div class="relative">
                   <button (click)="toggleDropdown('subnivel')"
-                    class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
-                           text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all justify-between whitespace-nowrap"
-                    style="min-width:130px">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold
+                           transition-all duration-200 focus:outline-none justify-between whitespace-nowrap"
+                    style="min-width:130px; background:#038dd3; color:#fff; border:1px solid #038dd3">
                     <span class="hidden sm:inline">{{ nivelActivo() }}</span>
                     <app-hero-icon [name]="'chevron-down'"
                       class="w-3 h-3 shrink-0 transition-transform duration-200"
@@ -424,7 +424,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                                  shadow-xl z-50 overflow-hidden"
                          style="min-width:148px; animation:dropdownIn 0.15s ease-out"
                          (click)="$event.stopPropagation()">
-                      <div class="h-0.5 w-full" style="background:#0056a1"></div>
+                      <div class="h-0.5 w-full" style="background:#038dd3"></div>
                       @for (n of NIVELES_DIVISION; track n) {
                         <button (click)="setNivel(n)"
                           class="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-left
@@ -432,10 +432,10 @@ function allChecked(labels: string[]): DropdownItem[] {
                           [class.text-white]="nivelActivo() === n"
                           [class.text-gray-700]="nivelActivo() !== n"
                           [class.hover\:bg-gray-50]="nivelActivo() !== n"
-                          [style.background]="nivelActivo() === n ? '#0056a1' : ''">
+                          [style.background]="nivelActivo() === n ? '#038dd3' : ''">
                           <span class="w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center"
                             [class.border-white]="nivelActivo() === n"
-                            [style.border-color]="nivelActivo() !== n ? '#0056a1' : ''">
+                            [style.border-color]="nivelActivo() !== n ? '#038dd3' : ''">
                             @if (nivelActivo() === n) {
                               <span class="w-2 h-2 bg-white rounded-full block"></span>
                             }
@@ -470,7 +470,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allRegNatOn()" (change)="toggleAllRegNat()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Todas las regiones
+                      Todos los departamentos
                     </label>
                     <div class="max-h-48 overflow-y-auto">
                       @for (item of regNatItems(); track item.label; let i = $index) {
@@ -489,7 +489,7 @@ function allChecked(labels: string[]): DropdownItem[] {
             <!-- ★ Departamento (oculto en Región Natural) -->
             @if (nivelActivo() !== 'Región Natural') {
             <div class="flex flex-col gap-0.5">
-              <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Región</span>
+              <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Departamento</span>
               <div class="relative">
               <button (click)="toggleDropdown('dep'); $event.stopPropagation()"
                 class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
@@ -508,7 +508,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                   <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                     <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
                            class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                    Todas las regiones
+                    Todos los departamentos
                   </label>
                   <div class="max-h-60 overflow-y-auto">
                     @for (item of depsItems(); track item.label; let i = $index) {
