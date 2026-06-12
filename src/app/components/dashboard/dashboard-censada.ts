@@ -1197,10 +1197,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <!-- 5. Gráfico: Condición de ocupación de la vivienda (columnas) -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 2.5 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
-                <div class="flex items-center gap-1">
-                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                   
-                  </div>
+                <div class="flex items-center gap-1">                  
                   <span class="text-[13px] font-black text-gray-700 leading-tight">Condición de ocupación de la vivienda</span>
                 </div>
                 <span matTooltip="Estado de ocupación de las viviendas particulares al momento del empadronamiento" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
@@ -1249,10 +1246,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <!-- 2. Hogares según número de miembros del hogar -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-2.5 overflow-hidden" style="flex: 6 0 0; min-height:0;">
               <div class="flex items-center justify-between shrink-0 mb-1">
-                <div class="flex items-center gap-1">
-                  <div class="w-7 h-7  flex items-center justify-center shrink-0">
-                   
-                  </div>
+                <div class="flex items-center gap-1">                  
                   <span class="text-[13px] font-black color = #424242 leading-tight">Hogares según número de personas que lo conforman</span>
                 </div>
                 <span matTooltip="Distribución porcentual de hogares según el número de personas que los conforman" matTooltipClass="custom-tooltip" class="inline-flex shrink-0">
