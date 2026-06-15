@@ -113,8 +113,8 @@ import { RouterLink } from '@angular/router';
                   d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
               </svg>
             </div>
-            <span class="card-label">Indicadores de Población Total</span>
-            <span class="card-sub">Cifras censales de la población a nivel nacional</span>
+            <span class="card-label">Indicadores de población total</span>
+            <span class="card-sub">Resultados de la población total.</span>
             <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
@@ -128,8 +128,8 @@ import { RouterLink } from '@angular/router';
                   d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
               </svg>
             </div>
-            <span class="card-label">Indicadores de Población y Viviendas Censadas</span>
-            <span class="card-sub">Relación entre hogares, viviendas y ocupantes</span>
+            <span class="card-label">Indicadores de población y viviendas censadas</span>
+            <span class="card-sub">Resultados de la población, viviendas y hogares censados.</span>
             <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 
@@ -141,7 +141,7 @@ import { RouterLink } from '@angular/router';
                    class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
             <span class="card-label">Geoportal</span>
-            <span class="card-sub">Visualización georreferenciada de los resultados censales</span>
+            <span class="card-sub">Visualización geoespacial de los resultados de la población, viviendas y hogares censados.</span>
             <span class="card-arrow text-[#8383fd]">→</span>
           </button>
 
@@ -152,8 +152,8 @@ import { RouterLink } from '@angular/router';
               <img src="intermedia/descarga_datos.svg" alt="Descarga de datos"
                    class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
-            <span class="card-label">Descarga de Datos</span>
-            <span class="card-sub">Microdatos y bases censales en formatos abiertos</span>
+            <span class="card-label">Descarga de datos</span>
+            <span class="card-sub">Tabulados y cuadros interactivos de la población, viviendas y hogares censados disponibles para descarga.</span>
             <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
@@ -161,11 +161,11 @@ import { RouterLink } from '@angular/router';
           <button routerLink="/documentacion-tecnica"
                   class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
             <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">
-              <img src="intermedia/documentacion.svg" alt="Documentación y asistencia"
+              <img src="intermedia/documentacion.svg" alt="Documentación técnica"
                    class="w-7 h-7 transition-all duration-300 group-hover:brightness-0 group-hover:invert">
             </div>
-            <span class="card-label">Documentación y Asistencia</span>
-            <span class="card-sub">Glosarios, metodología y soporte técnico al usuario</span>
+            <span class="card-label">Documentación técnica</span>
+            <span class="card-sub">Informes, manuales, cédulas y recursos para la consulta e interpretación de los resultados.</span>
             <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 

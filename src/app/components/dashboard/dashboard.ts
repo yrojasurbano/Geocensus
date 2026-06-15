@@ -343,13 +343,13 @@ const S = { w: 380, h: 550 };
             class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all shadow-sm
                    tracking-wide cursor-default"
             style="background:#caeae4; color:#424242;">
-            Primeros Resultados
+            Resultados censales
           </button>
           <button
             routerLink="/comparativa"
             class="px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all
                    color = #424242 hover:text-gray-600 tracking-wide">
-            Comparativo Territorial
+            Comparativo territorial
           </button>
         </div>
 
@@ -1678,7 +1678,7 @@ export class DashboardComponent implements OnInit {
     activeSection = signal<string>('poblacion_total');
 
     readonly navSections = [
-        { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
+        { id: 'poblacion_total',       label: 'Indicadores de población total',                icon: 'chart-bar',     route: '/dashboard'},
         { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
     ];
 
@@ -1962,8 +1962,8 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         const prov = this.selectedProv();
         if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
         const ccdd = this.selectedCCDD();
-        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
+        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú';
+        return 'Perú';
     });
 
     displayedPopulation = computed<string>(() => {
@@ -2183,8 +2183,8 @@ isBtnActive(btn: { id: string; route?: string }): boolean {
         const sel = this.selectedRegion();
         if (sel) return sel.name;
         const ccdd = this.selectedCCDD();
-        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
+        if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú';
+        return 'Perú';
     });
 
     mapIndicatorValue = computed<string>(() => {
