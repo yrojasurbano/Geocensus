@@ -292,21 +292,6 @@ const CLR = {
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
               </button>
-              @if (expandedSection() === 'principales') {
-                <div class="flex items-center gap-0.5 pr-1"
-                     style="animation:fadeIn 0.12s ease-out forwards">
-                  @for (tab of viewTabs; track tab.route) {
-                    <button [routerLink]="tab.route"
-                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
-                             font-bold tracking-wide transition-all whitespace-nowrap"
-                      [style]="isViewTabActive(tab.route)
-                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
-                        : 'color:#9ca3af;'">                      
-                      <span>{{ tab.label }}</span>
-                    </button>
-                  }
-                </div>
-              }
             </div>
 
             <!-- Ind. Temáticos -->
@@ -324,6 +309,23 @@ const CLR = {
 
         </div>
       </div><!-- /barra filtros -->
+
+      <!-- ══ SUB-NAV VISTAS INDICADORES PRINCIPALES ═══════════════════════════ -->
+      <div class="w-full shrink-0 px-3 md:px-4 2xl:px-5 pb-1.5"
+           style="background:#efefef;">
+        <div class="flex items-center gap-1">
+          @for (tab of viewTabs; track tab.route) {
+            <button [routerLink]="tab.route"
+              class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
+                     font-bold tracking-wide transition-all whitespace-nowrap"
+              [style]="isViewTabActive(tab.route)
+                ? 'background:#8383fd;color:#424242;'
+                : 'color:#9ca3af;'">
+              <span>{{ tab.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
 
       <!-- ══ MAIN — Grid de 6 columnas ═════════════════════════════════════ -->
       <main class="flex-1 min-h-0 overflow-hidden p-2 md:p-3 xl:p-4">

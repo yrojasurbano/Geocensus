@@ -302,22 +302,6 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
               </button>
-              @if (expandedSection() === 'principales') {
-                <div class="flex items-center gap-0.5 pr-1"
-                     style="animation:fadeIn 0.12s ease-out forwards">
-                  @for (tab of viewTabs; track tab.route) {
-                    <button [routerLink]="tab.route"
-                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
-                             font-bold tracking-wide transition-all whitespace-nowrap"
-                      [style]="isViewTabActive(tab.route)
-                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
-                        : 'color:#9ca3af;'">
-                      
-                      <span>{{ tab.label }}</span>
-                    </button>
-                  }
-                </div>
-              }
             </div>
 
             <!-- Ind. Temáticos -->
@@ -389,6 +373,11 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                           [style.border-color]="nivelFiltro() !== n.key ? '#0056a1' : ''">
                           @if (nivelFiltro() === n.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
                         </span>
+                        @if (n.icon) {
+                          <app-hero-icon [name]="n.icon" class="w-3.5 h-3.5 shrink-0"
+                            [class.text-white]="nivelFiltro() === n.key"
+                            [style.color]="nivelFiltro() !== n.key ? '#0056a1' : ''"></app-hero-icon>
+                        }
                         <span class="font-semibold flex-1">{{ n.label }}</span>
                       </button>
                     }
@@ -683,6 +672,22 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
         </div><!-- /inner filtros redondeado -->
       </div><!-- /sticky wrapper barra de filtros -->
 
+      <!-- ══ SUB-NAV VISTAS INDICADORES PRINCIPALES ═══════════════════════════ -->
+      <div class="w-full shrink-0 px-3 md:px-4 2xl:px-5 pb-1.5"
+           style="background:#efefef;">
+        <div class="flex items-center gap-1">
+          @for (tab of viewTabs; track tab.route) {
+            <button [routerLink]="tab.route"
+              class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
+                     font-bold tracking-wide transition-all whitespace-nowrap"
+              [style]="isViewTabActive(tab.route)
+                ? 'background:#8383fd;color:#424242;'
+                : 'color:#9ca3af;'">
+              <span>{{ tab.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
 
       <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════════════
            Wrapper que en xl activa scroll interno para que el header quede fijo

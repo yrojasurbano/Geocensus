@@ -815,22 +815,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
               </button>
-              @if (expandedSection() === 'principales') {
-                <div class="flex items-center gap-0.5 pr-1"
-                     style="animation:fadeIn 0.12s ease-out forwards">
-                  @for (tab of viewTabs; track tab.route) {
-                    <button [routerLink]="tab.route"
-                      class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] sm:text-xs
-                             font-bold tracking-wide transition-all whitespace-nowrap"
-                      [style]="isViewTabActive(tab.route)
-                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
-                        : 'color:#9ca3af;'">
-                      <app-hero-icon [name]="tab.icon" class="w-3 h-3 shrink-0"></app-hero-icon>
-                      <span>{{ tab.label }}</span>
-                    </button>
-                  }
-                </div>
-              }
             </div>
 
             <!-- Ind. Temáticos — contenedor #efefef con sub-botones de grupos -->
@@ -846,21 +830,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'tematicos'"></app-hero-icon>
               </button>
-              @if (expandedSection() === 'tematicos') {
-                <div class="flex items-center gap-0.5 pr-1"
-                     style="animation:fadeIn 0.12s ease-out forwards">
-                  @for (group of thematicGroups; track group.id) {
-                    <button (click)="setActiveGroup(group.id)"
-                      class="flex items-center px-2 py-1 rounded-lg text-[10px] sm:text-xs
-                             font-bold tracking-wide transition-all whitespace-nowrap"
-                      [style]="activeGroupId() === group.id
-                        ? 'background:#fff;color:#0056a1;box-shadow:0 1px 4px rgba(0,0,0,0.10);'
-                        : 'color:#9ca3af;'">
-                      <span>{{ group.label }}</span>
-                    </button>
-                  }
-                </div>
-              }
             </div>
 
           </div>
@@ -1220,6 +1189,23 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           </div><!-- /geo-dropdowns -->
         </div><!-- /inner barra filtros -->
       </div><!-- /sticky barra filtros -->
+
+      <!-- ══ SUB-NAV INDICADORES TEMÁTICOS ════════════════════════════════════ -->
+      <div class="w-full shrink-0 px-3 md:px-4 2xl:px-5 pb-1.5"
+           style="background:#efefef;">
+        <div class="flex items-center gap-1">
+          @for (group of thematicGroups; track group.id) {
+            <button (click)="setActiveGroup(group.id)"
+              class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
+                     font-bold tracking-wide transition-all whitespace-nowrap"
+              [style]="activeGroupId() === group.id
+                ? 'background:#8383fd;color:#424242;'
+                : 'color:#9ca3af;'">
+              <span>{{ group.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
 
       <!-- ══ SECCIONES TEMÁTICAS (sub-nivel dentro del grupo activo) ══════════ -->
       @if (activeGroup(); as grp) {
