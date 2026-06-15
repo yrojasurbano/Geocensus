@@ -515,7 +515,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <!-- Barra de estado -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between
                                 px-3 md:px-4 xl:px-6 py-2 xl:py-3 bg-[#0056a1]/5 border-b border-[#0056a1]/10 shrink-0 gap-2 sm:gap-0">
-                        <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1] uppercase tracking-widest">
+                        <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1]  tracking-widest">
                             {{ tituloTabla() }}
                         </span>
                         <button (click)="exportarExcel()"
@@ -530,26 +530,26 @@ function allChecked(labels: string[]): DropdownItem[] {
 
                     <!-- Tabla -->
                     <div class="overflow-auto flex-1 min-h-0 -webkit-overflow-scrolling-touch">
-                        <table class="w-full text-[13px] xl:text-[14px] 2xl:text-[15px] border-collapse" style="min-width:600px">
+                        <table class="w-full text-[13px] xl:text-[14px] 2xl:text-[15px] border-collapse" style="min-width:600px; font-family:'Montserrat',sans-serif">
 
                             <thead class="sticky top-0 z-10">
                             <!-- ── Fila 1: grupos cabecera ── -->
                             <tr>
                                 <!-- Ubicación Geográfica: colspan dinámico -->
-                                <th class="bg-[#002d5c] text-white px-3 xl:px-5 py-1.5 xl:py-2 text-left font-bold uppercase tracking-wider text-[11px] xl:text-[12px] border-r border-white/20"
+                                <th class="bg-[#002d5c] text-white px-3 xl:px-5 py-1.5 xl:py-2 text-left font-bold  tracking-wider text-[11px] xl:text-[12px] border-r border-white/20"
                                     [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
                                     Ubicación Geográfica
                                 </th>
                                 <!-- Datos de población: 3 sub-columnas (Población total, Población censada, Población omitida) -->
-                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="3">
+                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="3">
                                     Datos de población
                                 </th>
                                 <!-- Población total por sexo: 2 sub-columnas (Hombres, Mujeres) -->
-                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="2">
+                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="2">
                                     Población total por sexo
                                 </th>
                                 <!-- Indicadores Demográficos: 6 sub-columnas (Razón, Edad Promedio, Edad Mediana, Personas 60+, % 60+, Índice Envejecimiento) -->
-                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="6">
+                                <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px]" colspan="6">
                                     Indicadores Demográficos
                                 </th>
                             </tr>
@@ -784,14 +784,14 @@ function allChecked(labels: string[]): DropdownItem[] {
                                         <td class="px-3 py-2 font-semibold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">
                                             <span class="flex items-center gap-1.5">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
-                                                {{ fila.departamento }}
+                                                {{ toTitleCase(fila.departamento) }}
                                             </span>
                                         </td>
                                         @if (nivelActivo() === 'Provincial' || nivelActivo() === 'Distrital') {
-                                            <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ asProv(fila).provincia }}</td>
+                                            <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ toTitleCase(asProv(fila).provincia) }}</td>
                                         }
                                         @if (nivelActivo() === 'Distrital') {
-                                            <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ asDist(fila).distrito }}</td>
+                                            <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ toTitleCase(asDist(fila).distrito) }}</td>
                                         }
                                         <td class="px-3 py-2 text-right font-mono font-bold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(calcPoblTotal(fila)) }}</td>
                                         <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.poblacion) }}</td>
@@ -1017,8 +1017,8 @@ export class ComparativaTerritorialComponent {
     isProvActive = computed(() => this.nivelActivo() !== 'Departamental');
     isDistActive = computed(() => this.nivelActivo() === 'Distrital');
 
-    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas' : `${this.cntDeps()} sel.`);
-    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas' : `${this.cntProvs()} sel.`);
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todos' : `${this.cntDeps()} sel.`);
+    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todos' : `${this.cntProvs()} sel.`);
     distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos' : `${this.cntDists()} sel.`);
 
     private selDeps  = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
@@ -1050,9 +1050,9 @@ export class ComparativaTerritorialComponent {
 
     tituloTabla = computed<string>(() => {
         const nivel = this.nivelActivo();
-        if (nivel === 'Departamental') return 'Estructura demográfica y envejecimiento poblacional por DEPARTAMENTO';
-        if (nivel === 'Provincial')    return 'Estructura demográfica y envejecimiento poblacional por PROVINCIA';
-        return 'Estructura demográfica y envejecimiento poblacional por DISTRITO';
+        if (nivel === 'Departamental') return 'Estructura demográfica y envejecimiento poblacional según  Departamentos seleccionados del Perú 2025.';
+        if (nivel === 'Provincial')    return 'Estructura demográfica y envejecimiento poblacional según  Provincias seleccionados del Perú 2025.';
+        return 'Estructura demográfica y envejecimiento poblacional según Distritos seleccionados del Perú 2025.';
     });
 
     /** Totales nacionales siempre calculados sobre el dataset completo (no filtrado) */
@@ -1083,6 +1083,7 @@ export class ComparativaTerritorialComponent {
     calcEdadMedia(fila: FilaTabla):   number { return fila.edadMediana; }
     calcPoblTotal(fila: FilaTabla):   number { return Math.round(fila.poblacion * 1.062); }
     calcPoblOmitida(fila: FilaTabla): number { return this.calcPoblTotal(fila) - fila.poblacion; }
+    toTitleCase(s: string): string { return s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
     asProv(f: FilaTabla): FilaProv { return f as FilaProv; }
     asDist(f: FilaTabla): FilaDist { return f as FilaDist; }
 

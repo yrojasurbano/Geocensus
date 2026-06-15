@@ -287,7 +287,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
                 
-                <span>Ind. Principales</span>
+                <span>Indicadores principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
@@ -317,7 +317,7 @@ function allChecked(labels: string[]): DropdownItem[] {
               [style]="isViewTabActive('/dashboard-tematico')
                 ? 'background:#caeae4;color:#424242;'
                 : 'background:#f3f4f6;color:#6b7280;'">              
-              <span>Ind. Temáticos</span>              
+              <span>Indicadores temáticos</span>              
             </button>
 
           </div>
@@ -1229,7 +1229,7 @@ export class DashboardTerritorialComponent {
 
     // ── Botonera de secciones ─────────────────────────────────────────────────
     navSections: { id: string; label: string; icon: string; route?: string }[] = [
-        { id: 'poblacion_total',       label: 'Indicadores de Población total',                icon: 'chart-bar',     route: '/dashboard'},
+        { id: 'poblacion_total',       label: 'Indicadores de población total',                icon: 'chart-bar',     route: '/dashboard'},
         { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
        
     ];
@@ -1388,12 +1388,12 @@ export class DashboardTerritorialComponent {
     isDistActive = computed(() => this.nivelActivo() === 'Distrital');
 
     regNatLabel = computed(() =>
-        this.cntRegNat() === REG_NAT_LIST.length ? 'Todas' : `${this.cntRegNat()} sel.`
+        this.cntRegNat() === REG_NAT_LIST.length ? 'Todos' : `${this.cntRegNat()} sel.`
     );
 
-    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todas' : `${this.cntDeps()} reg. sel.`);
-    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todas' : `${this.cntProvs()} prov. sel.`);
-    distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todas' : `${this.cntDists()} dist. sel.`);
+    depLabel  = computed(() => this.cntDeps()  === DEPS_LIST.length  ? 'Todos' : `${this.cntDeps()} reg. sel.`);
+    provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todos' : `${this.cntProvs()} prov. sel.`);
+    distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos' : `${this.cntDists()} dist. sel.`);
 
     private selDeps  = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
     private selProvs = computed(() => new Set(this.provsItems().filter(x => x.checked).map(x => x.label)));

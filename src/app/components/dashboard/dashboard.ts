@@ -887,6 +887,7 @@ const S = { w: 380, h: 550 };
         <span class="text-[9px] xl:text-xs font-semibold text-gray-500">Hay</span>
         <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none">
           {{ fmtD(cardMock()['razon_sexo'], 1) }}
+           <span class="text-[9px] xl:text-xs font-semibold text-gray-500">hombres</span>
         </span>
       </div>
     </div>
@@ -1347,10 +1348,13 @@ const S = { w: 380, h: 550 };
             <div class="shrink-0 bg-white/90 border border-gray-100 rounded-xl
                         px-3 py-2 text-[9px] sm:text-[10px] text-gray-500 leading-relaxed shadow-sm">
               <span class="font-black text-gray-600">Nota:</span>
-              1/ Comprende los 43 distritos de la provincia de Lima.
               <br>
-              2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí, Huaura, Oyón y Yauyos.
-            </div>
+              1/ Lima Metropolitana: Comprende los 43 distritos de la provincia de Lima.
+              <br>
+              2/ Región Lima: Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí, Huaura, Oyón y Yauyos.
+              <br>
+              3/ Los números entre paréntesis de la leyenda corresponden al número de DEPARTAMENTOS/PROVINCIAS/DISTRITOS, según el nivel geográfico seleccionado, que se encuentran dentro de cada rango.
+            </div>          
 
           </div><!-- /mapa col + nota -->
 
@@ -1560,12 +1564,12 @@ export class DashboardComponent implements OnInit {
 
     geoDepLabel  = computed(() => {
         const ccdd = this.selectedCCDD();
-        if (!ccdd) return 'Todas';
+        if (!ccdd) return 'Todos';
         return this.departments().find(d => d.ccdd === ccdd)?.name ?? ccdd;
     });
     geoProvLabel = computed(() => {
         const code = this.selectedProv();
-        if (!code) return 'Todas';
+        if (!code) return 'Todos';
         return this.provinces().find(p => p.code === code)?.name ?? code;
     });
     geoDistLabel = computed(() => {

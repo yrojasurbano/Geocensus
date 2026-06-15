@@ -287,7 +287,7 @@ const CLR = {
                 [style]="expandedSection() === 'principales'
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">                
-                <span>Ind. Principales</span>
+                <span>Indicadores principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
@@ -316,7 +316,7 @@ const CLR = {
               [style]="isViewTabActive('/dashboard-tematico')
                 ? 'background:#33b3a9;color:#fff;'
                 : 'background:#f3f4f6;color:#6b7280;'">              
-              <span>Ind. Temáticos</span>
+              <span>Indicadores temáticos</span>
               <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
             </button>
 
@@ -699,7 +699,7 @@ export class DashboardEvolucionComponent implements OnInit {
 
     // ── Botonera de secciones ─────────────────────────────────────────────
     readonly navSections = [
-        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar',      route: '/dashboard' },
+        { id: 'poblacion_total',     label: 'Indicadores de población total',                icon: 'chart-bar',      route: '/dashboard' },
         { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
         
     ];
@@ -773,8 +773,8 @@ export class DashboardEvolucionComponent implements OnInit {
             .sort((a, b) => (a.sortKey ?? '').localeCompare(b.sortKey ?? ''));
     });
 
-    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todas'; });
-    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todas'; });
+    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todos'; });
+    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todos'; });
     geoDistLabel = computed(() => { const c = this.selectedDist();  return c ? (this.districts().find(d => d.code === c)?.name ?? c) : 'Todos'; });
 
     displayedTitle = computed<string>(() => {

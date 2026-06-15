@@ -289,7 +289,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
           <!-- Ind. Principales / Ind. Temáticos -->
           <div class="flex items-center gap-1 shrink-0" (click)="$event.stopPropagation()">
 
-            <!-- Agrupación Ind. Principales con sub-opciones en contenedor #efefef -->
+            <!-- Agrupación Indicadores principales con sub-opciones en contenedor #efefef -->
             <div class="flex items-center rounded-xl shrink-0" style="background:#efefef">
               <button (click)="toggleNavSection('principales')"
                 class="flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold
@@ -297,7 +297,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 [style]="expandedSection() === 'principales'
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">                
-                <span>Ind. Principales</span>
+                <span>Indicadores principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
@@ -328,7 +328,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 ? 'background:#33b3a9;color:#fff;'
                 : 'background:#f3f4f6;color:#6b7280;'">
               
-              <span>Ind. Temáticos</span>
+              <span>Indicadores temáticos</span>
               <app-hero-icon [name]="'chevron-right'" class="w-3 h-3 shrink-0"></app-hero-icon>
             </button>
 
@@ -363,9 +363,6 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                   [style]="openNivelDropdown()
                     ? 'background:#003d7a; color:#fff; border-color:#003d7a'
                     : 'background:#0056a1; color:#fff; border-color:#0056a1'">
-                  @if (activeNivelDef().icon) {
-                    <app-hero-icon [name]="activeNivelDef().icon" class="w-3.5 h-3.5 shrink-0 text-white"></app-hero-icon>
-                  }
                   <span class="hidden sm:inline">{{ activeNivelDef().label }}</span>
                   <app-hero-icon [name]="'chevron-down'"
                     class="w-3 h-3 shrink-0 transition-transform duration-200"
@@ -392,11 +389,6 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                           [style.border-color]="nivelFiltro() !== n.key ? '#0056a1' : ''">
                           @if (nivelFiltro() === n.key) { <span class="w-2 h-2 bg-white rounded-full block"></span> }
                         </span>
-                        @if (n.icon) {
-                          <app-hero-icon [name]="n.icon" class="w-3.5 h-3.5 shrink-0"
-                            [class.text-white]="nivelFiltro() === n.key"
-                            [style.color]="nivelFiltro() !== n.key ? '#0056a1' : ''"></app-hero-icon>
-                        }
                         <span class="font-semibold flex-1">{{ n.label }}</span>
                       </button>
                     }
@@ -882,8 +874,8 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
       <img src="hombre.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[45px] xl:h-[66px] shrink-0" alt="Hombre">
       <div class="flex flex-col leading-tight items-start">
         <span class="text-[9px] xl:text-xs font-semibold text-gray-500">Hay</span>
-        <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none">
-          {{ fmtD(cardMock()['razon_sexo'], 1) }}
+        <span class="text-base md:text-lg xl:text-2xl font-black text-[#000000] leading-none"> 
+          {{ fmtD(cardMock()['razon_sexo'], 1) }} <span class="text-[9px] xl:text-xs font-semibold text-gray-500">hombres</span>
         </span>
       </div>
     </div>
@@ -1257,7 +1249,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 1 persona -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                    
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">1 persona</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 1 persona</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD(hogarMock()['pct_unipersonales'], 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1268,7 +1260,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 2 personas -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                   
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">2 personas</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 2 personas</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.235, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1279,7 +1271,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 3 personas -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                    
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">3 personas</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 3 personas</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.220, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1290,7 +1282,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 4 personas -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                    
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">4 personas</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 4 personas</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.215, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1301,7 +1293,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 5 personas -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                    
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">5 personas</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 5 personas</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.195, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1312,7 +1304,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                 <!-- 6 a más personas -->
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5">                   
-                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">6 a más personas</span>
+                    <span class="text-[11px] font-bold color = #464646 leading-tight flex-1">Con 6 a más personas</span>
                     <span class="text-[13px] font-black color = #464646 tabular-nums shrink-0">{{ fmtD((100 - hogarMock()['pct_unipersonales']) * 0.135, 1) }}%</span>
                   </div>
                   <div class="w-full bg-gray-100 rounded-full overflow-hidden" style="height:14px">
@@ -1371,7 +1363,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                     {{ fmtD(hogarMock()['pct_con_ninos'], 1) }}
                     <span class="text-[10px] md:text-xs font-bold text-gray-400">%</span>
                   </div>
-                  <div class="text-[8px] font-semibold text-[#038dd3] mt-0.5 leading-none">del total de hogares</div>
+                  
                 </div>
               </div>
             </div>
@@ -1397,8 +1389,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                   <div class="text-lg md:text-xl xl:text-xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(hogarMock()['pct_adulto_mayor'], 1) }}
                     <span class="text-[10px] md:text-xs font-bold text-gray-400">%</span>
-                  </div>
-                  <div class="text-[8px] font-semibold text-[#343b9f] mt-0.5 leading-none">del total de hogares</div>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -1480,7 +1471,7 @@ export class DashboardCensadaComponent implements OnInit {
 
     // ── Botonera de secciones (barra superior) ───────────────────────────
     readonly navSections = [
-        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar',      route: '/dashboard' },
+        { id: 'poblacion_total',     label: 'Indicadores de población total',                icon: 'chart-bar',      route: '/dashboard' },
         { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
       
     ];
@@ -1523,7 +1514,7 @@ export class DashboardCensadaComponent implements OnInit {
     );
     regionNaturalLabel = computed(() => {
         const key = this.selectedRegionNatural();
-        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todas';
+        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todos';
     });
 
     // ── Filtro de área ─────────────────────────────────────────────────────
@@ -1588,8 +1579,8 @@ export class DashboardCensadaComponent implements OnInit {
             .sort((a, b) => (a.sortKey ?? '').localeCompare(b.sortKey ?? ''));
     });
 
-    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todas'; });
-    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todas'; });
+    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todos'; });
+    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todos'; });
     geoDistLabel = computed(() => { const c = this.selectedDist();  return c ? (this.districts().find(d => d.code === c)?.name ?? c) : 'Todos'; });
 
     toggleGeoDropdown(key: 'dep' | 'prov' | 'dist'): void { this.openGeoDropdown.set(this.openGeoDropdown() === key ? null : key); }
@@ -1722,8 +1713,8 @@ export class DashboardCensadaComponent implements OnInit {
     displayedTitle      = computed<string>(() => {
         const dist = this.selectedDist(); if (dist) return this.districts().find(d => d.code === dist)?.name ?? dist;
         const prov = this.selectedProv(); if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
-        const ccdd = this.selectedCCDD(); if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
+        const ccdd = this.selectedCCDD(); if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú';
+        return 'Perú';
     });
     displayedPopulation = computed<string>(() => this.fmt(this.cardData().total));
 

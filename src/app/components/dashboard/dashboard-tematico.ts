@@ -810,7 +810,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">
                 
-                <span>Ind. Principales</span>
+                <span>Indiadores principales</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'principales'"></app-hero-icon>
@@ -841,7 +841,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 [style]="expandedSection() === 'tematicos'
                   ? 'background:#caeae4;color:#424242;'
                   : 'color:#6b7280;'">                
-                <span>Ind. Temáticos</span>
+                <span>Indicadores temáticos</span>
                 <app-hero-icon [name]="'chevron-right'"
                   class="w-3 h-3 shrink-0 transition-transform duration-200"
                   [class.rotate-90]="expandedSection() === 'tematicos'"></app-hero-icon>
@@ -3881,7 +3881,7 @@ export class DashboardTematicoComponent implements OnInit {
 
     // ── Botonera de secciones ─────────────────────────────────────────────
     readonly navSections = [
-        { id: 'poblacion_total',     label: 'Indicadores de Población total',                icon: 'chart-bar', route: '/dashboard' },
+        { id: 'poblacion_total',     label: 'Indicadores de población total',                icon: 'chart-bar', route: '/dashboard' },
         { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',      route: '/dashboard-censada' },
     ];
 
@@ -6157,7 +6157,7 @@ export class DashboardTematicoComponent implements OnInit {
     );
     regionNaturalLabel = computed(() => {
         const key = this.selectedRegionNatural();
-        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todas';
+        return REGIONES_NATURALES.find(r => r.key === key)?.label ?? 'Todos';
     });
 
     // ── Filtro de área ────────────────────────────────────────────────────
@@ -6222,15 +6222,15 @@ export class DashboardTematicoComponent implements OnInit {
             .sort((a, b) => (a.sortKey ?? '').localeCompare(b.sortKey ?? ''));
     });
 
-    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todas'; });
-    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todas'; });
+    geoDepLabel  = computed(() => { const c = this.selectedCCDD(); return c ? (this.departments().find(d => d.ccdd === c)?.name ?? c) : 'Todos'; });
+    geoProvLabel = computed(() => { const c = this.selectedProv();  return c ? (this.provinces().find(p => p.code === c)?.name ?? c) : 'Todos'; });
     geoDistLabel = computed(() => { const c = this.selectedDist();  return c ? (this.districts().find(d => d.code === c)?.name ?? c) : 'Todos'; });
 
     displayedTitle = computed<string>(() => {
         const dist = this.selectedDist(); if (dist) return this.districts().find(d => d.code === dist)?.name ?? dist;
         const prov = this.selectedProv(); if (prov) return this.provinces().find(p => p.code === prov)?.name ?? prov;
-        const ccdd = this.selectedCCDD(); if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú (Nacional)';
-        return 'Perú (Nacional)';
+        const ccdd = this.selectedCCDD(); if (ccdd) return this.departments().find(d => d.ccdd === ccdd)?.name ?? 'Perú';
+        return 'Perú';
     });
 
     setNivelFiltro(nivel: NivelFiltroType): void {
