@@ -409,7 +409,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDepsOn()" (change)="toggleAllDeps()"
                              class="rounded border-gray-300 text-[#0056a1] focus:ring-[#0056a1] w-3.5 h-3.5">
-                      Todos los departamentos
+                      Seleccionar todos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of depsItems(); track item.label; let i = $index) {
@@ -447,7 +447,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-blue-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allProvsOn()" (change)="toggleAllProvs()"
                              class="rounded border-gray-300 text-[#038dd3] focus:ring-[#038dd3] w-3.5 h-3.5">
-                      Todas las provincias
+                      Seleccionar todos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of provsItems(); track item.label; let i = $index) {
@@ -486,7 +486,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allDistsOn()" (change)="toggleAllDists()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Todos los distritos
+                      Seleccionar todos
                     </label>
                     <div class="max-h-60 overflow-y-auto">
                       @for (item of distItems(); track item.label; let i = $index) {

@@ -681,7 +681,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="isViewTabActive(tab.route)
-                ? 'background:#8383fd;color:#424242;'
+                ? 'background:#9277ff;color:#ffffff;'
                 : 'color:#9ca3af;'">
               <span>{{ tab.label }}</span>
             </button>
@@ -1504,7 +1504,7 @@ export class DashboardCensadaComponent implements OnInit {
 
     // ── Nivel de filtro geográfico ─────────────────────────────────────────
     readonly NIVELES_FILTRO: { key: NivelFiltroType; label: string; icon: string; color: string }[] = [
-        { key: 'politico_administrativo', label: 'División territorial', icon: 'map',            color: '#0056a1' },
+        { key: 'politico_administrativo', label: 'División territorial', icon: '',            color: '#0056a1' },
         { key: 'region_natural',          label: 'Región Natural',          icon: '', color: '#33b3a9' },
     ];
     readonly REGIONES_NATURALES = REGIONES_NATURALES;
@@ -1524,7 +1524,7 @@ export class DashboardCensadaComponent implements OnInit {
 
     // ── Filtro de área ─────────────────────────────────────────────────────
     readonly AREAS_FILTRO: { key: AreaFiltroType; label: string }[] = [
-        { key: 'total',  label: 'Total'  },
+        { key: 'total',  label: 'Todas'  },
         { key: 'urbano', label: 'Urbano' },
         { key: 'rural',  label: 'Rural'  },
     ];
@@ -2071,7 +2071,7 @@ export class DashboardCensadaComponent implements OnInit {
                 data: [
                     { value: 3_274_648,  itemStyle: { color: '#038dd3' } },
                     { value: 12_618_546, itemStyle: { color: '#caeae4' } },
-                    { value: 2_587_238,  itemStyle: { color: '#343b9f' } },
+                    { value: 2_587_238,  itemStyle: { color: '#8383fd' } },
                 ],
             }],
         };

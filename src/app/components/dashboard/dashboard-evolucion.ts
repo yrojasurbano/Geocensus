@@ -37,6 +37,7 @@ interface EvolucionData {
     readonly pct60mas:             Serie3;
     readonly vivCensadas:          Serie3;
     readonly vivOcupadas:          Serie3;
+    readonly vivOcupadasAusentes:  Serie3;
     readonly vivDesocupadas:       Serie3;
     readonly hogCensados:          Serie3;
     readonly hogPromPersonas:      Serie3;
@@ -57,6 +58,7 @@ const NACIONAL: EvolucionData = {
     pct60mas:             [7.4,  9.6,  12.4],
     vivCensadas:          [7_102_274,  9_878_124, 10_624_480],
     vivOcupadas:          [6_754_074,  8_231_640,  8_462_040],
+    vivOcupadasAusentes:  [  270_200,    329_300,    338_500],
     vivDesocupadas:       [  348_200,  1_646_484,  2_162_440],
     hogCensados:          [6_754_074,  8_252_284,  9_861_890],
     hogPromPersonas:      [4.2, 3.8, 3.2],
@@ -74,6 +76,7 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         pct60mas:             [6.8,  8.4,  9.8],
         vivCensadas:          [  314_006,    434_200,    518_000],
         vivOcupadas:          [  283_218,    355_800,    456_000],
+        vivOcupadasAusentes:  [   11_300,     14_200,     18_200],
         vivDesocupadas:       [   30_788,     78_400,     62_000],
         hogCensados:          [  283_218,    330_000,    468_000],
         hogPromPersonas:      [3.9, 3.5, 3.2],
@@ -88,6 +91,7 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         pct60mas:             [7.2,  8.4,  8.4],
         vivCensadas:          [  142_480,    193_700,    220_000],
         vivOcupadas:          [  122_694,    158_900,    188_000],
+        vivOcupadasAusentes:  [    4_900,      6_400,      7_500],
         vivDesocupadas:       [   19_786,     34_800,     32_000],
         hogCensados:          [  122_694,    148_000,    193_600],
         hogPromPersonas:      [4.4, 4.0, 3.5],
@@ -102,6 +106,7 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         pct60mas:             [7.4,  9.0,  11.2],
         vivCensadas:          [2_104_242,  3_082_400,  3_380_000],
         vivOcupadas:          [1_986_348,  2_521_800,  2_715_000],
+        vivOcupadasAusentes:  [   79_500,    100_900,    108_600],
         vivDesocupadas:       [  117_894,    560_600,    665_000],
         hogCensados:          [1_986_348,  2_344_000,  2_795_000],
         hogPromPersonas:      [3.8, 3.3, 3.0],
@@ -116,6 +121,7 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         pct60mas:             [6.8,  8.6,  7.5],
         vivCensadas:          [  418_600,    579_300,    621_000],
         vivOcupadas:          [  390_480,    473_400,    549_000],
+        vivOcupadasAusentes:  [   15_600,     18_900,     22_000],
         vivDesocupadas:       [   28_120,    105_900,     72_000],
         hogCensados:          [  390_480,    440_000,    564_500],
         hogPromPersonas:      [4.1, 3.8, 3.6],
@@ -319,7 +325,7 @@ const CLR = {
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="isViewTabActive(tab.route)
-                ? 'background:#8383fd;color:#424242;'
+                ? 'background:#9277ff;color:#ffffff;'
                 : 'color:#9ca3af;'">
               <span>{{ tab.label }}</span>
             </button>
@@ -371,16 +377,16 @@ const CLR = {
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
               <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
                 <span class="text-[8px] font-black text-gray-400 tracking-wider leading-none">Población por sexo</span>
-                <div class="flex items-center gap-1.5">
-                  <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#0056a1] shrink-0"></span><span class="text-[7.5px] font-bold text-gray-500">H</span></span>
-                  <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></span><span class="text-[7.5px] font-bold text-gray-500">M</span></span>
-                </div>
               </div>
               @if (isBrowser) {
                 <div class="flex-1 min-h-0 px-0.5 pt-0.5 pb-1">
                   <div echarts [options]="poblacionSexoOpt()" class="w-full h-full"></div>
                 </div>
               }
+              <div class="flex items-center justify-center gap-1.5 pb-1.5 shrink-0">
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#0056a1] shrink-0"></span><span class="text-[7.5px] font-bold color = #424242" >Hombres</span></span>
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></span><span class="text-[7.5px] font-bold color = #424242" >Mujeres</span></span>
+              </div>
             </div>
 
             <!-- 1.3 · Índice de envejecimiento -->
@@ -448,7 +454,7 @@ const CLR = {
             <!-- 2.3 · % 60 años a más -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
               <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
-                <span class="text-[8px] font-black text-gray-400 tracking-wider leading-none">Porcentaje de personas de 60 años a más</span>
+                <span class="text-[8px] font-black text-gray-400 tracking-wider leading-none">Porcentaje de personas de 60 y más años </span>
                 @let tc = calcTrend(evoData().pct60mas);
                 <div class="flex items-center gap-1 shrink-0">
                   <span class="text-[11px] font-black text-gray-800 tabular-nums">{{ fmtD(evoData().pct60mas[2]) }}%</span>
@@ -486,7 +492,7 @@ const CLR = {
               <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
                 <div class="flex items-center gap-1.5">
                   <div class="w-2.5 h-2.5 rounded-full shrink-0" style="background:#0056a1"></div>
-                  <span class="text-[8px] font-black text-gray-400  tracking-wider leading-none">Viviendas censadas</span>
+                  <span class="text-[8px] font-black text-gray-400  tracking-wider leading-none">Viviendas particulares censadas</span>
                 </div>
                 @let tv1 = calcTrend(evoData().vivCensadas);
                 <div class="flex items-center gap-1 shrink-0">
@@ -506,23 +512,17 @@ const CLR = {
             <!-- 3.2 · Viviendas ocupadas -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
               <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
-                <div class="flex items-center gap-1.5">
-                  <div class="w-2.5 h-2.5 rounded-full shrink-0" style="background:#33b3a9"></div>
-                  <span class="text-[8px] font-black text-gray-400  tracking-wider leading-none">Viviendas ocupadas</span>
-                </div>
-                @let tv2 = calcTrend(evoData().vivOcupadas);
-                <div class="flex items-center gap-1 shrink-0">
-                  <span class="text-[11px] font-black text-gray-800 tabular-nums">{{ fmtShort(evoData().vivOcupadas[2]) }}</span>
-                  <span class="text-[7.5px] font-bold px-1 py-0.5 rounded-full leading-none"
-                        [class.text-emerald-700]="tv2.up" [class.bg-emerald-50]="tv2.up"
-                        [class.text-rose-700]="!tv2.up" [class.bg-rose-50]="!tv2.up">{{ tv2.label }}</span>
-                </div>
+                <span class="text-[8px] font-black text-gray-400  tracking-wider leading-none">Viviendas ocupadas con personas presentes y con personas ausentes</span>
               </div>
               @if (isBrowser) {
                 <div class="flex-1 min-h-0 px-0.5 pt-0.5 pb-1">
                   <div echarts [options]="vivOcupadasOpt()" class="w-full h-full"></div>
                 </div>
               }
+              <div class="flex items-center justify-center gap-1.5 pb-1.5 shrink-0">
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></span><span class="text-[7.5px] font-bold color = #424242">Personas ausentes</span></span>
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#038dd3] shrink-0"></span><span class="text-[7.5px] font-bold color = #424242 ">Personas presentes</span></span>
+              </div>
             </div>
 
             <!-- 3.3 · Viviendas desocupadas -->
@@ -1015,7 +1015,7 @@ export class DashboardEvolucionComponent implements OnInit {
 
     // ── Computed: opciones de gráficos — VIVIENDA ─────────────────────────
     vivCensadasOpt    = computed<EChartsOption>(() => this.buildLineOpt(this.evoData().vivCensadas,    CLR.blue));
-    vivOcupadasOpt    = computed<EChartsOption>(() => this.buildLineOpt(this.evoData().vivOcupadas,    CLR.teal));
+    vivOcupadasOpt    = computed<EChartsOption>(() => this.buildDualLineOpt(this.evoData().vivOcupadas, this.evoData().vivOcupadasAusentes, CLR.teal, CLR.sky, 'Personas ausentes', 'Personas presentes'));
     vivDesocupadasOpt = computed<EChartsOption>(() => this.buildLineOpt(this.evoData().vivDesocupadas, CLR.amber));
 
     // ── Computed: opciones de gráficos — HOGAR ────────────────────────────

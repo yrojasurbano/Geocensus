@@ -34,6 +34,7 @@ export interface FilaDep {
     // ── Vivienda ──
     vivCensadas:         number;
     vivOcupadas:         number;
+    vivOcupadasAusentes: number;
     vivDesocupadas:      number;
     vivCon1Hogar:        number;
     vivCon2masHogares:   number;
@@ -52,73 +53,144 @@ interface DropdownItem { label: string; checked: boolean; }
 
 // ── DATA — Departamental ────────────────────────────────────────────────────
 const MOCK_DEP: FilaDep[] = [
-    { departamento:'AMAZONAS',        superficie:  39_249, poblacion:  426_806, hombres:  218_643, mujeres:  208_163, razon:105.0, densidad:   10.9, pctUrbano: 41.2, edadMediana:25.1, p65:  28_882, pct65: 6.8, indiceEnvejecimiento: 28.4,  vivCensadas: 139_000, vivOcupadas: 121_500, vivDesocupadas: 17_500, vivCon1Hogar: 115_800, vivCon2masHogares:  5_700,  hogCensados: 124_200, hogPromPersonas: 3.44, hogPctUnipersonal: 15.2, hogPctConNinos: 62.1, hogPctAdultosMayores: 30.5 },
-    { departamento:'ANCASH',          superficie:  35_915, poblacion:1_180_638, hombres:  582_219, mujeres:  598_419, razon: 97.3, densidad:   32.9, pctUrbano: 69.8, edadMediana:27.8, p65:  99_174, pct65: 8.4, indiceEnvejecimiento: 38.2,  vivCensadas: 388_000, vivOcupadas: 330_000, vivDesocupadas: 58_000, vivCon1Hogar: 316_000, vivCon2masHogares: 14_000,  hogCensados: 338_400, hogPromPersonas: 3.49, hogPctUnipersonal: 16.8, hogPctConNinos: 58.4, hogPctAdultosMayores: 34.2 },
-    { departamento:'APURIMAC',        superficie:  20_896, poblacion:  476_936, hombres:  237_044, mujeres:  239_892, razon: 98.8, densidad:   22.8, pctUrbano: 55.3, edadMediana:26.4, p65:  42_447, pct65: 8.9, indiceEnvejecimiento: 29.6,  vivCensadas: 158_000, vivOcupadas: 136_000, vivDesocupadas: 22_000, vivCon1Hogar: 130_000, vivCon2masHogares:  6_000,  hogCensados: 139_600, hogPromPersonas: 3.42, hogPctUnipersonal: 14.6, hogPctConNinos: 60.2, hogPctAdultosMayores: 32.1 },
-    { departamento:'AREQUIPA',        superficie:  63_345, poblacion:1_497_438, hombres:  738_094, mujeres:  759_344, razon: 97.2, densidad:   23.6, pctUrbano: 91.8, edadMediana:30.1, p65: 130_277, pct65: 8.7, indiceEnvejecimiento: 46.3,  vivCensadas: 518_000, vivOcupadas: 456_000, vivDesocupadas: 62_000, vivCon1Hogar: 441_000, vivCon2masHogares: 15_000,  hogCensados: 468_000, hogPromPersonas: 3.20, hogPctUnipersonal: 21.4, hogPctConNinos: 52.3, hogPctAdultosMayores: 38.6 },
-    { departamento:'AYACUCHO',        superficie:  43_815, poblacion:  668_213, hombres:  328_956, mujeres:  339_257, razon: 97.0, densidad:   15.3, pctUrbano: 59.4, edadMediana:26.8, p65:  56_798, pct65: 8.5, indiceEnvejecimiento: 30.2,  vivCensadas: 220_000, vivOcupadas: 188_000, vivDesocupadas: 32_000, vivCon1Hogar: 180_000, vivCon2masHogares:  8_000,  hogCensados: 193_600, hogPromPersonas: 3.45, hogPctUnipersonal: 14.8, hogPctConNinos: 62.4, hogPctAdultosMayores: 31.8 },
-    { departamento:'CAJAMARCA',       superficie:  33_318, poblacion:1_453_671, hombres:  725_908, mujeres:  727_763, razon: 99.7, densidad:   43.6, pctUrbano: 34.8, edadMediana:25.2, p65: 107_572, pct65: 7.4, indiceEnvejecimiento: 27.4,  vivCensadas: 435_000, vivOcupadas: 368_000, vivDesocupadas: 67_000, vivCon1Hogar: 352_000, vivCon2masHogares: 16_000,  hogCensados: 376_500, hogPromPersonas: 3.86, hogPctUnipersonal: 12.3, hogPctConNinos: 65.8, hogPctAdultosMayores: 27.4 },
-    { departamento:'PROV. CONST. DEL CALLAO', superficie: 147, poblacion:1_129_854, hombres: 556_220, mujeres: 573_634, razon: 97.0, densidad:7_685.4, pctUrbano:100.0, edadMediana:30.4, p65: 84_739, pct65: 7.5, indiceEnvejecimiento: 44.8,  vivCensadas: 335_000, vivOcupadas: 309_000, vivDesocupadas: 26_000, vivCon1Hogar: 298_000, vivCon2masHogares: 11_000,  hogCensados: 317_500, hogPromPersonas: 3.56, hogPctUnipersonal: 18.2, hogPctConNinos: 56.4, hogPctAdultosMayores: 36.8 },
-    { departamento:'CUSCO',           superficie:  71_987, poblacion:1_357_075, hombres:  671_504, mujeres:  685_571, razon: 98.0, densidad:   18.8, pctUrbano: 62.8, edadMediana:27.2, p65: 105_851, pct65: 7.8, indiceEnvejecimiento: 31.5,  vivCensadas: 430_000, vivOcupadas: 368_000, vivDesocupadas: 62_000, vivCon1Hogar: 352_000, vivCon2masHogares: 16_000,  hogCensados: 378_500, hogPromPersonas: 3.58, hogPctUnipersonal: 15.6, hogPctConNinos: 60.8, hogPctAdultosMayores: 32.4 },
-    { departamento:'HUANCAVELICA',    superficie:  22_131, poblacion:  374_062, hombres:  184_793, mujeres:  189_269, razon: 97.6, densidad:   16.9, pctUrbano: 37.5, edadMediana:24.8, p65:  30_299, pct65: 8.1, indiceEnvejecimiento: 26.8,  vivCensadas: 118_000, vivOcupadas:  98_000, vivDesocupadas: 20_000, vivCon1Hogar:  93_600, vivCon2masHogares:  4_400,  hogCensados: 100_200, hogPromPersonas: 3.73, hogPctUnipersonal: 13.2, hogPctConNinos: 64.5, hogPctAdultosMayores: 29.6 },
-    { departamento:'HUANUCO',         superficie:  36_849, poblacion:  762_223, hombres:  381_285, mujeres:  380_938, razon:100.1, densidad:   20.7, pctUrbano: 51.4, edadMediana:25.6, p65:  53_356, pct65: 7.0, indiceEnvejecimiento: 28.9,  vivCensadas: 244_000, vivOcupadas: 207_000, vivDesocupadas: 37_000, vivCon1Hogar: 197_600, vivCon2masHogares:  9_400,  hogCensados: 212_500, hogPromPersonas: 3.59, hogPctUnipersonal: 13.8, hogPctConNinos: 63.2, hogPctAdultosMayores: 29.8 },
-    { departamento:'ICA',             superficie:  21_328, poblacion:  975_182, hombres:  487_042, mujeres:  488_140, razon: 99.8, densidad:   45.7, pctUrbano: 91.9, edadMediana:30.2, p65:  78_015, pct65: 8.0, indiceEnvejecimiento: 40.2,  vivCensadas: 319_000, vivOcupadas: 283_000, vivDesocupadas: 36_000, vivCon1Hogar: 272_000, vivCon2masHogares: 11_000,  hogCensados: 290_500, hogPromPersonas: 3.36, hogPctUnipersonal: 19.4, hogPctConNinos: 54.6, hogPctAdultosMayores: 37.2 },
-    { departamento:'JUNIN',           superficie:  44_197, poblacion:1_370_274, hombres:  683_244, mujeres:  687_030, razon: 99.4, densidad:   31.0, pctUrbano: 72.2, edadMediana:28.0, p65: 104_141, pct65: 7.6, indiceEnvejecimiento: 34.8,  vivCensadas: 440_000, vivOcupadas: 383_000, vivDesocupadas: 57_000, vivCon1Hogar: 367_000, vivCon2masHogares: 16_000,  hogCensados: 393_500, hogPromPersonas: 3.48, hogPctUnipersonal: 17.2, hogPctConNinos: 58.8, hogPctAdultosMayores: 34.6 },
-    { departamento:'LA LIBERTAD',     superficie:  25_500, poblacion:2_016_771, hombres:  990_040, mujeres:1_026_731, razon: 96.4, densidad:   79.1, pctUrbano: 78.4, edadMediana:27.8, p65: 151_258, pct65: 7.5, indiceEnvejecimiento: 36.4,  vivCensadas: 621_000, vivOcupadas: 549_000, vivDesocupadas: 72_000, vivCon1Hogar: 526_000, vivCon2masHogares: 23_000,  hogCensados: 564_500, hogPromPersonas: 3.57, hogPctUnipersonal: 16.4, hogPctConNinos: 58.2, hogPctAdultosMayores: 34.8 },
-    { departamento:'LAMBAYEQUE',      superficie:  14_231, poblacion:1_362_689, hombres:  655_024, mujeres:  707_665, razon: 92.6, densidad:   95.8, pctUrbano: 81.7, edadMediana:29.1, p65: 113_103, pct65: 8.3, indiceEnvejecimiento: 41.8,  vivCensadas: 431_000, vivOcupadas: 383_000, vivDesocupadas: 48_000, vivCon1Hogar: 368_000, vivCon2masHogares: 15_000,  hogCensados: 393_500, hogPromPersonas: 3.46, hogPctUnipersonal: 18.6, hogPctConNinos: 56.8, hogPctAdultosMayores: 36.4 },
-    { departamento:'LIMA METROPOLITANA 1/', superficie: 2_672, poblacion:9_485_405, hombres:4_617_742, mujeres:4_867_663, razon: 94.9, densidad:3_550.1, pctUrbano:100.0, edadMediana:32.1, p65: 873_281, pct65: 9.2, indiceEnvejecimiento: 56.8,  vivCensadas:2_938_000, vivOcupadas:2_715_000, vivDesocupadas:223_000, vivCon1Hogar:2_632_000, vivCon2masHogares: 83_000,  hogCensados:2_795_000, hogPromPersonas: 3.39, hogPctUnipersonal: 22.4, hogPctConNinos: 50.8, hogPctAdultosMayores: 41.2 },
-    { departamento:'REGION LIMA 2/',  superficie:  32_130, poblacion:  640_647, hombres:  312_101, mujeres:  328_546, razon: 95.0, densidad:   19.9, pctUrbano: 73.5, edadMediana:27.4, p65:  58_316, pct65: 9.1, indiceEnvejecimiento: 44.6,  vivCensadas: 205_000, vivOcupadas: 177_000, vivDesocupadas: 28_000, vivCon1Hogar: 169_000, vivCon2masHogares:  8_000,  hogCensados: 181_500, hogPromPersonas: 3.53, hogPctUnipersonal: 19.8, hogPctConNinos: 54.4, hogPctAdultosMayores: 38.2 },
-    { departamento:'LORETO',          superficie: 368_852, poblacion:1_027_559, hombres:  527_346, mujeres:  500_213, razon:105.4, densidad:    2.8, pctUrbano: 65.2, edadMediana:22.9, p65:  49_323, pct65: 4.8, indiceEnvejecimiento: 16.2,  vivCensadas: 267_000, vivOcupadas: 234_000, vivDesocupadas: 33_000, vivCon1Hogar: 222_000, vivCon2masHogares: 12_000,  hogCensados: 238_500, hogPromPersonas: 4.31, hogPctUnipersonal: 10.4, hogPctConNinos: 68.6, hogPctAdultosMayores: 22.8 },
-    { departamento:'MADRE DE DIOS',   superficie:  85_183, poblacion:  173_811, hombres:   95_596, mujeres:   78_215, razon:122.2, densidad:    2.0, pctUrbano: 71.4, edadMediana:24.5, p65:   6_782, pct65: 3.9, indiceEnvejecimiento: 13.8,  vivCensadas:  50_000, vivOcupadas:  44_000, vivDesocupadas:  6_000, vivCon1Hogar:  41_800, vivCon2masHogares:  2_200,  hogCensados:  45_200, hogPromPersonas: 3.85, hogPctUnipersonal: 11.8, hogPctConNinos: 65.2, hogPctAdultosMayores: 24.6 },
-    { departamento:'MOQUEGUA',        superficie:  15_734, poblacion:  192_740, hombres:   98_455, mujeres:   94_285, razon:104.4, densidad:   12.2, pctUrbano: 86.0, edadMediana:32.1, p65:  18_310, pct65: 9.5, indiceEnvejecimiento: 51.2,  vivCensadas:  67_000, vivOcupadas:  59_000, vivDesocupadas:  8_000, vivCon1Hogar:  57_000, vivCon2masHogares:  2_000,  hogCensados:  60_500, hogPromPersonas: 3.19, hogPctUnipersonal: 22.6, hogPctConNinos: 50.4, hogPctAdultosMayores: 42.8 },
-    { departamento:'PASCO',           superficie:  25_320, poblacion:  271_904, hombres:  139_388, mujeres:  132_516, razon:105.2, densidad:   10.7, pctUrbano: 66.5, edadMediana:25.5, p65:  15_227, pct65: 5.6, indiceEnvejecimiento: 24.8,  vivCensadas:  84_000, vivOcupadas:  72_000, vivDesocupadas: 12_000, vivCon1Hogar:  68_800, vivCon2masHogares:  3_200,  hogCensados:  73_800, hogPromPersonas: 3.68, hogPctUnipersonal: 14.4, hogPctConNinos: 62.8, hogPctAdultosMayores: 28.4 },
-    { departamento:'PIURA',           superficie:  35_892, poblacion:2_047_954, hombres:1_011_232, mujeres:1_036_722, razon: 97.5, densidad:   57.1, pctUrbano: 74.5, edadMediana:27.4, p65: 155_644, pct65: 7.6, indiceEnvejecimiento: 37.8,  vivCensadas: 614_000, vivOcupadas: 548_000, vivDesocupadas: 66_000, vivCon1Hogar: 526_000, vivCon2masHogares: 22_000,  hogCensados: 563_500, hogPromPersonas: 3.63, hogPctUnipersonal: 15.6, hogPctConNinos: 60.4, hogPctAdultosMayores: 32.8 },
-    { departamento:'PUNO',            superficie:  71_999, poblacion:1_268_441, hombres:  630_014, mujeres:  638_427, razon: 98.7, densidad:   17.6, pctUrbano: 53.6, edadMediana:26.9, p65: 101_475, pct65: 8.0, indiceEnvejecimiento: 34.2,  vivCensadas: 384_000, vivOcupadas: 326_000, vivDesocupadas: 58_000, vivCon1Hogar: 311_000, vivCon2masHogares: 15_000,  hogCensados: 334_500, hogPromPersonas: 3.79, hogPctUnipersonal: 14.2, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.4 },
-    { departamento:'SAN MARTIN',      superficie:  51_253, poblacion:  974_160, hombres:  512_133, mujeres:  462_027, razon:110.8, densidad:   19.0, pctUrbano: 69.3, edadMediana:25.8, p65:  46_760, pct65: 4.8, indiceEnvejecimiento: 17.6,  vivCensadas: 281_000, vivOcupadas: 248_000, vivDesocupadas: 33_000, vivCon1Hogar: 237_000, vivCon2masHogares: 11_000,  hogCensados: 254_500, hogPromPersonas: 3.83, hogPctUnipersonal: 12.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 26.8 },
-    { departamento:'TACNA',           superficie:  16_076, poblacion:  395_533, hombres:  199_748, mujeres:  195_785, razon:102.0, densidad:   24.6, pctUrbano: 88.7, edadMediana:31.5, p65:  34_016, pct65: 8.6, indiceEnvejecimiento: 48.6,  vivCensadas: 136_000, vivOcupadas: 119_000, vivDesocupadas: 17_000, vivCon1Hogar: 114_000, vivCon2masHogares:  5_000,  hogCensados: 122_000, hogPromPersonas: 3.24, hogPctUnipersonal: 20.8, hogPctConNinos: 52.6, hogPctAdultosMayores: 40.4 },
-    { departamento:'TUMBES',          superficie:   4_669, poblacion:  252_261, hombres:  130_892, mujeres:  121_369, razon:107.8, densidad:   54.0, pctUrbano: 84.5, edadMediana:27.1, p65:  13_874, pct65: 5.5, indiceEnvejecimiento: 22.4,  vivCensadas:  77_000, vivOcupadas:  69_000, vivDesocupadas:  8_000, vivCon1Hogar:  66_200, vivCon2masHogares:  2_800,  hogCensados:  70_800, hogPromPersonas: 3.56, hogPctUnipersonal: 16.4, hogPctConNinos: 58.8, hogPctAdultosMayores: 32.6 },
-    { departamento:'UCAYALI',         superficie: 102_411, poblacion:  609_794, hombres:  316_521, mujeres:  293_273, razon:107.9, densidad:    6.0, pctUrbano: 74.2, edadMediana:23.7, p65:  25_611, pct65: 4.2, indiceEnvejecimiento: 14.6,  vivCensadas: 174_000, vivOcupadas: 153_000, vivDesocupadas: 21_000, vivCon1Hogar: 146_000, vivCon2masHogares:  7_000,  hogCensados: 157_500, hogPromPersonas: 3.87, hogPctUnipersonal: 11.2, hogPctConNinos: 67.4, hogPctAdultosMayores: 24.2 },
+    { departamento:'AMAZONAS',        superficie:  39_249, poblacion:  426_806, hombres:  218_643, mujeres:  208_163, razon:105.0, densidad:   10.9, pctUrbano: 41.2, edadMediana:25.1, p65:  28_882, pct65: 6.8, indiceEnvejecimiento: 28.4,  vivCensadas: 139_000, vivOcupadas: 121_500, vivOcupadasAusentes:  4_900, vivDesocupadas: 17_500, vivCon1Hogar: 115_800, vivCon2masHogares:  5_700,  hogCensados: 124_200, hogPromPersonas: 3.44, hogPctUnipersonal: 15.2, hogPctConNinos: 62.1, hogPctAdultosMayores: 30.5 },
+    { departamento:'ANCASH',          superficie:  35_915, poblacion:1_180_638, hombres:  582_219, mujeres:  598_419, razon: 97.3, densidad:   32.9, pctUrbano: 69.8, edadMediana:27.8, p65:  99_174, pct65: 8.4, indiceEnvejecimiento: 38.2,  vivCensadas: 388_000, vivOcupadas: 330_000, vivOcupadasAusentes: 13_200, vivDesocupadas: 58_000, vivCon1Hogar: 316_000, vivCon2masHogares: 14_000,  hogCensados: 338_400, hogPromPersonas: 3.49, hogPctUnipersonal: 16.8, hogPctConNinos: 58.4, hogPctAdultosMayores: 34.2 },
+    { departamento:'APURIMAC',        superficie:  20_896, poblacion:  476_936, hombres:  237_044, mujeres:  239_892, razon: 98.8, densidad:   22.8, pctUrbano: 55.3, edadMediana:26.4, p65:  42_447, pct65: 8.9, indiceEnvejecimiento: 29.6,  vivCensadas: 158_000, vivOcupadas: 136_000, vivOcupadasAusentes:  5_400, vivDesocupadas: 22_000, vivCon1Hogar: 130_000, vivCon2masHogares:  6_000,  hogCensados: 139_600, hogPromPersonas: 3.42, hogPctUnipersonal: 14.6, hogPctConNinos: 60.2, hogPctAdultosMayores: 32.1 },
+    { departamento:'AREQUIPA',        superficie:  63_345, poblacion:1_497_438, hombres:  738_094, mujeres:  759_344, razon: 97.2, densidad:   23.6, pctUrbano: 91.8, edadMediana:30.1, p65: 130_277, pct65: 8.7, indiceEnvejecimiento: 46.3,  vivCensadas: 518_000, vivOcupadas: 456_000, vivOcupadasAusentes: 18_200, vivDesocupadas: 62_000, vivCon1Hogar: 441_000, vivCon2masHogares: 15_000,  hogCensados: 468_000, hogPromPersonas: 3.20, hogPctUnipersonal: 21.4, hogPctConNinos: 52.3, hogPctAdultosMayores: 38.6 },
+    { departamento:'AYACUCHO',        superficie:  43_815, poblacion:  668_213, hombres:  328_956, mujeres:  339_257, razon: 97.0, densidad:   15.3, pctUrbano: 59.4, edadMediana:26.8, p65:  56_798, pct65: 8.5, indiceEnvejecimiento: 30.2,  vivCensadas: 220_000, vivOcupadas: 188_000, vivOcupadasAusentes:  7_500, vivDesocupadas: 32_000, vivCon1Hogar: 180_000, vivCon2masHogares:  8_000,  hogCensados: 193_600, hogPromPersonas: 3.45, hogPctUnipersonal: 14.8, hogPctConNinos: 62.4, hogPctAdultosMayores: 31.8 },
+    { departamento:'CAJAMARCA',       superficie:  33_318, poblacion:1_453_671, hombres:  725_908, mujeres:  727_763, razon: 99.7, densidad:   43.6, pctUrbano: 34.8, edadMediana:25.2, p65: 107_572, pct65: 7.4, indiceEnvejecimiento: 27.4,  vivCensadas: 435_000, vivOcupadas: 368_000, vivOcupadasAusentes: 14_700, vivDesocupadas: 67_000, vivCon1Hogar: 352_000, vivCon2masHogares: 16_000,  hogCensados: 376_500, hogPromPersonas: 3.86, hogPctUnipersonal: 12.3, hogPctConNinos: 65.8, hogPctAdultosMayores: 27.4 },
+    { departamento:'PROV. CONST. DEL CALLAO', superficie: 147, poblacion:1_129_854, hombres: 556_220, mujeres: 573_634, razon: 97.0, densidad:7_685.4, pctUrbano:100.0, edadMediana:30.4, p65: 84_739, pct65: 7.5, indiceEnvejecimiento: 44.8,  vivCensadas: 335_000, vivOcupadas: 309_000, vivOcupadasAusentes: 12_400, vivDesocupadas: 26_000, vivCon1Hogar: 298_000, vivCon2masHogares: 11_000,  hogCensados: 317_500, hogPromPersonas: 3.56, hogPctUnipersonal: 18.2, hogPctConNinos: 56.4, hogPctAdultosMayores: 36.8 },
+    { departamento:'CUSCO',           superficie:  71_987, poblacion:1_357_075, hombres:  671_504, mujeres:  685_571, razon: 98.0, densidad:   18.8, pctUrbano: 62.8, edadMediana:27.2, p65: 105_851, pct65: 7.8, indiceEnvejecimiento: 31.5,  vivCensadas: 430_000, vivOcupadas: 368_000, vivOcupadasAusentes: 14_700, vivDesocupadas: 62_000, vivCon1Hogar: 352_000, vivCon2masHogares: 16_000,  hogCensados: 378_500, hogPromPersonas: 3.58, hogPctUnipersonal: 15.6, hogPctConNinos: 60.8, hogPctAdultosMayores: 32.4 },
+    { departamento:'HUANCAVELICA',    superficie:  22_131, poblacion:  374_062, hombres:  184_793, mujeres:  189_269, razon: 97.6, densidad:   16.9, pctUrbano: 37.5, edadMediana:24.8, p65:  30_299, pct65: 8.1, indiceEnvejecimiento: 26.8,  vivCensadas: 118_000, vivOcupadas:  98_000, vivOcupadasAusentes:  3_900, vivDesocupadas: 20_000, vivCon1Hogar:  93_600, vivCon2masHogares:  4_400,  hogCensados: 100_200, hogPromPersonas: 3.73, hogPctUnipersonal: 13.2, hogPctConNinos: 64.5, hogPctAdultosMayores: 29.6 },
+    { departamento:'HUANUCO',         superficie:  36_849, poblacion:  762_223, hombres:  381_285, mujeres:  380_938, razon:100.1, densidad:   20.7, pctUrbano: 51.4, edadMediana:25.6, p65:  53_356, pct65: 7.0, indiceEnvejecimiento: 28.9,  vivCensadas: 244_000, vivOcupadas: 207_000, vivOcupadasAusentes:  8_300, vivDesocupadas: 37_000, vivCon1Hogar: 197_600, vivCon2masHogares:  9_400,  hogCensados: 212_500, hogPromPersonas: 3.59, hogPctUnipersonal: 13.8, hogPctConNinos: 63.2, hogPctAdultosMayores: 29.8 },
+    { departamento:'ICA',             superficie:  21_328, poblacion:  975_182, hombres:  487_042, mujeres:  488_140, razon: 99.8, densidad:   45.7, pctUrbano: 91.9, edadMediana:30.2, p65:  78_015, pct65: 8.0, indiceEnvejecimiento: 40.2,  vivCensadas: 319_000, vivOcupadas: 283_000, vivOcupadasAusentes: 11_300, vivDesocupadas: 36_000, vivCon1Hogar: 272_000, vivCon2masHogares: 11_000,  hogCensados: 290_500, hogPromPersonas: 3.36, hogPctUnipersonal: 19.4, hogPctConNinos: 54.6, hogPctAdultosMayores: 37.2 },
+    { departamento:'JUNIN',           superficie:  44_197, poblacion:1_370_274, hombres:  683_244, mujeres:  687_030, razon: 99.4, densidad:   31.0, pctUrbano: 72.2, edadMediana:28.0, p65: 104_141, pct65: 7.6, indiceEnvejecimiento: 34.8,  vivCensadas: 440_000, vivOcupadas: 383_000, vivOcupadasAusentes: 15_300, vivDesocupadas: 57_000, vivCon1Hogar: 367_000, vivCon2masHogares: 16_000,  hogCensados: 393_500, hogPromPersonas: 3.48, hogPctUnipersonal: 17.2, hogPctConNinos: 58.8, hogPctAdultosMayores: 34.6 },
+    { departamento:'LA LIBERTAD',     superficie:  25_500, poblacion:2_016_771, hombres:  990_040, mujeres:1_026_731, razon: 96.4, densidad:   79.1, pctUrbano: 78.4, edadMediana:27.8, p65: 151_258, pct65: 7.5, indiceEnvejecimiento: 36.4,  vivCensadas: 621_000, vivOcupadas: 549_000, vivOcupadasAusentes: 22_000, vivDesocupadas: 72_000, vivCon1Hogar: 526_000, vivCon2masHogares: 23_000,  hogCensados: 564_500, hogPromPersonas: 3.57, hogPctUnipersonal: 16.4, hogPctConNinos: 58.2, hogPctAdultosMayores: 34.8 },
+    { departamento:'LAMBAYEQUE',      superficie:  14_231, poblacion:1_362_689, hombres:  655_024, mujeres:  707_665, razon: 92.6, densidad:   95.8, pctUrbano: 81.7, edadMediana:29.1, p65: 113_103, pct65: 8.3, indiceEnvejecimiento: 41.8,  vivCensadas: 431_000, vivOcupadas: 383_000, vivOcupadasAusentes: 15_300, vivDesocupadas: 48_000, vivCon1Hogar: 368_000, vivCon2masHogares: 15_000,  hogCensados: 393_500, hogPromPersonas: 3.46, hogPctUnipersonal: 18.6, hogPctConNinos: 56.8, hogPctAdultosMayores: 36.4 },
+    { departamento:'LIMA METROPOLITANA 1/', superficie: 2_672, poblacion:9_485_405, hombres:4_617_742, mujeres:4_867_663, razon: 94.9, densidad:3_550.1, pctUrbano:100.0, edadMediana:32.1, p65: 873_281, pct65: 9.2, indiceEnvejecimiento: 56.8,  vivCensadas:2_938_000, vivOcupadas:2_715_000, vivOcupadasAusentes:108_600, vivDesocupadas:223_000, vivCon1Hogar:2_632_000, vivCon2masHogares: 83_000,  hogCensados:2_795_000, hogPromPersonas: 3.39, hogPctUnipersonal: 22.4, hogPctConNinos: 50.8, hogPctAdultosMayores: 41.2 },
+    { departamento:'REGION LIMA 2/',  superficie:  32_130, poblacion:  640_647, hombres:  312_101, mujeres:  328_546, razon: 95.0, densidad:   19.9, pctUrbano: 73.5, edadMediana:27.4, p65:  58_316, pct65: 9.1, indiceEnvejecimiento: 44.6,  vivCensadas: 205_000, vivOcupadas: 177_000, vivOcupadasAusentes:  7_100, vivDesocupadas: 28_000, vivCon1Hogar: 169_000, vivCon2masHogares:  8_000,  hogCensados: 181_500, hogPromPersonas: 3.53, hogPctUnipersonal: 19.8, hogPctConNinos: 54.4, hogPctAdultosMayores: 38.2 },
+    { departamento:'LORETO',          superficie: 368_852, poblacion:1_027_559, hombres:  527_346, mujeres:  500_213, razon:105.4, densidad:    2.8, pctUrbano: 65.2, edadMediana:22.9, p65:  49_323, pct65: 4.8, indiceEnvejecimiento: 16.2,  vivCensadas: 267_000, vivOcupadas: 234_000, vivOcupadasAusentes:  9_400, vivDesocupadas: 33_000, vivCon1Hogar: 222_000, vivCon2masHogares: 12_000,  hogCensados: 238_500, hogPromPersonas: 4.31, hogPctUnipersonal: 10.4, hogPctConNinos: 68.6, hogPctAdultosMayores: 22.8 },
+    { departamento:'MADRE DE DIOS',   superficie:  85_183, poblacion:  173_811, hombres:   95_596, mujeres:   78_215, razon:122.2, densidad:    2.0, pctUrbano: 71.4, edadMediana:24.5, p65:   6_782, pct65: 3.9, indiceEnvejecimiento: 13.8,  vivCensadas:  50_000, vivOcupadas:  44_000, vivOcupadasAusentes:  1_800, vivDesocupadas:  6_000, vivCon1Hogar:  41_800, vivCon2masHogares:  2_200,  hogCensados:  45_200, hogPromPersonas: 3.85, hogPctUnipersonal: 11.8, hogPctConNinos: 65.2, hogPctAdultosMayores: 24.6 },
+    { departamento:'MOQUEGUA',        superficie:  15_734, poblacion:  192_740, hombres:   98_455, mujeres:   94_285, razon:104.4, densidad:   12.2, pctUrbano: 86.0, edadMediana:32.1, p65:  18_310, pct65: 9.5, indiceEnvejecimiento: 51.2,  vivCensadas:  67_000, vivOcupadas:  59_000, vivOcupadasAusentes:  2_400, vivDesocupadas:  8_000, vivCon1Hogar:  57_000, vivCon2masHogares:  2_000,  hogCensados:  60_500, hogPromPersonas: 3.19, hogPctUnipersonal: 22.6, hogPctConNinos: 50.4, hogPctAdultosMayores: 42.8 },
+    { departamento:'PASCO',           superficie:  25_320, poblacion:  271_904, hombres:  139_388, mujeres:  132_516, razon:105.2, densidad:   10.7, pctUrbano: 66.5, edadMediana:25.5, p65:  15_227, pct65: 5.6, indiceEnvejecimiento: 24.8,  vivCensadas:  84_000, vivOcupadas:  72_000, vivOcupadasAusentes:  2_900, vivDesocupadas: 12_000, vivCon1Hogar:  68_800, vivCon2masHogares:  3_200,  hogCensados:  73_800, hogPromPersonas: 3.68, hogPctUnipersonal: 14.4, hogPctConNinos: 62.8, hogPctAdultosMayores: 28.4 },
+    { departamento:'PIURA',           superficie:  35_892, poblacion:2_047_954, hombres:1_011_232, mujeres:1_036_722, razon: 97.5, densidad:   57.1, pctUrbano: 74.5, edadMediana:27.4, p65: 155_644, pct65: 7.6, indiceEnvejecimiento: 37.8,  vivCensadas: 614_000, vivOcupadas: 548_000, vivOcupadasAusentes: 21_900, vivDesocupadas: 66_000, vivCon1Hogar: 526_000, vivCon2masHogares: 22_000,  hogCensados: 563_500, hogPromPersonas: 3.63, hogPctUnipersonal: 15.6, hogPctConNinos: 60.4, hogPctAdultosMayores: 32.8 },
+    { departamento:'PUNO',            superficie:  71_999, poblacion:1_268_441, hombres:  630_014, mujeres:  638_427, razon: 98.7, densidad:   17.6, pctUrbano: 53.6, edadMediana:26.9, p65: 101_475, pct65: 8.0, indiceEnvejecimiento: 34.2,  vivCensadas: 384_000, vivOcupadas: 326_000, vivOcupadasAusentes: 13_000, vivDesocupadas: 58_000, vivCon1Hogar: 311_000, vivCon2masHogares: 15_000,  hogCensados: 334_500, hogPromPersonas: 3.79, hogPctUnipersonal: 14.2, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.4 },
+    { departamento:'SAN MARTIN',      superficie:  51_253, poblacion:  974_160, hombres:  512_133, mujeres:  462_027, razon:110.8, densidad:   19.0, pctUrbano: 69.3, edadMediana:25.8, p65:  46_760, pct65: 4.8, indiceEnvejecimiento: 17.6,  vivCensadas: 281_000, vivOcupadas: 248_000, vivOcupadasAusentes:  9_900, vivDesocupadas: 33_000, vivCon1Hogar: 237_000, vivCon2masHogares: 11_000,  hogCensados: 254_500, hogPromPersonas: 3.83, hogPctUnipersonal: 12.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 26.8 },
+    { departamento:'TACNA',           superficie:  16_076, poblacion:  395_533, hombres:  199_748, mujeres:  195_785, razon:102.0, densidad:   24.6, pctUrbano: 88.7, edadMediana:31.5, p65:  34_016, pct65: 8.6, indiceEnvejecimiento: 48.6,  vivCensadas: 136_000, vivOcupadas: 119_000, vivOcupadasAusentes:  4_800, vivDesocupadas: 17_000, vivCon1Hogar: 114_000, vivCon2masHogares:  5_000,  hogCensados: 122_000, hogPromPersonas: 3.24, hogPctUnipersonal: 20.8, hogPctConNinos: 52.6, hogPctAdultosMayores: 40.4 },
+    { departamento:'TUMBES',          superficie:   4_669, poblacion:  252_261, hombres:  130_892, mujeres:  121_369, razon:107.8, densidad:   54.0, pctUrbano: 84.5, edadMediana:27.1, p65:  13_874, pct65: 5.5, indiceEnvejecimiento: 22.4,  vivCensadas:  77_000, vivOcupadas:  69_000, vivOcupadasAusentes:  2_800, vivDesocupadas:  8_000, vivCon1Hogar:  66_200, vivCon2masHogares:  2_800,  hogCensados:  70_800, hogPromPersonas: 3.56, hogPctUnipersonal: 16.4, hogPctConNinos: 58.8, hogPctAdultosMayores: 32.6 },
+    { departamento:'UCAYALI',         superficie: 102_411, poblacion:  609_794, hombres:  316_521, mujeres:  293_273, razon:107.9, densidad:    6.0, pctUrbano: 74.2, edadMediana:23.7, p65:  25_611, pct65: 4.2, indiceEnvejecimiento: 14.6,  vivCensadas: 174_000, vivOcupadas: 153_000, vivOcupadasAusentes:  6_100, vivDesocupadas: 21_000, vivCon1Hogar: 146_000, vivCon2masHogares:  7_000,  hogCensados: 157_500, hogPromPersonas: 3.87, hogPctUnipersonal: 11.2, hogPctConNinos: 67.4, hogPctAdultosMayores: 24.2 },
 ];
 
 // ── DATA — Provincial (Ayacucho) ─────────────────────────────────────────────
 const MOCK_PROV: FilaProv[] = [
-    { departamento:'AYACUCHO', provincia:'HUAMANGA',             superficie:  2_981, poblacion: 302_206, hombres: 144_872, mujeres: 157_334, razon: 92.1, densidad: 101.4, pctUrbano: 83.1, edadMediana:27.2, p65:  23_572, pct65: 7.8, indiceEnvejecimiento: 36.4,  vivCensadas:  98_000, vivOcupadas:  87_000, vivDesocupadas: 11_000, vivCon1Hogar:  83_500, vivCon2masHogares:  3_500,  hogCensados:  89_800, hogPromPersonas: 3.37, hogPctUnipersonal: 17.4, hogPctConNinos: 56.8, hogPctAdultosMayores: 36.2 },
-    { departamento:'AYACUCHO', provincia:'CANGALLO',             superficie:  1_916, poblacion:  33_598, hombres:  16_231, mujeres:  17_367, razon: 93.5, densidad:  17.5, pctUrbano: 26.4, edadMediana:22.8, p65:   3_427, pct65:10.2, indiceEnvejecimiento: 42.8,  vivCensadas:  12_500, vivOcupadas:  10_200, vivDesocupadas:  2_300, vivCon1Hogar:   9_750, vivCon2masHogares:    450,  hogCensados:  10_400, hogPromPersonas: 3.23, hogPctUnipersonal: 13.8, hogPctConNinos: 63.4, hogPctAdultosMayores: 32.6 },
-    { departamento:'AYACUCHO', provincia:'HUANCA SANCOS',        superficie:  2_862, poblacion:  11_580, hombres:   5_640, mujeres:   5_940, razon: 94.9, densidad:   4.0, pctUrbano: 41.3, edadMediana:24.1, p65:   1_321, pct65:11.4, indiceEnvejecimiento: 50.6,  vivCensadas:   4_200, vivOcupadas:   3_400, vivDesocupadas:    800, vivCon1Hogar:   3_260, vivCon2masHogares:    140,  hogCensados:   3_480, hogPromPersonas: 3.33, hogPctUnipersonal: 14.2, hogPctConNinos: 61.8, hogPctAdultosMayores: 33.4 },
-    { departamento:'AYACUCHO', provincia:'HUANTA',               superficie:  3_878, poblacion:  98_341, hombres:  48_562, mujeres:  49_779, razon: 97.6, densidad:  25.4, pctUrbano: 53.2, edadMediana:25.6, p65:   7_966, pct65: 8.1, indiceEnvejecimiento: 31.2,  vivCensadas:  32_000, vivOcupadas:  27_500, vivDesocupadas:  4_500, vivCon1Hogar:  26_300, vivCon2masHogares:  1_200,  hogCensados:  28_200, hogPromPersonas: 3.49, hogPctUnipersonal: 15.2, hogPctConNinos: 62.4, hogPctAdultosMayores: 31.8 },
-    { departamento:'AYACUCHO', provincia:'LA MAR',               superficie:  4_394, poblacion:  74_426, hombres:  37_219, mujeres:  37_207, razon:100.0, densidad:  16.9, pctUrbano: 32.1, edadMediana:23.4, p65:   5_656, pct65: 7.6, indiceEnvejecimiento: 27.4,  vivCensadas:  22_500, vivOcupadas:  18_800, vivDesocupadas:  3_700, vivCon1Hogar:  17_900, vivCon2masHogares:    900,  hogCensados:  19_300, hogPromPersonas: 3.86, hogPctUnipersonal: 12.4, hogPctConNinos: 66.8, hogPctAdultosMayores: 28.6 },
-    { departamento:'AYACUCHO', provincia:'LUCANAS',              superficie: 14_494, poblacion:  63_458, hombres:  31_546, mujeres:  31_912, razon: 98.9, densidad:   4.4, pctUrbano: 52.7, edadMediana:28.5, p65:   6_853, pct65:10.8, indiceEnvejecimiento: 48.2,  vivCensadas:  24_000, vivOcupadas:  18_900, vivDesocupadas:  5_100, vivCon1Hogar:  18_050, vivCon2masHogares:    850,  hogCensados:  19_400, hogPromPersonas: 3.27, hogPctUnipersonal: 16.8, hogPctConNinos: 60.2, hogPctAdultosMayores: 35.4 },
-    { departamento:'AYACUCHO', provincia:'PARINACOCHAS',         superficie:  5_968, poblacion:  23_215, hombres:  11_589, mujeres:  11_626, razon: 99.7, densidad:   3.9, pctUrbano: 49.8, edadMediana:27.9, p65:   2_577, pct65:11.1, indiceEnvejecimiento: 49.4,  vivCensadas:   8_600, vivOcupadas:   7_000, vivDesocupadas:  1_600, vivCon1Hogar:   6_700, vivCon2masHogares:    300,  hogCensados:   7_200, hogPromPersonas: 3.22, hogPctUnipersonal: 16.4, hogPctConNinos: 61.4, hogPctAdultosMayores: 34.8 },
-    { departamento:'AYACUCHO', provincia:'PAUCAR DEL SARA SARA', superficie:  2_069, poblacion:  11_427, hombres:   5_657, mujeres:   5_770, razon: 98.0, densidad:   5.5, pctUrbano: 43.1, edadMediana:30.2, p65:   1_371, pct65:12.0, indiceEnvejecimiento: 55.8,  vivCensadas:   4_400, vivOcupadas:   3_400, vivDesocupadas:  1_000, vivCon1Hogar:   3_260, vivCon2masHogares:    140,  hogCensados:   3_500, hogPromPersonas: 3.26, hogPctUnipersonal: 17.8, hogPctConNinos: 59.4, hogPctAdultosMayores: 36.8 },
-    { departamento:'AYACUCHO', provincia:'SUCRE',                superficie:  1_785, poblacion:  14_289, hombres:   7_003, mujeres:   7_286, razon: 96.1, densidad:   8.0, pctUrbano: 28.9, edadMediana:28.8, p65:   1_672, pct65:11.7, indiceEnvejecimiento: 53.2,  vivCensadas:   5_200, vivOcupadas:   4_100, vivDesocupadas:  1_100, vivCon1Hogar:   3_930, vivCon2masHogares:    170,  hogCensados:   4_200, hogPromPersonas: 3.40, hogPctUnipersonal: 15.6, hogPctConNinos: 62.8, hogPctAdultosMayores: 33.2 },
-    { departamento:'AYACUCHO', provincia:'VICTOR FAJARDO',       superficie:  2_161, poblacion:  19_987, hombres:   9_778, mujeres:  10_209, razon: 95.8, densidad:   9.2, pctUrbano: 35.4, edadMediana:27.1, p65:   2_059, pct65:10.3, indiceEnvejecimiento: 44.6,  vivCensadas:   7_000, vivOcupadas:   5_700, vivDesocupadas:  1_300, vivCon1Hogar:   5_470, vivCon2masHogares:    230,  hogCensados:   5_850, hogPromPersonas: 3.42, hogPctUnipersonal: 14.8, hogPctConNinos: 63.6, hogPctAdultosMayores: 32.4 },
-    { departamento:'AYACUCHO', provincia:'VILCAS HUAMÁN',        superficie:  1_307, poblacion:  20_686, hombres:  10_859, mujeres:   9_827, razon:110.5, densidad:  15.8, pctUrbano: 30.2, edadMediana:24.7, p65:   1_882, pct65: 9.1, indiceEnvejecimiento: 38.6,  vivCensadas:   7_200, vivOcupadas:   5_900, vivDesocupadas:  1_300, vivCon1Hogar:   5_640, vivCon2masHogares:    260,  hogCensados:   6_050, hogPromPersonas: 3.42, hogPctUnipersonal: 13.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 31.8 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA',             superficie:  2_981, poblacion: 302_206, hombres: 144_872, mujeres: 157_334, razon: 92.1, densidad: 101.4, pctUrbano: 83.1, edadMediana:27.2, p65:  23_572, pct65: 7.8, indiceEnvejecimiento: 36.4,  vivCensadas:  98_000, vivOcupadas:  87_000, vivOcupadasAusentes:  3_500, vivDesocupadas: 11_000, vivCon1Hogar:  83_500, vivCon2masHogares:  3_500,  hogCensados:  89_800, hogPromPersonas: 3.37, hogPctUnipersonal: 17.4, hogPctConNinos: 56.8, hogPctAdultosMayores: 36.2 },
+    { departamento:'AYACUCHO', provincia:'CANGALLO',             superficie:  1_916, poblacion:  33_598, hombres:  16_231, mujeres:  17_367, razon: 93.5, densidad:  17.5, pctUrbano: 26.4, edadMediana:22.8, p65:   3_427, pct65:10.2, indiceEnvejecimiento: 42.8,  vivCensadas:  12_500, vivOcupadas:  10_200, vivOcupadasAusentes:    400, vivDesocupadas:  2_300, vivCon1Hogar:   9_750, vivCon2masHogares:    450,  hogCensados:  10_400, hogPromPersonas: 3.23, hogPctUnipersonal: 13.8, hogPctConNinos: 63.4, hogPctAdultosMayores: 32.6 },
+    { departamento:'AYACUCHO', provincia:'HUANCA SANCOS',        superficie:  2_862, poblacion:  11_580, hombres:   5_640, mujeres:   5_940, razon: 94.9, densidad:   4.0, pctUrbano: 41.3, edadMediana:24.1, p65:   1_321, pct65:11.4, indiceEnvejecimiento: 50.6,  vivCensadas:   4_200, vivOcupadas:   3_400, vivOcupadasAusentes:    140, vivDesocupadas:    800, vivCon1Hogar:   3_260, vivCon2masHogares:    140,  hogCensados:   3_480, hogPromPersonas: 3.33, hogPctUnipersonal: 14.2, hogPctConNinos: 61.8, hogPctAdultosMayores: 33.4 },
+    { departamento:'AYACUCHO', provincia:'HUANTA',               superficie:  3_878, poblacion:  98_341, hombres:  48_562, mujeres:  49_779, razon: 97.6, densidad:  25.4, pctUrbano: 53.2, edadMediana:25.6, p65:   7_966, pct65: 8.1, indiceEnvejecimiento: 31.2,  vivCensadas:  32_000, vivOcupadas:  27_500, vivOcupadasAusentes:  1_100, vivDesocupadas:  4_500, vivCon1Hogar:  26_300, vivCon2masHogares:  1_200,  hogCensados:  28_200, hogPromPersonas: 3.49, hogPctUnipersonal: 15.2, hogPctConNinos: 62.4, hogPctAdultosMayores: 31.8 },
+    { departamento:'AYACUCHO', provincia:'LA MAR',               superficie:  4_394, poblacion:  74_426, hombres:  37_219, mujeres:  37_207, razon:100.0, densidad:  16.9, pctUrbano: 32.1, edadMediana:23.4, p65:   5_656, pct65: 7.6, indiceEnvejecimiento: 27.4,  vivCensadas:  22_500, vivOcupadas:  18_800, vivOcupadasAusentes:    750, vivDesocupadas:  3_700, vivCon1Hogar:  17_900, vivCon2masHogares:    900,  hogCensados:  19_300, hogPromPersonas: 3.86, hogPctUnipersonal: 12.4, hogPctConNinos: 66.8, hogPctAdultosMayores: 28.6 },
+    { departamento:'AYACUCHO', provincia:'LUCANAS',              superficie: 14_494, poblacion:  63_458, hombres:  31_546, mujeres:  31_912, razon: 98.9, densidad:   4.4, pctUrbano: 52.7, edadMediana:28.5, p65:   6_853, pct65:10.8, indiceEnvejecimiento: 48.2,  vivCensadas:  24_000, vivOcupadas:  18_900, vivOcupadasAusentes:    750, vivDesocupadas:  5_100, vivCon1Hogar:  18_050, vivCon2masHogares:    850,  hogCensados:  19_400, hogPromPersonas: 3.27, hogPctUnipersonal: 16.8, hogPctConNinos: 60.2, hogPctAdultosMayores: 35.4 },
+    { departamento:'AYACUCHO', provincia:'PARINACOCHAS',         superficie:  5_968, poblacion:  23_215, hombres:  11_589, mujeres:  11_626, razon: 99.7, densidad:   3.9, pctUrbano: 49.8, edadMediana:27.9, p65:   2_577, pct65:11.1, indiceEnvejecimiento: 49.4,  vivCensadas:   8_600, vivOcupadas:   7_000, vivOcupadasAusentes:    280, vivDesocupadas:  1_600, vivCon1Hogar:   6_700, vivCon2masHogares:    300,  hogCensados:   7_200, hogPromPersonas: 3.22, hogPctUnipersonal: 16.4, hogPctConNinos: 61.4, hogPctAdultosMayores: 34.8 },
+    { departamento:'AYACUCHO', provincia:'PAUCAR DEL SARA SARA', superficie:  2_069, poblacion:  11_427, hombres:   5_657, mujeres:   5_770, razon: 98.0, densidad:   5.5, pctUrbano: 43.1, edadMediana:30.2, p65:   1_371, pct65:12.0, indiceEnvejecimiento: 55.8,  vivCensadas:   4_400, vivOcupadas:   3_400, vivOcupadasAusentes:    140, vivDesocupadas:  1_000, vivCon1Hogar:   3_260, vivCon2masHogares:    140,  hogCensados:   3_500, hogPromPersonas: 3.26, hogPctUnipersonal: 17.8, hogPctConNinos: 59.4, hogPctAdultosMayores: 36.8 },
+    { departamento:'AYACUCHO', provincia:'SUCRE',                superficie:  1_785, poblacion:  14_289, hombres:   7_003, mujeres:   7_286, razon: 96.1, densidad:   8.0, pctUrbano: 28.9, edadMediana:28.8, p65:   1_672, pct65:11.7, indiceEnvejecimiento: 53.2,  vivCensadas:   5_200, vivOcupadas:   4_100, vivOcupadasAusentes:    160, vivDesocupadas:  1_100, vivCon1Hogar:   3_930, vivCon2masHogares:    170,  hogCensados:   4_200, hogPromPersonas: 3.40, hogPctUnipersonal: 15.6, hogPctConNinos: 62.8, hogPctAdultosMayores: 33.2 },
+    { departamento:'AYACUCHO', provincia:'VICTOR FAJARDO',       superficie:  2_161, poblacion:  19_987, hombres:   9_778, mujeres:  10_209, razon: 95.8, densidad:   9.2, pctUrbano: 35.4, edadMediana:27.1, p65:   2_059, pct65:10.3, indiceEnvejecimiento: 44.6,  vivCensadas:   7_000, vivOcupadas:   5_700, vivOcupadasAusentes:    230, vivDesocupadas:  1_300, vivCon1Hogar:   5_470, vivCon2masHogares:    230,  hogCensados:   5_850, hogPromPersonas: 3.42, hogPctUnipersonal: 14.8, hogPctConNinos: 63.6, hogPctAdultosMayores: 32.4 },
+    { departamento:'AYACUCHO', provincia:'VILCAS HUAMÁN',        superficie:  1_307, poblacion:  20_686, hombres:  10_859, mujeres:   9_827, razon:110.5, densidad:  15.8, pctUrbano: 30.2, edadMediana:24.7, p65:   1_882, pct65: 9.1, indiceEnvejecimiento: 38.6,  vivCensadas:   7_200, vivOcupadas:   5_900, vivOcupadasAusentes:    240, vivDesocupadas:  1_300, vivCon1Hogar:   5_640, vivCon2masHogares:    260,  hogCensados:   6_050, hogPromPersonas: 3.42, hogPctUnipersonal: 13.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 31.8 },
 ];
 
 // ── DATA — Distrital (Huamanga) ──────────────────────────────────────────────
 const MOCK_DIST: FilaDist[] = [
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'AYACUCHO',                          superficie:   18.9, poblacion:105_418, hombres: 49_312, mujeres: 56_106, razon: 87.9, densidad:5_579.8, pctUrbano:100.0, edadMediana:29.8, p65:  7_485, pct65: 7.1, indiceEnvejecimiento: 35.6,  vivCensadas:  36_000, vivOcupadas:  32_800, vivDesocupadas:  3_200, vivCon1Hogar:  31_650, vivCon2masHogares:  1_150,  hogCensados:  33_900, hogPromPersonas: 3.11, hogPctUnipersonal: 21.2, hogPctConNinos: 52.4, hogPctAdultosMayores: 38.8 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ACOCRO',                            superficie:  469.5, poblacion:  9_842, hombres:  4_843, mujeres:  4_999, razon: 96.9, densidad:   21.0, pctUrbano: 20.3, edadMediana:23.5, p65:    925, pct65: 9.4, indiceEnvejecimiento: 42.2,  vivCensadas:   3_200, vivOcupadas:   2_700, vivDesocupadas:    500, vivCon1Hogar:   2_590, vivCon2masHogares:    110,  hogCensados:   2_760, hogPromPersonas: 3.57, hogPctUnipersonal: 13.4, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.2 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ACOS VINCHOS',                      superficie:  298.6, poblacion:  4_211, hombres:  2_050, mujeres:  2_161, razon: 94.9, densidad:   14.1, pctUrbano: 15.8, edadMediana:22.1, p65:    455, pct65:10.8, indiceEnvejecimiento: 48.4,  vivCensadas:   1_400, vivOcupadas:   1_150, vivDesocupadas:    250, vivCon1Hogar:   1_100, vivCon2masHogares:     50,  hogCensados:   1_180, hogPromPersonas: 3.57, hogPctUnipersonal: 13.8, hogPctConNinos: 64.2, hogPctAdultosMayores: 29.8 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'CARMEN ALTO',                       superficie:   22.5, poblacion: 38_621, hombres: 18_844, mujeres: 19_777, razon: 95.3, densidad:1_716.5, pctUrbano: 98.4, edadMediana:28.4, p65:  2_279, pct65: 5.9, indiceEnvejecimiento: 26.8,  vivCensadas:  12_800, vivOcupadas:  11_700, vivDesocupadas:  1_100, vivCon1Hogar:  11_280, vivCon2masHogares:    420,  hogCensados:  12_000, hogPromPersonas: 3.22, hogPctUnipersonal: 19.4, hogPctConNinos: 54.8, hogPctAdultosMayores: 37.2 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'CHIARA',                            superficie:  316.4, poblacion:  5_803, hombres:  2_834, mujeres:  2_969, razon: 95.5, densidad:   18.3, pctUrbano: 22.6, edadMediana:24.2, p65:    563, pct65: 9.7, indiceEnvejecimiento: 43.8,  vivCensadas:   1_900, vivOcupadas:   1_580, vivDesocupadas:    320, vivCon1Hogar:   1_510, vivCon2masHogares:     70,  hogCensados:   1_620, hogPromPersonas: 3.58, hogPctUnipersonal: 13.2, hogPctConNinos: 65.4, hogPctAdultosMayores: 30.8 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'OCROS',                             superficie:  414.1, poblacion:  4_982, hombres:  2_412, mujeres:  2_570, razon: 93.8, densidad:   12.0, pctUrbano: 19.4, edadMediana:23.8, p65:    558, pct65:11.2, indiceEnvejecimiento: 50.8,  vivCensadas:   1_700, vivOcupadas:   1_380, vivDesocupadas:    320, vivCon1Hogar:   1_320, vivCon2masHogares:     60,  hogCensados:   1_420, hogPromPersonas: 3.51, hogPctUnipersonal: 14.4, hogPctConNinos: 63.6, hogPctAdultosMayores: 31.4 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'PACAYCASA',                         superficie:   86.2, poblacion:  3_891, hombres:  1_897, mujeres:  1_994, razon: 95.1, densidad:   45.1, pctUrbano: 30.2, edadMediana:24.0, p65:    393, pct65:10.1, indiceEnvejecimiento: 45.2,  vivCensadas:   1_250, vivOcupadas:   1_060, vivDesocupadas:    190, vivCon1Hogar:   1_015, vivCon2masHogares:     45,  hogCensados:   1_090, hogPromPersonas: 3.57, hogPctUnipersonal: 14.2, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.8 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'QUINUA',                            superficie:  211.5, poblacion:  5_647, hombres:  2_741, mujeres:  2_906, razon: 94.3, densidad:   26.7, pctUrbano: 25.8, edadMediana:23.9, p65:    593, pct65:10.5, indiceEnvejecimiento: 47.2,  vivCensadas:   1_850, vivOcupadas:   1_540, vivDesocupadas:    310, vivCon1Hogar:   1_475, vivCon2masHogares:     65,  hogCensados:   1_580, hogPromPersonas: 3.57, hogPctUnipersonal: 13.8, hogPctConNinos: 64.4, hogPctAdultosMayores: 30.6 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SAN JOSE DE TICLLAS',               superficie:  138.7, poblacion:  2_318, hombres:  1_120, mujeres:  1_198, razon: 93.5, densidad:   16.7, pctUrbano: 14.9, edadMediana:22.6, p65:    276, pct65:11.9, indiceEnvejecimiento: 53.6,  vivCensadas:     780, vivOcupadas:     640, vivDesocupadas:    140, vivCon1Hogar:     612, vivCon2masHogares:     28,  hogCensados:     656, hogPromPersonas: 3.53, hogPctUnipersonal: 13.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 30.2 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SAN JUAN BAUTISTA',                 superficie:   31.6, poblacion: 68_344, hombres: 33_192, mujeres: 35_152, razon: 94.4, densidad:2_162.8, pctUrbano: 99.1, edadMediana:29.2, p65:  4_306, pct65: 6.3, indiceEnvejecimiento: 29.4,  vivCensadas:  21_800, vivOcupadas:  20_100, vivDesocupadas:  1_700, vivCon1Hogar:  19_370, vivCon2masHogares:    730,  hogCensados:  20_700, hogPromPersonas: 3.30, hogPctUnipersonal: 20.4, hogPctConNinos: 53.6, hogPctAdultosMayores: 38.4 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SANTIAGO DE PISCHA',                superficie:  198.3, poblacion:  1_492, hombres:    730, mujeres:    762, razon: 95.8, densidad:    7.5, pctUrbano: 12.4, edadMediana:22.0, p65:    181, pct65:12.1, indiceEnvejecimiento: 54.6,  vivCensadas:     520, vivOcupadas:     420, vivDesocupadas:    100, vivCon1Hogar:     402, vivCon2masHogares:     18,  hogCensados:     432, hogPromPersonas: 3.46, hogPctUnipersonal: 13.4, hogPctConNinos: 65.2, hogPctAdultosMayores: 30.4 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SOCOS',                             superficie:  276.5, poblacion:  4_920, hombres:  2_393, mujeres:  2_527, razon: 94.7, densidad:   17.8, pctUrbano: 18.2, edadMediana:23.2, p65:    512, pct65:10.4, indiceEnvejecimiento: 46.8,  vivCensadas:   1_640, vivOcupadas:   1_360, vivDesocupadas:    280, vivCon1Hogar:   1_302, vivCon2masHogares:     58,  hogCensados:   1_390, hogPromPersonas: 3.54, hogPctUnipersonal: 13.8, hogPctConNinos: 64.6, hogPctAdultosMayores: 30.4 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'TAMBILLO',                          superficie:  196.8, poblacion:  4_371, hombres:  2_120, mujeres:  2_251, razon: 94.2, densidad:   22.2, pctUrbano: 24.1, edadMediana:23.6, p65:    428, pct65: 9.8, indiceEnvejecimiento: 44.2,  vivCensadas:   1_450, vivOcupadas:   1_200, vivDesocupadas:    250, vivCon1Hogar:   1_148, vivCon2masHogares:     52,  hogCensados:   1_230, hogPromPersonas: 3.55, hogPctUnipersonal: 14.0, hogPctConNinos: 64.2, hogPctAdultosMayores: 30.6 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'VINCHOS',                           superficie:  500.2, poblacion: 11_206, hombres:  5_478, mujeres:  5_728, razon: 95.6, densidad:   22.4, pctUrbano: 17.5, edadMediana:22.9, p65:  1_154, pct65:10.3, indiceEnvejecimiento: 46.2,  vivCensadas:   3_600, vivOcupadas:   2_960, vivDesocupadas:    640, vivCon1Hogar:   2_830, vivCon2masHogares:    130,  hogCensados:   3_030, hogPromPersonas: 3.70, hogPctUnipersonal: 12.8, hogPctConNinos: 66.4, hogPctAdultosMayores: 29.2 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'JESUS NAZARENO',                    superficie:    9.8, poblacion: 25_087, hombres: 12_150, mujeres: 12_937, razon: 93.9, densidad:2_560.9, pctUrbano:100.0, edadMediana:28.9, p65:  1_806, pct65: 7.2, indiceEnvejecimiento: 33.4,  vivCensadas:   8_200, vivOcupadas:   7_550, vivDesocupadas:    650, vivCon1Hogar:   7_270, vivCon2masHogares:    280,  hogCensados:   7_770, hogPromPersonas: 3.23, hogPctUnipersonal: 20.8, hogPctConNinos: 53.2, hogPctAdultosMayores: 38.6 },
-    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ANDRES AVELINO CACERES DORREGARAY', superficie:   11.2, poblacion:  6_050, hombres:  3_011, mujeres:  3_039, razon: 99.1, densidad:  540.2, pctUrbano: 95.6, edadMediana:27.5, p65:    520, pct65: 8.6, indiceEnvejecimiento: 38.8,  vivCensadas:   1_980, vivOcupadas:   1_820, vivDesocupadas:    160, vivCon1Hogar:   1_752, vivCon2masHogares:     68,  hogCensados:   1_870, hogPromPersonas: 3.24, hogPctUnipersonal: 19.6, hogPctConNinos: 54.8, hogPctAdultosMayores: 37.4 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'AYACUCHO',                          superficie:   18.9, poblacion:105_418, hombres: 49_312, mujeres: 56_106, razon: 87.9, densidad:5_579.8, pctUrbano:100.0, edadMediana:29.8, p65:  7_485, pct65: 7.1, indiceEnvejecimiento: 35.6,  vivCensadas:  36_000, vivOcupadas:  32_800, vivOcupadasAusentes:  1_300, vivDesocupadas:  3_200, vivCon1Hogar:  31_650, vivCon2masHogares:  1_150,  hogCensados:  33_900, hogPromPersonas: 3.11, hogPctUnipersonal: 21.2, hogPctConNinos: 52.4, hogPctAdultosMayores: 38.8 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ACOCRO',                            superficie:  469.5, poblacion:  9_842, hombres:  4_843, mujeres:  4_999, razon: 96.9, densidad:   21.0, pctUrbano: 20.3, edadMediana:23.5, p65:    925, pct65: 9.4, indiceEnvejecimiento: 42.2,  vivCensadas:   3_200, vivOcupadas:   2_700, vivOcupadasAusentes:    110, vivDesocupadas:    500, vivCon1Hogar:   2_590, vivCon2masHogares:    110,  hogCensados:   2_760, hogPromPersonas: 3.57, hogPctUnipersonal: 13.4, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.2 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ACOS VINCHOS',                      superficie:  298.6, poblacion:  4_211, hombres:  2_050, mujeres:  2_161, razon: 94.9, densidad:   14.1, pctUrbano: 15.8, edadMediana:22.1, p65:    455, pct65:10.8, indiceEnvejecimiento: 48.4,  vivCensadas:   1_400, vivOcupadas:   1_150, vivOcupadasAusentes:     50, vivDesocupadas:    250, vivCon1Hogar:   1_100, vivCon2masHogares:     50,  hogCensados:   1_180, hogPromPersonas: 3.57, hogPctUnipersonal: 13.8, hogPctConNinos: 64.2, hogPctAdultosMayores: 29.8 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'CARMEN ALTO',                       superficie:   22.5, poblacion: 38_621, hombres: 18_844, mujeres: 19_777, razon: 95.3, densidad:1_716.5, pctUrbano: 98.4, edadMediana:28.4, p65:  2_279, pct65: 5.9, indiceEnvejecimiento: 26.8,  vivCensadas:  12_800, vivOcupadas:  11_700, vivOcupadasAusentes:    470, vivDesocupadas:  1_100, vivCon1Hogar:  11_280, vivCon2masHogares:    420,  hogCensados:  12_000, hogPromPersonas: 3.22, hogPctUnipersonal: 19.4, hogPctConNinos: 54.8, hogPctAdultosMayores: 37.2 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'CHIARA',                            superficie:  316.4, poblacion:  5_803, hombres:  2_834, mujeres:  2_969, razon: 95.5, densidad:   18.3, pctUrbano: 22.6, edadMediana:24.2, p65:    563, pct65: 9.7, indiceEnvejecimiento: 43.8,  vivCensadas:   1_900, vivOcupadas:   1_580, vivOcupadasAusentes:     65, vivDesocupadas:    320, vivCon1Hogar:   1_510, vivCon2masHogares:     70,  hogCensados:   1_620, hogPromPersonas: 3.58, hogPctUnipersonal: 13.2, hogPctConNinos: 65.4, hogPctAdultosMayores: 30.8 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'OCROS',                             superficie:  414.1, poblacion:  4_982, hombres:  2_412, mujeres:  2_570, razon: 93.8, densidad:   12.0, pctUrbano: 19.4, edadMediana:23.8, p65:    558, pct65:11.2, indiceEnvejecimiento: 50.8,  vivCensadas:   1_700, vivOcupadas:   1_380, vivOcupadasAusentes:     55, vivDesocupadas:    320, vivCon1Hogar:   1_320, vivCon2masHogares:     60,  hogCensados:   1_420, hogPromPersonas: 3.51, hogPctUnipersonal: 14.4, hogPctConNinos: 63.6, hogPctAdultosMayores: 31.4 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'PACAYCASA',                         superficie:   86.2, poblacion:  3_891, hombres:  1_897, mujeres:  1_994, razon: 95.1, densidad:   45.1, pctUrbano: 30.2, edadMediana:24.0, p65:    393, pct65:10.1, indiceEnvejecimiento: 45.2,  vivCensadas:   1_250, vivOcupadas:   1_060, vivOcupadasAusentes:     42, vivDesocupadas:    190, vivCon1Hogar:   1_015, vivCon2masHogares:     45,  hogCensados:   1_090, hogPromPersonas: 3.57, hogPctUnipersonal: 14.2, hogPctConNinos: 63.8, hogPctAdultosMayores: 30.8 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'QUINUA',                            superficie:  211.5, poblacion:  5_647, hombres:  2_741, mujeres:  2_906, razon: 94.3, densidad:   26.7, pctUrbano: 25.8, edadMediana:23.9, p65:    593, pct65:10.5, indiceEnvejecimiento: 47.2,  vivCensadas:   1_850, vivOcupadas:   1_540, vivOcupadasAusentes:     62, vivDesocupadas:    310, vivCon1Hogar:   1_475, vivCon2masHogares:     65,  hogCensados:   1_580, hogPromPersonas: 3.57, hogPctUnipersonal: 13.8, hogPctConNinos: 64.4, hogPctAdultosMayores: 30.6 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SAN JOSE DE TICLLAS',               superficie:  138.7, poblacion:  2_318, hombres:  1_120, mujeres:  1_198, razon: 93.5, densidad:   16.7, pctUrbano: 14.9, edadMediana:22.6, p65:    276, pct65:11.9, indiceEnvejecimiento: 53.6,  vivCensadas:     780, vivOcupadas:     640, vivOcupadasAusentes:     26, vivDesocupadas:    140, vivCon1Hogar:     612, vivCon2masHogares:     28,  hogCensados:     656, hogPromPersonas: 3.53, hogPctUnipersonal: 13.6, hogPctConNinos: 64.8, hogPctAdultosMayores: 30.2 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SAN JUAN BAUTISTA',                 superficie:   31.6, poblacion: 68_344, hombres: 33_192, mujeres: 35_152, razon: 94.4, densidad:2_162.8, pctUrbano: 99.1, edadMediana:29.2, p65:  4_306, pct65: 6.3, indiceEnvejecimiento: 29.4,  vivCensadas:  21_800, vivOcupadas:  20_100, vivOcupadasAusentes:    800, vivDesocupadas:  1_700, vivCon1Hogar:  19_370, vivCon2masHogares:    730,  hogCensados:  20_700, hogPromPersonas: 3.30, hogPctUnipersonal: 20.4, hogPctConNinos: 53.6, hogPctAdultosMayores: 38.4 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SANTIAGO DE PISCHA',                superficie:  198.3, poblacion:  1_492, hombres:    730, mujeres:    762, razon: 95.8, densidad:    7.5, pctUrbano: 12.4, edadMediana:22.0, p65:    181, pct65:12.1, indiceEnvejecimiento: 54.6,  vivCensadas:     520, vivOcupadas:     420, vivOcupadasAusentes:     17, vivDesocupadas:    100, vivCon1Hogar:     402, vivCon2masHogares:     18,  hogCensados:     432, hogPromPersonas: 3.46, hogPctUnipersonal: 13.4, hogPctConNinos: 65.2, hogPctAdultosMayores: 30.4 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'SOCOS',                             superficie:  276.5, poblacion:  4_920, hombres:  2_393, mujeres:  2_527, razon: 94.7, densidad:   17.8, pctUrbano: 18.2, edadMediana:23.2, p65:    512, pct65:10.4, indiceEnvejecimiento: 46.8,  vivCensadas:   1_640, vivOcupadas:   1_360, vivOcupadasAusentes:     54, vivDesocupadas:    280, vivCon1Hogar:   1_302, vivCon2masHogares:     58,  hogCensados:   1_390, hogPromPersonas: 3.54, hogPctUnipersonal: 13.8, hogPctConNinos: 64.6, hogPctAdultosMayores: 30.4 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'TAMBILLO',                          superficie:  196.8, poblacion:  4_371, hombres:  2_120, mujeres:  2_251, razon: 94.2, densidad:   22.2, pctUrbano: 24.1, edadMediana:23.6, p65:    428, pct65: 9.8, indiceEnvejecimiento: 44.2,  vivCensadas:   1_450, vivOcupadas:   1_200, vivOcupadasAusentes:     48, vivDesocupadas:    250, vivCon1Hogar:   1_148, vivCon2masHogares:     52,  hogCensados:   1_230, hogPromPersonas: 3.55, hogPctUnipersonal: 14.0, hogPctConNinos: 64.2, hogPctAdultosMayores: 30.6 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'VINCHOS',                           superficie:  500.2, poblacion: 11_206, hombres:  5_478, mujeres:  5_728, razon: 95.6, densidad:   22.4, pctUrbano: 17.5, edadMediana:22.9, p65:  1_154, pct65:10.3, indiceEnvejecimiento: 46.2,  vivCensadas:   3_600, vivOcupadas:   2_960, vivOcupadasAusentes:    118, vivDesocupadas:    640, vivCon1Hogar:   2_830, vivCon2masHogares:    130,  hogCensados:   3_030, hogPromPersonas: 3.70, hogPctUnipersonal: 12.8, hogPctConNinos: 66.4, hogPctAdultosMayores: 29.2 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'JESUS NAZARENO',                    superficie:    9.8, poblacion: 25_087, hombres: 12_150, mujeres: 12_937, razon: 93.9, densidad:2_560.9, pctUrbano:100.0, edadMediana:28.9, p65:  1_806, pct65: 7.2, indiceEnvejecimiento: 33.4,  vivCensadas:   8_200, vivOcupadas:   7_550, vivOcupadasAusentes:    300, vivDesocupadas:    650, vivCon1Hogar:   7_270, vivCon2masHogares:    280,  hogCensados:   7_770, hogPromPersonas: 3.23, hogPctUnipersonal: 20.8, hogPctConNinos: 53.2, hogPctAdultosMayores: 38.6 },
+    { departamento:'AYACUCHO', provincia:'HUAMANGA', distrito:'ANDRES AVELINO CACERES DORREGARAY', superficie:   11.2, poblacion:  6_050, hombres:  3_011, mujeres:  3_039, razon: 99.1, densidad:  540.2, pctUrbano: 95.6, edadMediana:27.5, p65:    520, pct65: 8.6, indiceEnvejecimiento: 38.8,  vivCensadas:   1_980, vivOcupadas:   1_820, vivOcupadasAusentes:     73, vivDesocupadas:    160, vivCon1Hogar:   1_752, vivCon2masHogares:     68,  hogCensados:   1_870, hogPromPersonas: 3.24, hogPctUnipersonal: 19.6, hogPctConNinos: 54.8, hogPctAdultosMayores: 37.4 },
 ];
 
 const DEPS_LIST    = MOCK_DEP.map(r => r.departamento);
 const PROVS_LIST   = MOCK_PROV.map(r => r.provincia);
 const DISTS_LIST   = MOCK_DIST.map(r => r.distrito);
 const REG_NAT_LIST = ['Costa', 'Sierra', 'Selva'];
+
+// ── Macro-regiones naturales: mapeo departamento → región ───────────────────
+const REGION_NATURAL_POR_DEPARTAMENTO: Record<string, string> = {
+    'AMAZONAS':                 'Selva',
+    'ANCASH':                   'Costa',
+    'APURIMAC':                 'Sierra',
+    'AREQUIPA':                 'Costa',
+    'AYACUCHO':                 'Sierra',
+    'CAJAMARCA':                'Sierra',
+    'PROV. CONST. DEL CALLAO':  'Costa',
+    'CUSCO':                    'Sierra',
+    'HUANCAVELICA':             'Sierra',
+    'HUANUCO':                  'Sierra',
+    'ICA':                      'Costa',
+    'JUNIN':                    'Sierra',
+    'LA LIBERTAD':              'Costa',
+    'LAMBAYEQUE':               'Costa',
+    'LIMA METROPOLITANA 1/':    'Costa',
+    'REGION LIMA 2/':           'Costa',
+    'LORETO':                   'Selva',
+    'MADRE DE DIOS':            'Selva',
+    'MOQUEGUA':                 'Costa',
+    'PASCO':                    'Sierra',
+    'PIURA':                    'Costa',
+    'PUNO':                     'Sierra',
+    'SAN MARTIN':               'Selva',
+    'TACNA':                    'Costa',
+    'TUMBES':                   'Costa',
+    'UCAYALI':                  'Selva',
+};
+
+/** Agrega un conjunto de filas departamentales en una sola fila sintética (Costa/Sierra/Selva). */
+function agregarFilaRegionNatural(rows: FilaDep[], nombre: string): FilaDep {
+    const poblacion = rows.reduce((a, r) => a + r.poblacion, 0);
+    const hombres   = rows.reduce((a, r) => a + r.hombres, 0);
+    const mujeres   = rows.reduce((a, r) => a + r.mujeres, 0);
+    const superficie = rows.reduce((a, r) => a + r.superficie, 0);
+    const p65        = rows.reduce((a, r) => a + r.p65, 0);
+
+    const vivCensadas         = rows.reduce((a, r) => a + r.vivCensadas, 0);
+    const vivOcupadas         = rows.reduce((a, r) => a + r.vivOcupadas, 0);
+    const vivOcupadasAusentes = rows.reduce((a, r) => a + r.vivOcupadasAusentes, 0);
+    const vivDesocupadas      = rows.reduce((a, r) => a + r.vivDesocupadas, 0);
+    const vivCon1Hogar        = rows.reduce((a, r) => a + r.vivCon1Hogar, 0);
+    const vivCon2masHogares   = rows.reduce((a, r) => a + r.vivCon2masHogares, 0);
+    const hogCensados         = rows.reduce((a, r) => a + r.hogCensados, 0);
+
+    const razon       = mujeres ? +(hombres / mujeres * 100).toFixed(1) : 0;
+    const densidad    = superficie ? +(poblacion / superficie).toFixed(1) : 0;
+    const pctUrbano   = poblacion ? +(rows.reduce((a, r) => a + r.pctUrbano * r.poblacion, 0) / poblacion).toFixed(1) : 0;
+    const edadMediana = poblacion ? +(rows.reduce((a, r) => a + r.edadMediana * r.poblacion, 0) / poblacion).toFixed(1) : 0;
+    const pct65       = poblacion ? +(p65 / poblacion * 100).toFixed(1) : 0;
+    const indiceEnvejecimiento = poblacion
+        ? +(rows.reduce((a, r) => a + r.indiceEnvejecimiento * r.poblacion, 0) / poblacion).toFixed(1) : 0;
+
+    const hogPromPersonas = hogCensados ? +(poblacion / hogCensados).toFixed(2) : 0;
+    const hogPctUnipersonal = hogCensados
+        ? +(rows.reduce((a, r) => a + r.hogPctUnipersonal * r.hogCensados, 0) / hogCensados).toFixed(1) : 0;
+    const hogPctConNinos = hogCensados
+        ? +(rows.reduce((a, r) => a + r.hogPctConNinos * r.hogCensados, 0) / hogCensados).toFixed(1) : 0;
+    const hogPctAdultosMayores = hogCensados
+        ? +(rows.reduce((a, r) => a + r.hogPctAdultosMayores * r.hogCensados, 0) / hogCensados).toFixed(1) : 0;
+
+    return {
+        departamento: nombre,
+        superficie, poblacion, hombres, mujeres, razon, densidad, pctUrbano, edadMediana,
+        p65, pct65, indiceEnvejecimiento,
+        vivCensadas, vivOcupadas, vivOcupadasAusentes, vivDesocupadas, vivCon1Hogar, vivCon2masHogares,
+        hogCensados, hogPromPersonas, hogPctUnipersonal, hogPctConNinos, hogPctAdultosMayores,
+    };
+}
 
 function allChecked(labels: string[]): DropdownItem[] {
     return labels.map(label => ({ label, checked: true }));
@@ -436,13 +508,15 @@ function allChecked(labels: string[]): DropdownItem[] {
 
             <!-- ★ Región Natural (solo cuando nivel = Región Natural) -->
             @if (nivelActivo() === 'Región Natural') {
-              <div class="relative">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[9px] font-bold text-gray-400  tracking-widest px-1">Región</span>
+                <div class="relative">
                 <button (click)="toggleDropdown('regnat'); $event.stopPropagation()"
                   class="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl
                          text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all min-w-[140px] justify-between">
                   <span class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#33b3a9"></span>
-                    <span class="text-gray-400 mr-0.5">Región:</span>{{ regNatLabel() }}
+                    {{ regNatLabel() }}
                   </span>
                   <app-hero-icon [name]="'chevron-down'" class="w-3.5 h-3.5 text-gray-400 transition-transform"
                     [class.rotate-180]="openDropdown() === 'regnat'"></app-hero-icon>
@@ -454,7 +528,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     <label class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 border-b border-gray-100 cursor-pointer hover:bg-teal-50 transition-colors text-xs font-bold text-gray-600">
                       <input type="checkbox" [checked]="allRegNatOn()" (change)="toggleAllRegNat()"
                              class="rounded border-gray-300 text-[#33b3a9] focus:ring-[#33b3a9] w-3.5 h-3.5">
-                      Todos los departamentos
+                      Todas las regiones
                     </label>
                     <div class="max-h-48 overflow-y-auto">
                       @for (item of regNatItems(); track item.label; let i = $index) {
@@ -467,6 +541,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                     </div>
                   </div>
                 }
+                </div>
               </div>
             }
 
@@ -647,7 +722,7 @@ function allChecked(labels: string[]): DropdownItem[] {
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="isViewTabActive(tab.route)
-                ? 'background:#8383fd;color:#424242;'
+                ? 'background:#9277ff;color:#ffffff;'
                 : 'color:#9ca3af;'">
               <span>{{ tab.label }}</span>
             </button>
@@ -681,7 +756,7 @@ function allChecked(labels: string[]): DropdownItem[] {
           <!-- Barra de estado -->
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between
                       px-3 md:px-4 xl:px-6 py-2 xl:py-3 bg-[#0056a1]/5 border-b border-[#0056a1]/10 shrink-0 gap-2 sm:gap-0">
-            <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1] uppercase tracking-widest">
+            <span class="flex items-center gap-1.5 text-[10px] xl:text-[11px] font-black text-[#0056a1]  tracking-widest">
               {{ tituloTabla() }}
             </span>
             <button (click)="exportarExcel()"
@@ -705,37 +780,40 @@ function allChecked(labels: string[]): DropdownItem[] {
               ════════════════════════════════════════════════════════════ -->
               <tr>
                 <!-- Ubicación Geográfica: colspan dinámico (igual para todas las categorías) -->
-                <th class="bg-[#002d5c] text-white px-3 xl:px-5 py-1.5 xl:py-2 text-left font-bold uppercase tracking-wider text-[11px] xl:text-[12px] border-r border-white/20"
-                    [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
+                <th class="bg-[#002d5c] text-white px-3 xl:px-5 py-1.5 xl:py-2 text-left font-bold  tracking-wider text-[11px] xl:text-[12px] border-r border-white/20"
+                    [attr.colspan]="nivelActivo() === 'Provincial' ? 2 : nivelActivo() === 'Distrital' ? 3 : 1">
                   Ubicación Geográfica
                 </th>
 
                 <!-- ── POBLACIÓN ── -->
                 @if (activeCategory() === 'poblacion') {
-                  <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="3">
-                    Población Censada
+                  <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="1">
+                    Datos de Población
                   </th>
-                  <th class="bg-[#1a4d7a] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="2">
+                  <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="2">
+                    Población Total por Sexo
+                  </th>
+                  <th class="bg-[#002d5c] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px]" colspan="6">
                     Indicadores Demográficos
                   </th>
                 }
 
                 <!-- ── VIVIENDA ── -->
                 @if (activeCategory() === 'vivienda') {
-                  <th class="bg-[#004d3a] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="3">
+                  <th class="bg-[#004d3a] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="4">
                     Viviendas
                   </th>
-                  <th class="bg-[#1a3d2a] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="2">
-                    Por N° de Hogares
+                  <th class="bg-[#1a3d2a] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px]" colspan="2">
+                    Por número de hogares
                   </th>
                 }
 
                 <!-- ── HOGAR ── -->
                 @if (activeCategory() === 'hogar') {
-                  <th class="bg-[#4a2c7a] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px] border-r border-white/20" colspan="2">
+                  <th class="bg-[#4a2c7a] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px] border-r border-white/20" colspan="2">
                     Hogares
                   </th>
-                  <th class="bg-[#2d1b4e] text-white px-3 py-1.5 text-center font-bold uppercase tracking-wider text-[11px]" colspan="3">
+                  <th class="bg-[#2d1b4e] text-white px-3 py-1.5 text-center font-bold  tracking-wider text-[11px]" colspan="3">
                     Composición del Hogar
                   </th>
                 }
@@ -747,13 +825,17 @@ function allChecked(labels: string[]): DropdownItem[] {
               <tr>
                 <!-- ── Columnas geográficas (siempre presentes) ── -->
                 <th class="bg-[#0056a1] text-white px-3 py-2 text-left font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
-                  <button (click)="sortBy('departamento'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                    Departamento
-                    <span class="flex flex-col leading-none ml-0.5">
-                      <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='departamento'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='departamento'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
-                      <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='departamento'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='departamento'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
-                    </span>
-                  </button>
+                  @if (nivelActivo() === 'Región Natural') {
+                    <span class="flex items-center gap-1">Región natural</span>
+                  } @else {
+                    <button (click)="sortBy('departamento'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                      Departamento
+                      <span class="flex flex-col leading-none ml-0.5">
+                        <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='departamento'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='departamento'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                        <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='departamento'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='departamento'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                      </span>
+                    </button>
+                  }
                 </th>
                 @if (nivelActivo() === 'Provincial' || nivelActivo() === 'Distrital') {
                   <th class="bg-[#0056a1] text-white px-3 py-2 text-left font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
@@ -794,31 +876,31 @@ function allChecked(labels: string[]): DropdownItem[] {
                       </button>
                     </div>
                   </th>
-                  <th class="bg-[#248cb3] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                  <th class="bg-[#1e8fb5] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <button (click)="sortBy('hombres'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
-                      Población censada hombres
+                      Hombres
                       <span class="flex flex-col leading-none ml-0.5">
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hombres'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='hombres'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='hombres'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='hombres'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
                       </span>
                     </button>
                   </th>
-                  <th class="bg-[#248cb3] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                  <th class="bg-[#1e8fb5] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <button (click)="sortBy('mujeres'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
-                      Población censada mujeres
+                      Mujeres
                       <span class="flex flex-col leading-none ml-0.5">
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='mujeres'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='mujeres'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                         <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='mujeres'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='mujeres'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
                       </span>
                     </button>
                   </th>
-                  <th class="bg-[#2e6096] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <div class="flex items-center gap-1 justify-end w-full">
                       <span matTooltip="Número de hombres por cada 100 mujeres" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('razon'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Razón Hombre - mujer
+                        Razón hombre - mujer
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='razon'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='razon'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='razon'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='razon'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -826,16 +908,67 @@ function allChecked(labels: string[]): DropdownItem[] {
                       </button>
                     </div>
                   </th>
-                  <th class="bg-[#2e6096] text-white px-3 py-2 text-right font-semibold whitespace-nowrap text-[12px]">
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
                     <div class="flex items-center gap-1 justify-end w-full">
-                      <span matTooltip="Porcentaje de la población con 60 o más años de edad" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                      <span matTooltip="Promedio aritmético de las edades" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
-                      <button (click)="sortBy('pct65'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Porcentaje de personas de 60 y más años
+                      <button (click)="sortBy('edadMedia'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                        Edad promedio
                         <span class="flex flex-col leading-none ml-0.5">
-                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
-                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMedia'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='edadMedia'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMedia'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='edadMedia'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                        </span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                    <div class="flex items-center gap-1 justify-end w-full">
+                      <span matTooltip="Edad que divide la población en dos grupos iguales" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                        <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                      </span>
+                      <button (click)="sortBy('edadMediana'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                        Edad mediana
+                        <span class="flex flex-col leading-none ml-0.5">
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='edadMediana'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='edadMediana'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                        </span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                    <div class="flex items-center gap-1 justify-end w-full">
+                      <span matTooltip="Número absoluto de personas de 60 y más años" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                        <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                      </span>
+                      <button (click)="sortBy('p65'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                        Personas de 60 y más años
+                        <span class="flex flex-col leading-none ml-0.5">
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='p65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='p65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='p65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='p65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                        </span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                    <button (click)="sortBy('pct65'); $event.stopPropagation()" class="flex items-center gap-1 justify-end w-full hover:opacity-80 transition-opacity">
+                      % Personas de 60 y más años
+                      <span class="flex flex-col leading-none ml-0.5">
+                        <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                        <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='pct65'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='pct65'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                      </span>
+                    </button>
+                  </th>
+                  <th class="bg-[#2da3b0] text-white px-3 py-2 text-right font-semibold whitespace-nowrap text-[12px]">
+                    <div class="flex items-center gap-1 justify-end w-full">
+                      <span matTooltip="Número de personas de 60 y más años, por cada 100 personas de 0 a 14 años" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                        <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                      </span>
+                      <button (click)="sortBy('indiceEnvejecimiento'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                        Índice de Envejecimiento
+                        <span class="flex flex-col leading-none ml-0.5">
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='indiceEnvejecimiento'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='indiceEnvejecimiento'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='indiceEnvejecimiento'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='indiceEnvejecimiento'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
                         </span>
                       </button>
                     </div>
@@ -850,7 +983,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivCensadas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Viviendas censadas
+                        Viviendas particulares censadas
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCensadas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivCensadas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCensadas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivCensadas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -864,10 +997,24 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivOcupadas'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Viviendas ocupadas
+                        Viviendas ocupadas con personas presentes
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadas'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivOcupadas'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadas'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivOcupadas'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
+                        </span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="bg-[#1a8a56] text-white px-3 py-2 text-right font-semibold whitespace-nowrap border-r border-white/20 text-[12px]">
+                    <div class="flex items-center gap-1 justify-end w-full">
+                      <span matTooltip="Viviendas ocupadas por personas que se encontraban temporalmente ausentes al momento del censo" matTooltipClass="tt-blanco" class="inline-flex items-center cursor-default">
+                        <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                      </span>
+                      <button (click)="sortBy('vivOcupadasAusentes'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                        Viviendas ocupadas con personas ausentes
+                        <span class="flex flex-col leading-none ml-0.5">
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadasAusentes'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivOcupadasAusentes'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
+                          <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivOcupadasAusentes'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivOcupadasAusentes'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
                         </span>
                       </button>
                     </div>
@@ -906,7 +1053,7 @@ function allChecked(labels: string[]): DropdownItem[] {
                         <svg class="w-3 h-3 text-white/60 hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                       </span>
                       <button (click)="sortBy('vivCon2masHogares'); $event.stopPropagation()" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                        Vviviendas Con 2 ó más hogares
+                        Viviendas con 2 y más hogares
                         <span class="flex flex-col leading-none ml-0.5">
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon2masHogares'&&sortDir()==='asc'" [class.opacity-30]="!(sortCol()==='vivCon2masHogares'&&sortDir()==='asc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0L10 6H0z"/></svg>
                           <svg class="w-2.5 h-2.5" [class.opacity-100]="sortCol()==='vivCon2masHogares'&&sortDir()==='desc'" [class.opacity-30]="!(sortCol()==='vivCon2masHogares'&&sortDir()==='desc')" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0H10z"/></svg>
@@ -997,8 +1144,8 @@ function allChecked(labels: string[]): DropdownItem[] {
                 @if (filasTabla().length > 0) {
                   <!-- ── FILA PERÚ (totales nacionales) ── -->
                   <tr class="border-b-2 border-[#0056a1]/30 bg-[#0056a1]/8 font-bold sticky-nacional">
-                    <td class="px-3 py-2.5 text-gray-900 text-[12px] font-black uppercase tracking-wider border-r border-gray-200"
-                        [attr.colspan]="nivelActivo() === 'Departamental' ? 1 : nivelActivo() === 'Provincial' ? 2 : 3">
+                    <td class="px-3 py-2.5 text-[12px] font-black uppercase tracking-wider border-r border-gray-200" style="color:#000000"
+                        [attr.colspan]="nivelActivo() === 'Provincial' ? 2 : nivelActivo() === 'Distrital' ? 3 : 1">
                       <span class="flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
                         PERÚ
@@ -1007,29 +1154,34 @@ function allChecked(labels: string[]): DropdownItem[] {
 
                     <!-- Población totales -->
                     @if (activeCategory() === 'poblacion') {
-                      <td class="px-3 py-2.5 text-right font-mono font-black text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().pob) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().hom) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().muj) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtR(totalesNacional().razon) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px]">{{ fmtD(totalesNacional().pct65) }}%</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-black text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().pob) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().hom) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().muj) }}</td>
+                      <td class="px-3 py-2.5 text-right font-bold text-[12px] border-r border-gray-200" style="color:#000000">{{ fmtR(totalesNacional().razon) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtR(totalesNacional().edadMedia) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtR(totalesNacional().edadMediana) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().p65) }}</td>
+                      <td class="px-3 py-2.5 text-right font-bold text-[12px] border-r border-gray-200" style="color:#000000">{{ fmtPct(totalesNacional().pct65) }}</td>
+                      <td class="px-3 py-2.5 text-right font-bold text-[12px]" style="color:#000000">{{ fmtR(totalesNacional().indiceEnvejecimiento) }}</td>
                     }
 
                     <!-- Vivienda totales -->
                     @if (activeCategory() === 'vivienda') {
-                      <td class="px-3 py-2.5 text-right font-mono font-black text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().vivCensadas) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().vivOcupadas) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().vivDesocupadas) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().vivCon1Hogar) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px]">{{ fmtN(totalesNacional().vivCon2masHogares) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-black text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().vivCensadas) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().vivOcupadas) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().vivOcupadasAusentes) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().vivDesocupadas) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().vivCon1Hogar) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px]" style="color:#000000">{{ fmtN(totalesNacional().vivCon2masHogares) }}</td>
                     }
 
                     <!-- Hogar totales -->
                     @if (activeCategory() === 'hogar') {
-                      <td class="px-3 py-2.5 text-right font-mono font-black text-gray-900 text-[13px] border-r border-gray-200">{{ fmtN(totalesNacional().hogCensados) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtD(totalesNacional().hogPromPersonas) }}</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtD(totalesNacional().hogPctUnipersonal) }}%</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px] border-r border-gray-200">{{ fmtD(totalesNacional().hogPctConNinos) }}%</td>
-                      <td class="px-3 py-2.5 text-right font-mono font-bold text-gray-900 text-[13px]">{{ fmtD(totalesNacional().hogPctAdultosMayores) }}%</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-black text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtN(totalesNacional().hogCensados) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtD(totalesNacional().hogPromPersonas) }}</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtD(totalesNacional().hogPctUnipersonal) }}%</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px] border-r border-gray-200" style="color:#000000">{{ fmtD(totalesNacional().hogPctConNinos) }}%</td>
+                      <td class="px-3 py-2.5 text-right font-mono font-bold text-[13px]" style="color:#000000">{{ fmtD(totalesNacional().hogPctAdultosMayores) }}%</td>
                     }
                   </tr>
                 }
@@ -1051,75 +1203,49 @@ function allChecked(labels: string[]): DropdownItem[] {
                       [class.bg-white]="!even" [class.bg-blue-50/20]="even">
 
                     <!-- Columnas geográficas -->
-                    <td class="px-3 py-2 font-semibold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">
+                    <td class="px-3 py-2 font-semibold whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">
                       <span class="flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#0056a1] shrink-0"></span>
                         {{ fila.departamento }}
                       </span>
                     </td>
                     @if (nivelActivo() === 'Provincial' || nivelActivo() === 'Distrital') {
-                      <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ asProv(fila).provincia }}</td>
+                      <td class="px-3 py-2 whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ asProv(fila).provincia }}</td>
                     }
                     @if (nivelActivo() === 'Distrital') {
-                      <td class="px-3 py-2 text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ asDist(fila).distrito }}</td>
+                      <td class="px-3 py-2 whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ asDist(fila).distrito }}</td>
                     }
 
                     <!-- ── POBLACIÓN: celdas de datos ── -->
                     @if (activeCategory() === 'poblacion') {
-                      <td class="px-3 py-2 text-right font-mono font-bold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.poblacion) }}</td>
-                      <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.hombres) }}</td>
-                      <td class="px-3 py-2 text-right font-mono text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.mujeres) }}</td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]"
-                          [class.text-blue-700]="fila.razon > 100"
-                          [class.text-rose-600]="fila.razon < 97"
-                          [class.text-gray-700]="fila.razon >= 97 && fila.razon <= 100">
-                        {{ fmtR(fila.razon) }}
-                      </td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap text-[13px]"
-                          [class.text-amber-700]="fila.pct65 >= 9"
-                          [class.text-gray-700]="fila.pct65 < 9">
-                        {{ fmtD(fila.pct65) }}%
-                      </td>
+                      <td class="px-3 py-2 text-right font-mono font-bold whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.poblacion) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.hombres) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.mujeres) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtR(fila.razon) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtR(calcEdadMedia(fila)) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtR(fila.edadMediana) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px] font-semibold" style="color:#000000">{{ fmtN(fila.p65) }}</td>
+                      <td class="px-3 py-2 text-right whitespace-nowrap text-[12px] font-bold border-r border-gray-100" style="color:#000000">{{ fmtPct(fila.pct65) }}</td>
+                      <td class="px-3 py-2 text-right whitespace-nowrap text-[12px] font-bold" style="color:#000000">{{ fmtR(fila.indiceEnvejecimiento) }}</td>
                     }
 
                     <!-- ── VIVIENDA: celdas de datos ── -->
                     @if (activeCategory() === 'vivienda') {
-                      <td class="px-3 py-2 text-right font-mono font-bold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.vivCensadas) }}</td>
-                      <td class="px-3 py-2 text-right font-mono text-emerald-700 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.vivOcupadas) }}</td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]"
-                          [class.text-rose-600]="fila.vivDesocupadas / fila.vivCensadas > 0.20"
-                          [class.text-amber-600]="fila.vivDesocupadas / fila.vivCensadas > 0.12 && fila.vivDesocupadas / fila.vivCensadas <= 0.20"
-                          [class.text-gray-700]="fila.vivDesocupadas / fila.vivCensadas <= 0.12">
-                        {{ fmtN(fila.vivDesocupadas) }}
-                      </td>
-                      <td class="px-3 py-2 text-right font-mono text-gray-700 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.vivCon1Hogar) }}</td>
-                      <td class="px-3 py-2 text-right font-mono text-gray-700 whitespace-nowrap text-[13px]">{{ fmtN(fila.vivCon2masHogares) }}</td>
+                      <td class="px-3 py-2 text-right font-mono font-bold whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.vivCensadas) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.vivOcupadas) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.vivOcupadasAusentes) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.vivDesocupadas) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.vivCon1Hogar) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap text-[13px]" style="color:#000000">{{ fmtN(fila.vivCon2masHogares) }}</td>
                     }
 
                     <!-- ── HOGAR: celdas de datos ── -->
                     @if (activeCategory() === 'hogar') {
-                      <td class="px-3 py-2 text-right font-mono font-bold text-gray-900 whitespace-nowrap border-r border-gray-100 text-[13px]">{{ fmtN(fila.hogCensados) }}</td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]"
-                          [class.text-amber-700]="fila.hogPromPersonas >= 4.0"
-                          [class.text-blue-700]="fila.hogPromPersonas < 3.2"
-                          [class.text-gray-700]="fila.hogPromPersonas >= 3.2 && fila.hogPromPersonas < 4.0">
-                        {{ fmtD(fila.hogPromPersonas) }}
-                      </td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]"
-                          [class.text-blue-700]="fila.hogPctUnipersonal >= 20"
-                          [class.text-gray-700]="fila.hogPctUnipersonal < 20">
-                        {{ fmtD(fila.hogPctUnipersonal) }}%
-                      </td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]"
-                          [class.text-emerald-700]="fila.hogPctConNinos >= 60"
-                          [class.text-gray-700]="fila.hogPctConNinos < 60">
-                        {{ fmtD(fila.hogPctConNinos) }}%
-                      </td>
-                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap text-[13px]"
-                          [class.text-amber-700]="fila.hogPctAdultosMayores >= 38"
-                          [class.text-gray-700]="fila.hogPctAdultosMayores < 38">
-                        {{ fmtD(fila.hogPctAdultosMayores) }}%
-                      </td>
+                      <td class="px-3 py-2 text-right font-mono font-bold whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtN(fila.hogCensados) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtD(fila.hogPromPersonas) }}</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtD(fila.hogPctUnipersonal) }}%</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap border-r border-gray-100 text-[13px]" style="color:#000000">{{ fmtD(fila.hogPctConNinos) }}%</td>
+                      <td class="px-3 py-2 text-right font-mono whitespace-nowrap text-[13px]" style="color:#000000">{{ fmtD(fila.hogPctAdultosMayores) }}%</td>
                     }
 
                   </tr>
@@ -1139,12 +1265,6 @@ function allChecked(labels: string[]): DropdownItem[] {
               <strong>Nota:</strong> 1/ Comprende los 43 distritos de la provincia de Lima.
               <br>2/ Comprende las provincias de Barranca, Cajatambo, Canta, Cañete, Huaral, Huarochirí,
                   Huaura, Oyón y Yauyos.
-              @if (activeCategory() === 'vivienda') {
-                <br>Los valores de viviendas desocupadas resaltados en rojo indican una tasa de desocupación superior al 20%.
-              }
-              @if (activeCategory() === 'hogar') {
-                <br>Los promedios de personas por hogar destacados indican valores altos (≥4,0) o bajos (&lt;3,2) respecto al promedio nacional.
-              }
             </p>
           </div>
 
@@ -1354,7 +1474,7 @@ export class DashboardTerritorialComponent {
     areaFiltro       = signal<'total' | 'urbano' | 'rural'>('total');
     openAreaDropdown = signal<boolean>(false);
     readonly AREAS_FILTRO = [
-        { key: 'total'  as const, label: 'Total'  },
+        { key: 'total'  as const, label: 'Todas'  },
         { key: 'urbano' as const, label: 'Urbano' },
         { key: 'rural'  as const, label: 'Rural'  },
     ];
@@ -1396,12 +1516,25 @@ export class DashboardTerritorialComponent {
     provLabel = computed(() => this.cntProvs() === PROVS_LIST.length ? 'Todos' : `${this.cntProvs()} prov. sel.`);
     distLabel = computed(() => this.cntDists() === DISTS_LIST.length ? 'Todos' : `${this.cntDists()} dist. sel.`);
 
-    private selDeps  = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
-    private selProvs = computed(() => new Set(this.provsItems().filter(x => x.checked).map(x => x.label)));
-    private selDists = computed(() => new Set(this.distItems().filter(x => x.checked).map(x => x.label)));
+    private selDeps   = computed(() => new Set(this.depsItems().filter(x => x.checked).map(x => x.label)));
+    private selProvs  = computed(() => new Set(this.provsItems().filter(x => x.checked).map(x => x.label)));
+    private selDists  = computed(() => new Set(this.distItems().filter(x => x.checked).map(x => x.label)));
+    private selRegNat = computed(() => new Set(this.regNatItems().filter(x => x.checked).map(x => x.label)));
+
+    /** Filas sintéticas Costa / Sierra / Selva, agregadas desde MOCK_DEP — orden fijo según REG_NAT_LIST. */
+    filasPorRegionNatural = computed<FilaDep[]>(() => {
+        const seleccion = this.selRegNat();
+        return REG_NAT_LIST
+            .filter(region => seleccion.has(region))
+            .map(region => agregarFilaRegionNatural(
+                MOCK_DEP.filter(d => REGION_NATURAL_POR_DEPARTAMENTO[d.departamento] === region),
+                region
+            ));
+    });
 
     filasTabla = computed<FilaTabla[]>(() => {
         const nivel = this.nivelActivo();
+        if (nivel === 'Región Natural') return this.filasPorRegionNatural();
         const deps  = this.selDeps();
         const provs = this.selProvs();
         const dists = this.selDists();
@@ -1412,6 +1545,8 @@ export class DashboardTerritorialComponent {
 
     filasOrdenadas = computed<FilaTabla[]>(() => {
         const rows = [...this.filasTabla()];
+        // El orden Costa / Sierra / Selva es fijo y no debe alterarse por el ordenamiento de columnas.
+        if (this.nivelActivo() === 'Región Natural') return rows;
         const col  = this.sortCol();
         const dir  = this.sortDir();
         if (!col) return rows;
@@ -1424,20 +1559,31 @@ export class DashboardTerritorialComponent {
     });
 
     tituloTabla = computed<string>(() => {
-        const nivel    = this.nivelActivo();
-        const cat      = this.categoryTabs.find(c => c.id === this.activeCategory())?.label ?? 'Población';
-        const geoLabel = nivel === 'Departamental' ? 'DEPARTAMENTO'
-                       : nivel === 'Provincial'    ? 'PROVINCIA'
-                       : 'DISTRITO';
-        return `Comparativo de ${cat} por ${geoLabel}`;
+        const nivel = this.nivelActivo();
+        const cat   = this.activeCategory();
+        const esRegionNatural = nivel === 'Región Natural';
+        const nivelPlural = nivel === 'Departamental' ? 'departamentos'
+                           : nivel === 'Provincial'    ? 'provincias'
+                           : 'distritos';
+
+        if (cat === 'poblacion') {
+            return esRegionNatural
+                ? 'Estructura demográfica y envejecimiento poblacional según región natural seleccionada del Perú 2025'
+                : `Estructura demográfica y envejecimiento poblacional según ${nivelPlural} seleccionados del Perú 2025`;
+        }
+
+        const catLabel = cat === 'vivienda' ? 'vivienda' : 'hogar';
+        return esRegionNatural
+            ? `Comparativo de ${catLabel} según región natural seleccionada del Perú 2025.`
+            : `Comparativo de ${catLabel} según ${nivelPlural} seleccionados del Perú, 2025.`;
     });
 
     /** Totales nacionales calculados sobre el dataset completo (no filtrado) */
     totalesNacional = computed(() => {
         const nivel = this.nivelActivo();
-        const rows: FilaTabla[] = nivel === 'Departamental' ? MOCK_DEP
-                                : nivel === 'Provincial'    ? MOCK_PROV
-                                : MOCK_DIST;
+        const rows: FilaTabla[] = nivel === 'Provincial' ? MOCK_PROV
+                                : nivel === 'Distrital'   ? MOCK_DIST
+                                : MOCK_DEP; // Departamental y Región Natural usan el universo completo de departamentos
 
         // ── Población ──
         const pob  = rows.reduce((a, r) => a + r.poblacion, 0);
@@ -1456,11 +1602,12 @@ export class DashboardTerritorialComponent {
             ? +(rows.reduce((a, r) => a + r.indiceEnvejecimiento * r.poblacion, 0) / pob).toFixed(1) : 0;
 
         // ── Vivienda ──
-        const vivCensadas       = rows.reduce((a, r) => a + r.vivCensadas, 0);
-        const vivOcupadas       = rows.reduce((a, r) => a + r.vivOcupadas, 0);
-        const vivDesocupadas    = rows.reduce((a, r) => a + r.vivDesocupadas, 0);
-        const vivCon1Hogar      = rows.reduce((a, r) => a + r.vivCon1Hogar, 0);
-        const vivCon2masHogares = rows.reduce((a, r) => a + r.vivCon2masHogares, 0);
+        const vivCensadas         = rows.reduce((a, r) => a + r.vivCensadas, 0);
+        const vivOcupadas         = rows.reduce((a, r) => a + r.vivOcupadas, 0);
+        const vivOcupadasAusentes = rows.reduce((a, r) => a + r.vivOcupadasAusentes, 0);
+        const vivDesocupadas      = rows.reduce((a, r) => a + r.vivDesocupadas, 0);
+        const vivCon1Hogar        = rows.reduce((a, r) => a + r.vivCon1Hogar, 0);
+        const vivCon2masHogares   = rows.reduce((a, r) => a + r.vivCon2masHogares, 0);
 
         // ── Hogar ──
         const hogCensados = rows.reduce((a, r) => a + r.hogCensados, 0);
@@ -1477,7 +1624,7 @@ export class DashboardTerritorialComponent {
 
         return {
             pob, hom, muj, sup, p65, razon, dens, pct65, edadMediana, edadMedia, indiceEnvejecimiento,
-            vivCensadas, vivOcupadas, vivDesocupadas, vivCon1Hogar, vivCon2masHogares,
+            vivCensadas, vivOcupadas, vivOcupadasAusentes, vivDesocupadas, vivCon1Hogar, vivCon2masHogares,
             hogCensados, hogPromPersonas, hogPctUnipersonal, hogPctConNinos, hogPctAdultosMayores,
         };
     });
@@ -1511,15 +1658,15 @@ export class DashboardTerritorialComponent {
         let peruCells:       (string | number)[] = [];
 
         if (cat === 'poblacion') {
-            groupRow1Labels = ['Población Censada', '', '', 'Indicadores Demográficos', ''];
-            groupRow1Spans  = [3, 2];
-            subHeaders      = ['Población ', 'Hombres', 'Mujeres', 'Razón H/M', '% 60 y más'];
-            peruCells       = [t.pob, t.hom, t.muj, t.razon, t.pct65];
+            groupRow1Labels = ['Datos de Población', 'Población Total por Sexo', '', 'Indicadores Demográficos', '', '', '', '', ''];
+            groupRow1Spans  = [1, 2, 6];
+            subHeaders      = ['Población censada', 'Hombres', 'Mujeres', 'Razón H/M', 'Edad promedio', 'Edad mediana', 'Personas de 60 y más años', '% Personas de 60 y más años', 'Índice de Envejecimiento'];
+            peruCells       = [t.pob, t.hom, t.muj, t.razon, t.edadMedia, t.edadMediana, t.p65, t.pct65, t.indiceEnvejecimiento];
         } else if (cat === 'vivienda') {
-            groupRow1Labels = ['Viviendas', '', '', 'Por N° de Hogares', ''];
-            groupRow1Spans  = [3, 2];
-            subHeaders      = ['V. Censadas', 'V. Ocupadas', 'V. Desocupadas', 'Con 1 hogar', 'Con 2+ hogares'];
-            peruCells       = [t.vivCensadas, t.vivOcupadas, t.vivDesocupadas, t.vivCon1Hogar, t.vivCon2masHogares];
+            groupRow1Labels = ['Viviendas', '', '', '', 'Por N° de Hogares', ''];
+            groupRow1Spans  = [4, 2];
+            subHeaders      = ['V. Censadas', 'V. Ocupadas', 'V. Ocupadas Ausentes', 'V. Desocupadas', 'Con 1 hogar', 'Con 2+ hogares'];
+            peruCells       = [t.vivCensadas, t.vivOcupadas, t.vivOcupadasAusentes, t.vivDesocupadas, t.vivCon1Hogar, t.vivCon2masHogares];
         } else {
             groupRow1Labels = ['Hogares', '', 'Composición del Hogar', '', ''];
             groupRow1Spans  = [2, 3];
@@ -1547,7 +1694,7 @@ export class DashboardTerritorialComponent {
             if (nivel === 'Distrital') cols.push((fila as FilaDist).distrito);
 
             if (cat === 'poblacion') {
-                cols.push(fila.poblacion, fila.hombres, fila.mujeres, fila.razon, fila.pct65);
+                cols.push(fila.poblacion, fila.hombres, fila.mujeres, fila.razon, this.calcEdadMedia(fila), fila.edadMediana, fila.p65, fila.pct65, fila.indiceEnvejecimiento);
             } else if (cat === 'vivienda') {
                 cols.push(fila.vivCensadas, fila.vivOcupadas, fila.vivDesocupadas, fila.vivCon1Hogar, fila.vivCon2masHogares);
             } else {

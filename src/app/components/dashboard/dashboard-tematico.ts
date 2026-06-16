@@ -1199,7 +1199,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="activeGroupId() === group.id
-                ? 'background:#8383fd;color:#424242;'
+                ? 'background:#9277ff;color:#ffffff;'
                 : 'color:#9ca3af;'">
               <span>{{ group.label }}</span>
             </button>
@@ -6148,7 +6148,7 @@ export class DashboardTematicoComponent implements OnInit {
 
     // ── Filtro de área ────────────────────────────────────────────────────
     readonly AREAS_FILTRO: { key: AreaFiltroType; label: string }[] = [
-        { key: 'total',  label: 'Total'  },
+        { key: 'total',  label: 'Todas'  },
         { key: 'urbano', label: 'Urbano' },
         { key: 'rural',  label: 'Rural'  },
     ];
