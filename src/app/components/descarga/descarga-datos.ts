@@ -139,19 +139,23 @@ const TEMATICOS_POBLACION: readonly TematicoInt[] = [
     { id:'grandes_grupos_edad',nombre:'Grandes grupos de edad',categorias:['0 – 14 años','15 a 59 años','60 y más años'] }
   ]},
   { id:'fecundidad_int', nombre:'Fecundidad', indicadores:[
-    { id:'hijos_nacidos_vivos',nombre:'Mujeres según número de hijas e hijos nacidos vivos',
+    { id:'hijos_nacidos_vivos',nombre:'Mujeres de 15 a 49 años de edad según número de hijas e hijos nacidos vivos',
+      categorias:['Con 1','Con 2','Con 3','Con 4', 'Con 5', 'Con 6 y más', 'Sin hijos'] },
+      { id:'mujeres_nacidos_vivos',nombre:'Mujeres de 12 y más años de edad según número de hijas e hijos nacidos vivos',
       categorias:['Ninguno','1 hijo(a)','2 hijos(as)','3 a más hijos(as)'] }
   ]},
-  { id:'migracion_int', nombre:'Migración', indicadores:[
-    { id:'residencia_5_anos',nombre:'Lugar de residencia 5 años antes del censo',
+  { id:'migracion_int', nombre:'Inmigración extranjera', indicadores:[
+    { id:'residencia_5_anos',nombre:'Población inmigrante extranjera según sexo',
       categorias:['Mismo distrito','Otro distrito','Otro país','No aplicable'] },
-    { id:'residencia_madre', nombre:'Lugar de residencia de la madre al momento de nacer',
+    { id:'residencia_madre', nombre:'Población inmigrante extranjera según grandes grupos edad',
+      categorias:['Mismo distrito','Otro distrito','Otro país'] },
+      { id:'residencia_madre', nombre:'Población inmigrante extranjera según país de origen',
       categorias:['Mismo distrito','Otro distrito','Otro país'] }
   ]},
-  { id:'identidad_int', nombre:'Identidad y Protección Social', indicadores:[
+  { id:'identidad_int', nombre:'Estado civil, identidad y protección social', indicadores:[
     { id:'tipo_dni',    nombre:'Tipo de documento nacional de identidad',
       categorias:['DNI','Partida de nacimiento','Sin documento'] },
-    { id:'estado_civil',nombre:'Estado civil',
+    { id:'estado_civil',nombre:'Estado civil o conyugal',
       categorias:['Soltero(a)','Casado(a)','Conviviente','Separado(a)','Divorciado(a)','Viudo(a)'] },
     { id:'seguro_salud',nombre:'Tenencia de seguro de salud',categorias:['Con seguro','Sin seguro'] }
   ]},
@@ -160,29 +164,22 @@ const TEMATICOS_POBLACION: readonly TematicoInt[] = [
     { id:'nivel_educativo',   nombre:'Nivel educativo alcanzado',
       categorias:['Sin nivel','Inicial','Primaria','Secundaria','Superior no universitaria','Superior universitaria'] },
     { id:'alfabetismo',       nombre:'Condición de alfabetismo',categorias:['Alfabeto','Analfabeto'] },
-    { id:'dispositivos_tics', nombre:'Uso de dispositivos TICs',categorias:['Usa','No usa'] },
-    { id:'uso_internet',      nombre:'Uso de internet',categorias:['Usa','No usa'] }
+    { id:'dispositivos_tics', nombre:"Uso de TIC's",categorias:['Usa','No usa'] },
+    { id:'uso_internet',      nombre:"Tipo de TIC's usados",categorias:['Usa','No usa'] }
   ]},
   { id:'discapacidad_int', nombre:'Discapacidad', indicadores:[
-    { id:'disc_ver',         nombre:'Discapacidad para ver',                        categorias:['Sí tiene','No tiene'] },
-    { id:'disc_oir',         nombre:'Discapacidad para oir',                        categorias:['Sí tiene','No tiene'] },
-    { id:'disc_comunicarse', nombre:'Discapacidad para comunicarse',                categorias:['Sí tiene','No tiene'] },
-    { id:'disc_caminar',     nombre:'Discapacidad para caminar',                    categorias:['Sí tiene','No tiene'] },
-    { id:'disc_cuidado',     nombre:'Discapacidad para el cuidado personal',        categorias:['Sí tiene','No tiene'] },
-    { id:'disc_concentrar',  nombre:'Discapacidad para concentrarse',               categorias:['Sí tiene','No tiene'] },
-    { id:'disc_relacionarse',nombre:'Discapacidad para relacionarse con los demás', categorias:['Sí tiene','No tiene'] }
+    { id:'disc_ver',         nombre:'Condición de discapacidad',                        categorias:['Sí tiene','No tiene'] },
+    { id:'disc_oir',         nombre:'Tipo de discapacidad',                        categorias:['Sí tiene','No tiene'] }
   ]},
   { id:'etnicidad_int', nombre:'Etnicidad', indicadores:[
-    { id:'identificacion_etnica',nombre:'Identificación étnica',
+    { id:'identificacion_etnica',nombre:'Autoidentificación étnica',
       categorias:['Quechua','Aymara','Amazónica','Nativa o Indígena','Afroperuano','Blanco','Mestizo','Otro'] },
     { id:'lengua_ninez',nombre:'Idiomas o lenguas con las que aprendió a hablar en la niñez',
       categorias:['Castellano','Quechua','Aymara','Otra lengua nativa','Lengua extranjera'] }
   ]},
-  { id:'economico_int', nombre:'Características Económicas', indicadores:[
-    { id:'pet',                nombre:'Población en edad de trabajar',
-      categorias:['En edad de trabajar','Sin edad de trabajar'] },
-    { id:'condicion_ocupacion',nombre:'Condición de ocupación',
-      categorias:['Ocupado','Desocupado','Inactivo'] }
+  { id:'economico_int', nombre:'Población en edad de trabajar', indicadores:[
+    { id:'pet',                nombre:'Población en edad de trabajar según sexo',
+      categorias:['En edad de trabajar','Sin edad de trabajar'] }
   ]}
 ];
 
@@ -190,14 +187,15 @@ const TEMATICOS_VIVIENDA: readonly TematicoInt[] = [
   { id:'caract_viv', nombre:'Características de la Vivienda', indicadores:[
     { id:'tipo_vivienda',   nombre:'Tipo de vivienda particular',
       categorias:['Casa independiente','Departamento en edificio','Vivienda en quinta','Choza o cabaña','Otro tipo'] },
-    { id:'material_paredes',nombre:'Material predominante en las paredes',
+      { id:'num_habitaciones',nombre:'Condición de ocupación de la vivienda particular',
+      categorias:['1 habitación','2 habitaciones','3 habitaciones','4 habitaciones','5 y más habitaciones'] },
+    { id:'material_paredes',nombre:'Material de construcción predominante en paredes exteriores',
       categorias:['Ladrillo o bloque de cemento','Piedra o sillar','Adobe','Madera','Estera','Otro material'] },
-    { id:'material_techos', nombre:'Material predominante en los techos',
+    { id:'material_techos', nombre:'Material de construcción predominante en techos',
       categorias:['Concreto armado','Madera','Tejas','Plancha de calamina','Caña o estera','Otro material'] },
-    { id:'material_pisos',  nombre:'Material predominante en los pisos',
-      categorias:['Parquet o madera pulida','Láminas asfálticas','Losetas o terrazos','Madera','Cemento','Tierra','Otro'] },
-    { id:'num_habitaciones',nombre:'Número de habitaciones',
-      categorias:['1 habitación','2 habitaciones','3 habitaciones','4 habitaciones','5 y más habitaciones'] }
+    { id:'material_pisos',  nombre:'Material de construcción predominante en pisos',
+      categorias:['Parquet o madera pulida','Láminas asfálticas','Losetas o terrazos','Madera','Cemento','Tierra','Otro'] }
+    
   ]},
   { id:'servicios_viv', nombre:'Servicios Básicos de la Vivienda', indicadores:[
     { id:'proc_agua',         nombre:'Procedencia del agua',
@@ -211,21 +209,20 @@ const TEMATICOS_VIVIENDA: readonly TematicoInt[] = [
 
 const TEMATICOS_HOGAR: readonly TematicoInt[] = [
   { id:'caract_hogar', nombre:'Características del Hogar', indicadores:[
-    { id:'tenencia_vivienda',       nombre:'Condición de tenencia de la vivienda que ocupan los hogares',
+    { id:'tenencia_vivienda',       nombre:'Tenencia de la vivienda que ocupan los hogares',
       categorias:['Alquilada','Propia totalmente pagada','Propia pagando a plazos','Cedida por empleador','Cedida por otra razón','Otra forma'] },
-    { id:'uso_sshh',                nombre:'Uso exclusivo del servicio higiénico',
-      categorias:['Uso exclusivo del hogar','Compartido con otros hogares'] },
     { id:'energia_cocinar',         nombre:'Energía o combustible que usan para cocinar',
       categorias:['Gas licuado','Gas natural','Electricidad','Kerosene','Carbón','Leña','Otro'] },
-    { id:'eliminacion_residuos',    nombre:'Formas de eliminación de residuos',
-      categorias:['Servicio municipal de limpieza','Botadero','Quema','Entierra','Río o acequia','Otro'] },
-    { id:'emigracion_internacional',nombre:'Emigración internacional de personas que fueron miembros del hogar',
-      categorias:['Hogares con emigrante','Hogares sin emigrante'] }
+    { id:'eliminacion_residuos',    nombre:'Desecho de la basura o residuos sólidos',
+      categorias:['Servicio municipal de limpieza','Botadero','Quema','Entierra','Río o acequia','Otro'] }
+   
   ]},
   { id:'equipamiento_hogar', nombre:'Equipamiento del Hogar', indicadores:[
-    { id:'medios_transporte',    nombre:'Tenencia de medios de transporte, electrodomésticos y artefactos',
+    { id:'medios_transporte',    nombre:"Tenencia de bienes y servicios TIC's",
       categorias:['Tiene auto o camioneta','Tiene motocicleta','Tiene bicicleta','No tiene ninguno'] },
-    { id:'dispositivos_tics_hog',nombre:'Tenencia de dispositivos TICs',
+    { id:'dispositivos_tics_hog',nombre:'Tenencia de artefactos y electrodomésticos',
+      categorias:['Tiene computadora','Tiene laptop','Tiene tablet','Tiene teléfono celular','No tiene ninguno'] },
+      { id:'dispositivos_tics_hog',nombre:'Tenencia de medios de transporte',
       categorias:['Tiene computadora','Tiene laptop','Tiene tablet','Tiene teléfono celular','No tiene ninguno'] }
   ]}
 ];
