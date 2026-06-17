@@ -142,88 +142,96 @@ const TEMATICOS_POBLACION: readonly TematicoInt[] = [
     { id:'hijos_nacidos_vivos',nombre:'Mujeres de 15 a 49 años de edad según número de hijas e hijos nacidos vivos',
       categorias:['Con 1','Con 2','Con 3','Con 4', 'Con 5', 'Con 6 y más', 'Sin hijos'] },
       { id:'mujeres_nacidos_vivos',nombre:'Mujeres de 12 y más años de edad según número de hijas e hijos nacidos vivos',
-      categorias:['Ninguno','1 hijo(a)','2 hijos(as)','3 a más hijos(as)'] }
+      categorias:['Con 1','Con 2','Con 3','Con 4', 'Con 5', 'Con 6 y más', 'Sin hijos'] }
   ]},
   { id:'migracion_int', nombre:'Inmigración extranjera', indicadores:[
     { id:'residencia_5_anos',nombre:'Población inmigrante extranjera según sexo',
-      categorias:['Mismo distrito','Otro distrito','Otro país','No aplicable'] },
+      categorias:['Hombre', 'Mujer'] },
     { id:'residencia_madre', nombre:'Población inmigrante extranjera según grandes grupos edad',
-      categorias:['Mismo distrito','Otro distrito','Otro país'] },
-      { id:'residencia_madre', nombre:'Población inmigrante extranjera según país de origen',
-      categorias:['Mismo distrito','Otro distrito','Otro país'] }
+      categorias:['0 - 14 años','15 - 59 años','60 y más años'] },
+      { id:'residencia_pais', nombre:'Población inmigrante extranjera según país de origen',
+      categorias:['Venezuela','Argentina','Chile', 'Colombia', 'Bolivia', 'Estados Unidos', 'Otro 1/'] }
   ]},
   { id:'identidad_int', nombre:'Estado civil, identidad y protección social', indicadores:[
     { id:'tipo_dni',    nombre:'Tipo de documento nacional de identidad',
-      categorias:['DNI','Partida de nacimiento','Sin documento'] },
+      categorias:['Con DNI',  'Solo partida de nacimiento','Solo carné de extranjería','Solo permiso temporal de permanencia',  'No tiene documento alguno'] },
     { id:'estado_civil',nombre:'Estado civil o conyugal',
-      categorias:['Soltero(a)','Casado(a)','Conviviente','Separado(a)','Divorciado(a)','Viudo(a)'] },
-    { id:'seguro_salud',nombre:'Tenencia de seguro de salud',categorias:['Con seguro','Sin seguro'] }
+      categorias:['Conviviente', 'Separado/a o Exconviviente', 'Casado/a', 'Viudo/a', 'Divorciado/a', 'Soltero/a (Nunca casado/a o nunca conviviente)'] },
+    { id:'seguro_salud',nombre:'Tenencia de seguro de salud',categorias:['Seguro Integral de Salud (SIS)', 'EsSalud', 'Seguro de fuerzas armadas', 'Seguro privado de salud', 'Otro seguro', 'Ninguno'] }
   ]},
   { id:'educacion_int', nombre:'Educación', indicadores:[
-    { id:'asistencia_escolar',nombre:'Asistencia escolar',categorias:['Asiste','No asiste','No aplicable'] },
+    { id:'asistencia_escolar',nombre:'Asistencia escolar',categorias:['Asiste','No asiste'] },
     { id:'nivel_educativo',   nombre:'Nivel educativo alcanzado',
-      categorias:['Sin nivel','Inicial','Primaria','Secundaria','Superior no universitaria','Superior universitaria'] },
-    { id:'alfabetismo',       nombre:'Condición de alfabetismo',categorias:['Alfabeto','Analfabeto'] },
-    { id:'dispositivos_tics', nombre:"Uso de TIC's",categorias:['Usa','No usa'] },
-    { id:'uso_internet',      nombre:"Tipo de TIC's usados",categorias:['Usa','No usa'] }
+      categorias:['Sin nivel', 'Educación inicial', 'Primaria', 'Secundaria', 'Básica especial', 'Superior no universitaria incompleta', 'Superior no universitaria completa', 'Superior universitaria incompleta', 'Superior universitaria completa', 'Maestría incompleta', 'Maestría completa', 'Doctorado incompleta', 'Doctorado completo'] },
+    { id:'alfabetismo',       nombre:'Condición de alfabetismo',categorias:['No sabe leer ni escribir','Sabe leer y escribir'] },
+    { id:'dispositivos_tics', nombre:"Uso de TIC's",categorias:['Si usa','No usa'] },
+    { id:'uso_internet',      nombre:"Tipo de TIC's usados",categorias:['Computadora o laptop', 'Tableta', 'Internet', 'Celular con aplicaciones'] }
   ]},
   { id:'discapacidad_int', nombre:'Discapacidad', indicadores:[
-    { id:'disc_ver',         nombre:'Condición de discapacidad',                        categorias:['Sí tiene','No tiene'] },
-    { id:'disc_oir',         nombre:'Tipo de discapacidad',                        categorias:['Sí tiene','No tiene'] }
+    { id:'disc_ver',         nombre:'Condición de discapacidad',                        categorias:['Sí tiene discapacidad','No tiene discapacidad'] },
+    { id:'disc_oir',         nombre:'Tipo de discapacidad',                        categorias:[  'Ver, incluso cuando usa lentes',  'Oír, incluso cuando usa un audífono para sordera','Hablar o comunicarse, incluso si utiliza la lengua de señas u otra',
+  'Caminar o subir y bajar escaleras',
+  'Usar brazos y manos para comer, vestirse, bañarse u otras actividades',
+  'Recordar y/o concentrarse',
+  'Relacionarse con los demás a través de sus pensamientos, sentimientos, emociones o conductas',
+  'Ninguna'
+] }
   ]},
   { id:'etnicidad_int', nombre:'Etnicidad', indicadores:[
     { id:'identificacion_etnica',nombre:'Autoidentificación étnica',
-      categorias:['Quechua','Aymara','Amazónica','Nativa o Indígena','Afroperuano','Blanco','Mestizo','Otro'] },
+      categorias:['Quechua', 'Aimara', 'De un pueblo indígena u originario de la Amazonía', 'De otro pueblo indígena u originario', 'Negro, moreno, zambo, mulato, del pueblo afroperuano o afrodescendiente', 'Nikkei', 'Tusan', 'Blanco', 'Mestizo', 'Otro'] },
     { id:'lengua_ninez',nombre:'Idiomas o lenguas con las que aprendió a hablar en la niñez',
-      categorias:['Castellano','Quechua','Aymara','Otra lengua nativa','Lengua extranjera'] }
+      categorias:['Quechua', 'Aimara', 'Ashaninka', 'Awajun/aguaruna', 'Shipibo-konibo', 'Otros idiomas o lenguas indígenas u originarias', 'Castellano', 'Otro idioma o lengua extranjera', 'Lengua de señas peruanas', 'No escucha/no habla'] }
   ]},
   { id:'economico_int', nombre:'Población en edad de trabajar', indicadores:[
     { id:'pet',                nombre:'Población en edad de trabajar según sexo',
-      categorias:['En edad de trabajar','Sin edad de trabajar'] }
+      categorias:['Hombre','Mujer'] },
+      { id:'pet',                nombre:'Población en edad de trabajar según sexo',
+      categorias:['60 y más años', '45-59 años', '30-44 años', '18-29 años', '14-17 años'] }
   ]}
 ];
 
 const TEMATICOS_VIVIENDA: readonly TematicoInt[] = [
   { id:'caract_viv', nombre:'Características de la Vivienda', indicadores:[
     { id:'tipo_vivienda',   nombre:'Tipo de vivienda particular',
-      categorias:['Casa independiente','Departamento en edificio','Vivienda en quinta','Choza o cabaña','Otro tipo'] },
+      categorias:['Casa independiente', 'Departamento en edificio o en block de condominio', 'Vivienda en quinta', 'Vivienda en casa de vecindad (callejón, solar o corralón)', 'Choza o cabaña', 'Vivienda improvisada', 'Local no destinado para habitación humana', 'Otro tipo'] },
       { id:'num_habitaciones',nombre:'Condición de ocupación de la vivienda particular',
-      categorias:['1 habitación','2 habitaciones','3 habitaciones','4 habitaciones','5 y más habitaciones'] },
+      categorias:['Vivienda ocupada con personas presentes', 'Vivienda ocupada con personas ausentes', 'Vivienda transitoria', 'Vivienda desocupada'] },
     { id:'material_paredes',nombre:'Material de construcción predominante en paredes exteriores',
-      categorias:['Ladrillo o bloque de cemento','Piedra o sillar','Adobe','Madera','Estera','Otro material'] },
+      categorias:['Ladrillo o bloque de concreto', 'Piedra o sillar con cal o cemento', 'Adobe', 'Tapia', 'Quincha (caña con barro)', 'Piedra con barro', 'Madera (pana, tornillo o similares)', 'Triplay / calamina / estera', 'Otro material'] },
     { id:'material_techos', nombre:'Material de construcción predominante en techos',
-      categorias:['Concreto armado','Madera','Tejas','Plancha de calamina','Caña o estera','Otro material'] },
+      categorias:['Concreto armado', 'Madera', 'Tejas', 'Planchas de calamina, fibra de cemento o similares', 'Caña o estera con torta de barro o cemento', 'Triplay/estera/carrizo', 'Paja, hoja de palmera o similares', 'Otro material'] },
     { id:'material_pisos',  nombre:'Material de construcción predominante en pisos',
-      categorias:['Parquet o madera pulida','Láminas asfálticas','Losetas o terrazos','Madera','Cemento','Tierra','Otro'] }
+      categorias:['Parquet o madera pulida', 'Láminas asfálticas, vinílicos o similares', 'Losetas, terrazos, cerámicos o similares', 'Madera (pona, tornillo o similares)', 'Cemento', 'Tierra', 'Otro material'] }
     
   ]},
   { id:'servicios_viv', nombre:'Servicios Básicos de la Vivienda', indicadores:[
     { id:'proc_agua',         nombre:'Procedencia del agua',
-      categorias:['Red pública dentro de la vivienda','Red pública fuera de la vivienda','Pilón de uso público','Camión cisterna','Río, acequia, manantial','Otro'] },
+      categorias:['Red pública', 'Pilón o pileta de uso público', 'Camión-cisterna u otro similar', 'Pozo (agua subterránea)', 'Manantial o puquio', 'Río, acequia, lago, laguna', 'Otro'] },
     { id:'servicio_higienico',nombre:'Conexión del servicio higiénico',
-      categorias:['Red pública de desagüe dentro de la vivienda','Red pública fuera de la vivienda','Pozo séptico','Pozo ciego','Río, acequia, canal','Otro'] },
+      categorias:['Red pública de desagüe dentro de la vivienda', 'Red pública de desagüe dentro del lote o terreno, fuera de la vivienda', 'Letrina (con tratamiento)', 'Pozo séptico, tanque séptico o biodigestor', 'Pozo ciego o negro', 'Río, acequia, canal o similar', 'Sin conexión, al aire libre (campo abierto, chacra, río, acequia, canal o similar)'] },
     { id:'energia_electrica', nombre:'Procedencia de la energía eléctrica',
-      categorias:['Red pública','Generador eléctrico','Energía solar','No tiene'] }
+      categorias:['Red pública', 'Panel solar/batería', 'Generador eléctrico a diésel/gasolina', 'Energía eólica', 'Otro', 'No tiene energía eléctrica'] }
   ]}
 ];
 
 const TEMATICOS_HOGAR: readonly TematicoInt[] = [
   { id:'caract_hogar', nombre:'Características del Hogar', indicadores:[
     { id:'tenencia_vivienda',       nombre:'Tenencia de la vivienda que ocupan los hogares',
-      categorias:['Alquilada','Propia totalmente pagada','Propia pagando a plazos','Cedida por empleador','Cedida por otra razón','Otra forma'] },
+      categorias:['Alquilada', 'Propia, sin título de propiedad', 'Propia, con título de propiedad', 'Cedida por centro de trabajo', 'Cedida por otro hogar o institución', 'Otra forma'] },
     { id:'energia_cocinar',         nombre:'Energía o combustible que usan para cocinar',
-      categorias:['Gas licuado','Gas natural','Electricidad','Kerosene','Carbón','Leña','Otro'] },
+      categorias:['Gas (balón GLP)', 'Leña', 'Gas natural (sistema de tuberías)', 'Electricidad', 'Carbón', 'Bosta', 'Estiércol', 'Otro1/', 'No cocinan'] },
     { id:'eliminacion_residuos',    nombre:'Desecho de la basura o residuos sólidos',
-      categorias:['Servicio municipal de limpieza','Botadero','Quema','Entierra','Río o acequia','Otro'] }
+      categorias:['Por recolector municipal', 'Por recolector informal', 'Se quema', 'Se entierra', 'Se arroja a la calle, parque, terreno abandonado, chacra u otro', 'Se arroja al río, acequia, lago, laguna o al mar', 'Se utiliza para alimentar animales', 'Otro 1/'] }
    
   ]},
   { id:'equipamiento_hogar', nombre:'Equipamiento del Hogar', indicadores:[
     { id:'medios_transporte',    nombre:"Tenencia de bienes y servicios TIC's",
-      categorias:['Tiene auto o camioneta','Tiene motocicleta','Tiene bicicleta','No tiene ninguno'] },
+      categorias:['Computadora', 'Laptop', 'Tableta', 'Teléfono celular', 'Teléfono fijo', 'Servicio de internet fijo', 'Internet móvil', 'Televisión por cable o satelital'] },
     { id:'dispositivos_tics_hog',nombre:'Tenencia de artefactos y electrodomésticos',
-      categorias:['Tiene computadora','Tiene laptop','Tiene tablet','Tiene teléfono celular','No tiene ninguno'] },
+      categorias:['Computadora', 'Laptop', 'Tableta', 'Teléfono celular', 'Teléfono fijo', 'Servicio de internet fijo', 'Internet móvil', 'Televisión por cable o satelital'] },
       { id:'dispositivos_tics_hog',nombre:'Tenencia de medios de transporte',
-      categorias:['Tiene computadora','Tiene laptop','Tiene tablet','Tiene teléfono celular','No tiene ninguno'] }
+      categorias:['Auto/camioneta', 'Motocicleta', 'Bicicleta como medio de transporte', 'Lancha, bote/motor o peque peque, canoa'] }
   ]}
 ];
 
@@ -1357,7 +1365,7 @@ export class DescargaDatosComponent {
     const varLabel: Record<VariableInteractiva, string> = {
       poblacion: 'población', vivienda: 'vivienda', hogar: 'hogar'
     };
-    return `Consulta de ${varLabel[q.variable]} por ${ind?.nombre ?? q.indicadorId}, según el nivel ${nivelLabel[q.nivel]}`;
+    return `Consulta de ${varLabel[q.variable]} por ${ind?.nombre ?? q.indicadorId}, a nivel ${nivelLabel[q.nivel]}`;
   });
 
   readonly subtituloGeo = computed((): string => {
