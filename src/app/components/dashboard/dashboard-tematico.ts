@@ -1,4 +1,4 @@
-// RUTA: src/app/components/tematico/dashboard-tematico.ts
+﻿// RUTA: src/app/components/tematico/dashboard-tematico.ts
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
@@ -229,7 +229,11 @@ const DISC_ESFERAS_CATS = [
     'Discapacidad para relacionarse con los demás', 'Discapacidad para concentrarse',
     'Discapacidad para comunicarse', 'Discapacidad para el cuidado personal',
 ] as const;
-const DISC_ESFERAS_DATA = [623_892, 547_293, 389_892, 234_293, 287_892, 198_293, 312_892] as const;
+const DISC_ESFERAS_HOMBRE = [268_293, 234_892, 185_293, 112_892, 138_293,  94_892, 138_293] as const;
+const DISC_ESFERAS_MUJER  = [355_599, 312_401, 204_599, 121_401, 149_599, 103_401, 174_599] as const;
+const DISC_ESFERAS_5_17   = [ 45_293,  28_892,  38_293,  48_892,  62_892,  42_293,  22_892] as const;
+const DISC_ESFERAS_18_59  = [198_892, 168_293, 112_892, 124_293, 162_293,  98_892,  98_293] as const;
+const DISC_ESFERAS_60MAS  = [379_707, 350_108, 238_707,  61_108,  62_707,  57_108, 191_707] as const;
 
 // ── Etnicidad: datos mock ──────────────────────────────────────────────
 const ETNIC_AUTO_CATS = [
@@ -342,7 +346,7 @@ const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
             },
             // ── MIGRACIÓN ──────────────────────────────────────────────────
             {
-                id: 'migracion', label: 'Migración', icon: 'arrow-right-circle',
+                id: 'migracion', label: 'Inmigración extranjera', icon: 'arrow-right-circle',
                 gridClass: 'grid grid-cols-1 sm:grid-cols-2',
                 indicators: [
                     {
@@ -618,7 +622,7 @@ const THEMATIC_GROUPS: readonly ThematicGroupDef[] = [
                 indicators: [
                     { id: 'resp_hombre',         title: 'Hogares con responsable de hogar hombre',                                        icon: 'user',                type: 'kpi',    kpiValue: '5 847 293' },
                     { id: 'resp_mujer',           title: 'Hogares con responsable de hogar mujer',                                         icon: 'user',                type: 'kpi',    kpiValue: '4 014 597' },
-                    { id: 'tenencia_vivienda',    title: 'Tenencia de la vivienda que ocupa el hogar',                                     icon: 'home',                type: 'stacked',
+                    { id: 'tenencia_vivienda',    title: 'Hogares según régimen de tenencia de la vivienda que ocupan',                                     icon: 'home',                type: 'stacked',
                         categories: ['Propia pagada','Propia por invasión','Alquilada','Cedida por empleador','Cedida por familiar','Otra forma'],
                         data: [8_234_892,1_192_293,4_847_293,192_293,347_892,234_892] },
                     { id: 'artefactos',           title: 'Hogares según tenencia de artefactos y electrodomésticos',                       icon: 'device-phone-mobile', type: 'column',
@@ -1241,55 +1245,52 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
               <div class="max-w-6xl xl:max-w-[1400px] mx-auto grid grid-cols-1 gap-3 lg:gap-4 lg:grid-cols-3 lg:h-[680px] xl:h-[780px] 2xl:h-[860px] lg:[grid-template-rows:auto_auto_auto_1fr_auto_auto]">
 
                 <!-- ── C1·R1 ── KPI: MEF ──────────────────────────────────── -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-1">
-                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
+                <div class="rounded-xl shadow-sm overflow-hidden lg:col-start-1 lg:row-start-1" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Mujeres de 15 a 49 años de edad en el momento del censo" matTooltipClass="custom-tooltip"
-                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                            class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">8 234 561</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5 text-white">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none text-white">8 234 561</p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C1·R2 ── KPI: Con hijos ───────────────────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-2">
-                  <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Porcentaje de mujeres de 15 a 49 años que declararon tener hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                      <app-hero-icon [name]="'check-circle'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Mujeres entre 15 y 49 años con hijos/as</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">68,4%</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Mujeres entre 15 y 49 años con hijos/as</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">68,4%</p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C1·R3 ── KPI: Sin hijos ───────────────────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-1 lg:row-start-3">
-                  <div class="h-1" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Porcentaje de mujeres de 15 a 49 años sin hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                      <app-hero-icon [name]="'x-circle'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#038dd3">Mujeres entre 15 y 49 años sin hijos/as</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">31,6%</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Mujeres entre 15 y 49 años sin hijos/as</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">31,6%</p>
                     </div>
                   </div>
                 </div>
@@ -1297,14 +1298,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <!-- ── C1·R4-6 ── Gráfico: MEF por grupo de edad ─────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-1 lg:row-start-4 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                    </div>
                     <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Mujeres entre 15 y 49 años según tenencia de hijos/as nacidos/as vivos/as por grupos de edad</p>
-                    <button matTooltip="Mujeres de 15 a 49 años según grupo quinquenal de edad y tenencia de hijos/as nacidos/as vivos/as" matTooltipClass="custom-tooltip"
-                            class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
-                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                    </button>
                   </div>
                   @if (isBrowser) {
                     <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
@@ -1320,20 +1314,21 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <p class="text-[10px] font-black text-black tracking-wide leading-none mb-3">Razón de niño/a mujer</p>
+                    <p class="text-[10px] font-black tracking-wide leading-none mb-3" style="color:#000000">Razón de niño/a - mujer</p>
                     <div class="flex items-center gap-5">
                       <div class="flex items-center gap-2.5">
-                        <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
+                        <img src="generico.svg" class="w-9 h-9 shrink-0">
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
-                          <span class="text-[22px] xl:text-[30px] font-black text-gray-800 tabular-nums leading-none">30,5</span>
+                          <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">30,5</span>
+                          <span class="text-[9px] text-gray-400 font-semibold">niños</span>
                         </div>
                       </div>
                       <div class="flex items-center gap-2.5">
-                        <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
+                        <img src="generico.svg" class="w-9 h-9 shrink-0">
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
-                          <span class="text-[22px] xl:text-[30px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                          <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">100</span>
                           <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                         </div>
                       </div>
@@ -1343,18 +1338,17 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                 <!-- ── C2·R3 ── KPI: Promedio hijos 15–49 ───────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-2 lg:row-start-3">
-                  <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Promedio de hijos/as nacidos/as vivos/as declarados por mujeres de 15 a 49 años" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                      <app-hero-icon [name]="'calculator'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#33b3a9">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">2,3 <span class="text-sm xl:text-base font-bold text-gray-400">hijos</span></p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">2,3 <span class="text-sm xl:text-base font-bold text-gray-400">hijos</span></p>
                     </div>
                   </div>
                 </div>
@@ -1362,14 +1356,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <!-- ── C2·R4-6 ── Gráfico: Promedio hijos por edad ──────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-2 lg:row-start-4 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                    </div>
                     <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as nacidos/as vivos/as por grupos de edad de las mujeres entre 15 y 49 años</p>
-                    <button matTooltip="Promedio de hijos/as nacidos/as vivos/as según grupo quinquenal de edad de la madre" matTooltipClass="custom-tooltip"
-                            class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
-                      <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
-                    </button>
                   </div>
                   @if (isBrowser) {
                     <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
@@ -1380,18 +1367,17 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                 <!-- ── C3·R1 ── KPI: Madres solteras ────────────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-1">
-                  <div class="h-1" style="background:linear-gradient(to right,#8383fd,#0056a1)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Mujeres de 12 y más años que declararon ser madres y tener estado civil soltero" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8383fd18">
-                      <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#8383fd"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#8383fd">Madres solteras (12 y más años)</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Madres solteras de 12 y más años (nunca casadas o nunca convivientes)</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">1 234 892</p>
                     </div>
                   </div>
                 </div>
@@ -1399,10 +1385,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <!-- ── C3·R2-4 ── Gráfico: Promedio hijos por estado civil ─ -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden min-h-[260px] sm:min-h-[320px] lg:min-h-0 lg:col-start-3 lg:row-start-2 lg:row-span-3">
                   <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                      <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                    </div>
-                    <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil</p>
+                    <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Promedio de hijos/as de mujeres de 12 y más años por estado civil ó conyugal</p>
                   </div>
                   @if (isBrowser) {
                     <div class="flex-1 min-h-0 px-1 pb-2 pt-1">
@@ -1413,36 +1396,34 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                 <!-- ── C3·R5 ── KPI: Madres adolescentes ─────────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-5">
-                  <div class="h-1" style="background:linear-gradient(to right,#f59e0b,#0056a1)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Mujeres de 12 a 17 años que declararon ser madres al momento del censo" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#f59e0b18">
-                      <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#f59e0b"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#f59e0b">Madres adolescentes de 12 a 17 años</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">47 293</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Madres adolescentes de 12 a 17 años</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">47 293</p>
                     </div>
                   </div>
                 </div>
 
                 <!-- ── C3·R6 ── KPI: Hijos/as fallecidos/as ──────────────── -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden lg:col-start-3 lg:row-start-6">
-                  <div class="h-1" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
                   <div class="px-4 py-3 flex items-center gap-3 relative">
                     <button matTooltip="Total de hijos/as fallecidos/as declarados por mujeres de 12 y más años al momento del censo" matTooltipClass="custom-tooltip"
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <app-hero-icon [name]="'exclamation-triangle'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      <img src="generico.svg" class="w-5 h-5 shrink-0">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
-                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
-                      <p class="text-2xl xl:text-3xl font-black text-gray-800 tabular-nums leading-none">847 293</p>
+                      <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
+                      <p class="text-2xl xl:text-3xl font-black tabular-nums leading-none" style="color:#424242">847 293</p>
                     </div>
                   </div>
                 </div>
@@ -1461,7 +1442,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: Población inmigrante extranjera -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas nacidas en el extranjero que residen en el país al momento del censo" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1471,8 +1451,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'globe-alt'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#0056a1">Población inmigrante extranjera</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2 847 293</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Población inmigrante extranjera</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">2 847 293</p>
                       </div>
                     </div>
                   </div>
@@ -1480,10 +1460,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Pie: Por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por sexo</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por sexo</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según sexo declarado al momento del censo" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1499,10 +1476,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Barras: Por grandes grupos de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:190px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por grandes grupos de edad</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por grandes grupos de edad</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según grandes grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1528,14 +1502,15 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
                           <div class="flex flex-col leading-tight">
                             <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
-                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">99,5</span>
+                            <span class="text-[22px] font-black tabular-nums leading-none" style="color:#000000">99,5</span>
+                            <span class="text-[9px] text-gray-400 font-semibold">hombres</span>
                           </div>
                         </div>
                         <div class="flex items-center gap-2.5">
                           <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
                           <div class="flex flex-col leading-tight">
                             <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
-                            <span class="text-[22px] font-black text-gray-800 tabular-nums leading-none">100</span>
+                            <span class="text-[22px] font-black tabular-nums leading-none" style="color:#000000">100</span>
                             <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                           </div>
                         </div>
@@ -1553,7 +1528,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI: Edad promedio -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative">
                         <button matTooltip="Promedio de edad de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1563,15 +1537,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
                         </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#0056a1">Edad promedio de la población inmigrante extranjera</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">32,4 <span class="text-xs font-bold text-gray-400">años</span></p>
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Edad promedio de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">32,4 <span class="text-xs font-bold text-gray-400">años</span></p>
                         </div>
                       </div>
                     </div>
 
                     <!-- KPI: Edad mediana -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative">
                         <button matTooltip="Edad mediana de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1581,15 +1554,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
                         </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#038dd3">Edad mediana de la población inmigrante extranjera</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">29,7 <span class="text-xs font-bold text-gray-400">años</span></p>
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Edad mediana de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">29,7 <span class="text-xs font-bold text-gray-400">años</span></p>
                         </div>
                       </div>
                     </div>
 
                     <!-- KPI: Índice de envejecimiento -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#0056a1)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative">
                         <button matTooltip="Razón entre la población de 60 y más años y la de 0 a 14 años, multiplicada por 100" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1599,8 +1571,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
                         </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#33b3a9">Índice de envejecimiento de la población inmigrante extranjera</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">148,3</p>
+                          <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Índice de envejecimiento de la población inmigrante extranjera</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">148,3</p>
                         </div>
                       </div>
                     </div>
@@ -1610,10 +1582,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Pirámide poblacional -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:500px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'users'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por sexo y grupos de edad</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Pirámide poblacional de la población extranjera inmigrante</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según sexo y grupos quinquenales de edad" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1634,10 +1603,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Pie: Por seguro de salud -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'shield-check'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por tenencia de seguro de salud</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por tenencia de seguro de salud</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según tenencia de algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1653,10 +1619,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- hbar: Por nivel educativo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:190px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'academic-cap'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Población inmigrante extranjera por nivel educativo</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por nivel educativo alcanzado</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según nivel educativo alcanzado" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1672,10 +1635,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- hbar: Principales países de origen -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:210px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'map-pin'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-black text-gray-700 leading-tight min-w-0">Principales países de origen de la población inmigrante extranjera</p>
+                      <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Principales países de origen de la población inmigrante extranjera</p>
                       <button matTooltip="Países de nacimiento más frecuentes de la población inmigrante extranjera residente en el país" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 flex items-center justify-center shrink-0 hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
@@ -1709,9 +1669,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: población por estado civil -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0 lg:row-span-2">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población de 12 y más años por estado civil o conyugal</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población de 12 y más años por estado civil o conyugal</p>
                       <button matTooltip="Distribución de la población de 12 y más años según su estado civil o conyugal" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1724,9 +1683,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Pirámide: estado civil por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Estado civil o conyugal de la población de 12 y más años por sexo</p>
                       <button matTooltip="Pirámide comparativa de estado civil entre hombres y mujeres" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1739,9 +1697,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Barras apiladas: estado civil por grupo de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Estado civil de la población de 12 y más años por grupo de edad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Estado civil o conyugal de la población de 12 y más años por grupo de edad</p>
                       <button matTooltip="Distribución del estado civil según grupos de edad: actualmente unidos, anteriormente unidos y nunca unidos" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1764,7 +1721,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: Población con DNI -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas que cuentan con Documento Nacional de Identidad (DNI) vigente" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1774,9 +1730,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'identification'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que tiene DNI</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que tiene DNI</p>
                         <div class="flex items-baseline gap-2">
-                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">34 000 000</p>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">34 000 000</p>
                           <span class="text-sm font-bold" style="color:#038dd3">94,4%</span>
                         </div>
                       </div>
@@ -1786,9 +1742,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Fila pies DNI por sexo -->
                   <div class="grid grid-cols-2 gap-2 shrink-0">
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
-                      <div class="h-0.5 shrink-0" style="background:#0056a1"></div>
                       <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
-                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población masculina con tenencia de DNI</p>
+                        <p class="text-[9px] font-bold leading-tight pr-4" style="color:#000000">Población masculina con tenencia de DNI</p>
                         <button matTooltip="Porcentaje de hombres que cuentan con DNI sobre el total de población masculina" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1799,9 +1754,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       </div>
                     </div>
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
-                      <div class="h-0.5 shrink-0" style="background:#33b3a9"></div>
                       <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
-                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población femenina con tenencia de DNI</p>
+                        <p class="text-[9px] font-bold leading-tight pr-4" style="color:#000000">Población femenina con tenencia de DNI</p>
                         <button matTooltip="Porcentaje de mujeres que cuentan con DNI sobre el total de población femenina" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1815,9 +1769,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: DNI por grupo de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población que tiene DNI por grupo de edad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población que tiene DNI por grupo de edad</p>
                       <button matTooltip="Distribución de personas con DNI según grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1830,9 +1783,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: documentos de inmigrante extranjero -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población inmigrante extranjera según tipo de documento de identidad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población inmigrante extranjera según tipo de documento de identidad</p>
                       <button matTooltip="Tipo de documento de identidad que posee la población inmigrante extranjera residente en el país" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1855,7 +1807,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: Con algún seguro de salud -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas que cuentan con algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1865,9 +1816,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'shield-check'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que tiene algún seguro de salud</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que tiene algún seguro de salud</p>
                         <div class="flex items-baseline gap-2">
-                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">29 280 892</p>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">29 280 892</p>
                           <span class="text-sm font-bold" style="color:#33b3a9">81,3%</span>
                         </div>
                       </div>
@@ -1877,9 +1828,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <!-- Fila pies seguro por sexo -->
                   <div class="grid grid-cols-2 gap-2 shrink-0">
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
-                      <div class="h-0.5 shrink-0" style="background:#0056a1"></div>
                       <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
-                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población masculina con algún seguro de salud</p>
+                        <p class="text-[9px] font-bold leading-tight pr-4" style="color:#000000">Población masculina con algún seguro de salud</p>
                         <button matTooltip="Porcentaje de hombres que cuentan con algún seguro de salud sobre el total de población masculina" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1890,9 +1840,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       </div>
                     </div>
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:170px">
-                      <div class="h-0.5 shrink-0" style="background:#33b3a9"></div>
                       <div class="px-3 py-1.5 border-b border-gray-50 flex items-start justify-between shrink-0">
-                        <p class="text-[9px] font-bold text-gray-600 leading-tight pr-4">Población femenina con algún seguro de salud</p>
+                        <p class="text-[9px] font-bold leading-tight pr-4" style="color:#000000">Población femenina con algún seguro de salud</p>
                         <button matTooltip="Porcentaje de mujeres que cuentan con algún seguro de salud sobre el total de población femenina" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1906,9 +1855,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: seguro por grupo de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud por grupo de edad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con algún seguro de salud por grupo de edad</p>
                       <button matTooltip="Distribución de personas con algún seguro de salud según grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1921,9 +1869,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: seguro por tipo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con algún seguro de salud según tipo de seguro</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con algún seguro de salud según tipo de seguro</p>
                       <button matTooltip="Distribución de la población asegurada según el tipo de seguro de salud que posee" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1952,9 +1899,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- H-bar: nivel educativo alcanzado -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:280px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 15 y más años según nivel educativo alcanzado</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población censada de 15 y más años según nivel educativo alcanzado</p>
                       <button matTooltip="Distribución de la población censada de 15 y más años según el mayor nivel educativo alcanzado" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1967,9 +1913,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas agrupadas: nivel educativo por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:210px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Nivel educativo alcanzado de la población censada de 15 y más años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Nivel educativo alcanzado de la población censada de 15 y más años por sexo</p>
                       <button matTooltip="Comparación del nivel educativo alcanzado entre hombres y mujeres de 15 y más años" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -1987,7 +1932,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   
                   <!-- KPI: tasa asistencia 3-24 años -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Porcentaje de la población de 3 a 24 años que asiste a algún centro de enseñanza" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -1997,9 +1941,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'academic-cap'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Tasa de asistencia escolar de la población censada de 3 a 24 años</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Tasa de asistencia escolar de la población censada de 3 a 24 años</p>
                         <div class="flex items-baseline gap-2">
-                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">6 758 293</p>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">6 758 293</p>
                           <span class="text-sm font-bold" style="color:#038dd3">78,4%</span>
                         </div>
                       </div>
@@ -2008,7 +1952,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: desplazamiento fuera de distrito -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Población que se desplaza hacia otro distrito para asistir a su centro de enseñanza" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2018,17 +1961,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'map'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se desplaza fuera de su distrito para asistir a su centro de enseñanza</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se desplaza fuera de su distrito para asistir a su centro de enseñanza</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">1 234 892</p>
                       </div>
                     </div>
                   </div>
 
                   <!-- Columnas: asistencia 3-5 años por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 3 a 5 años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de asistencia escolar de la población censada de 3 a 5 años por sexo</p>
                       <button matTooltip="Tasa de asistencia escolar de la población de 3 a 5 años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2041,9 +1983,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: asistencia 12-16 años por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 12 a 16 años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de asistencia escolar de la población censada de 12 a 16 años por sexo</p>
                       <button matTooltip="Tasa de asistencia escolar de la población de 12 a 16 años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2061,9 +2002,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: asistencia 3-24 según sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 3 a 24 años según sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de asistencia escolar de la población censada de 3 a 24 años según sexo</p>
                       <button matTooltip="Tasa de asistencia escolar de la población de 3 a 24 años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2076,9 +2016,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: asistencia 6-11 años por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 6 a 11 años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de asistencia escolar de la población censada de 6 a 11 años por sexo</p>
                       <button matTooltip="Tasa de asistencia escolar de la población de 6 a 11 años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2091,9 +2030,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: asistencia 17-24 años por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de asistencia escolar de la población censada de 17 a 24 años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de asistencia escolar de la población censada de 17 a 24 años por sexo</p>
                       <button matTooltip="Tasa de asistencia escolar de la población de 17 a 24 años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2111,7 +2049,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: tasa de alfabetismo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Porcentaje de la población de 15 y más años que sabe leer y escribir" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2121,17 +2058,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'book-open'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Tasa de alfabetismo de la población censada de 15 y más años</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#33b3a9">94,8%</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Tasa de alfabetismo de la población censada de 15 y más años</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">94,8%</p>
                       </div>
                     </div>
                   </div>
 
                   <!-- Columnas: alfabetismo por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de alfabetismo de la población censada de 15 y más años por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de alfabetismo de la población censada de 15 y más años por sexo</p>
                       <button matTooltip="Tasa de alfabetismo de la población de 15 y más años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2144,9 +2080,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- H-bar: alfabetismo por grupos de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#0056a1)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Tasa de alfabetismo de la población censada de 15 y más años por grupos de edad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Tasa de alfabetismo de la población censada de 15 y más años por grupos de edad</p>
                       <button matTooltip="Tasa de alfabetismo de la población de 15 y más años según grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2164,7 +2099,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: uso TIC -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Porcentaje de la población de 3 y más años que utilizó al menos una tecnología de información y comunicación" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2174,17 +2108,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población censada de 3 y más años que utilizó al menos una TIC</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#8282fb">68,4%</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población censada de 3 y más años que utilizó al menos una TIC</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">68,4%</p>
                       </div>
                     </div>
                   </div>
 
                   <!-- Columnas: TIC por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 3 y más años que utilizó al menos una TIC por sexo</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población censada de 3 y más años que utilizó al menos una TIC por sexo</p>
                       <button matTooltip="Uso de TIC por la población de 3 y más años según sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2197,9 +2130,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- H-bar: TIC por grupos de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población censada de 3 y más años que utilizó al menos una TIC por grupos de edad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población censada de 3 y más años que utilizó al menos una TIC por grupos de edad</p>
                       <button matTooltip="Uso de TIC por la población de 3 y más años según grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2226,12 +2158,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Bar: Población según autoidentificación étnica -->
                   <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-                        <app-hero-icon [name]="'globe-americas'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-bold text-gray-600 leading-tight min-w-0">Población según autoidentificación étnica</p>
+                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">Población según autoidentificación étnica</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2244,12 +2172,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Bar: Idioma o lengua aprendida en la niñez -->
                   <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd315">
-                        <app-hero-icon [name]="'chat-bubble-left'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] font-bold text-gray-600 leading-tight min-w-0">Población censada según idiomas o lenguas con las que aprendió a hablar en su niñez</p>
+                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">Población censada según idiomas o lenguas con las que aprendió a hablar en su niñez</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2275,7 +2199,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI total — fila 1 -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2285,8 +2208,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#0056a1">8 344 891</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">8 344 891</p>
                       </div>
                     </div>
                   </div>
@@ -2296,12 +2219,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Pie: Sexo -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
-                          <app-hero-icon [name]="'users'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Sexo</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Sexo</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2314,12 +2233,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Grupo de edad -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
-                          <app-hero-icon [name]="'chart-bar'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Grupo de edad</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Grupo de edad</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2337,12 +2252,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Nivel educativo alcanzado -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#8282fb)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
-                          <app-hero-icon [name]="'academic-cap'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Nivel educativo alcanzado</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Nivel educativo alcanzado</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2358,7 +2269,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: Sí utiliza TIC's -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
                         <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
                           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2368,8 +2278,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-4">
-                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">Sí utiliza TIC's</p>
-                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">3 124 892</p>
+                            <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
+                            <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">3 124 892</p>
                             <span class="text-xs font-bold" style="color:#8282fb">37,5%</span>
                           </div>
                         </div>
@@ -2377,7 +2287,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: No sabe leer ni escribir -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
                         <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
                           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2387,8 +2296,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-4">
-                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">No sabe leer ni escribir</p>
-                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">892 293</p>
+                            <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
+                            <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
                             <span class="text-xs font-bold" style="color:#0056a1">10,7%</span>
                           </div>
                         </div>
@@ -2403,12 +2312,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Radar: Acceso a seguro de salud -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#0056a115">
-                          <app-hero-icon [name]="'heart'" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Acceso a seguro de salud</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Acceso a seguro de salud</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2421,12 +2326,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Estado civil o conyugal -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#0056a1)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#038dd315">
-                          <app-hero-icon [name]="'user-group'" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Estado civil o conyugal</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Estado civil o conyugal</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2454,7 +2355,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI total — fila 1 -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2464,8 +2364,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población que se autoidentifica como afroperuano o afrodescendiente</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#33b3a9">275 185</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se autoidentifica como afroperuano o afrodescendiente</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">275 185</p>
                       </div>
                     </div>
                   </div>
@@ -2475,12 +2375,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Pie: Sexo -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon [name]="'users'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Sexo</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Sexo</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2493,12 +2389,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Grupo de edad -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon [name]="'chart-bar'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Grupo de edad</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Grupo de edad</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2516,12 +2408,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Nivel educativo alcanzado -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon [name]="'academic-cap'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Nivel educativo alcanzado</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Nivel educativo alcanzado</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2537,7 +2425,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: Sí utiliza TIC's -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
                         <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
                           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2547,8 +2434,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-4">
-                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">Sí utiliza TIC's</p>
-                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">134 892</p>
+                            <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
+                            <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">134 892</p>
                             <span class="text-xs font-bold" style="color:#8282fb">49,0%</span>
                           </div>
                         </div>
@@ -2556,7 +2443,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: No sabe leer ni escribir -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
                         <div class="px-3 py-3 flex items-start gap-2.5 relative h-full">
                           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2566,8 +2452,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-4">
-                            <p class="text-[9px] font-bold leading-tight mb-1.5 text-gray-500">No sabe leer ni escribir</p>
-                            <p class="text-lg font-black text-gray-800 tabular-nums leading-none mb-0.5">18 293</p>
+                            <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
+                            <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">18 293</p>
                             <span class="text-xs font-bold" style="color:#33b3a9">6,6%</span>
                           </div>
                         </div>
@@ -2582,12 +2468,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Radar: Acceso a seguro de salud -->
                     <div class="col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon [name]="'heart'" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Acceso a seguro de salud</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Acceso a seguro de salud</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2600,12 +2482,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Col: Estado civil o conyugal -->
                     <div class="col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background:#038dd315">
-                          <app-hero-icon [name]="'user-group'" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="flex-1 text-[9px] font-bold text-gray-600 leading-tight min-w-0">Estado civil o conyugal</p>
+                        <p class="flex-1 text-[9px] font-bold leading-tight min-w-0" style="color:#000000">Estado civil o conyugal</p>
                         <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2628,7 +2506,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── DISCAPACIDAD: 5 columnas ──────────────────────────────────── -->
           @if (sec.id === 'discapacidad') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch lg:h-[700px]">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-stretch lg:h-[700px]">
 
                 <!-- ════ COLS 1+2: Estructura Demográfica ════════════════════════ -->
                 <div class="col-span-2 h-full flex flex-col gap-3">
@@ -2639,7 +2517,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI: Población con discapacidad -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                       <div class="px-4 py-3 flex items-center gap-3 relative">
                         <button matTooltip="Total de personas que presentan algún tipo de discapacidad" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2649,15 +2526,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                         </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población con discapacidad</p>
-                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">3 209 257</p>
+                          <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población de 5 y más años con discapacidad</p>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">3 209 257</p>
                         </div>
                       </div>
                     </div>
 
                     <!-- KPI: Hogares con al menos una persona con discapacidad -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                       <div class="px-4 py-3 flex items-center gap-3 relative">
                         <button matTooltip="Hogares que tienen al menos una persona con algún tipo de discapacidad" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2667,8 +2543,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
                         </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Hogares con al menos una persona con discapacidad</p>
-                          <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">2 847 293</p>
+                          <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Hogares con al menos una persona con discapacidad</p>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">2 847 293</p>
                         </div>
                       </div>
                     </div>
@@ -2677,9 +2553,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Pirámide poblacional (flex-1) -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:420px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Pirámide de la población con discapacidad</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Pirámide de la población con discapacidad</p>
                       <button matTooltip="Distribución de la población con discapacidad por grupos de edad y sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2699,9 +2574,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: tipo de seguro de salud -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-[180px]">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por acceso a tipo de seguro de salud</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con discapacidad por acceso a tipo de seguro de salud</p>
                       <button matTooltip="Distribución de la población con discapacidad según el tipo de seguro de salud al que accede" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2714,9 +2588,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: nivel educativo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-[180px]">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad por nivel educativo alcanzado</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con discapacidad por nivel educativo alcanzado</p>
                       <button matTooltip="Distribución de la población con discapacidad según el mayor nivel educativo alcanzado" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2732,9 +2605,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Pie: asistencia a centro de enseñanza -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-4">Población con discapacidad de 3 a 24 años por asistencia a un centro de enseñanza</p>
+                        <p class="text-[10px] font-bold leading-tight pr-4" style="color:#000000">Población con discapacidad de 5 a 24 años por asistencia a un centro de enseñanza</p>
                         <button matTooltip="Distribución de la población con discapacidad de 3 a 24 años según su asistencia a un centro de enseñanza" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                           <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2750,7 +2622,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: no sabe leer ni escribir -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
                         <div class="px-4 py-3 flex items-start gap-3 relative h-full">
                           <button matTooltip="Población con discapacidad que declara no saber leer ni escribir" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2760,8 +2631,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'pencil'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-5">
-                            <p class="text-[10px] font-bold leading-tight mb-2 text-gray-500">Población con discapacidad que no sabe leer ni escribir</p>
-                            <p class="text-xl font-black text-gray-800 tabular-nums leading-none mb-0.5">534 892</p>
+                            <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que no sabe leer ni escribir</p>
+                            <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">534 892</p>
                             <span class="text-sm font-bold" style="color:#8282fb">16,6%</span>
                           </div>
                         </div>
@@ -2769,7 +2640,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: uso de TIC's -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="h-1" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
                         <div class="px-4 py-3 flex items-start gap-3 relative h-full">
                           <button matTooltip="Población con discapacidad que hace uso de tecnologías de información y comunicación" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -2779,8 +2649,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
                           </div>
                           <div class="flex-1 min-w-0 pr-5">
-                            <p class="text-[10px] font-bold leading-tight mb-2 text-gray-500">Población con discapacidad que hace uso de TIC's</p>
-                            <p class="text-xl font-black text-gray-800 tabular-nums leading-none mb-0.5">892 293</p>
+                            <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que hace uso de TIC's</p>
+                            <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
                             <span class="text-sm font-bold" style="color:#8282fb">27,8%</span>
                           </div>
                         </div>
@@ -2792,16 +2662,13 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                 </div><!-- /cols 3+4 -->
 
-                <!-- ════ COL 5: Esferas de Funcionamiento ════════════════════════ -->
-                <div class="h-full flex flex-col gap-3">
+                <!-- ════ COLS 5+6: Esferas (apiladas 50/50) ══════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
 
-                  
-
-                  <!-- H-bar: esferas de funcionamiento -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:260px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#038dd3)"></div>
+                  <!-- Fila 1 + 50% fila 2: Esferas por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:220px">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-5">Población con discapacidad según esfera de funcionamiento</p>
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con discapacidad según esfera de funcionamiento por sexo</p>
                       <button matTooltip="Distribución de la población con discapacidad según la esfera de funcionamiento que declara" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
@@ -2812,50 +2679,23 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                  <!-- KPI especial: edad promedio y mediana -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#8282fb,#0056a1)"></div>
+                  <!-- 50% fila 2 + fila 3: Esferas por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1" style="min-height:220px">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-4">Edad promedio y mediana de la población con discapacidad</p>
-                      <button matTooltip="Edad promedio y mediana de la población con discapacidad, desagregada por esfera de funcionamiento" matTooltipClass="custom-tooltip"
+                      <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población con discapacidad según esfera de funcionamiento según grupo de edad</p>
+                      <button matTooltip="Distribución porcentual de la población con discapacidad por esfera de funcionamiento según grupo de edad: 5-17, 18-59 y 60 y más años" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
-                    <!-- Valores principales destacados -->
-                    <div class="flex items-stretch gap-0 px-3 pt-2.5 pb-2 border-b border-gray-100">
-                      <div class="flex flex-col items-center flex-1 gap-0.5">
-                        <span class="text-[8px] font-semibold text-gray-400 uppercase tracking-wide">Promedio</span>
-                        <span class="text-3xl font-black tabular-nums leading-none" style="color:#0056a1">58,4</span>
-                        <span class="text-[7.5px] text-gray-400">años</span>
-                      </div>
-                      <div class="w-px bg-gray-100 mx-2"></div>
-                      <div class="flex flex-col items-center flex-1 gap-0.5">
-                        <span class="text-[8px] font-semibold text-gray-400 uppercase tracking-wide">Mediana</span>
-                        <span class="text-3xl font-black tabular-nums leading-none" style="color:#33b3a9">60,0</span>
-                        <span class="text-[7.5px] text-gray-400">años</span>
-                      </div>
+                    <div class="flex-1 min-h-0 p-2">
+                      <div echarts [options]="discEsferasEdadOpt" class="w-full h-full"></div>
                     </div>
-                    <!-- Desglose por esfera -->
-                    <div class="px-3 pt-2 pb-2.5">
-                      <div class="grid grid-cols-3 gap-x-2 mb-1.5">
-                        <span class="text-[7.5px] font-bold text-gray-400 col-span-1">Esfera</span>
-                        <span class="text-[7.5px] font-bold text-gray-400 text-right">Prom.</span>
-                        <span class="text-[7.5px] font-bold text-gray-400 text-right">Med.</span>
-                      </div>
-                      @for (row of discEdadEsferas; track row.label) {
-                        <div class="grid grid-cols-3 gap-x-2 py-1 border-t border-gray-50">
-                          <span class="text-[7.5px] text-gray-600 leading-tight col-span-1">{{ row.label }}</span>
-                          <span class="text-[8px] font-black text-right tabular-nums" style="color:#0056a1">{{ row.prom }}</span>
-                          <span class="text-[8px] font-black text-right tabular-nums" style="color:#33b3a9">{{ row.med }}</span>
-                        </div>
-                      }
-                    </div>
-                  </div><!-- /KPI especial -->
+                  </div>
 
-                </div><!-- /col 5 -->
+                </div><!-- /cols 5+6 -->
 
-              </div><!-- /grid 5 cols -->
+              </div><!-- /grid 6 cols -->
             </div>
           }
 
@@ -2869,7 +2709,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Fila 1: KPI total viviendas -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Viviendas particulares con al menos un ocupante presente al momento del censo"
                               matTooltipClass="custom-tooltip"
@@ -2880,22 +2719,17 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Viviendas particulares con ocupantes presentes</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">18 234 892</p>
-                        <span class="text-[8px] font-semibold uppercase tracking-widest text-gray-400">Censo 2025</span>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Viviendas particulares con ocupantes presentes</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">18 234 892</p>                        
                       </div>
                     </div>
                   </div>
 
                   <!-- Filas 2-3: Bar hogares -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                          <app-hero-icon [name]="'chart-bar'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según número de hogares</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según número de hogares</p>
                       </div>
                       <button matTooltip="Distribución según número de hogares por vivienda" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -2909,13 +2743,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 4-5: HBar habitaciones -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                          <app-hero-icon [name]="'chart-bar'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según número de habitaciones de la vivienda</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según número de habitaciones de la vivienda</p>
                       </div>
                       <button matTooltip="Distribución según número de habitaciones" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -2929,13 +2759,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 6-7: Pie calidad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                          <app-hero-icon [name]="'star'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según calidad de la vivienda</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según calidad de la vivienda</p>
                       </div>
                       <button matTooltip="Distribución según calidad de la vivienda" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -2954,13 +2780,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 1-3: HBar paredes exteriores -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:3 1 0%;min-height:240px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon [name]="'home'" class="w-3 h-3" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según material de construcción predominante en las paredes exteriores</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según material de construcción predominante en las paredes exteriores</p>
                       </div>
                       <button matTooltip="Distribución según material de paredes exteriores" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -2977,13 +2799,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 4-5: Bar techos -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%;min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon [name]="'home'" class="w-3 h-3" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según material de construcción predominante en los techos</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según material de construcción predominante en los techos</p>
                       </div>
                       <button matTooltip="Distribución según material de techos" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3000,13 +2818,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 6-7: HBar pisos -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%;min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon [name]="'home'" class="w-3 h-3" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según material de construcción predominante en los pisos</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según material de construcción predominante en los pisos</p>
                       </div>
                       <button matTooltip="Distribución según material de pisos" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3028,13 +2842,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 1-3: Bar agua -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:3 1 0%;min-height:240px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'beaker'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según tipo de abastecimiento de agua</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según tipo de abastecimiento de agua</p>
                       </div>
                       <button matTooltip="Distribución según tipo de abastecimiento de agua" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3051,13 +2861,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 4-5: Bar excretas -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%;min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'beaker'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según forma de eliminación de excretas</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según forma de eliminación de excretas</p>
                       </div>
                       <button matTooltip="Distribución según forma de eliminación de excretas" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3074,13 +2880,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 6-7: Bar energía eléctrica -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%;min-height:180px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'bolt'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Viviendas particulares con ocupantes presentes según procedencia del suministro de energía eléctrica</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Viviendas particulares con ocupantes presentes según procedencia del suministro de energía eléctrica</p>
                       </div>
                       <button matTooltip="Distribución según suministro de energía eléctrica" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3108,7 +2910,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- KPI: total PET -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas en edad de trabajar (15 años y más)" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -3118,22 +2919,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon [name]="'briefcase'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Población en edad de trabajar</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">26 847 293</p>
-                        <span class="text-[8px] font-semibold uppercase tracking-widest text-gray-400">Censo 2025</span>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población en edad de trabajar (población de 14 y más años)</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">26 847 293</p>
+                        
                       </div>
                     </div>
                   </div>
 
                   <!-- Pie: por sexo -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:240px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon [name]="'users'" class="w-3 h-3" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por sexo</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por sexo</p>
                       </div>
                       <button matTooltip="Distribución por sexo" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3147,13 +2944,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- HBar: por grupos de edad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:220px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon [name]="'chart-bar'" class="w-3 h-3" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por grupos de edad</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por grupos de edad</p>
                       </div>
                       <button matTooltip="Distribución por grupos de edad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3172,13 +2965,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Semi-circle: seguro de salud -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'heart'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por acceso a seguro de salud</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por acceso a seguro de salud</p>
                       </div>
                       <button matTooltip="Distribución por acceso a seguro de salud" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3192,13 +2981,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Semi-circle: discapacidad -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'user'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar con y sin discapacidad</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar con y sin discapacidad</p>
                       </div>
                       <button matTooltip="Distribución por condición de discapacidad" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3212,13 +2997,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Columnas: estado civil -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" style="min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                          <app-hero-icon [name]="'identification'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por estado civil o conyugal</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por estado civil o conyugal</p>
                       </div>
                       <button matTooltip="Distribución por estado civil o conyugal" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3237,13 +3018,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Fila 1: nivel educativo (ancho completo) -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col shrink-0" style="min-height:220px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#8282fb)"></div>
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <div class="flex items-start gap-1.5">
-                        <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                          <app-hero-icon [name]="'academic-cap'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por nivel educativo alcanzado</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por nivel educativo alcanzado</p>
                       </div>
                       <button matTooltip="Distribución por nivel educativo alcanzado" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3260,13 +3037,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Pie: asistencia a centro de enseñanza -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                         <div class="flex items-start gap-1.5">
-                          <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                            <app-hero-icon [name]="'academic-cap'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                          </div>
-                          <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por asistencia a un centro de enseñanza</p>
+                          <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por asistencia a un centro de enseñanza</p>
                         </div>
                         <button matTooltip="Distribución por asistencia a un centro de enseñanza" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3280,13 +3053,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- Pie: alfabetismo -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#8282fb,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                         <div class="flex items-start gap-1.5">
-                          <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#8282fb15">
-                            <app-hero-icon [name]="'book-open'" class="w-3 h-3" style="color:#8282fb"></app-hero-icon>
-                          </div>
-                          <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar por condición de alfabetismo</p>
+                          <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar por condición de alfabetismo</p>
                         </div>
                         <button matTooltip="Distribución por condición de alfabetismo" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3305,13 +3074,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- HBar: uso de dispositivos TIC's -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#0056a1)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                         <div class="flex items-start gap-1.5">
-                          <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                            <app-hero-icon [name]="'device-phone-mobile'" class="w-3 h-3" style="color:#33b3a9"></app-hero-icon>
-                          </div>
-                          <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar según uso de dispositivos TIC's</p>
+                          <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar según uso de dispositivos TIC's</p>
                         </div>
                         <button matTooltip="Distribución según uso de dispositivos tecnológicos" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3325,13 +3090,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- HBar: uso de internet -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                       <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                         <div class="flex items-start gap-1.5">
-                          <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                            <app-hero-icon [name]="'globe-alt'" class="w-3 h-3" style="color:#038dd3"></app-hero-icon>
-                          </div>
-                          <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Población en edad de trabajar según uso de internet</p>
+                          <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Población en edad de trabajar según uso de internet</p>
                         </div>
                         <button matTooltip="Distribución según uso de internet" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
@@ -3361,7 +3122,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Fila 1: KPI Hogares censados -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
-                    <div class="h-1" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de hogares registrados en el Censo de Población y Vivienda 2025" matTooltipClass="custom-tooltip"
                               class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -3373,20 +3133,16 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         <app-hero-icon name="home" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1 text-gray-500">Hogares censados</p>
-                        <p class="text-2xl font-black text-gray-800 tabular-nums leading-none">9 861 890</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Hogares censados</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">9 861 890</p>
                       </div>
                     </div>
                   </div>
 
                   <!-- Filas 2-3: Pie sexo del responsable -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                        <app-hero-icon name="users" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares según sexo del responsable del hogar</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares según sexo del responsable del hogar</p>
                       <button matTooltip="Distribución de hogares según el sexo del jefe o jefa de hogar" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3401,12 +3157,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 4-5: HBar tenencia de vivienda -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#038dd3,#33b3a9)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd315">
-                        <app-hero-icon name="home" class="w-3.5 h-3.5" style="color:#038dd3"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Tenencia de la vivienda que ocupa el hogar</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Tenencia de la vivienda que ocupa el hogar</p>
                       <button matTooltip="Régimen de tenencia de la vivienda que ocupa el hogar" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3426,12 +3178,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 1-2: HBar energía para cocinar -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                        <app-hero-icon name="fire" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares según tipo de energía o combustible que utilizan para cocinar</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares según tipo de energía o combustible que utilizan para cocinar</p>
                       <button matTooltip="Tipo de energía o combustible principal utilizado por el hogar para cocinar sus alimentos" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3446,12 +3194,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 3-4: HBar eliminación residuos sólidos -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                        <app-hero-icon name="trash" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares según forma de eliminación de residuos sólidos</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares según forma de eliminación de residuos sólidos</p>
                       <button matTooltip="Forma en que el hogar elimina sus residuos sólidos o basura" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3472,7 +3216,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI hogares con emigrantes internacionales -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:1 1 0%">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative flex-1">
                         <button matTooltip="Hogares con al menos un miembro que emigró al exterior en los últimos 5 años" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -3480,24 +3223,17 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-                          <app-hero-icon name="globe-alt" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-2 text-gray-500">Hogares con algún miembro en condición de emigrante internacional</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">1 234 892</p>
+                          <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con algún miembro en condición de emigrante internacional</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">1 234 892</p>
                         </div>
                       </div>
                     </div>
 
                     <!-- Column hogares según N° de emigrantes -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#0056a1,#038dd3)"></div>
                       <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a115">
-                          <app-hero-icon name="chart-bar" class="w-3.5 h-3.5" style="color:#0056a1"></app-hero-icon>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares según número de miembros emigrantes internacionales</p>
+                        <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares según número de miembros emigrantes internacionales</p>
                         <button matTooltip="Número de miembros emigrantes internacionales por hogar" matTooltipClass="custom-tooltip"
                                 class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                           <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3522,7 +3258,6 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI bienes TIC -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:1 1 0%">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative">
                         <button matTooltip="Hogares que poseen al menos un bien TIC (televisor, radio, computadora, celular, etc.)" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -3530,19 +3265,15 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon name="device-phone-mobile" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-2 text-gray-500">Hogares con tenencia de bienes TIC's</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">8 234 892</p>
+                          <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con tenencia de bienes TIC's</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">8 234 892</p>
                         </div>
                       </div>
                     </div>
 
                     <!-- KPI servicios TIC -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:1 1 0%">
-                      <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                       <div class="px-3 py-3 flex items-start gap-2 relative">
                         <button matTooltip="Hogares que acceden a al menos un servicio TIC (internet, telefonía fija, TV cable, etc.)" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
@@ -3550,12 +3281,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a915">
-                          <app-hero-icon name="signal" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                        </div>
                         <div class="flex-1 min-w-0 pr-5">
-                          <p class="text-[9px] font-bold leading-tight mb-2 text-gray-500">Hogares con acceso a servicios TIC's</p>
-                          <p class="text-xl font-black text-gray-800 tabular-nums leading-none">6 847 293</p>
+                          <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con acceso a servicios TIC's</p>
+                          <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">6 847 293</p>
                         </div>
                       </div>
                     </div>
@@ -3564,12 +3292,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 2-3: Column artefactos y electrodomésticos -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                        <app-hero-icon name="device-phone-mobile" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares con tenencia de artefactos y electrodomésticos</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares con tenencia de artefactos y electrodomésticos</p>
                       <button matTooltip="Hogares que poseen cada uno de los artefactos y electrodomésticos listados" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3584,12 +3308,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                   <!-- Filas 4-5: Column medios de transporte -->
                   <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:2 1 0%; min-height:200px">
-                    <div class="h-1 shrink-0" style="background:linear-gradient(to right,#33b3a9,#038dd3)"></div>
                     <div class="flex items-start gap-2 px-3 pt-2 pb-1 shrink-0">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a915">
-                        <app-hero-icon name="truck" class="w-3.5 h-3.5" style="color:#33b3a9"></app-hero-icon>
-                      </div>
-                      <p class="text-[10px] font-bold text-gray-600 leading-tight pr-3">Hogares con tenencia de medios de transporte</p>
+                      <p class="text-[10px] font-bold leading-tight pr-3" style="color:#000000">Hogares con tenencia de medios de transporte</p>
                       <button matTooltip="Hogares que poseen cada uno de los medios de transporte listados" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0 ml-auto">
                         <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -3617,15 +3337,15 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
                        [class]="getColSpanClass(ind.span)"
                        [style]="ind.minHeight ? 'min-height:' + ind.minHeight + 'px' : ''">
-                    <div class="h-1 w-full shrink-0"
-                         [style]="'background:linear-gradient(to right,' + (activeGroup()?.color ?? '#0056a1') + ',' + getSecondaryColor() + ')'"></div>
                     <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                           [style]="'background:' + (activeGroup()?.color ?? '#0056a1') + '15'">
-                        <app-hero-icon [name]="ind.icon" class="w-4 h-4"
-                                       [style]="'color:' + (activeGroup()?.color ?? '#0056a1')"></app-hero-icon>
-                      </div>
-                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
+                      @if (ind.type === 'kpi' || ind.type === 'kpi_list') {
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                             [style]="'background:' + (activeGroup()?.color ?? '#0056a1') + '15'">
+                          <app-hero-icon [name]="ind.icon" class="w-4 h-4"
+                                         [style]="'color:' + (activeGroup()?.color ?? '#0056a1')"></app-hero-icon>
+                        </div>
+                      }
+                      <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug pt-0.5 min-w-0" style="color:#000000">{{ ind.title }}</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4"
@@ -3647,8 +3367,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
         <!-- KPI simple -->
         @if (ind.type === 'kpi') {
           <div class="flex-1 flex flex-col items-center justify-center gap-1.5 px-3 py-3">
-            <span class="text-4xl sm:text-5xl font-black tabular-nums tracking-tight leading-none" [style]="'color:'+color">{{ ind.kpiValue ?? '—' }}</span>
-            <span class="text-[8px] font-semibold uppercase tracking-widest text-gray-400">Censo 2025</span>
+            <span class="text-4xl sm:text-5xl font-black tabular-nums tracking-tight leading-none" style="color:#000000">{{ ind.kpiValue ?? '—' }}</span>
+           
             @if (ind.note) { <div class="mt-2 w-full bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5"><p class="text-[7.5px] text-amber-700 font-semibold leading-tight">{{ ind.note }}</p></div> }
           </div>
         }
@@ -3657,7 +3377,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
         @if (ind.type === 'kpi_list') {
           <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
             <div class="flex flex-col items-center py-2 px-3 shrink-0">
-              <span class="text-3xl sm:text-4xl font-black tabular-nums tracking-tight leading-none" [style]="'color:'+color">{{ ind.kpiValue ?? '—' }}</span>
+              <span class="text-3xl sm:text-4xl font-black tabular-nums tracking-tight leading-none" style="color:#000000">{{ ind.kpiValue ?? '—' }}</span>
               <span class="text-[7.5px] font-semibold uppercase tracking-widest text-gray-400 mt-0.5">años — promedio general</span>
             </div>
             <div class="h-px mx-3 bg-gray-100 shrink-0"></div>
@@ -3666,7 +3386,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="flex items-center gap-1.5 py-0.5">
                   <div class="w-1.5 h-1.5 rounded-full shrink-0" [style]="'background:'+getPieColor(ci)"></div>
                   <span class="flex-1 text-[7.5px] text-gray-500 leading-tight min-w-0">{{ cat }}</span>
-                  <span class="text-[9.5px] font-black shrink-0 tabular-nums" [style]="'color:'+color">{{ (ind.data ?? [])[ci] ?? '—' }}</span>
+                  <span class="text-[9.5px] font-black shrink-0 tabular-nums" style="color:#000000">{{ (ind.data ?? [])[ci] ?? '—' }}</span>
                 </div>
               }
             </div>
@@ -3927,37 +3647,41 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:10px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
-                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
-                            <span style="font-weight:900;color:#111">${(it.value as number).toFixed(1)}%</span></div>`;
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#424242">${(it.value as number).toFixed(1)}%</span></div>`;
                     });
                     return h;
                 },
             },
-            legend: { data: ['Con hijos', 'Sin hijos'], top: 2, left: 'center', textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8 },
+            legend: { data: ['Con hijos', 'Sin hijos'], top: 2, left: 'center', textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8 },
             grid: { top: 26, right: 8, bottom: 6, left: 4, containLabel: true },
             xAxis: {
                 type: 'value', min: 0, max: 100,
-                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => `${v}%` },
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => `${v}%` },
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
             },
             yAxis: {
                 type: 'category', data: ages,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 8, color: '#424242' },
             },
             series: [
                 { name: 'Con hijos', type: 'bar', stack: 'total', data: con,
-                  itemStyle: { color: CLR.blue, borderRadius: [0,0,0,0] },
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242',
+                           formatter: (p: any) => `${(p.value as number).toFixed(1)}%` },
+                  itemStyle: { color: '#038dd3', borderRadius: [0,0,0,0] },
                   barMaxWidth: 20, emphasis: { focus: 'series' as const } },
                 { name: 'Sin hijos', type: 'bar', stack: 'total', data: sin,
-                  itemStyle: { color: CLR.teal, borderRadius: [0,3,3,0] as [number,number,number,number] },
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242',
+                           formatter: (p: any) => `${(p.value as number).toFixed(1)}%` },
+                  itemStyle: { color: '#caeae4', borderRadius: [0,3,3,0] as [number,number,number,number] },
                   barMaxWidth: 20, emphasis: { focus: 'series' as const } },
             ],
         };
@@ -3969,31 +3693,30 @@ export class DashboardTematicoComponent implements OnInit {
         return {
             tooltip: {
                 trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${(p.value as number).toFixed(1)} hijos</span>`;
+                    return `<span style="font-size:10px;font-weight:900;color:#424242">${p.name}</span><br>`
+                         + `<span style="font-size:13px;font-weight:900;color:#424242">${(p.value as number).toFixed(1)} hijos</span>`;
                 },
             },
             grid: { top: 10, right: 28, bottom: 6, left: 4, containLabel: true },
             xAxis: {
                 type: 'value', min: 0,
-                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v.toFixed(1) },
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => v.toFixed(1) },
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
             },
             yAxis: {
                 type: 'category', data: ages,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 8, color: '#424242' },
             },
             series: [{
                 type: 'bar', data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => (p.value as number).toFixed(1) },
                 itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.4) }] },
+                    color: '#038dd3',
                     borderRadius: [0,4,4,0] as [number,number,number,number],
                 },
                 barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
@@ -4004,34 +3727,35 @@ export class DashboardTematicoComponent implements OnInit {
     private buildFecuEstCivilOpt(): EChartsOption {
         const cats = [...FECU_EC_CATS].reverse();
         const data = [...FECU_EC_PROM].reverse();
+        // Colores por categoría (mismo orden que FECU_EC_CATS, luego invertido junto con cats/data)
+        const colors = ['#0056a1', '#038dd3', '#4c8c80', '#33b3a9', '#caeae4', '#8383fd'].reverse();
         return {
             tooltip: {
                 trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${(p.value as number).toFixed(1)} hijos</span>`;
+                    return `<span style="font-size:10px;font-weight:900;color:#424242">${p.name}</span><br>`
+                         + `<span style="font-size:13px;font-weight:900;color:#424242">${(p.value as number).toFixed(1)} hijos</span>`;
                 },
             },
             grid: { top: 10, right: 28, bottom: 6, left: 4, containLabel: true },
             xAxis: {
                 type: 'value', min: 0,
-                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => v.toFixed(1) },
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => v.toFixed(1) },
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
             },
             yAxis: {
                 type: 'category', data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 8, color: '#424242' },
             },
             series: [{
                 type: 'bar', data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => (p.value as number).toFixed(1) },
                 itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
+                    color: (params: any) => colors[params.dataIndex],
                     borderRadius: [0,4,4,0] as [number,number,number,number],
                 },
                 barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
@@ -4065,15 +3789,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 10 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:11px;font-weight:900;color:${colors[p.dataIndex]}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${p.percent?.toFixed(1)}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${p.percent?.toFixed(1)}%)</span>`,
             },
             legend: {
                 orient: 'horizontal', bottom: 0, left: 'center',
-                textStyle: { fontSize: 7, color: '#6b7280' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 7, color: '#424242' }, itemWidth: 8, itemHeight: 8,
                 formatter: (name: string) => { const idx = cats.indexOf(name); return idx >= 0 ? `${name}: ${this.fmt(data[idx])}` : name; },
             },
             series: [{
@@ -4092,10 +3816,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4103,7 +3827,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category', data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break', width: 55 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break', width: 55 },
             },
             yAxis: {
                 type: 'value',
@@ -4112,7 +3836,7 @@ export class DashboardTematicoComponent implements OnInit {
             },
             series: [{
                 type: 'bar', data,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
                     color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
@@ -4133,14 +3857,14 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
                         h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
                             <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
                     });
                     return h;
@@ -4148,7 +3872,7 @@ export class DashboardTematicoComponent implements OnInit {
             },
             legend: {
                 data: ['Hombre', 'Mujer'], top: 4, right: 8,
-                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
             grid: { top: 28, right: 12, bottom: 16, left: 4, containLabel: true },
             xAxis: {
@@ -4159,7 +3883,7 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category', data: grupos,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [
                 {
@@ -4184,15 +3908,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 10 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:11px;font-weight:900;color:${colors[p.dataIndex]}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${p.percent?.toFixed(1)}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${p.percent?.toFixed(1)}%)</span>`,
             },
             legend: {
                 orient: 'horizontal', bottom: 0, left: 'center',
-                textStyle: { fontSize: 7, color: '#6b7280', overflow: 'break', width: 90 } as any,
+                textStyle: { fontSize: 7, color: '#424242', overflow: 'break', width: 90 } as any,
                 itemWidth: 8, itemHeight: 8,
                 formatter: (name: string) => { const idx = cats.indexOf(name); return idx >= 0 ? `${name}: ${this.fmt(data[idx])}` : name; },
             },
@@ -4211,10 +3935,10 @@ export class DashboardTematicoComponent implements OnInit {
         return {
             tooltip: {
                 trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4227,11 +3951,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category', data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', overflow: 'break', width: 85 },
+                axisLabel: { fontSize: 7, color: '#424242', overflow: 'break', width: 85 },
             },
             series: [{
                 type: 'bar', data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
                     color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
@@ -4249,10 +3973,10 @@ export class DashboardTematicoComponent implements OnInit {
         return {
             tooltip: {
                 trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4265,11 +3989,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category', data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar', data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
                     color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
@@ -4292,10 +4016,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4303,7 +4027,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...ESTCIV_COL_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 8, color: '#9ca3af', interval: 0 },
+                axisLabel: { fontSize: 8, color: '#424242', interval: 0 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -4312,7 +4036,7 @@ export class DashboardTematicoComponent implements OnInit {
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -4326,14 +4050,14 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
                         h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
                             <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
                     });
                     return h;
@@ -4341,7 +4065,7 @@ export class DashboardTematicoComponent implements OnInit {
             },
             legend: {
                 data: ['Hombre', 'Mujer'], top: 2, right: 6,
-                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
             grid: { top: 24, right: 10, bottom: 6, left: 4, containLabel: true },
             xAxis: {
@@ -4352,7 +4076,7 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: [...ESTCIV_PIR_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [
                 {
@@ -4370,23 +4094,26 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildIdentEstCivEdadOpt(): EChartsOption {
-        const cats = [...ESTCIV_EDAD_CATS].reverse();
-        const act  = [...ESTCIV_ACTUALMENTE].reverse();
-        const ant  = [...ESTCIV_ANTERIORM].reverse();
-        const nun  = [...ESTCIV_NUNCA].reverse();
+        const cats   = [...ESTCIV_EDAD_CATS].reverse();
+        const totals = ESTCIV_EDAD_CATS.map((_, i) =>
+            ESTCIV_ACTUALMENTE[i] + ESTCIV_ANTERIORM[i] + ESTCIV_NUNCA[i]);
+        const act = [...ESTCIV_ACTUALMENTE].map((v, i) => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const ant = [...ESTCIV_ANTERIORM].map((v, i)   => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const nun = [...ESTCIV_NUNCA].map((v, i)        => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const lblFmt = (p: any) => (p.value as number) >= 6 ? `${(p.value as number).toFixed(1)}%` : '';
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:10px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
-                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
-                            <span style="font-weight:900;color:#111">${this.fmt(it.value)}</span></div>`;
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#424242">${(it.value as number).toFixed(1)}%</span></div>`;
                     });
                     return h;
                 },
@@ -4394,25 +4121,28 @@ export class DashboardTematicoComponent implements OnInit {
             legend: {
                 data: ['Actualmente unidos', 'Anteriormente unidos', 'Nunca unidos'],
                 top: 2, left: 'center' as const,
-                textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 7, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
-            grid: { top: 28, right: 16, bottom: 6, left: 4, containLabel: true },
+            grid: { top: 26, right: 8, bottom: 6, left: 4, containLabel: true },
             xAxis: {
-                type: 'value' as const,
-                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                type: 'value' as const, min: 0, max: 100,
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => `${v}%` },
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 8, color: '#424242' },
             },
             series: [
                 { name: 'Actualmente unidos', type: 'bar' as const, stack: 'total', data: act,
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#fff', formatter: lblFmt },
                   itemStyle: { color: CLR.blue }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
                 { name: 'Anteriormente unidos', type: 'bar' as const, stack: 'total', data: ant,
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#fff', formatter: lblFmt },
                   itemStyle: { color: CLR.sky }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
                 { name: 'Nunca unidos', type: 'bar' as const, stack: 'total', data: nun,
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242', formatter: lblFmt },
                   itemStyle: { color: CLR.teal, borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
                   barMaxWidth: 20, emphasis: { focus: 'series' as const } },
             ],
@@ -4426,11 +4156,11 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:11px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             graphic: [{
                 type: 'text',
@@ -4463,10 +4193,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4474,7 +4204,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...DNI_EDAD_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -4482,7 +4212,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 32,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4498,10 +4228,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4509,7 +4239,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...DOC_INMIGR_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 28,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 28,
                              overflow: 'break' as const, width: 72 },
             },
             yAxis: {
@@ -4518,7 +4248,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4537,10 +4267,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4548,7 +4278,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...SEG_EDAD_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -4556,7 +4286,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 32,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4572,10 +4302,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4583,7 +4313,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...SEG_TIPO_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 20,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 20,
                              overflow: 'break' as const, width: 80 },
             },
             yAxis: {
@@ -4592,7 +4322,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4606,10 +4336,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4622,11 +4352,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar' as const, data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
                     color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
@@ -4643,14 +4373,14 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
                         h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
                             <span style="font-weight:900;color:#111">${this.fmt(it.value)}</span></div>`;
                     });
                     return h;
@@ -4658,13 +4388,13 @@ export class DashboardTematicoComponent implements OnInit {
             },
             legend: {
                 data: ['Hombre', 'Mujer'], top: 2, right: 6,
-                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
             grid: { top: 26, right: 8, bottom: 8, left: 4, containLabel: true },
             xAxis: {
                 type: 'category' as const, data: [...EDU_NIV_SEX_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 22,
                              overflow: 'break' as const, width: 72 },
             },
             yAxis: {
@@ -4694,10 +4424,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${(p.value as number).toFixed(1).replace('.', ',')}%</span>`;
                 },
             },
@@ -4705,7 +4435,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: ['Hombre', 'Mujer'],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 9, color: '#9ca3af' },
+                axisLabel: { fontSize: 9, color: '#424242' },
             },
             yAxis: {
                 type: 'value' as const, min: 0, max: yMax,
@@ -4718,7 +4448,7 @@ export class DashboardTematicoComponent implements OnInit {
                     { value: hVal, itemStyle: { color: CLR.blue, borderRadius: [4, 4, 0, 0] as [number, number, number, number] } },
                     { value: mVal, itemStyle: { color: CLR.teal, borderRadius: [4, 4, 0, 0] as [number, number, number, number] } },
                 ],
-                label: { show: true, position: 'top' as const, fontSize: 10, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 10, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => `${(p.value as number).toFixed(1).replace('.', ',')}%` },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -4732,10 +4462,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${color}">${(p.value as number).toFixed(1).replace('.', ',')}%</span>`;
                 },
             },
@@ -4748,11 +4478,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: reversed_cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar' as const, data: reversed_data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => `${(p.value as number).toFixed(1).replace('.', ',')}%` },
                 itemStyle: {
                     color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
@@ -4773,14 +4503,14 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let h = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let h = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((it: any) => {
                         h += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px">
                             <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
-                            <span style="color:#6b7280;flex:1">${it.seriesName}</span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
                             <span style="font-weight:900;color:#111">${this.fmt(Math.abs(it.value as number))}</span></div>`;
                     });
                     return h;
@@ -4788,7 +4518,7 @@ export class DashboardTematicoComponent implements OnInit {
             },
             legend: {
                 data: ['Hombre', 'Mujer'], top: 2, right: 6,
-                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
             grid: { top: 24, right: 10, bottom: 6, left: 4, containLabel: true },
             xAxis: {
@@ -4799,7 +4529,7 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [
                 {
@@ -4826,10 +4556,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4837,7 +4567,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...DISC_SEGURO_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 18,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 18,
                              overflow: 'break' as const, width: 80 },
             },
             yAxis: {
@@ -4846,7 +4576,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4862,10 +4592,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4873,7 +4603,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...DISC_EDU_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 22,
                              overflow: 'break' as const, width: 72 },
             },
             yAxis: {
@@ -4882,7 +4612,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -4896,15 +4626,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:11px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
-                textStyle: { fontSize: 8, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8,
+                textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8,
             },
             series: [{
                 type: 'pie', radius: ['34%', '62%'], center: ['50%', '44%'],
@@ -4912,7 +4642,7 @@ export class DashboardTematicoComponent implements OnInit {
                 label: {
                     show: true, fontSize: 9, fontWeight: 700 as const,
                     formatter: (p: any) => `${p.name}\n${(p.percent as number).toFixed(1).replace('.', ',')}%`,
-                    color: '#374151',
+                    color: '#424242',
                 },
                 labelLine: { show: true, length: 8, length2: 12 },
                 emphasis: { scale: true, scaleSize: 4 },
@@ -4922,40 +4652,104 @@ export class DashboardTematicoComponent implements OnInit {
 
     private buildDiscEsferasHbarOpt(): EChartsOption {
         const cats = [...DISC_ESFERAS_CATS].reverse();
-        const data = [...DISC_ESFERAS_DATA].reverse();
+        const totals = DISC_ESFERAS_CATS.map((_, i) => DISC_ESFERAS_HOMBRE[i] + DISC_ESFERAS_MUJER[i]);
+        const hom = [...DISC_ESFERAS_HOMBRE].map((v, i) => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const muj = [...DISC_ESFERAS_MUJER].map((v, i)  => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const lblFmt = (p: any) => (p.value as number) >= 6 ? `${(p.value as number).toFixed(1)}%` : '';
         return {
             tooltip: {
-                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                trigger: 'axis', axisPointer: { type: 'shadow' },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
-                    const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.purple}">${this.fmt(p.value as number)}</span>`;
+                    const items = params as any[];
+                    let h = `<div style="font-size:10px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#424242">${(it.value as number).toFixed(1)}%</span></div>`;
+                    });
+                    return h;
                 },
             },
-            grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
+            legend: { data: ['Hombre', 'Mujer'], bottom: 0, left: 'center', textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8 },
+            grid: { top: 6, right: 8, bottom: 26, left: 4, containLabel: true },
             xAxis: {
-                type: 'value' as const, min: 0,
-                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
-                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+                type: 'value', min: 0, max: 100,
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => `${v}%` },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
             },
             yAxis: {
-                type: 'category' as const, data: cats,
+                type: 'category', data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 8, color: '#424242' },
             },
-            series: [{
-                type: 'bar' as const, data,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
-                         formatter: (p: any) => this.fmtAxis(p.value as number) },
-                itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.purple }, { offset: 1, color: this.hexToRgba(CLR.purple, 0.4) }] },
-                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
+            series: [
+                { name: 'Hombre', type: 'bar', stack: 'total', data: hom,
+                  label: { show: true, position: 'inside', fontSize: 8, fontWeight: 700, color: '#fff', formatter: lblFmt },
+                  itemStyle: { color: CLR.blue, borderRadius: [0, 0, 0, 0] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' } },
+                { name: 'Mujer', type: 'bar', stack: 'total', data: muj,
+                  label: { show: true, position: 'inside', fontSize: 8, fontWeight: 700, color: '#424242', formatter: lblFmt },
+                  itemStyle: { color: '#caeae4', borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' } },
+            ],
+        };
+    }
+
+    private buildDiscEsferasEdadOpt(): EChartsOption {
+        const cats   = [...DISC_ESFERAS_CATS].reverse();
+        const totals = DISC_ESFERAS_CATS.map((_, i) =>
+            DISC_ESFERAS_5_17[i] + DISC_ESFERAS_18_59[i] + DISC_ESFERAS_60MAS[i]);
+        const j  = [...DISC_ESFERAS_5_17].map((v, i)  => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const a  = [...DISC_ESFERAS_18_59].map((v, i) => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const m  = [...DISC_ESFERAS_60MAS].map((v, i) => +((v / totals[i]) * 100).toFixed(1)).reverse();
+        const lblFmt = (p: any) => (p.value as number) >= 6 ? `${(p.value as number).toFixed(1)}%` : '';
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 10 },
+                formatter: (params: any) => {
+                    const items = params as any[];
+                    let h = `<div style="font-size:10px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((it: any) => {
+                        h += `<div style="display:flex;align-items:center;gap:4px;font-size:9px;margin-bottom:1px">
+                            <span style="width:8px;height:8px;border-radius:2px;background:${it.color};display:inline-block;flex-shrink:0"></span>
+                            <span style="color:#424242;flex:1">${it.seriesName}</span>
+                            <span style="font-weight:900;color:#424242">${(it.value as number).toFixed(1)}%</span></div>`;
+                    });
+                    return h;
                 },
-                barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
-            }],
+            },
+            legend: { data: ['5 - 17 años', '18 - 59 años', '60 y más años'], bottom: 0, left: 'center',
+                      textStyle: { fontSize: 8, color: '#424242' }, itemWidth: 8, itemHeight: 8 },
+            grid: { top: 6, right: 8, bottom: 30, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value', min: 0, max: 100,
+                axisLabel: { fontSize: 7, color: '#424242', formatter: (v: number) => `${v}%` },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
+            },
+            yAxis: {
+                type: 'category', data: cats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 8, color: '#424242' },
+            },
+            series: [
+                { name: '5 - 17 años', type: 'bar', stack: 'total', data: j,
+                  label: { show: true, position: 'inside', fontSize: 8, fontWeight: 700, color: '#fff', formatter: lblFmt },
+                  itemStyle: { color: CLR.blue, borderRadius: [0, 0, 0, 0] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' } },
+                { name: '18 - 59 años', type: 'bar', stack: 'total', data: a,
+                  label: { show: true, position: 'inside', fontSize: 8, fontWeight: 700, color: '#fff', formatter: lblFmt },
+                  itemStyle: { color: CLR.sky, borderRadius: [0, 0, 0, 0] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' } },
+                { name: '60 y más años', type: 'bar', stack: 'total', data: m,
+                  label: { show: true, position: 'inside', fontSize: 8, fontWeight: 700, color: '#424242', formatter: lblFmt },
+                  itemStyle: { color: '#caeae4', borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+                  barMaxWidth: 20, emphasis: { focus: 'series' } },
+            ],
         };
     }
 
@@ -4971,10 +4765,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color ?? CLR.blue}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -4987,11 +4781,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: revCats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 110, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 110, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data: revData,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5006,16 +4800,16 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const,
                 bottom: 4, left: 'center' as const,
-                textStyle: { fontSize: 9, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 9, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 10, itemHeight: 10, itemGap: 16,
                 formatter: (name: string) =>
                     name === 'Hombre'
@@ -5050,10 +4844,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5061,7 +4855,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...ETNIC_EDAD_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 52 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 52 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5069,7 +4863,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5085,10 +4879,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5096,7 +4890,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...ETNIC_EDU_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 22,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 22,
                              overflow: 'break' as const, width: 68 },
             },
             yAxis: {
@@ -5105,7 +4899,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 28,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5119,16 +4913,16 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const,
                 bottom: 4, left: 'center' as const,
-                textStyle: { fontSize: 9, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 9, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 10, itemHeight: 10, itemGap: 12,
                 formatter: (name: string) =>
                     name === 'Sí tiene seguro' ? `Sí tiene  ${siPct}%` : `No tiene  ${noPct}%`,
@@ -5160,10 +4954,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5171,7 +4965,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...ETNIC_ESTCIV_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 72 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 72 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5179,7 +4973,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5195,15 +4989,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
-                textStyle: { fontSize: 9, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 9, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 10, itemHeight: 10, itemGap: 16,
                 formatter: (name: string) => name === 'Hombre' ? `Hombre  ${hPct}%` : `Mujer  ${mPct}%`,
             },
@@ -5214,7 +5008,7 @@ export class DashboardTematicoComponent implements OnInit {
                     { name: 'Mujer',  value: mujerVal,  itemStyle: { color: CLR.sky  } },
                 ],
                 label: {
-                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#374151',
+                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                     formatter: (p: any) => `${(p.percent as number).toFixed(1).replace('.', ',')}%`,
                 },
                 labelLine: { show: true, length: 6, length2: 10 },
@@ -5237,10 +5031,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5253,11 +5047,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 20,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5272,15 +5066,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 4, left: 'center' as const,
-                textStyle: { fontSize: 9, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 9, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 10, itemHeight: 10, itemGap: 12,
                 formatter: (name: string) => name === name1 ? `${name1}  ${pct1}%` : `${name2}  ${pct2}%`,
             },
@@ -5292,7 +5086,7 @@ export class DashboardTematicoComponent implements OnInit {
                     { name: name2, value: val2, itemStyle: { color: '#d1d5db' } },
                 ],
                 label: {
-                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#374151',
+                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                     formatter: (p: any) => `${(p.percent as number).toFixed(1).replace('.', ',')}%`,
                 },
                 labelLine: { show: true, length: 5, length2: 8 },
@@ -5314,10 +5108,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5325,7 +5119,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...PET_ESTCIV_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 68 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 68 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5333,7 +5127,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 40,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5349,10 +5143,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5360,7 +5154,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...PET_EDU_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate: 18,
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate: 18,
                              overflow: 'break' as const, width: 72 },
             },
             yAxis: {
@@ -5369,7 +5163,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 32,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5383,15 +5177,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 2, left: 'center' as const,
-                textStyle: { fontSize: 8, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 8, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 9, itemHeight: 9, itemGap: 10,
                 formatter: (name: string) => name === name1 ? `${name1}  ${pct1}%` : `${name2}  ${pct2}%`,
             },
@@ -5402,7 +5196,7 @@ export class DashboardTematicoComponent implements OnInit {
                     { name: name2, value: val2, itemStyle: { color: color2 } },
                 ],
                 label: {
-                    show: true, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                    show: true, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                     formatter: (p: any) => `${(p.percent as number).toFixed(1).replace('.', ',')}%`,
                 },
                 labelLine: { show: true, length: 5, length2: 8 },
@@ -5416,16 +5210,16 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 2, left: 'center' as const,
-                textStyle: { fontSize: 9, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 9, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 10, itemHeight: 10, itemGap: 12,
             },
             grid: { top: 8, right: 56, bottom: 34, left: 4, containLabel: true },
@@ -5437,7 +5231,7 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: [name1, name2],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar' as const, colorBy: 'data' as const, barMaxWidth: 22,
@@ -5445,7 +5239,7 @@ export class DashboardTematicoComponent implements OnInit {
                     { name: name1, value: val1, itemStyle: { color: color1, borderRadius: [0, 4, 4, 0] as [number, number, number, number] } },
                     { name: name2, value: val2, itemStyle: { color: color2, borderRadius: [0, 4, 4, 0] as [number, number, number, number] } },
                 ],
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5467,10 +5261,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5478,7 +5272,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...VIV_HOGARES_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 8, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 80 },
+                axisLabel: { fontSize: 8, color: '#424242', interval: 0, overflow: 'break' as const, width: 80 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5486,7 +5280,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 52,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5506,10 +5300,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5522,11 +5316,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af' },
+                axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 20,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5538,15 +5332,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 2, left: 'center' as const,
-                textStyle: { fontSize: 8, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 8, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 9, itemHeight: 9, itemGap: 8,
             },
             series: [{
@@ -5557,7 +5351,7 @@ export class DashboardTematicoComponent implements OnInit {
                     itemStyle: { color: ([CLR.teal, CLR.sky, CLR.blue] as string[])[i] },
                 })),
                 label: {
-                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#374151',
+                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                     formatter: (p: any) => `${(p.percent as number).toFixed(1).replace('.', ',')}%`,
                 },
                 labelLine: { show: true, length: 6, length2: 10 },
@@ -5580,10 +5374,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5596,11 +5390,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 130, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 130, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 20,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5617,10 +5411,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5628,7 +5422,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...VIV_TECHOS_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 72 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 72 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5636,7 +5430,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5656,10 +5450,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5672,11 +5466,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 130, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 130, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 18,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5693,10 +5487,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5704,7 +5498,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...VIV_AGUA_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 88 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 88 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5712,7 +5506,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5728,10 +5522,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5739,7 +5533,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...VIV_EXCRET_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 6, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 68 },
+                axisLabel: { fontSize: 6, color: '#424242', interval: 0, overflow: 'break' as const, width: 68 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5747,7 +5541,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 36,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5763,10 +5557,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5774,7 +5568,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...VIV_ENERGIA_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 84 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 84 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5782,7 +5576,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5795,15 +5589,15 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'item',
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${(p.percent as number).toFixed(1).replace('.', ',')}%)</span>`,
             },
             legend: {
                 orient: 'horizontal' as const, bottom: 2, left: 'center' as const,
-                textStyle: { fontSize: 8, color: '#374151', fontWeight: 700 as const },
+                textStyle: { fontSize: 8, color: '#424242', fontWeight: 700 as const },
                 itemWidth: 9, itemHeight: 9, itemGap: 12,
             },
             series: [{
@@ -5814,7 +5608,7 @@ export class DashboardTematicoComponent implements OnInit {
                     itemStyle: { color: ([CLR.sky, CLR.teal] as string[])[i] },
                 })),
                 label: {
-                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#374151',
+                    show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
                     formatter: (p: any) => `${(p.percent as number).toFixed(1).replace('.', ',')}%`,
                 },
                 labelLine: { show: true, length: 6, length2: 10 },
@@ -5837,10 +5631,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5853,11 +5647,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 140, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 140, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 20,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5878,10 +5672,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5894,11 +5688,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 150, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 150, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 22,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5919,10 +5713,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5935,11 +5729,11 @@ export class DashboardTematicoComponent implements OnInit {
             yAxis: {
                 type: 'category' as const, data: cats,
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 130, overflow: 'break' as const },
+                axisLabel: { fontSize: 7, color: '#424242', width: 130, overflow: 'break' as const },
             },
             series: [{
                 type: 'bar' as const, data, barMaxWidth: 22,
-                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } },
             }],
@@ -5956,10 +5750,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -5967,7 +5761,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...HOG_EMIGR_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 72 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 72 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -5975,7 +5769,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -5991,10 +5785,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -6002,7 +5796,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...HOG_ARTEFACTOS_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 62 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 62 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -6010,7 +5804,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 32,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -6026,10 +5820,10 @@ export class DashboardTematicoComponent implements OnInit {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' as const },
                 backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
-                padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -6037,7 +5831,7 @@ export class DashboardTematicoComponent implements OnInit {
             xAxis: {
                 type: 'category' as const, data: [...HOG_TRANSPORTE_CATS],
                 axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, overflow: 'break' as const, width: 72 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, overflow: 'break' as const, width: 72 },
             },
             yAxis: {
                 type: 'value' as const,
@@ -6045,7 +5839,7 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
             },
             series: [{ type: 'bar' as const, data: barData, barMaxWidth: 44,
-                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#374151',
+                label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 emphasis: { itemStyle: { opacity: 0.85 } } }],
         };
@@ -6321,7 +6115,8 @@ export class DashboardTematicoComponent implements OnInit {
     readonly discSeguroColOpt!:   EChartsOption;
     readonly discEduColOpt!:      EChartsOption;
     readonly discAsistPieOpt!:    EChartsOption;
-    readonly discEsferasHbarOpt!: EChartsOption;
+    readonly discEsferasHbarOpt!:  EChartsOption;
+    readonly discEsferasEdadOpt!:  EChartsOption;
 
     // ── Etnicidad ──────────────────────────────────────────────────────────
     readonly etnicAutoBarOpt!:      EChartsOption;
@@ -6369,15 +6164,6 @@ export class DashboardTematicoComponent implements OnInit {
     readonly hogArtefactosColOpt!: EChartsOption;
     readonly hogTransporteColOpt!: EChartsOption;
 
-    readonly discEdadEsferas: Array<{label: string; prom: string; med: string}> = [
-        { label: 'Discapacidad para ver',                        prom: '62,3', med: '64,0' },
-        { label: 'Discapacidad para oír',                        prom: '64,8', med: '66,0' },
-        { label: 'Discapacidad para comunicarse',                prom: '54,2', med: '55,0' },
-        { label: 'Discapacidad para caminar',                    prom: '65,7', med: '67,0' },
-        { label: 'Discapacidad para el cuidado personal',        prom: '67,3', med: '70,0' },
-        { label: 'Discapacidad para concentrarse',               prom: '56,1', med: '57,0' },
-        { label: 'Discapacidad para relacionarse con los demás', prom: '53,4', med: '54,0' },
-    ];
 
     constructor() {
         this.isBrowser        = isPlatformBrowser(this.platformId);
@@ -6416,7 +6202,8 @@ export class DashboardTematicoComponent implements OnInit {
         this.discSeguroColOpt   = this.buildDiscSeguroColOpt();
         this.discEduColOpt      = this.buildDiscEduColOpt();
         this.discAsistPieOpt    = this.buildDiscAsistPieOpt();
-        this.discEsferasHbarOpt = this.buildDiscEsferasHbarOpt();
+        this.discEsferasHbarOpt  = this.buildDiscEsferasHbarOpt();
+        this.discEsferasEdadOpt  = this.buildDiscEsferasEdadOpt();
         this.etnicAutoBarOpt      = this.buildEtnicHBarOpt([...ETNIC_AUTO_CATS],   [...ETNIC_AUTO_DATA]);
         this.etnicIdiomaBarOpt    = this.buildEtnicHBarOpt([...ETNIC_IDIOMA_CATS], [...ETNIC_IDIOMA_DATA]);
         this.etnicIndSexoPieOpt   = this.buildEtnicSexoPieOpt(4_344_891, 4_000_000, CLR.blue, CLR.teal);
@@ -6503,10 +6290,10 @@ export class DashboardTematicoComponent implements OnInit {
                 borderColor: '#e5e7eb',
                 borderWidth: 1,
                 padding: [6, 10],
-                textStyle: { color: '#374151', fontSize: 10 },
+                textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const p = params[0];
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -6516,7 +6303,7 @@ export class DashboardTematicoComponent implements OnInit {
                 data: [...categories],
                 axisTick: { show: false },
                 axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate, overflow: 'break', width: 60 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate, overflow: 'break', width: 60 },
             },
             yAxis: {
                 type: 'value',
@@ -6531,7 +6318,7 @@ export class DashboardTematicoComponent implements OnInit {
                     position: 'top' as const,
                     fontSize: 7,
                     fontWeight: 700 as const,
-                    color: '#374151',
+                    color: '#424242',
                     formatter: (p: any) => this.fmtAxis(p.value as number),
                 },
                 itemStyle: {
@@ -6563,12 +6350,12 @@ export class DashboardTematicoComponent implements OnInit {
                 borderColor: '#e5e7eb',
                 borderWidth: 1,
                 padding: [6, 10],
-                textStyle: { color: '#374151', fontSize: 10 },
+                textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (params: any) => {
                     const p = Array.isArray(params)
                         ? (params as any[]).find((x: any) => x.seriesName !== '_bg') ?? params[0]
                         : params;
-                    return `<span style="font-size:9px;font-weight:900;color:#9ca3af">${p.name}</span><br>`
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
                          + `<span style="font-size:12px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
@@ -6585,7 +6372,7 @@ export class DashboardTematicoComponent implements OnInit {
                 data: revCats,
                 axisTick: { show: false },
                 axisLine: { show: false },
-                axisLabel: { fontSize: 8, color: '#6b7280', width: 110, overflow: 'break' },
+                axisLabel: { fontSize: 8, color: '#424242', width: 110, overflow: 'break' },
             },
             series: [
                 {
@@ -6621,7 +6408,7 @@ export class DashboardTematicoComponent implements OnInit {
                         distance: 5,
                         fontSize: 9,
                         fontWeight: 700 as const,
-                        color: '#374151',
+                        color: '#424242',
                         formatter: (p: any) => this.fmtAxis(p.value as number),
                     },
                     emphasis: { itemStyle: { opacity: 0.85 } },
@@ -6639,18 +6426,18 @@ export class DashboardTematicoComponent implements OnInit {
                 borderColor: '#e5e7eb',
                 borderWidth: 1,
                 padding: [6, 10],
-                textStyle: { color: '#374151', fontSize: 10 },
+                textStyle: { color: '#424242', fontSize: 10 },
                 formatter: (p: any) =>
-                    `<span style="font-size:9px;font-weight:700;color:#9ca3af">${p.name}</span><br>`
+                    `<span style="font-size:9px;font-weight:700;color:#424242">${p.name}</span><br>`
                   + `<span style="font-size:11px;font-weight:900;color:${PIE_COLORS[p.dataIndex % PIE_COLORS.length]}">${this.fmt(p.value as number)}</span>`
-                  + `<span style="font-size:9px;color:#9ca3af"> (${p.percent?.toFixed(1)}%)</span>`,
+                  + `<span style="font-size:9px;color:#424242"> (${p.percent?.toFixed(1)}%)</span>`,
             },
             legend: {
                 type: 'scroll',
                 orient: 'horizontal',
                 bottom: 0,
                 left: 'center',
-                textStyle: { fontSize: 7, color: '#6b7280', overflow: 'break', width: 85 } as any,
+                textStyle: { fontSize: 7, color: '#424242', overflow: 'break', width: 85 } as any,
                 itemWidth: 8,
                 itemHeight: 8,
                 pageIconSize: 8,
@@ -6695,13 +6482,13 @@ export class DashboardTematicoComponent implements OnInit {
                 borderColor: '#e5e7eb',
                 borderWidth: 1,
                 padding: [6, 10],
-                textStyle: { color: '#374151', fontSize: 9 },
+                textStyle: { color: '#424242', fontSize: 9 },
             },
             legend: {
                 data: [label1, label2],
                 top: 2,
                 left: 'center',
-                textStyle: { fontSize: 7, color: '#9ca3af' },
+                textStyle: { fontSize: 7, color: '#424242' },
                 itemWidth: 8,
                 itemHeight: 8,
             },
@@ -6716,7 +6503,7 @@ export class DashboardTematicoComponent implements OnInit {
                 data: revCats,
                 axisTick: { show: false },
                 axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', width: 100, overflow: 'break' },
+                axisLabel: { fontSize: 7, color: '#424242', width: 100, overflow: 'break' },
             },
             series: [
                 {
@@ -6749,18 +6536,18 @@ export class DashboardTematicoComponent implements OnInit {
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
-                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1, padding: [6,10], textStyle: { color: '#374151', fontSize: 9 },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1, padding: [6,10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let html = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
-                    items.forEach((item: any) => { html += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px"><span style="width:8px;height:8px;border-radius:2px;background:${item.color};display:inline-block;flex-shrink:0"></span><span style="color:#6b7280;flex:1">${item.seriesName}</span><span style="font-weight:900;color:#111">${this.fmt(item.value)}</span></div>`; });
+                    let html = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    items.forEach((item: any) => { html += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px"><span style="width:8px;height:8px;border-radius:2px;background:${item.color};display:inline-block;flex-shrink:0"></span><span style="color:#424242;flex:1">${item.seriesName}</span><span style="font-weight:900;color:#111">${this.fmt(item.value)}</span></div>`; });
                     return html;
                 },
             },
-            legend: { data: series.map(s => s.name), type: 'scroll', top: 2, left: 'center', textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8, pageIconSize: 8 },
+            legend: { data: series.map(s => s.name), type: 'scroll', top: 2, left: 'center', textStyle: { fontSize: 7, color: '#424242' }, itemWidth: 8, itemHeight: 8, pageIconSize: 8 },
             grid: { top: 28, right: 44, bottom: 6, left: 4, containLabel: true },
             xAxis: { type: 'value', axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) }, splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } } },
-            yAxis: { type: 'category', data: revCats, axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } }, axisLabel: { fontSize: 7, color: '#9ca3af', width: 80, overflow: 'truncate' } },
+            yAxis: { type: 'category', data: revCats, axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } }, axisLabel: { fontSize: 7, color: '#424242', width: 80, overflow: 'truncate' } },
             series: series.map(s => ({
                 name: s.name, type: 'bar' as const,
                 data: [...s.data].reverse(),
@@ -6776,24 +6563,24 @@ export class DashboardTematicoComponent implements OnInit {
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
-                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1, padding: [6, 10], textStyle: { color: '#374151', fontSize: 9 },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1, padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
                 formatter: (params: any) => {
                     const items = params as any[];
-                    let html = `<div style="font-size:9px;font-weight:900;color:#9ca3af;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
+                    let html = `<div style="font-size:9px;font-weight:900;color:#424242;margin-bottom:3px">${items[0]?.name ?? ''}</div>`;
                     items.forEach((item: any) => {
-                        html += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px"><span style="width:8px;height:8px;border-radius:2px;background:${item.color};display:inline-block;flex-shrink:0"></span><span style="color:#6b7280;flex:1">${item.seriesName}</span><span style="font-weight:900;color:#111">${this.fmt(item.value)}</span></div>`;
+                        html += `<div style="display:flex;align-items:center;gap:4px;font-size:8px;margin-bottom:1px"><span style="width:8px;height:8px;border-radius:2px;background:${item.color};display:inline-block;flex-shrink:0"></span><span style="color:#424242;flex:1">${item.seriesName}</span><span style="font-weight:900;color:#111">${this.fmt(item.value)}</span></div>`;
                     });
                     return html;
                 },
             },
-            legend: { data: series.map(s => s.name), type: 'scroll', top: 2, left: 'center', textStyle: { fontSize: 7, color: '#9ca3af' }, itemWidth: 8, itemHeight: 8, pageIconSize: 8 },
+            legend: { data: series.map(s => s.name), type: 'scroll', top: 2, left: 'center', textStyle: { fontSize: 7, color: '#424242' }, itemWidth: 8, itemHeight: 8, pageIconSize: 8 },
             grid: { top: 30, right: 8, bottom: rotate > 0 ? 52 : 28, left: 4, containLabel: true },
             xAxis: {
                 type: 'category',
                 data: [...categories],
                 axisTick: { show: false },
                 axisLine: { lineStyle: { color: '#f3f4f6' } },
-                axisLabel: { fontSize: 7, color: '#9ca3af', interval: 0, rotate, overflow: 'break', width: 60 },
+                axisLabel: { fontSize: 7, color: '#424242', interval: 0, rotate, overflow: 'break', width: 60 },
             },
             yAxis: {
                 type: 'value',

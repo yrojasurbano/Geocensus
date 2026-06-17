@@ -56,65 +56,63 @@ interface ConsultaActiva {
 
 const TEMAS_POBLACION: readonly TemaDescarga[] = [
   { id:'demografico',  nombre:'Indicadores demográficos',               icono:'demografico',
-    archivos:[{ descripcion:'Población censada y principales indicadores demográficos', tamano:2.4}] },
+    archivos:[{ descripcion:'Población total, censada y omitida.', tamano:2.4},
+              { descripcion:'Población censada y principales indicadores demográficos.', tamano:2.4}
+    ] },
+    
   { id:'fecundidad',   nombre:'Fecundidad',                              icono:'fecundidad',
     archivos:[
-      { descripcion:'Características de la fecundidad de la población femenina', tamano:1.8},
-      { descripcion:'Sobrevivencia de hijas e hijos nacidos vivos',               tamano:1.2}] },
+      { descripcion:'Características de la fecundidad de la población femenina.', tamano:1.8},
+      { descripcion:'Sobrevivencia de hijas e hijos nacidos vivos.',               tamano:1.2}] },
   { id:'migracion',    nombre:'Migración',                               icono:'migracion',
     archivos:[
-      { descripcion:'Migración reciente',        tamano:1.6},
-      { descripcion:'Migración de toda la vida', tamano:1.9}] },
-  { id:'identidad',    nombre:'Estado civil, identidad y seguro de salud', icono:'identidad',
+      { descripcion:'Migración reciente.',        tamano:1.6},
+      { descripcion:'Migración de toda la vida.', tamano:1.9}] },
+  { id:'identidad',    nombre:'Estado civil, identidad y seguro de salud.', icono:'identidad',
     archivos:[
-      { descripcion:'Características de la población por estado civil', tamano:2.1},
-      { descripcion:'Tenencia de documento de identidad',               tamano:1.4},
-      { descripcion:'Cobertura de seguro de salud',                     tamano:1.7}] },
+      { descripcion:'Características de la población por estado civil.', tamano:2.1},
+      { descripcion:'Tenencia de documento de identidad.',               tamano:1.4},
+      { descripcion:'Cobertura de seguro de salud.',                     tamano:1.7}] },
   { id:'educacion',    nombre:'Educación',                               icono:'educacion',
     archivos:[
-      { descripcion:'Características de la población por asistencia escolar', tamano:2.3},
-      { descripcion:'Nivel educativo alcanzado',                              tamano:2.8},
-      { descripcion:'Condición de alfabetismo',                               tamano:1.5},
-      { descripcion:'Uso de las tecnologías de la información',               tamano:1.9}] },
+      { descripcion:'Nivel educativo alcanzado.',                              tamano:2.8},
+      { descripcion:'Condición de alfabetismo.',                               tamano:1.5},
+      { descripcion:'Asistencia escolar.',               tamano:1.9}] },
   { id:'discapacidad', nombre:'Discapacidad',                            icono:'discapacidad',
-    archivos:[{ descripcion:'Características de la población por condición de discapacidad', tamano:2.2}] },
+    archivos:[{ descripcion:'Características de la población por condición de discapacidad.', tamano:2.2}] },
   { id:'etnicidad',    nombre:'Etnicidad',                               icono:'etnicidad',
     archivos:[
-      { descripcion:'Autoidentificación étnica',                              tamano:1.6},
-      { descripcion:'Idiomas o lenguas que aprendieron a hablar en su niñez', tamano:1.8}] },
-  { id:'economico',    nombre:'Características económicas',              icono:'economico',
+      { descripcion:'Autoidentificación étnica.',                              tamano:1.6},
+      { descripcion:'Idiomas o lenguas que aprendieron a hablar en su niñez.', tamano:1.8}] },
+  { id:'economico',    nombre:'Población en edad de trabajar.',              icono:'economico',
     archivos:[
-      { descripcion:'Características de la Población en Edad de Trabajar', tamano:3.1},
-      { descripcion:'Condición de actividad',                               tamano:2.7},
-      { descripcion:'Ocupación principal',                                  tamano:2.4},
-      { descripcion:'Rama de actividad económica',                          tamano:2.9}] }
+      { descripcion:'Características de la Población en Edad de Trabajar.', tamano:3.1},] }
 ];
 
 const TEMAS_VIVIENDA: readonly TemaDescarga[] = [
   { id:'vivienda_caract',   nombre:'Características de la vivienda',          icono:'vivienda_caract',
     archivos:[
-      { descripcion:'Tipo de vivienda particular',                            tamano:1.8},
+      { descripcion:'Tipo de vivienda particular.',                            tamano:1.8},
       { descripcion:'Materiales de construcción de paredes, techos y pisos', tamano:2.6},
-      { descripcion:'Número de habitaciones',                                 tamano:1.4}] },
-  { id:'servicios_basicos', nombre:'Servicios básicos de la vivienda',        icono:'servicios_basicos',
+      { descripcion:'Número de habitaciones.',                                 tamano:1.4}] },
+  { id:'servicios_basicos', nombre:'Servicios básicos de la vivienda.',        icono:'servicios_basicos',
     archivos:[
-      { descripcion:'Procedencia del agua',                 tamano:1.9},
-      { descripcion:'Conexión del servicio higiénico',      tamano:1.7},
-      { descripcion:'Procedencia de la energía eléctrica',  tamano:1.5}] }
+      { descripcion:'Procedencia del agua.',                 tamano:1.9},
+      { descripcion:'Conexión del servicio higiénico.',      tamano:1.7},
+      { descripcion:'Procedencia de la energía eléctrica.',  tamano:1.5}] }
 ];
 
 const TEMAS_HOGAR: readonly TemaDescarga[] = [
   { id:'hogar_caract', nombre:'Características del hogar', icono:'hogar_caract',
     archivos:[
-      { descripcion:'Condición de tenencia de la vivienda que ocupan los hogares',        tamano:2.1},
-      { descripcion:'Uso exclusivo del servicio higiénico',                               tamano:1.6},
-      { descripcion:'Energía o combustible que usan para cocinar',                        tamano:1.8},
-      { descripcion:'Formas de eliminación de residuos',                                  tamano:1.7},
-      { descripcion:'Emigración internacional de personas que fueron miembros del hogar', tamano:2.3}] },
+      { descripcion:'Condición de tenencia de la vivienda que ocupan los hogares.',        tamano:2.1},
+      { descripcion:'Energía o combustible que usan para cocinar.',                        tamano:1.8},
+      { descripcion:'Formas de eliminación de residuos.',                                  tamano:1.7},] },
   { id:'equipamiento', nombre:'Equipamiento del hogar', icono:'equipamiento',
     archivos:[
-      { descripcion:'Tenencia de medios de transporte, electrodomésticos y artefactos', tamano:2.8},
-      { descripcion:'Tenencia de dispositivos TICs',                                    tamano:2.4}] }
+      { descripcion:'Tenencia de electrodomésticos y artefactos.', tamano:2.8},
+      { descripcion:"Tenencia de dispositivos TIC's.",                                    tamano:2.4},
+    { descripcion:'Tenencia de medios de transporte.',                                    tamano:2.4}] }
 ];
 
 const ICON_PATHS: Record<IconoTema, string> = {

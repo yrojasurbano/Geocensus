@@ -40,6 +40,8 @@ interface EvolucionData {
     readonly vivOcupadasAusentes:  Serie3;
     readonly vivDesocupadas:       Serie3;
     readonly hogCensados:          Serie3;
+    readonly hogJefeHombre:        Serie3;
+    readonly hogJefeMujer:         Serie3;
     readonly hogPromPersonas:      Serie3;
 }
 
@@ -61,6 +63,8 @@ const NACIONAL: EvolucionData = {
     vivOcupadasAusentes:  [  270_200,    329_300,    338_500],
     vivDesocupadas:       [  348_200,  1_646_484,  2_162_440],
     hogCensados:          [6_754_074,  8_252_284,  9_861_890],
+    hogJefeHombre:        [5_133_000,  5_859_100,  6_508_800],
+    hogJefeMujer:         [1_621_000,  2_393_200,  3_353_000],
     hogPromPersonas:      [4.2, 3.8, 3.2],
 };
 
@@ -79,6 +83,8 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         vivOcupadasAusentes:  [   11_300,     14_200,     18_200],
         vivDesocupadas:       [   30_788,     78_400,     62_000],
         hogCensados:          [  283_218,    330_000,    468_000],
+        hogJefeHombre:        [  215_200,    234_300,    308_900],
+        hogJefeMujer:         [   68_000,     95_700,    159_100],
         hogPromPersonas:      [3.9, 3.5, 3.2],
     },
     '05': { // Ayacucho
@@ -94,6 +100,8 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         vivOcupadasAusentes:  [    4_900,      6_400,      7_500],
         vivDesocupadas:       [   19_786,     34_800,     32_000],
         hogCensados:          [  122_694,    148_000,    193_600],
+        hogJefeHombre:        [   93_200,    105_100,    127_800],
+        hogJefeMujer:         [   29_400,     42_900,     65_800],
         hogPromPersonas:      [4.4, 4.0, 3.5],
     },
     '15': { // Lima Metropolitana
@@ -109,6 +117,8 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         vivOcupadasAusentes:  [   79_500,    100_900,    108_600],
         vivDesocupadas:       [  117_894,    560_600,    665_000],
         hogCensados:          [1_986_348,  2_344_000,  2_795_000],
+        hogJefeHombre:        [1_509_600,  1_664_200,  1_844_700],
+        hogJefeMujer:         [  476_700,    679_800,    950_300],
         hogPromPersonas:      [3.8, 3.3, 3.0],
     },
     '13': { // La Libertad
@@ -124,6 +134,8 @@ const EVOLUCION_POR_CCDD: Readonly<Record<string, EvolucionData>> = {
         vivOcupadasAusentes:  [   15_600,     18_900,     22_000],
         vivDesocupadas:       [   28_120,    105_900,     72_000],
         hogCensados:          [  390_480,    440_000,    564_500],
+        hogJefeHombre:        [  296_800,    312_400,    372_600],
+        hogJefeMujer:         [   93_700,    127_600,    191_900],
         hogPromPersonas:      [4.1, 3.8, 3.6],
     },
 };
@@ -550,7 +562,7 @@ const CLR = {
           </div><!-- /cols 3-4 vivienda -->
 
           <!-- ─────────────────────────────────────────────────────────────
-               COLUMNAS 5-6 — HOGAR (col-span-2, 2 gráficos de área)
+               COLUMNAS 5-6 — HOGAR (col-span-2, 3 gráficos de área)
           ───────────────────────────────────────────────────────────────── -->
           <div class="col-span-2 flex flex-col gap-2 min-h-0">
 
@@ -575,19 +587,6 @@ const CLR = {
                         [class.text-rose-700]="!th1.up" [class.bg-rose-50]="!th1.up">{{ th1.label }}</span>
                 </div>
               </div>
-              <!-- Tarjeta de resumen -->
-              <div class="flex items-center gap-4 px-3 py-2 bg-[#8383fd]/4 border-b border-[#8383fd]/10 shrink-0">
-                @for (yr of [0, 1, 2]; track yr) {
-                  <div class="flex flex-col gap-0.5">
-                    <span class="text-[7.5px] font-bold text-gray-400 leading-none">{{ CENSOS_YEARS[yr] }}</span>
-                    <span class="text-[10px] font-black tabular-nums leading-none"
-                          [class.text-gray-500]="yr < 2" [class.text-[#8383fd]]="yr === 2">
-                      {{ fmtShort(evoData().hogCensados[yr]) }}
-                    </span>
-                  </div>
-                  @if (yr < 2) { <div class="w-px h-6 bg-gray-100 shrink-0"></div> }
-                }
-              </div>
               @if (isBrowser) {
                 <div class="flex-1 min-h-0 px-0.5 pt-0.5 pb-1">
                   <div echarts [options]="hogCensadosOpt()" class="w-full h-full"></div>
@@ -595,7 +594,23 @@ const CLR = {
               }
             </div>
 
-            <!-- 4.2 · Promedio de personas por hogar -->
+            <!-- 4.2 · Hogares censados según sexo del responsable de hogar -->
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
+              <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
+                <span class="text-[8px] font-black text-gray-400  tracking-wider leading-none">Hogares censados según sexo del responsable de hogar</span>
+              </div>
+              @if (isBrowser) {
+                <div class="flex-1 min-h-0 px-0.5 pt-0.5 pb-1">
+                  <div echarts [options]="hogJefeSexoOpt()" class="w-full h-full"></div>
+                </div>
+              }
+              <div class="flex items-center justify-center gap-1.5 pb-1.5 shrink-0">
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#0056a1] shrink-0"></span><span class="text-[7.5px] font-bold text-gray-500">Hombre</span></span>
+                <span class="flex items-center gap-0.5"><span class="w-2 h-2 rounded-full bg-[#33b3a9] shrink-0"></span><span class="text-[7.5px] font-bold text-gray-500">Mujer</span></span>
+              </div>
+            </div>
+
+            <!-- 4.3 · Promedio de personas por hogar -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1 min-h-0">
               <div class="flex items-center justify-between px-3 pt-2.5 pb-1.5 shrink-0 border-b border-gray-50">
                 <div class="flex items-center gap-1.5">
@@ -609,19 +624,6 @@ const CLR = {
                         [class.text-emerald-700]="th2.up" [class.bg-emerald-50]="th2.up"
                         [class.text-rose-700]="!th2.up" [class.bg-rose-50]="!th2.up">{{ th2.label }}</span>
                 </div>
-              </div>
-              <!-- Tarjeta de resumen -->
-              <div class="flex items-center gap-4 px-3 py-2 bg-[#038dd3]/4 border-b border-[#038dd3]/10 shrink-0">
-                @for (yr of [0, 1, 2]; track yr) {
-                  <div class="flex flex-col gap-0.5">
-                    <span class="text-[7.5px] font-bold text-gray-400 leading-none">{{ CENSOS_YEARS[yr] }}</span>
-                    <span class="text-[10px] font-black tabular-nums leading-none"
-                          [class.text-gray-500]="yr < 2" [class.text-[#038dd3]]="yr === 2">
-                      {{ fmtD(evoData().hogPromPersonas[yr], 1) }} pers.
-                    </span>
-                  </div>
-                  @if (yr < 2) { <div class="w-px h-6 bg-gray-100 shrink-0"></div> }
-                }
               </div>
               @if (isBrowser) {
                 <div class="flex-1 min-h-0 px-0.5 pt-0.5 pb-1">
@@ -1020,5 +1022,6 @@ export class DashboardEvolucionComponent implements OnInit {
 
     // ── Computed: opciones de gráficos — HOGAR ────────────────────────────
     hogCensadosOpt    = computed<EChartsOption>(() => this.buildLineOpt(this.evoData().hogCensados,    CLR.purple));
+    hogJefeSexoOpt    = computed<EChartsOption>(() => this.buildDualLineOpt(this.evoData().hogJefeHombre, this.evoData().hogJefeMujer, CLR.blue, CLR.teal, 'Hombre', 'Mujer'));
     hogPromPersonasOpt = computed<EChartsOption>(() => this.buildLineOpt(this.evoData().hogPromPersonas, CLR.sky, false, true));
 }
