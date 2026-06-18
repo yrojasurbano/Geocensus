@@ -210,13 +210,13 @@ const EDU_TIC_EDAD_DATA  = [89.4, 92.8, 78.4, 58.7, 32.1] as const;
 
 // ── Discapacidad: datos mock ───────────────────────────────────────────
 const DISC_PIR_CATS = [
-    '0 – 4 años',  '5 – 9 años',   '10 – 14 años', '15 – 19 años', '20 – 24 años',
+    '5 – 9 años',   '10 – 14 años', '15 – 19 años', '20 – 24 años',
     '25 – 29 años', '30 – 34 años', '35 – 39 años',  '40 – 44 años', '45 – 49 años',
     '50 – 54 años', '55 – 59 años', '60 – 64 años',  '65 – 69 años', '70 – 74 años',
     '75 – 79 años', '80 – 84 años', '85 y más años',
 ] as const;
-const DISC_PIR_HOMBRE = [8_293, 12_892, 15_293, 18_892, 22_293, 24_892, 27_293, 29_892, 34_293, 38_892, 45_293, 52_892, 67_293, 72_892, 78_293, 62_892, 45_293, 52_892] as const;
-const DISC_PIR_MUJER  = [7_892, 11_293, 14_892, 17_293, 21_892, 23_293, 26_892, 29_293, 33_892, 38_293, 44_892, 51_293, 65_892, 70_293, 76_892, 65_293, 52_892, 67_293] as const;
+const DISC_PIR_HOMBRE = [12_892, 15_293, 18_892, 22_293, 24_892, 27_293, 29_892, 34_293, 38_892, 45_293, 52_892, 67_293, 72_892, 78_293, 62_892, 45_293, 52_892] as const;
+const DISC_PIR_MUJER  = [11_293, 14_892, 17_293, 21_892, 23_293, 26_892, 29_293, 33_892, 38_293, 44_892, 51_293, 65_892, 70_293, 76_892, 65_293, 52_892, 67_293] as const;
 
 const DISC_SEGURO_CATS = ['Seguro Integral de Salud (SIS)', 'EsSalud', 'Seguro de Fuerzas Armadas', 'Seguro privado de salud', 'Otro seguro', 'Ninguno'] as const;
 const DISC_SEGURO_DATA = [892_293, 347_892, 12_293, 87_892, 24_293, 534_892] as const;
@@ -2591,11 +2591,11 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/discapacidad/pob-no-lee.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-5">
                             <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que no sabe leer ni escribir</p>
                             <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">534 892</p>
-                            <span class="text-sm font-bold" style="color:#8282fb">16,6%</span>
+                           
                           </div>
                         </div>
                       </div>
@@ -2607,11 +2607,11 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/discapacidad/pob-discapacidad-usa-tics.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-5">
                             <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que hace uso de TIC's</p>
                             <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
-                            <span class="text-sm font-bold" style="color:#8282fb">27,8%</span>
+                            
                           </div>
                         </div>
                       </div>
@@ -4501,10 +4501,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildDiscSeguroColOpt(): EChartsOption {
-        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#038dd3', '#6b7280'];
-        const data = [...DISC_SEGURO_DATA].map((v, i) => ({
+        const data = [...DISC_SEGURO_DATA].map(v => ({
             value: v,
-            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#038dd3', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -4514,7 +4513,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -4537,10 +4536,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildDiscEduColOpt(): EChartsOption {
-        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#038dd3', '#33b3a9', '#0056a1', '#8282fb'];
-        const data = [...DISC_EDU_DATA].map((v, i) => ({
+        const data = [...DISC_EDU_DATA].map(v => ({
             value: v,
-            itemStyle: { color: colors[i % colors.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#caeae4', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -4550,7 +4548,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#caeae4">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -4575,7 +4573,7 @@ export class DashboardTematicoComponent implements OnInit {
     private buildDiscAsistPieOpt(): EChartsOption {
         const cats: string[] = ['Sí asiste', 'No asiste'];
         const data = [89_293, 47_892];
-        const colors = [CLR.sky, '#e5e7eb'];
+        const colors = [CLR.sky, '#b9e3f4'];
         return {
             tooltip: {
                 trigger: 'item',
