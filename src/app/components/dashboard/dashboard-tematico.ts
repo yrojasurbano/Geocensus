@@ -2873,7 +2873,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                      <img src="dashboards/tematicos/PET/poblacion-edad-trabajar.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población en edad de trabajar (población de 14 y más años)</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">26 847 293</p>
@@ -4955,7 +4955,7 @@ export class DashboardTematicoComponent implements OnInit {
                 type: 'pie', radius: ['38%', '65%'], center: ['50%', '43%'],
                 data: [
                     { name: 'Hombre', value: hombreVal, itemStyle: { color: CLR.blue } },
-                    { name: 'Mujer',  value: mujerVal,  itemStyle: { color: CLR.sky  } },
+                    { name: 'Mujer',  value: mujerVal,  itemStyle: { color: '#33b3a9' } },
                 ],
                 label: {
                     show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
@@ -4968,12 +4968,12 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildPetEdadHBarOpt(): EChartsOption {
-        const cats = [...PET_EDAD_CATS].reverse();
-        const data = [...PET_EDAD_DATA].reverse().map(v => ({
+        const cats    = [...PET_EDAD_CATS].reverse();
+        const colors  = ['#8383fd', '#caeae4', '#33b3a9', '#038dd3', '#0056a1'];
+        const data = [...PET_EDAD_DATA].reverse().map((v, i) => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.blue }, { offset: 1, color: this.hexToRgba(CLR.blue, 0.45) }] },
+                color: colors[i],
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -4985,7 +4985,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
@@ -5008,7 +5008,7 @@ export class DashboardTematicoComponent implements OnInit {
         };
     }
 
-    private buildPetSemiPieOpt(val1: number, val2: number, name1: string, name2: string, color: string): EChartsOption {
+    private buildPetSemiPieOpt(val1: number, val2: number, name1: string, name2: string, color: string, color2 = '#d1d5db'): EChartsOption {
         const total = val1 + val2;
         const pct1  = (val1 / total * 100).toFixed(1).replace('.', ',');
         const pct2  = (val2 / total * 100).toFixed(1).replace('.', ',');
@@ -5033,7 +5033,7 @@ export class DashboardTematicoComponent implements OnInit {
                 startAngle: 180, endAngle: 0,
                 data: [
                     { name: name1, value: val1, itemStyle: { color } },
-                    { name: name2, value: val2, itemStyle: { color: '#d1d5db' } },
+                    { name: name2, value: val2, itemStyle: { color: color2 } },
                 ],
                 label: {
                     show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
@@ -5049,8 +5049,7 @@ export class DashboardTematicoComponent implements OnInit {
         const barData = [...PET_ESTCIV_DATA].map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                    colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.35) }] },
+                color: '#038dd3',
                 borderRadius: [4, 4, 0, 0] as [number, number, number, number],
             },
         }));
@@ -5062,7 +5061,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 24, right: 6, bottom: 10, left: 4, containLabel: true },
@@ -5084,10 +5083,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildPetEduColOpt(): EChartsOption {
-        const palette = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#004a8a', '#27a09c', '#0275af', '#6b6be8'];
-        const barData = [...PET_EDU_DATA].map((v, i) => ({
+        const barData = [...PET_EDU_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#caeae4', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5097,7 +5095,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#caeae4">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 24, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -6168,14 +6166,14 @@ export class DashboardTematicoComponent implements OnInit {
         this.etnicAfrEstcivColOpt = this.buildEtnicEstcivColOpt([...ETNIC_AFR_ESTCIV_DATA], CLR.teal);
         this.petSexoPieOpt        = this.buildPetSexoPieOpt(13_847_293, 13_000_000);
         this.petEdadHBarOpt       = this.buildPetEdadHBarOpt();
-        this.petSeguroSemiPieOpt  = this.buildPetSemiPieOpt(17_234_892,  9_612_401, 'Sí tiene seguro',   'No tiene seguro',           CLR.blue);
-        this.petDiscSemiPieOpt    = this.buildPetSemiPieOpt(23_638_036,  3_209_257, 'Sin discapacidad',  'Con discapacidad',           CLR.sky);
+        this.petSeguroSemiPieOpt  = this.buildPetSemiPieOpt(17_234_892,  9_612_401, 'Sí tiene seguro',   'No tiene seguro',           '#8383fd', '#c9c9ff');
+        this.petDiscSemiPieOpt    = this.buildPetSemiPieOpt(23_638_036,  3_209_257, 'Sin discapacidad',  'Con discapacidad',           '#038dd3', '#b9e3f4');
         this.petEstcivColOpt      = this.buildPetEstcivColOpt();
         this.petEduColOpt         = this.buildPetEduColOpt();
-        this.petAsistPieOpt       = this.buildPetSimplePieOpt(3_234_892, 23_612_401, 'Sí asiste',              'No asiste',                  CLR.teal,   '#e5e7eb');
-        this.petAlfaPieOpt        = this.buildPetSimplePieOpt(24_638_036, 2_209_257, 'Sabe leer y escribir',   'No sabe leer ni escribir',   CLR.purple, '#e5e7eb');
-        this.petTicHBarOpt        = this.buildPetBinaryHBarOpt(8_234_892, 18_612_401, 'No utiliza', 'Sí utiliza', '#d1d5db', CLR.blue);
-        this.petInternetHBarOpt   = this.buildPetBinaryHBarOpt(9_847_293, 17_000_000, 'No utiliza', 'Sí utiliza', '#d1d5db', CLR.teal);
+        this.petAsistPieOpt       = this.buildPetSimplePieOpt(3_234_892, 23_612_401, 'Sí asiste',              'No asiste',                  '#8383fd',  '#c9c9ff');
+        this.petAlfaPieOpt        = this.buildPetSimplePieOpt(24_638_036, 2_209_257, 'Sabe leer y escribir',   'No sabe leer ni escribir',   '#038dd3',  '#b9e3f4');
+        this.petTicHBarOpt        = this.buildPetBinaryHBarOpt(8_234_892, 18_612_401, 'No utiliza', 'Sí utiliza', '#c9c9ff', '#8383fd');
+        this.petInternetHBarOpt   = this.buildPetBinaryHBarOpt(9_847_293, 17_000_000, 'No utiliza', 'Sí utiliza', '#b9e3f4', '#038dd3');
         this.vivHogaresBarOpt       = this.buildVivHogaresBarOpt();
         this.vivHabitacionesHBarOpt = this.buildVivHabitacionesHBarOpt();
         this.vivCalidadPieOpt       = this.buildVivCalidadPieOpt();
