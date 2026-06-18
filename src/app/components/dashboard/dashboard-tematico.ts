@@ -1648,21 +1648,21 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             </div>
           }
 
-          <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 5 columnas ── -->
+          <!-- ── IDENTIDAD Y PROTECCIÓN SOCIAL: 6 columnas ── -->
           @if (sec.id === 'identidad_proteccion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 lg:items-stretch">
 
-                <!-- ════ COL 1: Estado Civil ════════════════════════════════════ -->
-                <div class="h-full grid gap-3 lg:[grid-template-rows:auto_1fr_1fr_1fr_1fr]">
+                <!-- ════ COLS 1+2: Estado Civil ════════════════════════════════ -->
+                <div class="col-span-2 flex flex-col gap-3">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#0056a118;border-left:3px solid #0056a1">
                     <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">Estado Civil</span>
                   </div>
 
-                  <!-- Columnas: población por estado civil -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0 lg:row-span-2">
+                  <!-- Fila 1: Población de 12 y más años por estado civil o conyugal -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:260px">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Población de 12 y más años por estado civil o conyugal</p>
                       <button matTooltip="Distribución de la población de 12 y más años según su estado civil o conyugal" matTooltipClass="custom-tooltip"
@@ -1675,8 +1675,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                  <!-- Pirámide: estado civil por sexo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
+                  <!-- Fila 2: Estado civil o conyugal por sexo -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Estado civil o conyugal de la población de 12 y más años por sexo</p>
                       <button matTooltip="Pirámide comparativa de estado civil entre hombres y mujeres" matTooltipClass="custom-tooltip"
@@ -1689,8 +1689,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                  <!-- Barras apiladas: estado civil por grupo de edad -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col min-h-[160px] lg:min-h-0">
+                  <!-- Fila 3: Estado civil o conyugal por grupo de edad -->
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="height:215px">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start justify-between shrink-0">
                       <p class="text-[10px] font-bold leading-tight pr-5" style="color:#000000">Estado civil o conyugal de la población de 12 y más años por grupo de edad</p>
                       <button matTooltip="Distribución del estado civil según grupos de edad: actualmente unidos, anteriormente unidos y nunca unidos" matTooltipClass="custom-tooltip"
@@ -1703,9 +1703,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 1 -->
+                </div><!-- /cols 1+2 -->
 
-                <!-- ════ COLS 2+3: Identidad ═══════════════════════════════════ -->
+                <!-- ════ COLS 3+4: Identidad ═══════════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
@@ -1786,9 +1786,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /cols 2+3 -->
+                </div><!-- /cols 3+4 -->
 
-                <!-- ════ COLS 4+5: Seguro de Salud ═════════════════════════════ -->
+                <!-- ════ COLS 5+6: Seguro de Salud ═════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3">
 
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
@@ -1869,9 +1869,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /cols 4+5 -->
+                </div><!-- /cols 5+6 -->
 
-              </div><!-- /grid 5 cols -->
+              </div><!-- /grid 6 cols -->
             </div>
           }
 
@@ -2490,7 +2490,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                        <img src="dashboards/tematicos/discapacidad/pob-discapacidad.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población de 5 y más años con discapacidad</p>
                           <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">3 209 257</p>
@@ -2505,7 +2505,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                        <img src="dashboards/tematicos/discapacidad/hogar-discapacidad.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Hogares con al menos una persona con discapacidad</p>
                           <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">2 847 293</p>
@@ -4097,13 +4097,13 @@ export class DashboardTematicoComponent implements OnInit {
             series: [
                 { name: 'Actualmente unidos', type: 'bar' as const, stack: 'total', data: act,
                   label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#fff', formatter: lblFmt },
-                  itemStyle: { color: CLR.blue }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+                  itemStyle: { color: '#038dd3' }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
                 { name: 'Anteriormente unidos', type: 'bar' as const, stack: 'total', data: ant,
-                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#fff', formatter: lblFmt },
-                  itemStyle: { color: CLR.sky }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
-                { name: 'Nunca unidos', type: 'bar' as const, stack: 'total', data: nun,
                   label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#424242', formatter: lblFmt },
-                  itemStyle: { color: CLR.teal, borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+                  itemStyle: { color: '#caeae4' }, barMaxWidth: 20, emphasis: { focus: 'series' as const } },
+                { name: 'Nunca unidos', type: 'bar' as const, stack: 'total', data: nun,
+                  label: { show: true, position: 'inside' as const, fontSize: 8, fontWeight: 700 as const, color: '#fff', formatter: lblFmt },
+                  itemStyle: { color: '#8383fd', borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
                   barMaxWidth: 20, emphasis: { focus: 'series' as const } },
             ],
         };
@@ -4144,8 +4144,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...DNI_EDAD_DATA].map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                    colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.5) }] },
+                color: '#038dd3',
                 borderRadius: [4, 4, 0, 0] as [number, number, number, number],
             },
         }));
@@ -4157,7 +4156,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -4179,10 +4178,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildIdentDocInmigrOpt(): EChartsOption {
-        const colors = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#6b7280'];
-        const data = [...DOC_INMIGR_DATA].map((v, i) => ({
+        const data = [...DOC_INMIGR_DATA].map(v => ({
             value: v,
-            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#caeae4', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -4218,8 +4216,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...SEG_EDAD_DATA].map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                    colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.5) }] },
+                color: '#038dd3',
                 borderRadius: [4, 4, 0, 0] as [number, number, number, number],
             },
         }));
@@ -4231,7 +4228,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -4253,10 +4250,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildIdentSegTipoOpt(): EChartsOption {
-        const colors = [CLR.blue, CLR.teal, CLR.sky, CLR.purple];
-        const data = [...SEG_TIPO_DATA].map((v, i) => ({
+        const data = [...SEG_TIPO_DATA].map(v => ({
             value: v,
-            itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
