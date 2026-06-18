@@ -337,7 +337,7 @@ const CLR = {
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="isViewTabActive(tab.route)
-                ? 'background:#9277ff;color:#ffffff;'
+                ? 'background:#caeae4;color:#424242;'
                 : 'color:#9ca3af;'">
               <span>{{ tab.label }}</span>
             </button>

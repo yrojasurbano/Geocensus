@@ -1203,7 +1203,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
               class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
                      font-bold tracking-wide transition-all whitespace-nowrap"
               [style]="activeGroupId() === group.id
-                ? 'background:#9277ff;color:#ffffff;'
+                ? 'background:#caeae4;color:#424242;'
                 : 'color:#9ca3af;'">
               <span>{{ group.label }}</span>
             </button>
@@ -1441,18 +1441,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="h-full flex flex-col gap-3">
 
                   <!-- KPI: Población inmigrante extranjera -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                  <div class="rounded-xl shadow-sm overflow-hidden" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas nacidas en el extranjero que residen en el país al momento del censo" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'globe-alt'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'globe-alt'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Población inmigrante extranjera</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">2 847 293</p>
+                        <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#ffffff">Población inmigrante extranjera</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">2 847 293</p>
                       </div>
                     </div>
                   </div>
@@ -1720,20 +1720,19 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- KPI: Población con DNI -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas que cuentan con Documento Nacional de Identidad (DNI) vigente" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'identification'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'identification'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que tiene DNI</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que tiene DNI</p>
                         <div class="flex items-baseline gap-2">
-                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">34 000 000</p>
-                          <span class="text-sm font-bold" style="color:#038dd3">94,4%</span>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">34 000 000</p>                          
                         </div>
                       </div>
                     </div>
@@ -1806,20 +1805,19 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- KPI: Con algún seguro de salud -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas que cuentan con algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'shield-check'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'shield-check'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que tiene algún seguro de salud</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que tiene algún seguro de salud</p>
                         <div class="flex items-baseline gap-2">
-                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">29 280 892</p>
-                          <span class="text-sm font-bold" style="color:#33b3a9">81,3%</span>
+                          <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">29 280 892</p>                         
                         </div>
                       </div>
                     </div>
@@ -2048,18 +2046,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="h-full flex flex-col gap-3">                
 
                   <!-- KPI: tasa de alfabetismo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Porcentaje de la población de 15 y más años que sabe leer y escribir" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'book-open'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'book-open'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Tasa de alfabetismo de la población censada de 15 y más años</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">94,8%</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Tasa de alfabetismo de la población censada de 15 y más años</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">94,8%</p>
                       </div>
                     </div>
                   </div>
@@ -2098,18 +2096,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="h-full flex flex-col gap-3">                  
 
                   <!-- KPI: uso TIC -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Porcentaje de la población de 3 y más años que utilizó al menos una tecnología de información y comunicación" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
-                        <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población censada de 3 y más años que utilizó al menos una TIC</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">68,4%</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población censada de 3 y más años que utilizó al menos una TIC</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">68,4%</p>
                       </div>
                     </div>
                   </div>
@@ -2198,18 +2196,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- KPI total — fila 1 -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">8 344 891</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">8 344 891</p>
                       </div>
                     </div>
                   </div>
@@ -2354,18 +2352,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- KPI total — fila 1 -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se autoidentifica como afroperuano o afrodescendiente</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">275 185</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como afroperuano o afrodescendiente</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">275 185</p>
                       </div>
                     </div>
                   </div>
@@ -2708,19 +2706,19 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="col-span-2 flex flex-col gap-3 h-full">
 
                   <!-- Fila 1: KPI total viviendas -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Viviendas particulares con al menos un ocupante presente al momento del censo"
                               matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                        <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#33b3a9"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Viviendas particulares con ocupantes presentes</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">18 234 892</p>                        
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Viviendas particulares con ocupantes presentes</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">18 234 892</p>
                       </div>
                     </div>
                   </div>
@@ -2909,18 +2907,18 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="flex flex-col gap-3 h-full">
 
                   <!-- KPI: total PET -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de personas en edad de trabajar (15 años y más)" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
+                              class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                        <app-hero-icon [name]="'briefcase'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon [name]="'briefcase'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población en edad de trabajar (población de 14 y más años)</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">26 847 293</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población en edad de trabajar (población de 14 y más años)</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">26 847 293</p>
                         
                       </div>
                     </div>
@@ -3121,20 +3119,20 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="col-span-2 flex flex-col gap-3 h-full">
 
                   <!-- Fila 1: KPI Hogares censados -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden shrink-0">
+                  <div class="rounded-xl shadow-sm overflow-hidden shrink-0" style="background:linear-gradient(to right,#0056a1,#33b3a9)">
                     <div class="px-4 py-3 flex items-center gap-3 relative">
                       <button matTooltip="Total de hogares registrados en el Censo de Población y Vivienda 2025" matTooltipClass="custom-tooltip"
-                              class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
-                        <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                              class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
+                        <svg class="w-3 h-3 text-white/70 hover:text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                         </svg>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd315">
-                        <app-hero-icon name="home" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
+                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
+                        <app-hero-icon name="home" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
                       </div>
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Hogares censados</p>
-                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">9 861 890</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Hogares censados</p>
+                        <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">9 861 890</p>
                       </div>
                     </div>
                   </div>
