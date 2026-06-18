@@ -1435,7 +1435,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── MIGRACIÓN: Layout 4 columnas centrado ──────────────────── -->
           @if (sec.id === 'migracion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch lg:h-[700px] lg:[grid-template-rows:700px] lg:overflow-hidden">
 
                 <!-- ════ COLUMNA 1 ════ -->
                 <div class="h-full flex flex-col gap-3">
@@ -1447,9 +1447,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'globe-alt'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/migracion/pob-inmigrante-extranjera.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#ffffff">Población inmigrante extranjera</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">2 847 293</p>
@@ -1458,7 +1456,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- Pie: Por sexo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:210px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                       <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por sexo</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según sexo declarado al momento del censo" matTooltipClass="custom-tooltip"
@@ -1499,24 +1497,26 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       <p class="text-[10px] font-black text-black tracking-wide leading-snug mb-3 pr-6">Razón hombre - mujer de la población inmigrante extranjera</p>
                       <div class="flex items-center gap-5">
                         <div class="flex items-center gap-2.5">
-                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#0056a1"></app-hero-icon>
-                          <div class="flex flex-col leading-tight">
-                            <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
-                            <span class="text-[22px] font-black tabular-nums leading-none" style="color:#000000">99,5</span>
-                            <span class="text-[9px] text-gray-400 font-semibold">hombres</span>
-                          </div>
+                        <img src="dashboards/tematicos/migracion/hombre.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                        <div class="flex flex-col leading-tight">
+                          <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
+                          <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">30,5</span>
+                          <span class="text-[9px] text-gray-400 font-semibold">niños</span>
+                        </div>
                         </div>
                         <div class="flex items-center gap-2.5">
-                          <app-hero-icon [name]="'user'" class="w-9 h-9" style="color:#33b3a9"></app-hero-icon>
-                          <div class="flex flex-col leading-tight">
-                            <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
-                            <span class="text-[22px] font-black tabular-nums leading-none" style="color:#000000">100</span>
-                            <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
-                          </div>
+                         <img src="dashboards/tematicos/migracion/mujer.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                        <div class="flex flex-col leading-tight">
+                          <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
+                          <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">100</span>
+                          <span class="text-[9px] text-gray-400 font-semibold">mujeres</span>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
+
+                  
 
                 </div><!-- /col 1 -->
 
@@ -1528,14 +1528,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI: Edad promedio -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                      <div class="px-3 py-3 flex items-center gap-2 relative">
                         <button matTooltip="Promedio de edad de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#0056a118">
-                          <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/migracion/epromedio.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Edad promedio de la población inmigrante extranjera</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">32,4 <span class="text-xs font-bold text-gray-400">años</span></p>
@@ -1545,14 +1543,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI: Edad mediana -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                      <div class="px-3 py-3 flex items-center gap-2 relative">
                         <button matTooltip="Edad mediana de la población inmigrante extranjera al momento del censo" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#038dd318">
-                          <app-hero-icon [name]="'calculator'" class="w-4 h-4" style="color:#038dd3"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/migracion/emediana.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Edad mediana de la población inmigrante extranjera</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">29,7 <span class="text-xs font-bold text-gray-400">años</span></p>
@@ -1562,14 +1558,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI: Índice de envejecimiento -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                      <div class="px-3 py-3 flex items-center gap-2 relative">
                         <button matTooltip="Razón entre la población de 60 y más años y la de 0 a 14 años, multiplicada por 100" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#33b3a918">
-                          <app-hero-icon [name]="'chart-bar'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/migracion/envejecimiento.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-1" style="color:#000000">Índice de envejecimiento de la población inmigrante extranjera</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">148,3</p>
@@ -1601,7 +1595,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <div class="h-full flex flex-col gap-3">
 
                   <!-- Pie: Por seguro de salud -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:210px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:210px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                       <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por tenencia de seguro de salud</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según tenencia de algún tipo de seguro de salud" matTooltipClass="custom-tooltip"
@@ -1617,7 +1611,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   </div>
 
                   <!-- hbar: Por nivel educativo -->
-                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden" style="min-height:190px">
+                  <div class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden flex-1" style="min-height:190px">
                     <div class="flex items-center gap-2 px-4 pt-3 pb-2 shrink-0 border-b border-gray-50">
                       <p class="flex-1 text-[10px] font-black leading-tight min-w-0" style="color:#000000">Población inmigrante extranjera por nivel educativo alcanzado</p>
                       <button matTooltip="Distribución de la población inmigrante extranjera según nivel educativo alcanzado" matTooltipClass="custom-tooltip"
@@ -1726,9 +1720,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'identification'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/identidad/poblacion-dni.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que tiene DNI</p>
                         <div class="flex items-baseline gap-2">
@@ -1811,9 +1803,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'shield-check'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/identidad/poblacion-seguro-salud.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que tiene algún seguro de salud</p>
                         <div class="flex items-baseline gap-2">
@@ -1888,7 +1878,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── EDUCACIÓN: 5 columnas ─────────────────────────────────────── -->
           @if (sec.id === 'educacion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch lg:h-[700px] lg:[grid-template-rows:700px] lg:overflow-hidden">
 
                 <!-- ════ COL 1: Nivel Educativo ══════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">
@@ -1935,14 +1925,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                        <app-hero-icon [name]="'academic-cap'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/educacion/tasa-asistencia-escolar.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Tasa de asistencia escolar de la población censada de 3 a 24 años</p>
                         <div class="flex items-baseline gap-2">
                           <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">6 758 293</p>
-                          <span class="text-sm font-bold" style="color:#038dd3">78,4%</span>
+                          
                         </div>
                       </div>
                     </div>
@@ -1955,9 +1943,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
-                        <app-hero-icon [name]="'map'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/educacion/poblacion-que-se-desplaza.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población que se desplaza fuera de su distrito para asistir a su centro de enseñanza</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">1 234 892</p>
@@ -2052,9 +2038,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'book-open'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/educacion/tasa-alfabetismo.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Tasa de alfabetismo de la población censada de 15 y más años</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">94,8%</p>
@@ -2102,9 +2086,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/educacion/pobcensada_tic.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población censada de 3 y más años que utilizó al menos una TIC</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">68,4%</p>
@@ -2202,9 +2184,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">8 344 891</p>
@@ -2272,9 +2252,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
-                            <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">3 124 892</p>
@@ -2290,9 +2268,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                            <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
@@ -2358,9 +2334,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'users'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como afroperuano o afrodescendiente</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">275 185</p>
@@ -2428,9 +2402,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#8282fb18">
-                            <app-hero-icon [name]="'device-phone-mobile'" class="w-4 h-4" style="color:#8282fb"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">134 892</p>
@@ -2446,9 +2418,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                            <app-hero-icon [name]="'pencil'" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">18 293</p>
@@ -2520,9 +2490,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                          <app-hero-icon [name]="'user'" class="w-5 h-5" style="color:#0056a1"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Población de 5 y más años con discapacidad</p>
                           <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">3 209 257</p>
@@ -2537,9 +2505,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                 class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                         </button>
-                        <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                          <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#038dd3"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[10px] font-bold leading-tight mb-1" style="color:#000000">Hogares con al menos una persona con discapacidad</p>
                           <p class="text-2xl font-black tabular-nums leading-none" style="color:#000000">2 847 293</p>
@@ -2620,14 +2586,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: no sabe leer ni escribir -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="px-4 py-3 flex items-start gap-3 relative h-full">
+                        <div class="px-4 py-3 flex items-center gap-3 relative h-full">
                           <button matTooltip="Población con discapacidad que declara no saber leer ni escribir" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#8282fb18">
-                            <app-hero-icon [name]="'pencil'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-5">
                             <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que no sabe leer ni escribir</p>
                             <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">534 892</p>
@@ -2638,14 +2602,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                       <!-- KPI: uso de TIC's -->
                       <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
-                        <div class="px-4 py-3 flex items-start gap-3 relative h-full">
+                        <div class="px-4 py-3 flex items-center gap-3 relative h-full">
                           <button matTooltip="Población con discapacidad que hace uso de tecnologías de información y comunicación" matTooltipClass="custom-tooltip"
                                   class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                           </button>
-                          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#8282fb18">
-                            <app-hero-icon [name]="'device-mobile'" class="w-5 h-5" style="color:#8282fb"></app-hero-icon>
-                          </div>
+                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-5">
                             <p class="text-[10px] font-bold leading-tight mb-2" style="color:#000000">Población con discapacidad que hace uso de TIC's</p>
                             <p class="text-xl font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
@@ -2713,9 +2675,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'home'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Viviendas particulares con ocupantes presentes</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">18 234 892</p>
@@ -2913,9 +2873,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon [name]="'briefcase'" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población en edad de trabajar (población de 14 y más años)</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">26 847 293</p>
@@ -3127,9 +3085,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                         </svg>
                       </button>
-                      <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                        <app-hero-icon name="home" class="w-5 h-5" style="color:#ffffff"></app-hero-icon>
-                      </div>
+                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Hogares censados</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">9 861 890</p>
@@ -3221,6 +3177,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con algún miembro en condición de emigrante internacional</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">1 234 892</p>
@@ -3256,13 +3213,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI bienes TIC -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:1 1 0%">
-                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                      <div class="px-3 py-3 flex items-center gap-2 relative">
                         <button matTooltip="Hogares que poseen al menos un bien TIC (televisor, radio, computadora, celular, etc.)" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con tenencia de bienes TIC's</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">8 234 892</p>
@@ -3272,13 +3230,14 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
                     <!-- KPI servicios TIC -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style="flex:1 1 0%">
-                      <div class="px-3 py-3 flex items-start gap-2 relative">
+                      <div class="px-3 py-3 flex items-center gap-2 relative">
                         <button matTooltip="Hogares que acceden a al menos un servicio TIC (internet, telefonía fija, TV cable, etc.)" matTooltipClass="custom-tooltip"
                                 class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                           <svg class="w-3 h-3 text-gray-300 hover:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con acceso a servicios TIC's</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">6 847 293</p>
@@ -3337,11 +3296,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                        [style]="ind.minHeight ? 'min-height:' + ind.minHeight + 'px' : ''">
                     <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
                       @if (ind.type === 'kpi' || ind.type === 'kpi_list') {
-                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                             [style]="'background:' + (activeGroup()?.color ?? '#0056a1') + '15'">
-                          <app-hero-icon [name]="ind.icon" class="w-4 h-4"
-                                         [style]="'color:' + (activeGroup()?.color ?? '#0056a1')"></app-hero-icon>
-                        </div>
+                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       }
                       <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug pt-0.5 min-w-0" style="color:#000000">{{ ind.title }}</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
@@ -3445,10 +3400,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ── ng-template: cabecera de card Identidad y Protección Social ── -->
       <ng-template #identHeaderTpl let-ind let-clr="clr">
         <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-               [style]="'background:' + clr + '15'">
-            <app-hero-icon [name]="ind.icon" class="w-4 h-4" [style]="'color:' + clr"></app-hero-icon>
-          </div>
+          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
           <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
@@ -3460,9 +3412,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ── ng-template: cabecera de card Discapacidad ─────────────────── -->
       <ng-template #discHeaderTpl let-ind>
         <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a115">
-            <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#0056a1"></app-hero-icon>
-          </div>
+          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
           <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
@@ -3474,9 +3424,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ── ng-template: cabecera de card Viviendas ────────────────────── -->
       <ng-template #vivHeaderTpl let-ind>
         <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a915">
-            <app-hero-icon [name]="ind.icon" class="w-4 h-4" style="color:#33b3a9"></app-hero-icon>
-          </div>
+          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
           <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
@@ -3488,11 +3436,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
       <!-- ── ng-template: cabecera de card Características Económicas ───── -->
       <ng-template #econHeaderTpl let-ind let-ci="ci">
         <div class="flex items-start gap-2.5 px-3 pt-3 pb-2.5 shrink-0 border-b border-gray-50">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-               [style]="'background:' + getEconColor(ci) + '15'">
-            <app-hero-icon [name]="ind.icon" class="w-4 h-4"
-                           [style]="'color:' + getEconColor(ci)"></app-hero-icon>
-          </div>
+          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
           <p class="flex-1 text-[10px] sm:text-[11px] font-black leading-snug text-gray-700 pt-0.5 min-w-0">{{ ind.title }}</p>
           <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-50 transition-all">
@@ -3824,6 +3768,7 @@ export class DashboardTematicoComponent implements OnInit {
     private buildMigrGruposEdadOpt(): EChartsOption {
         const cats = [...MIGR_GRUPOS_EDAD];
         const data = [...MIGR_GRUPOS_EDAD_DATA];
+        const gruposColores = ['#038dd3', '#caeae4', '#8383fd'];
         return {
             tooltip: {
                 trigger: 'axis', axisPointer: { type: 'shadow' },
@@ -3832,7 +3777,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:${gruposColores[p.dataIndex]}">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 24, right: 8, bottom: 28, left: 4, containLabel: true },
@@ -3847,14 +3792,14 @@ export class DashboardTematicoComponent implements OnInit {
                 splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' } },
             },
             series: [{
-                type: 'bar', data,
+                type: 'bar',
+                data: data.map((v, i) => ({
+                    value: v,
+                    itemStyle: { color: gruposColores[i], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+                })),
                 label: { show: true, position: 'top' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
-                itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
-                    borderRadius: [4, 4, 0, 0] as [number, number, number, number],
-                },
+                itemStyle: { borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
                 barMaxWidth: 40, emphasis: { itemStyle: { opacity: 0.85 } },
             }],
         };
@@ -3915,7 +3860,7 @@ export class DashboardTematicoComponent implements OnInit {
     private buildMigrSeguroOpt(): EChartsOption {
         const cats: string[] = [...MIGR_SEGURO];
         const data           = [...MIGR_SEGURO_DATA];
-        const colors = [CLR.blue, '#9ca3af'];
+        const colors = [CLR.blue, '#33b3a9'];
         return {
             tooltip: {
                 trigger: 'item',
@@ -3951,7 +3896,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
@@ -3970,8 +3915,7 @@ export class DashboardTematicoComponent implements OnInit {
                 label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.4) }] },
+                    color: '#038dd3',
                     borderRadius: [0, 4, 4, 0] as [number, number, number, number],
                 },
                 barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
@@ -3982,6 +3926,10 @@ export class DashboardTematicoComponent implements OnInit {
     private buildMigrPaisesOpt(): EChartsOption {
         const cats = [...MIGR_PAISES].reverse();
         const data = [...MIGR_PAISES_DATA].reverse();
+        const paisesColores: Record<string, string> = {
+            'Venezuela': '#0056a1', 'Argentina': '#038dd3', 'Chile': '#4c8c80',
+            'Colombia': '#33b3a9', 'Bolivia': '#caeae4', 'Estados Unidos': '#8383fd',
+        };
         return {
             tooltip: {
                 trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
@@ -3989,7 +3937,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:${paisesColores[p.name] ?? CLR.teal}">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
@@ -4004,14 +3952,14 @@ export class DashboardTematicoComponent implements OnInit {
                 axisLabel: { fontSize: 7, color: '#424242' },
             },
             series: [{
-                type: 'bar', data,
+                type: 'bar',
+                data: cats.map((cat, i) => ({
+                    value: data[i],
+                    itemStyle: { color: paisesColores[cat] ?? CLR.teal, borderRadius: [0, 4, 4, 0] as [number, number, number, number] },
+                })),
                 label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
-                itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.4) }] },
-                    borderRadius: [0, 4, 4, 0] as [number, number, number, number],
-                },
+                itemStyle: { borderRadius: [0, 4, 4, 0] as [number, number, number, number] },
                 barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
             }],
         };
