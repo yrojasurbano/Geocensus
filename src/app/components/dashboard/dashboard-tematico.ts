@@ -1221,12 +1221,12 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
               <button (click)="setActiveSection(sec.id)"
                 class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[130px] border transition-all duration-200 shrink-0"
                 [style]="activeSectionId() === sec.id
-                  ? 'background:' + grp.color + ';border-color:' + grp.color + ';color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
-                  : 'background:#f9fafb;border-color:#e5e7eb;color:#6b7280;'">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200"
-                     [style]="activeSectionId() === sec.id ? 'background:rgba(255,255,255,0.25);' : 'background:rgba(0,86,161,0.08);'">
-                  <img src="generico.svg" class="w-4 h-4 shrink-0">
-                </div>
+                  ? 'background:' + grp.color + ';border:1px solid #424242;color:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
+                  : 'background:#f9fafb;border:1px solid #e5e7eb;color:#6b7280;'">
+                @if (getSectionIcon(sec.id)) {
+                  <img [src]="getSectionIcon(sec.id)" class="w-16 h-16 shrink-0"
+                       [style.filter]="activeSectionId() === sec.id ? 'brightness(0) invert(1)' : 'none'">
+                }
                 <span class="text-[8.5px] font-bold text-center leading-tight line-clamp-2">{{ sec.label }}</span>
               </button>
             }
@@ -2700,7 +2700,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── VIVIENDA: 6 columnas × 7 filas (3 bloques de 2 cols) ──────── -->
           @if (sec.id === 'caract_tecnicas_viviendas') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-stretch lg:h-[700px] xl:h-[780px] 2xl:h-[860px]">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">
@@ -2901,7 +2901,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── PET (Población en Edad de Trabajar): 4 columnas ──────────── -->
           @if (sec.id === 'caracteristicas_economicas') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch lg:h-[700px] xl:h-[780px] 2xl:h-[860px]">
 
                 <!-- ════ COL 1: Estructura Demográfica ═══════════════════════ -->
                 <div class="flex flex-col gap-3 h-full">
@@ -3113,7 +3113,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
           <!-- ── HOGAR: 7 columnas × 5 filas (3 bloques) ─────────────────────── -->
           @if (sec.id === 'caract_servicios_hogares') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-7 gap-3 items-stretch">
+              <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-7 gap-3 items-stretch lg:h-[700px] xl:h-[780px] 2xl:h-[860px]">
 
                 <!-- ════ BLOQUE A: Columnas 1-2 ══════════════════════════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">
@@ -3538,6 +3538,20 @@ export class DashboardTematicoComponent implements OnInit {
     readonly thematicGroups        = THEMATIC_GROUPS;
     readonly identidadColumnGroups = IDENTIDAD_COLUMN_GROUPS;
     readonly identidadWideIds      = IDENTIDAD_WIDE_IDS;
+
+    private readonly sectionIconMap: Record<string, string> = {
+        fecundidad:                 'dashboards/tematicos/fecundidad.svg',
+        migracion:                  'dashboards/tematicos/migracion.svg',
+        identidad_proteccion:       'dashboards/tematicos/identidad.svg',
+        educacion:                  'dashboards/tematicos/educacion.svg',
+        discapacidad:               'dashboards/tematicos/discapacidad.svg',
+        identidad_etnica:           'dashboards/tematicos/etnicidad.svg',
+        caracteristicas_economicas: 'dashboards/tematicos/pet.svg',
+    };
+
+    getSectionIcon(id: string): string {
+        return this.sectionIconMap[id] ?? '';
+    }
 
     // ── Header ───────────────────────────────────────────────────────────
     censosOpen     = signal(false);

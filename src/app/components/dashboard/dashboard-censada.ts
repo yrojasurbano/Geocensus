@@ -1101,13 +1101,8 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-gradient-to-br from-[#0056a1] to-[#33b3a9] rounded-xl p-2.5 text-white
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
-              <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
-                 <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
-                            rounded-xl bg-[#0056a1]/10 flex items-center justify-center shrink-0">
-                  <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                    <img src="vivcolectiva.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
-                  </div>
-                </div>
+              <div class="flex items-center justify-center shrink-0 relative z-10">
+                <img src="dashboards/vivcensada.svg" class="w-[25px] h-[25px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
               </div>
               <div class="min-w-0 relative z-10 flex-1">
                 <div class="text-[12px] font-bold   tracking-widest leading-none">Viviendas censadas</div>
@@ -1156,9 +1151,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
               </div>
               <div class="flex items-center gap-2.5 flex-1 min-h-0">
                 <div class="w-[40px] h-[40px] md:w-[49px] md:h-[49px] xl:w-[50px] xl:h-[50px]
-                            flex items-center justify-center shrink-0">
+                                 flex items-center justify-center shrink-0">
                   <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] rounded-lg flex items-center justify-center shrink-0">
-                    <img src="vivcolectiva.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                    <img src="dashboards/vivcolectiva.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                   </div>
                 </div>
                 <div class="min-w-0">
@@ -1222,11 +1217,9 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
             <div class="bg-gradient-to-br from-[#0056a1] to-[#33b3a9] rounded-xl p-2.5 text-white
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
-              <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center shrink-0 relative z-10">
-                <div class="w-full h-full rounded-lg flex items-center justify-center shrink-0">
-                  <img src="hogarpromedio.svg" class="w-[22px] h-[22px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
-                
-                </div>
+               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
+              <div class="flex items-center justify-center shrink-0 relative z-10">
+                <img src="dashboards/hogarcensado.svg" class="w-[25px] h-[25px] md:w-[28px] md:h-[28px] xl:w-[30px] xl:h-[30px]" style="filter:brightness(0) invert(1)">
               </div>
               <div class="min-w-0 relative z-10 flex-1">
                 <div class="text-[12px] font-bold tracking-widest leading-none">Hogares censados</div>

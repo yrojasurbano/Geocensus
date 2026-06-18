@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="31.554209mm"
+   height="31.554209mm"
+   viewBox="0 0 31.554209 31.554209"
+   version="1.1"
+   id="svg7318"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="identidad.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7320"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="182.53241"
+     inkscape:cy="342.11165"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs7315">
+    <filter
+       id="drop-shadow-3"
+       x="697.47998"
+       y="352.35001"
+       width="119.26"
+       height="119.26"
+       filterUnits="userSpaceOnUse">
+      <feOffset
+         dx="5"
+         dy="5"
+         id="feOffset2677" />
+      <feGaussianBlur
+         result="blur2"
+         stdDeviation="10"
+         id="feGaussianBlur2679" />
+      <feFlood
+         flood-color="#3d3d3d"
+         flood-opacity=".5"
+         id="feFlood2681" />
+      <feComposite
+         in2="blur2"
+         operator="in"
+         id="feComposite2683"
+         result="result1" />
+      <feComposite
+         in="SourceGraphic"
+         in2="result1"
+         id="feComposite2685" />
+    </filter>
+    <linearGradient
+       id="Degradado_sin_nombre_106"
+       data-name="Degradado sin nombre 10"
+       x1="719.76001"
+       y1="413.34"
+       x2="796.16998"
+       y2="413.34"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_10"
+       data-name="Degradado sin nombre 10"
+       x1="45.349998"
+       y1="622.96997"
+       x2="408.37"
+       y2="622.96997"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#0556a2"
+         id="stop2638" />
+      <stop
+         offset="1"
+         stop-color="#35b2a8"
+         id="stop2640" />
+    </linearGradient>
+    <linearGradient
+       id="Degradado_sin_nombre_107"
+       data-name="Degradado sin nombre 10"
+       x1="755.78998"
+       y1="418.39999"
+       x2="788.41998"
+       y2="418.39999"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_108"
+       data-name="Degradado sin nombre 10"
+       x1="755.79999"
+       y1="435.72"
+       x2="788.41998"
+       y2="435.72"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_109"
+       data-name="Degradado sin nombre 10"
+       x1="755.78998"
+       y1="427.06"
+       x2="788.41998"
+       y2="427.06"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1010"
+       data-name="Degradado sin nombre 10"
+       x1="755.78998"
+       y1="409.75"
+       x2="788.41998"
+       y2="409.75"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1011"
+       data-name="Degradado sin nombre 10"
+       x1="763.31"
+       y1="445.51999"
+       x2="768.71002"
+       y2="445.51999"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1012"
+       data-name="Degradado sin nombre 10"
+       x1="752.52002"
+       y1="445.53"
+       x2="757.87"
+       y2="445.53"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1013"
+       data-name="Degradado sin nombre 10"
+       x1="754.07001"
+       y1="388.78"
+       x2="761.85999"
+       y2="388.78"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1014"
+       data-name="Degradado sin nombre 10"
+       x1="728.21002"
+       y1="427.35001"
+       x2="750.72998"
+       y2="427.35001"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1015"
+       data-name="Degradado sin nombre 10"
+       x1="733.53003"
+       y1="413.64999"
+       x2="745.40997"
+       y2="413.64999"
+       xlink:href="#Degradado_sin_nombre_10" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-56.810046,-57.96681)">
+    <g
+       id="g3680"
+       transform="matrix(0.26458333,0,0,0.26458333,-127.73153,-35.259128)">
+      <g
+         id="shape2"
+         data-name="shape"
+         class="st12"
+         style="filter:url(#drop-shadow-3)">
+        <path
+           class="st0"
+           d="m 710.73,352.35 h 92.75 c 7.31,0 13.25,5.94 13.25,13.25 v 92.75 c 0,7.31 -5.94,13.25 -13.25,13.25 h -92.75 c -7.31,0 -13.25,-5.94 -13.25,-13.25 V 365.6 c 0,-7.31 5.94,-13.25 13.25,-13.25 z"
+           id="path3652"
+           style="fill:none" />
+      </g>
+      <g
+         id="uPiqVy.tif">
+        <g
+           id="g3677">
+          <path
+             class="st56"
+             d="m 759.07,380.02 c 0,0 0.08,0.14 0.18,0.15 3.67,0.66 6.33,3.78 6.34,7.54 v 5.6 c 0,0 27.41,0.03 27.41,0.03 1.63,0 3.13,1.53 3.13,3.29 l 0.04,46.63 c -0.29,1.83 -1.4,3.36 -3.32,3.37 l -17.56,0.03 c -0.73,0 -1.15,-0.61 -1.14,-1.16 0.02,-0.62 0.46,-1.07 1.17,-1.07 h 17.54 c 0.56,0 1,-0.52 1,-1.09 v -46.77 c 0,-0.67 -0.56,-1.05 -1.17,-1.05 H 765.6 c 0,0 -0.02,4.51 -0.02,4.51 l 3.85,0.02 c 0.67,0.05 1.09,0.67 1,1.22 -0.11,0.7 -0.63,0.96 -1.35,0.96 h -22.25 c -0.71,0 -1.25,-0.26 -1.35,-0.96 -0.08,-0.56 0.33,-1.18 1,-1.23 l 3.85,-0.02 -0.02,-4.51 h -27.24 c -0.56,0 -1.01,0.49 -1.01,1.06 v 46.77 c 0,0.7 0.52,1.1 1.16,1.1 h 22.72 c 0.7,0 1.12,0.5 1.13,1.07 0.01,0.62 -0.48,1.16 -1.25,1.16 l -22.9,-0.04 c -1.53,0 -2.71,-1.33 -2.98,-2.62 -0.06,-0.3 -0.05,-0.38 -0.2,-0.49 v -47.15 c 0.09,-0.05 0.14,-0.15 0.17,-0.3 0.29,-1.64 1.6,-2.76 3.31,-2.76 h 27.09 c 0,0 0.02,-5.76 0.02,-5.76 0.01,-3.64 2.66,-6.65 6.21,-7.35 0.17,-0.03 0.25,-0.09 0.31,-0.18 h 2.2 z m 4.34,19.95 v -12.41 c -0.12,-3.05 -2.57,-5.34 -5.52,-5.3 -2.84,0.04 -5.33,2.31 -5.34,5.3 l -0.03,12.43 10.88,-0.02 z"
+             id="path3655"
+             style="fill:url(#Degradado_sin_nombre_106)" />
+          <path
+             class="st59"
+             d="m 787.42,419.5 h -30.61 c -0.64,0 -1,-0.58 -1.01,-1.06 -0.01,-0.48 0.3,-1.11 0.95,-1.11 h 30.44 c 0.72,-0.02 1.17,0.36 1.23,0.98 0.05,0.49 -0.3,1.19 -0.99,1.19 z"
+             id="path3657"
+             style="fill:url(#Degradado_sin_nombre_107)" />
+          <path
+             class="st55"
+             d="m 787.5,436.8 h -30.73 c -0.65,0 -0.97,-0.6 -0.98,-1.07 -0.01,-0.47 0.33,-1.09 0.97,-1.09 h 30.69 c 0.59,0 0.91,0.55 0.96,0.97 0.05,0.42 -0.2,1.19 -0.91,1.19 z"
+             id="path3659"
+             style="fill:url(#Degradado_sin_nombre_108)" />
+          <path
+             class="st57"
+             d="m 787.22,428.16 h -30.43 c -0.7,-0.01 -1.05,-0.7 -1,-1.21 0.07,-0.63 0.52,-0.99 1.25,-0.99 h 30.28 c 0.7,0 1.1,0.55 1.09,1.11 -0.01,0.56 -0.39,1.08 -1.19,1.08 z"
+             id="path3661"
+             style="fill:url(#Degradado_sin_nombre_109)" />
+          <path
+             class="st36"
+             d="m 787.19,410.83 h -30.14 c -0.75,0 -1.21,-0.37 -1.25,-1.04 -0.03,-0.56 0.36,-1.13 1.09,-1.13 h 30.3 c 0.74,0 1.19,0.39 1.23,1 0.04,0.71 -0.43,1.18 -1.23,1.18 z"
+             id="path3663"
+             style="fill:url(#Degradado_sin_nombre_1010)" />
+          <path
+             class="st40"
+             d="m 767.63,446.62 h -3.21 c -0.69,0.01 -1.12,-0.54 -1.11,-1.14 0.01,-0.6 0.47,-1.07 1.14,-1.07 h 3.19 c 0.61,0 1.05,0.54 1.07,1.07 0.02,0.53 -0.38,1.13 -1.08,1.14 z"
+             id="path3665"
+             style="fill:url(#Degradado_sin_nombre_1011)" />
+          <path
+             class="st41"
+             d="m 756.78,446.62 -3.06,0.02 c -0.66,0 -1.14,-0.44 -1.2,-1.02 -0.06,-0.58 0.39,-1.19 1.08,-1.19 h 3.19 c 0.63,0 1.07,0.52 1.08,1.07 0.01,0.55 -0.38,1.12 -1.1,1.13 z"
+             id="path3667"
+             style="fill:url(#Degradado_sin_nombre_1012)" />
+          <path
+             class="st37"
+             d="m 761.86,388.78 c 0,2.15 -1.75,3.9 -3.9,3.9 -2.15,0 -3.9,-1.74 -3.9,-3.9 0,-2.16 1.75,-3.9 3.9,-3.9 2.15,0 3.9,1.74 3.9,3.9 z m -2.19,0 c 0,-0.94 -0.77,-1.71 -1.71,-1.71 -0.94,0 -1.71,0.76 -1.71,1.71 0,0.95 0.77,1.71 1.71,1.71 0.94,0 1.71,-0.76 1.71,-1.71 z"
+             id="path3669"
+             style="fill:url(#Degradado_sin_nombre_1013)" />
+          <g
+             id="g3675">
+            <path
+               class="st38"
+               d="m 749.69,433.13 h -20.33 c -0.61,0.01 -1.15,-0.4 -1.15,-1 v -4.77 c 0.02,-3.11 2.67,-5.78 5.84,-5.79 h 10.71 c 3.26,-0.02 5.95,2.68 5.96,5.9 v 4.59 c 0,0.51 -0.34,1.08 -1.03,1.08 z m -1.14,-2.18 v -3.17 c 0.04,-2.25 -1.69,-4.07 -3.96,-4.07 H 734.4 c -2.21,0 -4.01,1.7 -4,3.91 v 3.33 c 0,0 18.15,0 18.15,0 z"
+               id="path3671"
+               style="fill:url(#Degradado_sin_nombre_1014)" />
+            <path
+               class="st32"
+               d="m 745.41,413.65 c 0,3.28 -2.66,5.93 -5.94,5.93 -3.28,0 -5.94,-2.66 -5.94,-5.93 0,-3.27 2.66,-5.93 5.94,-5.93 3.28,0 5.94,2.66 5.94,5.93 z m -2.19,0 c 0,-2.07 -1.68,-3.74 -3.74,-3.74 -2.06,0 -3.74,1.67 -3.74,3.74 0,2.07 1.68,3.74 3.74,3.74 2.06,0 3.74,-1.67 3.74,-3.74 z"
+               id="path3673"
+               style="fill:url(#Degradado_sin_nombre_1015)" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="31.554209mm"
+   height="31.554209mm"
+   viewBox="0 0 31.554209 31.554209"
+   version="1.1"
+   id="svg7914"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="etnicidad.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7916"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="178.16038"
+     inkscape:cy="226.25275"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs7911">
+    <filter
+       id="drop-shadow-6"
+       x="1308.86"
+       y="352.35001"
+       width="119.26"
+       height="119.26"
+       filterUnits="userSpaceOnUse">
+      <feOffset
+         dx="5"
+         dy="5"
+         id="feOffset2726" />
+      <feGaussianBlur
+         result="blur5"
+         stdDeviation="10"
+         id="feGaussianBlur2728" />
+      <feFlood
+         flood-color="#3d3d3d"
+         flood-opacity=".5"
+         id="feFlood2730" />
+      <feComposite
+         in2="blur5"
+         operator="in"
+         id="feComposite2732"
+         result="result1" />
+      <feComposite
+         in="SourceGraphic"
+         in2="result1"
+         id="feComposite2734" />
+    </filter>
+    <linearGradient
+       id="Degradado_sin_nombre_1022"
+       data-name="Degradado sin nombre 10"
+       x1="1335.04"
+       y1="412.23999"
+       x2="1402.54"
+       y2="412.23999"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_10"
+       data-name="Degradado sin nombre 10"
+       x1="45.349998"
+       y1="622.96997"
+       x2="408.37"
+       y2="622.96997"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#0556a2"
+         id="stop2638" />
+      <stop
+         offset="1"
+         stop-color="#35b2a8"
+         id="stop2640" />
+    </linearGradient>
+    <linearGradient
+       id="Degradado_sin_nombre_1023"
+       data-name="Degradado sin nombre 10"
+       x1="1335.04"
+       y1="395.53"
+       x2="1402.53"
+       y2="395.53"
+       xlink:href="#Degradado_sin_nombre_10" />
+    <linearGradient
+       id="Degradado_sin_nombre_1024"
+       data-name="Degradado sin nombre 10"
+       x1="1335.03"
+       y1="428.51999"
+       x2="1402.51"
+       y2="428.51999"
+       xlink:href="#Degradado_sin_nombre_10" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-57.966813,-88.621143)">
+    <g
+       id="g3808"
+       transform="matrix(0.26458333,0,0,0.26458333,-288.33572,-4.6047949)">
+      <g
+         id="shape5"
+         data-name="shape"
+         class="st14"
+         style="filter:url(#drop-shadow-6)">
+        <path
+           class="st0"
+           d="m 1322.11,352.35 h 92.75 c 7.31,0 13.25,5.94 13.25,13.25 v 92.75 c 0,7.31 -5.94,13.25 -13.25,13.25 h -92.75 c -7.31,0 -13.25,-5.94 -13.25,-13.25 V 365.6 c 0,-7.31 5.94,-13.25 13.25,-13.25 z"
+           id="path3796"
+           style="fill:none" />
+      </g>
+      <g
+         id="YzqIYp.tif">
+        <g
+           id="g3805">
+          <path
+             class="st42"
+             d="m 1335.06,422.57 -0.02,-4.63 c 0.75,0.31 1.53,0.4 2.79,0.12 0.09,-5.39 -0.18,-10.5 0.21,-16.15 h 19.76 c 0,0 -0.01,12.3 -0.01,12.3 l -7.38,0.19 c -0.7,0.6 -0.78,3.04 -0.05,3.67 l 10.45,0.14 0.05,-16.37 19.39,0.07 c 0.4,4.25 0.63,8.1 0.23,12.15 l -7.66,0.2 c -0.43,1.44 -0.44,2.53 -0.02,3.94 h 9.88 c 0,0 0.1,-16.3 0.1,-16.3 h 19.7 c 0,0 -0.03,12.35 -0.03,12.35 l -6.43,0.25 c -0.99,0.04 -1.4,2.97 -0.61,3.54 l 6.97,0.25 c 0.2,1.54 0.16,2.91 -0.02,4.39 l -11.58,-0.12 -0.09,-12.71 c 3.56,-0.47 6.47,0.53 7.31,-1.23 0.19,-0.4 0.12,-1.94 -0.3,-2.14 l -9.94,-0.11 -0.15,16.26 -19.76,-0.14 -0.15,-12.02 c 4.26,-1.83 8.63,0.58 8.02,-2.48 -0.09,-0.46 -0.03,-1.62 -1.03,-1.63 h -9.38 c 0,0 -0.13,16.28 -0.13,16.28 l -19.82,-0.2 0.06,-12.63 6.9,-0.06 c 0.94,0 1.17,-3.15 0.39,-3.17 l -9.87,-0.24 -0.37,15.95 -7.45,0.29 z"
+             id="path3799"
+             style="fill:url(#Degradado_sin_nombre_1022)" />
+          <path
+             class="st43"
+             d="m 1335.04,398.1 c 0.09,-1.79 0.05,-3.52 0,-5.29 l 67.25,0.41 c 0.33,1.7 0.34,3.2 -0.11,5.03 z"
+             id="path3801"
+             style="fill:url(#Degradado_sin_nombre_1023)" />
+          <path
+             class="st47"
+             d="m 1335.04,431.17 c 0.1,-1.79 0.04,-3.49 -0.01,-5.3 l 67.2,0.4 c 0.42,1.76 0.33,3.28 0,4.8 l -67.18,0.1 z"
+             id="path3803"
+             style="fill:url(#Degradado_sin_nombre_1024)" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
