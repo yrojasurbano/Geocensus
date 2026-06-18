@@ -1251,8 +1251,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:rgba(255,255,255,0.22)">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                      <img src="dashboards/tematicos/fecundidad/mujeres_15_49.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5 text-white">Mujeres entre 15 y 49 años (mujeres en edad fértil)</p>
@@ -1268,8 +1268,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                      <img src="dashboards/tematicos/fecundidad/mef_con_hijos.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Mujeres entre 15 y 49 años con hijos/as</p>
@@ -1285,8 +1285,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#038dd318">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                     <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                      <img src="dashboards/tematicos/fecundidad/mef_sin_hijos.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Mujeres entre 15 y 49 años sin hijos/as</p>
@@ -1317,7 +1317,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     <p class="text-[10px] font-black tracking-wide leading-none mb-3" style="color:#000000">Razón de niño/a - mujer</p>
                     <div class="flex items-center gap-5">
                       <div class="flex items-center gap-2.5">
-                        <img src="generico.svg" class="w-9 h-9 shrink-0">
+                        <img src="dashboards/tematicos/fecundidad/razon-nino.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">Hay</span>
                           <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">30,5</span>
@@ -1325,7 +1325,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                         </div>
                       </div>
                       <div class="flex items-center gap-2.5">
-                        <img src="generico.svg" class="w-9 h-9 shrink-0">
+                         <img src="dashboards/tematicos/fecundidad/razon-mujer.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                         <div class="flex flex-col leading-tight">
                           <span class="text-[9px] text-gray-400 font-semibold">por cada</span>
                           <span class="text-[22px] xl:text-[30px] font-black tabular-nums leading-none" style="color:#424242">100</span>
@@ -1343,8 +1343,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#33b3a918">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                      <img src="dashboards/tematicos/fecundidad/prom-hijos-nacidos.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Promedio de hijos/as nacidos/as vivos/as para mujeres entre 15 y 49 años</p>
@@ -1372,8 +1372,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#8383fd18">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                       <img src="dashboards/tematicos/fecundidad/madres-solteras-12-mas.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Madres solteras de 12 y más años (nunca casadas o nunca convivientes)</p>
@@ -1401,8 +1401,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#f59e0b18">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                       <img src="dashboards/tematicos/fecundidad/madres-adolesc-12-17.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Madres adolescentes de 12 a 17 años</p>
@@ -1418,8 +1418,8 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                       <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-gray-300"></app-hero-icon>
                     </button>
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#0056a118">
-                      <img src="generico.svg" class="w-5 h-5 shrink-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0">
+                       <img src="dashboards/tematicos/fecundidad/hijos-fallecidos.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                     </div>
                     <div class="flex-1 min-w-0 pr-5">
                       <p class="text-[10px] font-bold leading-tight mb-0.5" style="color:#000000">Hijos/as fallecidos/as de las mujeres de 12 y más años</p>
