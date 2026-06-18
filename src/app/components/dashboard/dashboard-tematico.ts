@@ -1875,13 +1875,13 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             </div>
           }
 
-          <!-- ── EDUCACIÓN: 5 columnas ─────────────────────────────────────── -->
+          <!-- ── EDUCACIÓN: 6 columnas ─────────────────────────────────────── -->
           @if (sec.id === 'educacion') {
             <div class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
-              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch lg:h-[700px] lg:[grid-template-rows:700px] lg:overflow-hidden">
+              <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-stretch lg:h-[700px] lg:[grid-template-rows:700px] lg:overflow-hidden">
 
-                <!-- ════ COL 1: Nivel Educativo ══════════════════════════════════ -->
-                <div class="h-full flex flex-col gap-3">
+                <!-- ════ COLS 1+2: Nivel Educativo ═══════════════════════════════ -->
+                <div class="col-span-2 h-full flex flex-col gap-3">
 
                  
 
@@ -1913,9 +1913,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 1 -->
+                </div><!-- /cols 1+2 -->
 
-                <!-- ════ COL 2: Asistencia Escolar ════════════════════════════════ -->
+                <!-- ════ COL 3: Asistencia Escolar ════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">
                   
                   <!-- KPI: tasa asistencia 3-24 años -->
@@ -1979,9 +1979,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 2 -->
+                </div><!-- /col 3 -->
 
-                <!-- ════ COL 3: Asistencia Escolar ════════════════════════════════ -->
+                <!-- ════ COL 4: Asistencia Escolar ════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">
 
                   <!-- Columnas: asistencia 3-24 según sexo -->
@@ -2026,9 +2026,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 3 -->
+                </div><!-- /col 4 -->
 
-                <!-- ════ COL 4: Alfabetismo ════════════════════════════════════════ -->
+                <!-- ════ COL 5: Alfabetismo ════════════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">                
 
                   <!-- KPI: tasa de alfabetismo -->
@@ -2074,9 +2074,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 4 -->
+                </div><!-- /col 5 -->
 
-                <!-- ════ COL 5: TIC ════════════════════════════════════════════════ -->
+                <!-- ════ COL 6: TIC ════════════════════════════════════════════════ -->
                 <div class="h-full flex flex-col gap-3">                  
 
                   <!-- KPI: uso TIC -->
@@ -2122,9 +2122,9 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                     </div>
                   </div>
 
-                </div><!-- /col 5 -->
+                </div><!-- /col 6 -->
 
-              </div><!-- /grid 5 cols -->
+              </div><!-- /grid 6 cols -->
             </div>
           }
 
@@ -4296,7 +4296,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 48, bottom: 6, left: 4, containLabel: true },
@@ -4315,8 +4315,7 @@ export class DashboardTematicoComponent implements OnInit {
                 label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => this.fmtAxis(p.value as number) },
                 itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color: CLR.blue }, { offset: 1, color: this.hexToRgba(CLR.blue, 0.4) }] },
+                    color: '#038dd3',
                     borderRadius: [0, 4, 4, 0] as [number, number, number, number],
                 },
                 barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
@@ -4441,8 +4440,7 @@ export class DashboardTematicoComponent implements OnInit {
                 label: { show: true, position: 'right' as const, fontSize: 7, fontWeight: 700 as const, color: '#424242',
                          formatter: (p: any) => `${(p.value as number).toFixed(1).replace('.', ',')}%` },
                 itemStyle: {
-                    color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                        colorStops: [{ offset: 0, color }, { offset: 1, color: this.hexToRgba(color, 0.4) }] },
+                    color,
                     borderRadius: [0, 4, 4, 0] as [number, number, number, number],
                 },
                 barMaxWidth: 20, emphasis: { itemStyle: { opacity: 0.85 } },
@@ -6151,9 +6149,9 @@ export class DashboardTematicoComponent implements OnInit {
         this.eduAsist12a16ColOpt = this.buildEduAsist2BarColOpt(94.1, 95.3);
         this.eduAsist17a24ColOpt = this.buildEduAsist2BarColOpt(52.3, 57.8);
         this.eduAlfaSexColOpt    = this.buildEduAsist2BarColOpt(97.2, 92.6);
-        this.eduAlfaEdadHbarOpt  = this.buildEduPctHbarOpt(EDU_ALFA_EDAD_CATS, EDU_ALFA_EDAD_DATA, CLR.teal);
+        this.eduAlfaEdadHbarOpt  = this.buildEduPctHbarOpt(EDU_ALFA_EDAD_CATS, EDU_ALFA_EDAD_DATA, '#caeae4');
         this.eduTicSexColOpt     = this.buildEduAsist2BarColOpt(71.2, 65.8);
-        this.eduTicEdadHbarOpt   = this.buildEduPctHbarOpt(EDU_TIC_EDAD_CATS, EDU_TIC_EDAD_DATA, CLR.purple);
+        this.eduTicEdadHbarOpt   = this.buildEduPctHbarOpt(EDU_TIC_EDAD_CATS, EDU_TIC_EDAD_DATA, '#8383fd');
         this.discPiramideOpt    = this.buildDiscPiramideOpt();
         this.discSeguroColOpt   = this.buildDiscSeguroColOpt();
         this.discEduColOpt      = this.buildDiscEduColOpt();
