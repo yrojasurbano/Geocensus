@@ -2256,7 +2256,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">3 124 892</p>
-                            <span class="text-xs font-bold" style="color:#8282fb">37,5%</span>
+                            
                           </div>
                         </div>
                       </div>
@@ -2272,7 +2272,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
-                            <span class="text-xs font-bold" style="color:#0056a1">10,7%</span>
+                            
                           </div>
                         </div>
                       </div>
@@ -2406,7 +2406,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">134 892</p>
-                            <span class="text-xs font-bold" style="color:#8282fb">49,0%</span>
+                            
                           </div>
                         </div>
                       </div>
@@ -2422,7 +2422,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">18 293</p>
-                            <span class="text-xs font-bold" style="color:#33b3a9">6,6%</span>
+                          
                           </div>
                         </div>
                       </div>
