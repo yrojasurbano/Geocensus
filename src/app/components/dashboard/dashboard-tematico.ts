@@ -2184,7 +2184,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                      <img src="dashboards/tematicos/etnicidad/pobindigena-ordinario.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">8 344 891</p>
@@ -2252,7 +2252,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/etnicidad/si-utiliza-tics.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">3 124 892</p>
@@ -2268,7 +2268,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/etnicidad/pob-no-lee.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">892 293</p>
@@ -2334,7 +2334,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                      <img src="dashboards/tematicos/etnicidad/pob-afroperuano.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como afroperuano o afrodescendiente</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">275 185</p>
@@ -2402,7 +2402,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/etnicidad/si-utiliza-tics.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">Sí utiliza TIC's</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">134 892</p>
@@ -2418,7 +2418,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                                   class="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all">
                             <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                           </button>
-                          <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                          <img src="dashboards/tematicos/etnicidad/pob-no-lee.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                           <div class="flex-1 min-w-0 pr-4">
                             <p class="text-[9px] font-bold leading-tight mb-1.5" style="color:#000000">No sabe leer ni escribir</p>
                             <p class="text-lg font-black tabular-nums leading-none mb-0.5" style="color:#000000">18 293</p>
@@ -4709,9 +4709,9 @@ export class DashboardTematicoComponent implements OnInit {
 
     private buildEtnicHBarOpt(cats: string[], data: number[]): EChartsOption {
         const revCats = [...cats].reverse();
-        const revData = [...data].reverse().map((v, i) => ({
+        const revData = [...data].reverse().map(v => ({
             value: v,
-            itemStyle: { color: PIE_COLORS[i % PIE_COLORS.length], borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
+            itemStyle: { color: '#038dd3', borderRadius: [0, 3, 3, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -4721,7 +4721,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${p.color ?? CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
@@ -4783,12 +4783,11 @@ export class DashboardTematicoComponent implements OnInit {
         };
     }
 
-    private buildEtnicEdadColOpt(data: number[], color: string): EChartsOption {
+    private buildEtnicEdadColOpt(data: number[], _color: string): EChartsOption {
         const barData = data.map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                    colorStops: [{ offset: 0, color }, { offset: 1, color: this.hexToRgba(color, 0.35) }] },
+                color: '#038dd3',
                 borderRadius: [4, 4, 0, 0] as [number, number, number, number],
             },
         }));
@@ -4800,7 +4799,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${color}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 24, right: 6, bottom: 6, left: 4, containLabel: true },
@@ -4821,11 +4820,10 @@ export class DashboardTematicoComponent implements OnInit {
         };
     }
 
-    private buildEtnicEduColOpt(data: number[], color: string): EChartsOption {
-        const palette = [color, CLR.sky, CLR.teal, CLR.purple, '#004a8a', '#27a09c', '#0275af', '#6b6be8', '#005fa8'];
-        const barData = data.map((v, i) => ({
+    private buildEtnicEduColOpt(data: number[], _color: string): EChartsOption {
+        const barData = data.map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#caeae4', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -4835,7 +4833,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#caeae4">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 20, right: 8, bottom: 8, left: 4, containLabel: true },
@@ -4857,7 +4855,7 @@ export class DashboardTematicoComponent implements OnInit {
         };
     }
 
-    private buildEtnicSeguroSemiPieOpt(siVal: number, noVal: number, color: string): EChartsOption {
+    private buildEtnicSeguroSemiPieOpt(siVal: number, noVal: number, _color: string): EChartsOption {
         const total = siVal + noVal;
         const siPct = (siVal / total * 100).toFixed(1).replace('.', ',');
         const noPct = (noVal / total * 100).toFixed(1).replace('.', ',');
@@ -4886,8 +4884,8 @@ export class DashboardTematicoComponent implements OnInit {
                 startAngle: 180,
                 endAngle: 0,
                 data: [
-                    { name: 'Sí tiene seguro', value: siVal, itemStyle: { color } },
-                    { name: 'No tiene seguro', value: noVal, itemStyle: { color: '#d1d5db' } },
+                    { name: 'Sí tiene seguro', value: siVal, itemStyle: { color: '#8383fd' } },
+                    { name: 'No tiene seguro', value: noVal, itemStyle: { color: '#c9c9ff' } },
                 ],
                 label: { show: false },
                 labelLine: { show: false },
@@ -4897,7 +4895,7 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildEtnicEstcivColOpt(data: number[], color: string): EChartsOption {
-        const palette = [color, CLR.sky, CLR.teal, CLR.purple];
+        const palette = [color, CLR.sky, CLR.teal, '#8383fd'];
         const barData = data.map((v, i) => ({
             value: v,
             itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
@@ -6158,12 +6156,12 @@ export class DashboardTematicoComponent implements OnInit {
         this.discEsferasEdadOpt  = this.buildDiscEsferasEdadOpt();
         this.etnicAutoBarOpt      = this.buildEtnicHBarOpt([...ETNIC_AUTO_CATS],   [...ETNIC_AUTO_DATA]);
         this.etnicIdiomaBarOpt    = this.buildEtnicHBarOpt([...ETNIC_IDIOMA_CATS], [...ETNIC_IDIOMA_DATA]);
-        this.etnicIndSexoPieOpt   = this.buildEtnicSexoPieOpt(4_344_891, 4_000_000, CLR.blue, CLR.teal);
+        this.etnicIndSexoPieOpt   = this.buildEtnicSexoPieOpt(4_344_891, 4_000_000, '#0056a1', '#33b3a9');
         this.etnicIndEdadColOpt   = this.buildEtnicEdadColOpt([...ETNIC_IND_EDAD_DATA], CLR.blue);
         this.etnicIndEduColOpt    = this.buildEtnicEduColOpt([...ETNIC_IND_EDU_DATA],   CLR.blue);
         this.etnicIndSeguroSemiPieOpt = this.buildEtnicSeguroSemiPieOpt(6_234_892, 2_109_999, CLR.blue);
         this.etnicIndEstcivColOpt = this.buildEtnicEstcivColOpt([...ETNIC_IND_ESTCIV_DATA], CLR.blue);
-        this.etnicAfrSexoPieOpt   = this.buildEtnicSexoPieOpt(127_293, 147_892, CLR.teal, CLR.sky);
+        this.etnicAfrSexoPieOpt   = this.buildEtnicSexoPieOpt(127_293, 147_892, '#0056a1', '#33b3a9');
         this.etnicAfrEdadColOpt   = this.buildEtnicEdadColOpt([...ETNIC_AFR_EDAD_DATA], CLR.teal);
         this.etnicAfrEduColOpt    = this.buildEtnicEduColOpt([...ETNIC_AFR_EDU_DATA],   CLR.teal);
         this.etnicAfrSeguroSemiPieOpt = this.buildEtnicSeguroSemiPieOpt(175_293, 99_892, CLR.teal);
