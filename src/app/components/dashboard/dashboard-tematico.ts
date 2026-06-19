@@ -2675,7 +2675,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                               class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-full transition-all">
                         <app-hero-icon [name]="'information-circle'" class="w-4 h-4 text-white/70"></app-hero-icon>
                       </button>
-                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                      <img src="dashboards/tematicos/viviendas/viv-particular-presentes.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Viviendas particulares con ocupantes presentes</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">18 234 892</p>
@@ -3085,7 +3085,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                         </svg>
                       </button>
-                      <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
+                      <img src="dashboards/tematicos/hogares/hogar-censado.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
                         <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Hogares censados</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">9 861 890</p>
@@ -3177,7 +3177,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
+                        <img src="dashboards/tematicos/hogares/hogar-emigrantes.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con algún miembro en condición de emigrante internacional</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">1 234 892</p>
@@ -3220,7 +3220,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
+                        <img src="dashboards/tematicos/hogares/hogar-con-tic.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con tenencia de bienes TIC's</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">8 234 892</p>
@@ -3237,7 +3237,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                           </svg>
                         </button>
-                        <img src="dashboards/tematicos/genericos/genérico.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
+                        <img src="dashboards/tematicos/hogares/hogar-acceso-tic.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] shrink-0">
                         <div class="flex-1 min-w-0 pr-5">
                           <p class="text-[9px] font-bold leading-tight mb-2" style="color:#000000">Hogares con acceso a servicios TIC's</p>
                           <p class="text-xl font-black tabular-nums leading-none" style="color:#000000">6 847 293</p>
@@ -5200,8 +5200,7 @@ export class DashboardTematicoComponent implements OnInit {
         const barData = [...VIV_HOGARES_DATA].map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 0, y2: 1,
-                    colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.35) }] },
+                color: '#caeae4',
                 borderRadius: [4, 4, 0, 0] as [number, number, number, number],
             },
         }));
@@ -5213,7 +5212,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#caeae4">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 24, right: 8, bottom: 6, left: 4, containLabel: true },
@@ -5236,11 +5235,11 @@ export class DashboardTematicoComponent implements OnInit {
 
     private buildVivHabitacionesHBarOpt(): EChartsOption {
         const cats = [...VIV_HABITAC_CATS].reverse();
-        const data = [...VIV_HABITAC_DATA].reverse().map(v => ({
+        const habitacColors = ['#8383fd', '#caeae4', '#33b3a9', '#4c8c80', '#038dd3', '#0056a1'];
+        const data = [...VIV_HABITAC_DATA].reverse().map((v, i) => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.45) }] },
+                color: habitacColors[i],
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5252,7 +5251,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:${p.color}">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
@@ -5296,7 +5295,7 @@ export class DashboardTematicoComponent implements OnInit {
                 data: VIV_CALIDAD_CATS.map((name, i) => ({
                     name,
                     value: VIV_CALIDAD_DATA[i],
-                    itemStyle: { color: ([CLR.teal, CLR.sky, CLR.blue] as string[])[i] },
+                    itemStyle: { color: ([CLR.teal, CLR.sky, '#8383fd'] as string[])[i] },
                 })),
                 label: {
                     show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
@@ -5313,8 +5312,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...VIV_PAREDES_DATA].reverse().map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.blue }, { offset: 1, color: this.hexToRgba(CLR.blue, 0.45) }] },
+                color: '#038dd3',
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5326,7 +5324,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
@@ -5350,10 +5348,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildVivTechosBarOpt(): EChartsOption {
-        const palette = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#004a8a', '#27a09c'];
-        const barData = [...VIV_TECHOS_DATA].map((v, i) => ({
+        const barData = [...VIV_TECHOS_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#038dd3', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5389,8 +5386,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...VIV_PISOS_DATA].reverse().map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.45) }] },
+                color: '#038dd3',
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5402,7 +5398,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
@@ -5426,10 +5422,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildVivAguaBarOpt(): EChartsOption {
-        const palette = [CLR.blue, CLR.sky, CLR.teal, CLR.purple, '#004a8a'];
-        const barData = [...VIV_AGUA_DATA].map((v, i) => ({
+        const barData = [...VIV_AGUA_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5461,10 +5456,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildVivExcretasBarOpt(): EChartsOption {
-        const palette = [CLR.teal, CLR.blue, CLR.sky, CLR.purple, '#004a8a'];
-        const barData = [...VIV_EXCRET_DATA].map((v, i) => ({
+        const barData = [...VIV_EXCRET_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5496,10 +5490,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildVivEnergiaBarOpt(): EChartsOption {
-        const palette = [CLR.sky, CLR.teal, CLR.blue, CLR.purple, '#004a8a'];
-        const barData = [...VIV_ENERGIA_DATA].map((v, i) => ({
+        const barData = [...VIV_ENERGIA_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5553,7 +5546,7 @@ export class DashboardTematicoComponent implements OnInit {
                 data: HOG_SEXO_CATS.map((name, i) => ({
                     name,
                     value: HOG_SEXO_DATA[i],
-                    itemStyle: { color: ([CLR.sky, CLR.teal] as string[])[i] },
+                    itemStyle: { color: (['#0056a1', CLR.teal] as string[])[i] },
                 })),
                 label: {
                     show: true, fontSize: 8, fontWeight: 700 as const, color: '#424242',
@@ -5570,8 +5563,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...HOG_TENENCIA_DATA].reverse().map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.sky }, { offset: 1, color: this.hexToRgba(CLR.sky, 0.40) }] },
+                color: '#caeae4',
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5583,7 +5575,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.sky}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#caeae4">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 60, bottom: 6, left: 4, containLabel: true },
@@ -5611,8 +5603,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...HOG_ENERGIA_DATA].reverse().map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.teal }, { offset: 1, color: this.hexToRgba(CLR.teal, 0.40) }] },
+                color: '#038dd3',
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5624,7 +5615,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.teal}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 60, bottom: 6, left: 4, containLabel: true },
@@ -5652,8 +5643,7 @@ export class DashboardTematicoComponent implements OnInit {
         const data = [...HOG_RESIDUOS_DATA].reverse().map(v => ({
             value: v,
             itemStyle: {
-                color: { type: 'linear' as const, x: 0, y: 0, x2: 1, y2: 0,
-                    colorStops: [{ offset: 0, color: CLR.blue }, { offset: 1, color: this.hexToRgba(CLR.blue, 0.40) }] },
+                color: '#038dd3',
                 borderRadius: [0, 4, 4, 0] as [number, number, number, number],
             },
         }));
@@ -5665,7 +5655,7 @@ export class DashboardTematicoComponent implements OnInit {
                 formatter: (params: any) => {
                     const p = params[0];
                     return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
-                         + `<span style="font-size:12px;font-weight:900;color:${CLR.blue}">${this.fmt(p.value as number)}</span>`;
+                         + `<span style="font-size:12px;font-weight:900;color:#038dd3">${this.fmt(p.value as number)}</span>`;
                 },
             },
             grid: { top: 6, right: 60, bottom: 6, left: 4, containLabel: true },
@@ -5689,7 +5679,7 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildHogEmigrColOpt(): EChartsOption {
-        const palette = [CLR.sky, CLR.teal, CLR.blue];
+        const palette = [CLR.sky, CLR.teal, '#8383fd'];
         const barData = [...HOG_EMIGR_DATA].map((v, i) => ({
             value: v,
             itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
@@ -5724,10 +5714,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildHogArtefactosColOpt(): EChartsOption {
-        const palette = [CLR.sky, CLR.teal, CLR.blue, CLR.purple, '#004a8a', '#27a09c', '#5b8dd9'];
-        const barData = [...HOG_ARTEFACTOS_DATA].map((v, i) => ({
+        const barData = [...HOG_ARTEFACTOS_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
@@ -5759,10 +5748,9 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     private buildHogTransporteColOpt(): EChartsOption {
-        const palette = [CLR.sky, CLR.teal, CLR.blue, CLR.purple];
-        const barData = [...HOG_TRANSPORTE_DATA].map((v, i) => ({
+        const barData = [...HOG_TRANSPORTE_DATA].map(v => ({
             value: v,
-            itemStyle: { color: palette[i % palette.length], borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
+            itemStyle: { color: '#8383fd', borderRadius: [4, 4, 0, 0] as [number, number, number, number] },
         }));
         return {
             tooltip: {
