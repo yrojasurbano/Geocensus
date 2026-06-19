@@ -1160,7 +1160,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
           <div class="col-span-1 xl:row-span-2 xl:min-h-0 flex flex-col gap-1.5 2xl:gap-2 min-h-0">
 
             <!-- 1. Hogares Censados — 10% (gradient púrpura) -->
-            <div class="bg-gradient-to-br from-[#0056a1] to-[#33b3a9] rounded-xl p-2.5 text-white
+            <div class="bg-gradient-to-br from-[#038dd3] to-[#33b3a9] rounded-xl p-2.5 text-white
                         flex items-center gap-2.5 relative overflow-hidden" style="flex: 1 0 0; min-height:0;">
               <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
                <div class="absolute -right-4 -top-4 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>

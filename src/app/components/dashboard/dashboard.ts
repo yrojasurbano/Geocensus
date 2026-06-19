@@ -734,15 +734,8 @@ const S = { w: 380, h: 550 };
                         flex flex-col relative overflow-hidden
                         min-h-[180px] sm:min-h-[200px] xl:min-h-0">
               <div class="flex justify-between items-center mb-2 shrink-0">
-                <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight">Población por sexo</h4>
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <img src="logo-mapa.svg"
-                    (click)="setMapIndicator('poblacion')"
-                    class="w-4 h-4 cursor-pointer transition-all"
-                    [class.animate-pulse]="activeIndicator() !== 'poblacion'"
-                    [class.scale-125]="activeIndicator() === 'poblacion'"
-                    [style.color]="activeIndicator() === 'poblacion' ? '#0056a1' : '#343b9f'">
-                </span>
+                <h4 class="text-[10px] sm:text-xs font-black text-black tracking-wide leading-tight">Población por sexo</h4>              
+                
               </div>
               <div class="flex-1 min-h-0">
                 @if (isBrowser) {
