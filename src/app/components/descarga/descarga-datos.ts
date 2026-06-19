@@ -19,7 +19,7 @@ type IconoTema =
 interface ArchivoDescarga { readonly descripcion: string; readonly tamano: number; }
 interface TemaDescarga {
   readonly id: string; readonly nombre: string;
-  readonly icono: IconoTema; readonly archivos: readonly ArchivoDescarga[];
+  readonly icono: IconoTema; readonly svg?: string; readonly archivos: readonly ArchivoDescarga[];
 }
 interface Pestana { readonly id: PestanaContenido; readonly label: string; }
 
@@ -55,36 +55,36 @@ interface ConsultaActiva {
 // ─── Static Data — Predefinidos ────────────────────────────────────────────────
 
 const TEMAS_POBLACION: readonly TemaDescarga[] = [
-  { id:'demografico',  nombre:'Indicadores demográficos',               icono:'demografico',
+  { id:'demografico',  nombre:'Indicadores demográficos',               icono:'demografico',  svg:'dashboards/tematicos/pobcensada.svg',
     archivos:[{ descripcion:'Población total, censada y omitida.', tamano:2.4},
               { descripcion:'Población censada y principales indicadores demográficos.', tamano:2.4}
     ] },
-    
-  { id:'fecundidad',   nombre:'Fecundidad',                              icono:'fecundidad',
+
+  { id:'fecundidad',   nombre:'Fecundidad',                              icono:'fecundidad',   svg:'dashboards/tematicos/fecundidad.svg',
     archivos:[
       { descripcion:'Características de la fecundidad de la población femenina.', tamano:1.8},
       { descripcion:'Sobrevivencia de hijas e hijos nacidos vivos.',               tamano:1.2}] },
-  { id:'migracion',    nombre:'Migración',                               icono:'migracion',
+  { id:'migracion',    nombre:'Migración',                               icono:'migracion',    svg:'dashboards/tematicos/migracion.svg',
     archivos:[
       { descripcion:'Migración reciente.',        tamano:1.6},
       { descripcion:'Migración de toda la vida.', tamano:1.9}] },
-  { id:'identidad',    nombre:'Estado civil, identidad y seguro de salud.', icono:'identidad',
+  { id:'identidad',    nombre:'Estado civil, identidad y seguro de salud.', icono:'identidad', svg:'dashboards/tematicos/identidad.svg',
     archivos:[
       { descripcion:'Características de la población por estado civil.', tamano:2.1},
       { descripcion:'Tenencia de documento de identidad.',               tamano:1.4},
       { descripcion:'Cobertura de seguro de salud.',                     tamano:1.7}] },
-  { id:'educacion',    nombre:'Educación',                               icono:'educacion',
+  { id:'educacion',    nombre:'Educación',                               icono:'educacion',    svg:'dashboards/tematicos/educacion.svg',
     archivos:[
       { descripcion:'Nivel educativo alcanzado.',                              tamano:2.8},
       { descripcion:'Condición de alfabetismo.',                               tamano:1.5},
       { descripcion:'Asistencia escolar.',               tamano:1.9}] },
-  { id:'discapacidad', nombre:'Discapacidad',                            icono:'discapacidad',
+  { id:'discapacidad', nombre:'Discapacidad',                            icono:'discapacidad', svg:'dashboards/tematicos/discapacidad.svg',
     archivos:[{ descripcion:'Características de la población por condición de discapacidad.', tamano:2.2}] },
-  { id:'etnicidad',    nombre:'Etnicidad',                               icono:'etnicidad',
+  { id:'etnicidad',    nombre:'Etnicidad',                               icono:'etnicidad',    svg:'dashboards/tematicos/etnicidad.svg',
     archivos:[
       { descripcion:'Autoidentificación étnica.',                              tamano:1.6},
       { descripcion:'Idiomas o lenguas que aprendieron a hablar en su niñez.', tamano:1.8}] },
-  { id:'economico',    nombre:'Población en edad de trabajar.',              icono:'economico',
+  { id:'economico',    nombre:'Población en edad de trabajar.',              icono:'economico', svg:'dashboards/tematicos/pet.svg',
     archivos:[
       { descripcion:'Características de la Población en Edad de Trabajar.', tamano:3.1},] }
 ];
@@ -614,7 +614,7 @@ function generarFilas(
                 <table class="w-full text-sm border-collapse" style="min-width:520px">
                   <thead>
                     <tr>
-                      <th class="px-4 py-3 text-left text-xs font-black uppercase tracking-wider text-white border border-[#2b3192] w-[22%]" style="background-color:#343b9f">TEMA</th>
+                      <th class="px-4 py-3 text-left text-xs font-black uppercase tracking-wider text-white border border-[#071038] w-[22%]" style="background-color:#0a184d">TEMA</th>
                       <th class="px-4 py-3 text-left text-xs font-black uppercase tracking-wider text-white border border-[#004488]" style="background-color:#0056a1">DESCRIPCIÓN</th>
                       <th class="px-4 py-3 text-center text-xs font-black uppercase tracking-wider text-white border border-[#0277b6] w-[10%]" style="background-color:#038dd3">TAMAÑO</th>
                       <th class="px-4 py-3 text-center text-xs font-black uppercase tracking-wider text-white border border-[#2a9990] w-[10%]" style="background-color:#33b3a9">DESCARGAR</th>
@@ -625,10 +625,12 @@ function generarFilas(
                       <tr class="transition-colors hover:bg-[#0056a1]/4" [class.bg-white]="!even" [class.bg-gray-50]="even">
                         <td class="px-4 py-3 border border-gray-200 align-top">
                           <div class="flex items-start gap-2">
-                            <div class="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center mt-0.5" style="background-color:rgba(52,59,159,0.09)">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#343b9f" class="w-3.5 h-3.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="iconPaths[tema.icono]"/>
-                              </svg>
+                            <div class="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center mt-0.5">
+                              <span class="w-10 h-10 block shrink-0"
+                                [style.mask-image]="'url(' + (tema.svg ?? 'generico.svg') + ')'"
+                                [style.webkitMaskImage]="'url(' + (tema.svg ?? 'generico.svg') + ')'"
+                                style="background-color:#0a184d; mask-size:contain; mask-repeat:no-repeat; mask-position:center; -webkit-mask-size:contain; -webkit-mask-repeat:no-repeat; -webkit-mask-position:center;">
+                              </span>
                             </div>
                             <span class="font-bold text-[#343b9f] text-xs leading-snug">{{ tema.nombre }}</span>
                           </div>
@@ -1128,8 +1130,8 @@ function generarFilas(
       letter-spacing: 0.04em; transition: background-color 0.18s; white-space: nowrap;
     }
     .nav-primary-btn:hover { background-color: rgba(52,59,159,0.07); }
-    .nav-primary-btn--active { background-color: #343b9f; color: #ffffff; box-shadow: 0 2px 6px rgba(52,59,159,0.28); }
-    .nav-primary-btn--active:hover { background-color: #2b3192; }
+    .nav-primary-btn--active { background-color: #0a184d; color: #ffffff; box-shadow: 0 2px 6px rgba(10,24,77,0.28); }
+    .nav-primary-btn--active:hover { background-color: #071038; }
     .nav-primary-btn--accent { color: #038dd3; }
     .nav-primary-btn--accent:hover { background-color: rgba(3,141,211,0.07); }
     .nav-primary-btn--accent--active { background-color: #038dd3; color: #ffffff; box-shadow: 0 2px 6px rgba(3,141,211,0.28); }

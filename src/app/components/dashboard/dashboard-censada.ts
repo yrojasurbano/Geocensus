@@ -711,7 +711,7 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
           ══════════════════════════════════════════════════════════════════ -->
           <div class="col-span-1 md:col-span-1 xl:col-span-2 xl:row-span-2
                       grid grid-cols-2 gap-3
-                      xl:grid-rows-[1fr_6fr_1fr_1fr_1fr_1fr] xl:min-h-0 xl:overflow-hidden">
+                      xl:grid-rows-[1fr_6fr_1fr_1fr_1fr] xl:min-h-0 xl:overflow-hidden">
 
             <!-- ── ROW 1: KPI Principal — Población Censada (col-span-2) ── -->
             <div class="col-span-2 bg-gradient-to-r from-primary to-secondary rounded-xl
@@ -997,60 +997,6 @@ const MOCK_HOG: Record<string, Record<string, number>> = {
                   <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Relación de dependencia adulta</div>
                   <div class="text-lg md:text-xl xl:text-xl font-black text-gray-800 leading-none mt-0.5">
                     {{ fmtD(cardMock()['dep_adulta'], 1) }}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── ROW 6: Densidad Total + Densidad 60+ ────────────────── -->
-
-            <!-- Densidad Población Censada -->
-            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
-                        flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  
-                </span>
-                <span matTooltip="Cantidad de habitantes por kilómetro cuadrado"
-                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
-                </span>
-              </div>
-              <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[50px] xl:h-[50px] rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pobtotal.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[50px] xl:h-[50px]">
-                </div>
-                <div class="min-w-0">
-                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Densidad de población censada</div>
-                  <div class="text-lg md:text-xl xl:text-xl font-black text-gray-800 leading-none mt-0.5">
-                    {{ fmtD(cardData().density, 1) }}
-                    <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Densidad Población Adulta Mayor -->
-            <div class="bg-white rounded-xl px-3 md:px-4 py-2 shadow-sm border border-gray-100
-                        flex flex-col relative overflow-hidden min-h-[56px] xl:min-h-0">
-              <div class="absolute top-2 right-2 flex items-center gap-1 z-10">
-                <span matTooltip="Ver en mapa" matTooltipClass="custom-tooltip" class="inline-flex items-center">
-  
-                </span>
-                <span matTooltip="Número de habitantes de 60 y más años por kilómetro cuadrado"
-                      matTooltipClass="custom-tooltip" class="inline-flex items-center">
-                  <app-hero-icon [name]="'information-circle'" class="w-4 h-4 xl:w-5 xl:h-5 text-gray-300"></app-hero-icon>
-                </span>
-              </div>
-              <div class="flex items-center gap-2 flex-1 min-h-0">
-                <div class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[50px] xl:h-[50px] rounded-lg flex items-center justify-center shrink-0">
-                  <img src="densidad_pam.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px] xl:w-[50px] xl:h-[50px]">
-                </div>
-                <div class="min-w-0">
-                  <div class="text-[9px] xl:text-xs font-black text-black tracking-wide leading-tight">Densidad de la población adulta mayor</div>
-                  <div class="text-lg md:text-xl xl:text-xl font-black text-gray-800 leading-none mt-0.5">
-                    {{ fmtD(cardMock()['densidad_65'], 2) }}
-                    <span class="text-[10px] md:text-xs xl:text-sm font-bold text-gray-400">hab/km²</span>
                   </div>
                 </div>
               </div>
