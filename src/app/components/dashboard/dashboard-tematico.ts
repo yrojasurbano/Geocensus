@@ -236,33 +236,50 @@ const DISC_ESFERAS_18_59  = [198_892, 168_293, 112_892, 124_293, 162_293,  98_89
 const DISC_ESFERAS_60MAS  = [379_707, 350_108, 238_707,  61_108,  62_707,  57_108, 191_707] as const;
 
 // ── Etnicidad: datos mock ──────────────────────────────────────────────
-const ETNIC_AUTO_CATS = [
+
+// ── "Otros" agrupado para los gráficos ─────────────────────────────────────
+const ETNIC_AUTO_MAIN_CATS = [
     'Mestizo',
-    'Blanco',
-    'Negro, moreno, zambo, mulato, del pueblo, afroperuano o afrodescendiente',
     'Quechua',
+    'Blanco',
+    'Otro',
+    'Negro, moreno, zambo, mulato, del pueblo, afroperuano o afrodescendiente',
     'Aimara',
     'De un pueblo indígena u originario de la Amazonía',
-    'Otro',
-    'De otro pueblo indígena u originario',
-    'Tusan',
-    'Nikkei',
 ] as const;
-const ETNIC_AUTO_DATA  = [18_847_293, 4_234_892, 1_847_293, 5_234_892, 892_293, 347_892, 2_834_293, 234_892, 234_892, 127_892] as const;
+const ETNIC_AUTO_MAIN_DATA  = [18_847_293, 5_234_892, 4_234_892, 2_834_293, 1_847_293, 892_293, 347_892] as const;
+const ETNIC_AUTO_OTROS_VALUE = 234_892 + 234_892 + 127_892;
+const ETNIC_AUTO_OTROS_ITEMS = [
+    { label: 'De otro pueblo indígena u originario', value: 234_892 },
+    { label: 'Tusan',  value: 234_892 },
+    { label: 'Nikkei', value: 127_892 },
+] as const;
 
-const ETNIC_IDIOMA_CATS = [
+const ETNIC_AUTO_AUTOIDENTIFICA_MAIN_CATS = [
+    'Quechua',
+    'Otro',
+    'Negro, moreno, zambo, mulato, del pueblo, afroperuano o afrodescendiente',
+    'Aimara',
+    'De un pueblo indígena u originario de la Amazonía',
+] as const;
+const ETNIC_AUTO_AUTOIDENTIFICA_MAIN_DATA = [5_234_892, 2_834_293, 1_847_293, 892_293, 347_892] as const;
+
+const ETNIC_IDIOMA_MAIN_CATS = [
     'Castellano',
     'Quechua',
     'Aimara',
-    'Shipibo-Konibo',
-    'Awajún / Aguaruna',
-    'Lengua de señas peruana',
-    'Otro idioma o lengua extranjera',
-    'No escucha / No habla',
     'Otros idiomas o lenguas indígenas u originarias',
-    'Asháninka',
+    'Shipibo-Konibo',
 ] as const;
-const ETNIC_IDIOMA_DATA = [26_234_892, 5_847_293, 892_293, 234_892, 187_892, 47_892, 127_892, 32_892, 347_892, 127_892] as const;
+const ETNIC_IDIOMA_MAIN_DATA  = [26_234_892, 5_847_293, 892_293, 347_892, 234_892] as const;
+const ETNIC_IDIOMA_OTROS_VALUE = 187_892 + 127_892 + 127_892 + 47_892 + 32_892;
+const ETNIC_IDIOMA_OTROS_ITEMS = [
+    { label: 'Awajún / Aguaruna',             value: 187_892 },
+    { label: 'Otro idioma o lengua extranjera', value: 127_892 },
+    { label: 'Asháninka',                     value: 127_892 },
+    { label: 'Lengua de señas peruana',        value:  47_892 },
+    { label: 'No escucha / No habla',          value:  32_892 },
+] as const;
 
 const ETNIC_EDAD_CATS     = ['Menores de 18 años', '18 a 29 años', '30 a 44 años', '45 a 59 años', '60 y más años'] as const;
 const ETNIC_IND_EDAD_DATA = [2_234_892, 1_847_293, 2_134_892, 1_234_892, 892_293] as const;
@@ -2136,31 +2153,80 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                 <!-- ════ COLS 1+2: Autoidentificación étnica e Idioma ════════════ -->
                 <div class="col-span-2 flex flex-col gap-3 h-full">
 
+                  <!-- KPI radio-filtros -->
+                  <div class="flex gap-2 shrink-0">
+
+                    <!-- KPI 1: Población censada -->
+                    <button (click)="etnicAutoFilter.set('censada')"
+                            class="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 transition-all text-left shadow-sm"
+                            [style.border-color]="etnicAutoFilter() === 'censada' ? '#0056a1' : '#e5e7eb'"
+                            [style.background]="etnicAutoFilter() === 'censada' ? '#edf4fc' : '#ffffff'">
+                      <img src="pobcensada.svg" class="w-8 h-8 shrink-0">
+                      <div class="flex-1 min-w-0">
+                        <p class="text-[9px] font-bold leading-tight"
+                           [style.color]="etnicAutoFilter() === 'censada' ? '#0056a1' : '#6b7280'">Población censada</p>
+                        <p class="text-sm font-black tabular-nums leading-none mt-0.5"
+                           [style.color]="etnicAutoFilter() === 'censada' ? '#0056a1' : '#111827'">34 836 524</p>
+                      </div>
+                      <span class="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all"
+                            [style.border-color]="etnicAutoFilter() === 'censada' ? '#0056a1' : '#9ca3af'">
+                        @if (etnicAutoFilter() === 'censada') {
+                          <span class="w-1.5 h-1.5 rounded-full" style="background:#0056a1"></span>
+                        }
+                      </span>
+                    </button>
+
+                    <!-- KPI 2: Población que se autoidentifica -->
+                    <button (click)="etnicAutoFilter.set('autoidentifica')"
+                            class="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 transition-all text-left shadow-sm"
+                            [style.border-color]="etnicAutoFilter() === 'autoidentifica' ? '#33b3a9' : '#e5e7eb'"
+                            [style.background]="etnicAutoFilter() === 'autoidentifica' ? '#ebf9f7' : '#ffffff'">
+                      <img src="hombre.svg" class="w-8 h-8 shrink-0">
+                      <div class="flex-1 min-w-0">
+                        <p class="text-[9px] font-bold leading-tight"
+                           [style.color]="etnicAutoFilter() === 'autoidentifica' ? '#33b3a9' : '#6b7280'">Población que se autoidentifica</p>
+                        <p class="text-sm font-black tabular-nums leading-none mt-0.5"
+                           [style.color]="etnicAutoFilter() === 'autoidentifica' ? '#33b3a9' : '#111827'">11 754 239</p>
+                      </div>
+                      <span class="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all"
+                            [style.border-color]="etnicAutoFilter() === 'autoidentifica' ? '#33b3a9' : '#9ca3af'">
+                        @if (etnicAutoFilter() === 'autoidentifica') {
+                          <span class="w-1.5 h-1.5 rounded-full" style="background:#33b3a9"></span>
+                        }
+                      </span>
+                    </button>
+
+                  </div><!-- /kpi radio-filtros -->
+
                   <!-- Bar: Población según autoidentificación étnica -->
                   <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">Población según autoidentificación étnica</p>
+                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">{{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años según autoidentificación étnica' : 'Población según autoidentificación étnica' }}</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
                     <div class="flex-1 min-h-0 p-2">
-                      <div echarts [options]="etnicAutoBarOpt" class="w-full h-full"></div>
+                      <div echarts [options]="etnicAutoFilter() === 'censada' ? etnicAutoBarOpt : etnicAutoAutoidentificaBarOpt"
+                           (chartClick)="onEtnicAutoChartClick($event)"
+                           class="w-full h-full"></div>
                     </div>
                   </div>
 
                   <!-- Bar: Idioma o lengua aprendida en la niñez -->
                   <div class="flex-1 min-h-0 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
                     <div class="px-3 py-2 border-b border-gray-50 flex items-start gap-2 shrink-0">
-                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">Población censada según idiomas o lenguas con las que aprendió a hablar en su niñez</p>
+                      <p class="flex-1 text-[10px] font-bold leading-tight min-w-0" style="color:#000000">{{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años según idiomas o lenguas con las que aprendió a hablar en su niñez' : 'Población censada de 3 y más años según idiomas o lenguas con las que aprendió a hablar en su niñez' }}</p>
                       <button matTooltip="Ver información metodológica" matTooltipClass="custom-tooltip"
                               class="w-5 h-5 flex items-center justify-center hover:bg-gray-50 rounded-full transition-all shrink-0">
                         <app-hero-icon [name]="'information-circle'" class="w-3.5 h-3.5 text-gray-300"></app-hero-icon>
                       </button>
                     </div>
                     <div class="flex-1 min-h-0 p-2">
-                      <div echarts [options]="etnicIdiomaBarOpt" class="w-full h-full"></div>
+                      <div echarts [options]="etnicIdiomaBarOpt"
+                           (chartClick)="onEtnicIdiomaChartClick($event)"
+                           class="w-full h-full"></div>
                     </div>
                   </div>
 
@@ -2173,7 +2239,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#0056a118;border-left:3px solid #0056a1">
                     <span class="text-[9px] font-black uppercase tracking-widest" style="color:#0056a1">
-                      Población que se autoidentifica como parte de un pueblo indígena u originario
+                      {{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años que se autoidentifica con un pueblo indígena u originario' : 'Población que se autoidentifica como parte de un pueblo indígena u originario' }}
                     </span>
                   </div>
 
@@ -2186,7 +2252,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       </button>
                       <img src="dashboards/tematicos/etnicidad/pobindigena-ordinario.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como parte de un pueblo indígena u originario</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">{{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años que se autoidentifica con un pueblo indígena u originario' : 'Población que se autoidentifica como parte de un pueblo indígena u originario' }}</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">8 344 891</p>
                       </div>
                     </div>
@@ -2323,7 +2389,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                   <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl shrink-0"
                        style="background:#33b3a918;border-left:3px solid #33b3a9">
                     <span class="text-[9px] font-black uppercase tracking-widest" style="color:#33b3a9">
-                      Población que se autoidentifica como afroperuano o afrodescendiente
+                      {{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años que se autoidentifica como afroperuana o afrodescendiente' : 'Población que se autoidentifica como afroperuano o afrodescendiente' }}
                     </span>
                   </div>
 
@@ -2336,7 +2402,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                       </button>
                       <img src="dashboards/tematicos/etnicidad/pob-afroperuano.svg" class="w-[49px] h-[49px] md:w-[54px] md:h-[54px]">
                       <div class="flex-1 min-w-0 pr-5">
-                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">Población que se autoidentifica como afroperuano o afrodescendiente</p>
+                        <p class="text-[10px] font-bold leading-tight mb-1" style="color:#ffffff">{{ etnicAutoFilter() === 'autoidentifica' ? 'Población censada de 8 y más años que se autoidentifica como afroperuana o afrodescendiente' : 'Población que se autoidentifica como afroperuano o afrodescendiente' }}</p>
                         <p class="text-2xl font-black tabular-nums leading-none" style="color:#ffffff">275 185</p>
                       </div>
                     </div>
@@ -2468,6 +2534,51 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
 
               </div><!-- /grid 8 cols -->
             </div>
+
+            <!-- ── Modal "Otros" ──────────────────────────────────────────────── -->
+            @if (etnicModalOpen()) {
+              <div class="fixed inset-0 z-50 flex items-center justify-center"
+                   style="background:rgba(0,0,0,0.35)"
+                   (click)="etnicModalOpen.set(false)">
+                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden"
+                     (click)="$event.stopPropagation()">
+
+                  <!-- Header -->
+                  <div class="px-5 py-3.5 flex items-center justify-between border-b border-gray-100"
+                       style="background:linear-gradient(to right,#0056a1,#33b3a9)">
+                    <p class="text-[11px] font-black tracking-wide" style="color:#ffffff">{{ etnicModalTitle() }}</p>
+                    <button (click)="etnicModalOpen.set(false)"
+                            class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/20 transition-all"
+                            style="color:#ffffff">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                           stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- Lista -->
+                  <div class="px-5 py-2 max-h-64 overflow-y-auto divide-y divide-gray-50">
+                    @for (item of etnicModalItems(); track item.label) {
+                      <div class="flex items-center justify-between py-2.5">
+                        <span class="text-[10px] font-medium text-gray-700 flex-1 pr-4 leading-tight">{{ item.label }}</span>
+                        <span class="text-[11px] font-black tabular-nums shrink-0" style="color:#038dd3">{{ fmt(item.value) }}</span>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Total -->
+                  <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between bg-gray-50">
+                    <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Total</span>
+                    <span class="text-sm font-black tabular-nums" style="color:#0056a1">
+                      {{ fmt(etnicModalItems().reduce((a, b) => a + b.value, 0)) }}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            }<!-- /modal Otros -->
+
           }
 
           <!-- ── DISCAPACIDAD: filas explícitas, scroll natural ───────────────── -->
@@ -3500,6 +3611,12 @@ export class DashboardTematicoComponent implements OnInit {
     // ── Header ───────────────────────────────────────────────────────────
     censosOpen     = signal(false);
     mobileMenuOpen = signal(false);
+
+    // ── Etnicidad: filtro KPI ─────────────────────────────────────────────
+    etnicAutoFilter  = signal<'censada' | 'autoidentifica'>('censada');
+    etnicModalOpen   = signal(false);
+    etnicModalTitle  = signal('');
+    etnicModalItems  = signal<{label: string; value: number}[]>([]);
 
     readonly censosMenu = [
         { label: 'Censo de Derecho',          route: '/censo-derecho' },
@@ -4742,6 +4859,76 @@ export class DashboardTematicoComponent implements OnInit {
                 barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
             }],
         };
+    }
+
+    private buildEtnicHBarWithOtrosOpt(cats: string[], data: number[], otrosValue: number): EChartsOption {
+        const allCats = [...cats, 'Otros'];
+        const allData = [...data, otrosValue];
+        const revCats = [...allCats].reverse();
+        const revData = [...allData].reverse().map((v, i) => {
+            const isOtros = revCats[i] === 'Otros';
+            return {
+                value: v,
+                itemStyle: {
+                    color: isOtros ? '#f59e0b' : '#038dd3',
+                    borderRadius: [0, 3, 3, 0] as [number, number, number, number],
+                    cursor: isOtros ? 'pointer' : 'default',
+                },
+            };
+        });
+        return {
+            tooltip: {
+                trigger: 'axis', axisPointer: { type: 'shadow' as const },
+                backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1,
+                padding: [6, 10], textStyle: { color: '#424242', fontSize: 9 },
+                formatter: (params: any) => {
+                    const p = params[0];
+                    const isOtros = p.name === 'Otros';
+                    const hint = isOtros
+                        ? `<br><span style="font-size:8px;color:#9ca3af;font-style:italic">▸ Haz clic para ver el detalle</span>`
+                        : '';
+                    return `<span style="font-size:9px;font-weight:900;color:#424242">${p.name}</span><br>`
+                         + `<span style="font-size:12px;font-weight:900;color:${isOtros ? '#f59e0b' : '#038dd3'}">${this.fmt(p.value as number)}</span>${hint}`;
+                },
+            },
+            grid: { top: 6, right: 56, bottom: 6, left: 4, containLabel: true },
+            xAxis: {
+                type: 'value' as const, min: 0,
+                axisLabel: { fontSize: 6, color: '#d1d5db', formatter: (v: number) => this.fmtAxis(v) },
+                splitLine: { lineStyle: { color: '#f9fafb', type: 'dashed' as const } },
+            },
+            yAxis: {
+                type: 'category' as const, data: revCats,
+                axisTick: { show: false }, axisLine: { lineStyle: { color: '#f3f4f6' } },
+                axisLabel: { fontSize: 7, color: '#424242', width: 110, overflow: 'break' as const },
+            },
+            series: [{
+                type: 'bar' as const, data: revData,
+                label: {
+                    show: true, position: 'right' as const,
+                    fontSize: 7, fontWeight: 700 as const, color: '#424242',
+                    formatter: (p: any) =>
+                        p.name === 'Otros'
+                            ? `▸ ${this.fmtAxis(p.value as number)}`
+                            : this.fmtAxis(p.value as number),
+                },
+                barMaxWidth: 18, emphasis: { itemStyle: { opacity: 0.85 } },
+            }],
+        };
+    }
+
+    onEtnicAutoChartClick(params: any): void {
+        if (params.name !== 'Otros') return;
+        this.etnicModalTitle.set('Otras autoidentificaciones étnicas');
+        this.etnicModalItems.set([...ETNIC_AUTO_OTROS_ITEMS]);
+        this.etnicModalOpen.set(true);
+    }
+
+    onEtnicIdiomaChartClick(params: any): void {
+        if (params.name !== 'Otros') return;
+        this.etnicModalTitle.set('Otras lenguas o idiomas');
+        this.etnicModalItems.set([...ETNIC_IDIOMA_OTROS_ITEMS]);
+        this.etnicModalOpen.set(true);
     }
 
     private buildEtnicSexoPieOpt(hombreVal: number, mujerVal: number, color1: string, color2: string): EChartsOption {
@@ -6055,8 +6242,9 @@ export class DashboardTematicoComponent implements OnInit {
     readonly discEsferasEdadOpt!:  EChartsOption;
 
     // ── Etnicidad ──────────────────────────────────────────────────────────
-    readonly etnicAutoBarOpt!:      EChartsOption;
-    readonly etnicIdiomaBarOpt!:    EChartsOption;
+    readonly etnicAutoBarOpt!:                  EChartsOption;
+    readonly etnicAutoAutoidentificaBarOpt!:    EChartsOption;
+    readonly etnicIdiomaBarOpt!:                EChartsOption;
     readonly etnicIndSexoPieOpt!:   EChartsOption;
     readonly etnicIndEdadColOpt!:   EChartsOption;
     readonly etnicIndEduColOpt!:    EChartsOption;
@@ -6140,8 +6328,9 @@ export class DashboardTematicoComponent implements OnInit {
         this.discAsistPieOpt    = this.buildDiscAsistPieOpt();
         this.discEsferasHbarOpt  = this.buildDiscEsferasHbarOpt();
         this.discEsferasEdadOpt  = this.buildDiscEsferasEdadOpt();
-        this.etnicAutoBarOpt      = this.buildEtnicHBarOpt([...ETNIC_AUTO_CATS],   [...ETNIC_AUTO_DATA]);
-        this.etnicIdiomaBarOpt    = this.buildEtnicHBarOpt([...ETNIC_IDIOMA_CATS], [...ETNIC_IDIOMA_DATA]);
+        this.etnicAutoBarOpt               = this.buildEtnicHBarWithOtrosOpt([...ETNIC_AUTO_MAIN_CATS],                   [...ETNIC_AUTO_MAIN_DATA],                  ETNIC_AUTO_OTROS_VALUE);
+        this.etnicAutoAutoidentificaBarOpt = this.buildEtnicHBarWithOtrosOpt([...ETNIC_AUTO_AUTOIDENTIFICA_MAIN_CATS],  [...ETNIC_AUTO_AUTOIDENTIFICA_MAIN_DATA],   ETNIC_AUTO_OTROS_VALUE);
+        this.etnicIdiomaBarOpt             = this.buildEtnicHBarWithOtrosOpt([...ETNIC_IDIOMA_MAIN_CATS],               [...ETNIC_IDIOMA_MAIN_DATA],                 ETNIC_IDIOMA_OTROS_VALUE);
         this.etnicIndSexoPieOpt   = this.buildEtnicSexoPieOpt(4_344_891, 4_000_000, '#0056a1', '#33b3a9');
         this.etnicIndEdadColOpt   = this.buildEtnicEdadColOpt([...ETNIC_IND_EDAD_DATA], CLR.blue);
         this.etnicIndEduColOpt    = this.buildEtnicEduColOpt([...ETNIC_IND_EDU_DATA],   CLR.blue);
