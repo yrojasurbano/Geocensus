@@ -782,7 +782,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
         </div>
       }
 
-      <!-- ══ BOTONERA DE SECCIONES ══════════════════════════════════════════ -->
+      <!-- ══ BOTONERA SUPERIOR: NIVEL DE NAVEGACIÓN ══════════════════════════ -->
       <div class="w-full shrink-0"
            style="background:#efefef; box-shadow: 0 2px 8px rgba(0,86,161,0.10);">
         <div class="flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 overflow-x-auto">
@@ -794,7 +794,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
                      whitespace-nowrap transition-all duration-200 ease-out focus:outline-none group shrink-0"
               [style]="isBtnActive(btn)
                 ? 'background:linear-gradient(90deg,#003d7a 0%,#1a8c7a 100%); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.25);'
-                : 'background:#efefef; color:#4b5563; box-shadow:none;'">              
+                : 'background:#efefef; color:#4b5563; box-shadow:none;'">
               <span class="transition-colors duration-200"
                     [class.text-white]="isBtnActive(btn)"
                     [class.text-gray-600]="!isBtnActive(btn)">
@@ -806,7 +806,7 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
             </button>
           }
         </div>
-      </div><!-- /botonera -->
+      </div><!-- /botonera superior -->
 
       <!-- ══ BARRA DE FILTROS ════════════════════════════════════════════════ -->
       <div class="sticky z-40 shrink-0
@@ -1211,45 +1211,63 @@ const IDENTIDAD_WIDE_IDS = ['estado_civil_edad','dni_edad','seguro_edad'] as con
         </div><!-- /inner barra filtros -->
       </div><!-- /sticky barra filtros -->
 
-      <!-- ══ SUB-NAV INDICADORES TEMÁTICOS ════════════════════════════════════ -->
-      <div class="w-full shrink-0 px-3 md:px-4 2xl:px-5 pb-1.5"
+      <!-- ══ BOTONERA DE SECCIONES TEMÁTICAS ═══════════════════════════════ -->
+      <div class="w-full shrink-0 border-t border-gray-200"
            style="background:#efefef;">
-        <div class="flex items-center gap-1">
-          @for (group of thematicGroups; track group.id) {
-            <button (click)="setActiveGroup(group.id)"
-              class="flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] sm:text-xs
-                     font-bold tracking-wide transition-all whitespace-nowrap"
-              [style]="activeGroupId() === group.id
-                ? 'background:#caeae4;color:#424242;'
-                : 'color:#9ca3af;'">
-              <span>{{ group.label }}</span>
+        <div class="flex items-center gap-1.5 px-3 sm:px-4 md:px-5 py-1.5 overflow-x-auto">
+
+          <!-- Etiqueta Población -->
+          <span class="text-[9px] sm:text-[10px] font-black text-gray-500 shrink-0 whitespace-nowrap  tracking-wide">Población:</span>
+
+          <!-- 7 botones de secciones — icono izquierda + texto, forma rectangular -->
+          @for (sec of thematicGroups[0].sections; track sec.id) {
+            <button (click)="selectSection('poblacion', sec.id)"
+              class="flex flex-row items-center gap-1.5
+                     px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg
+                     border text-[8px] sm:text-[9px] font-semibold leading-tight
+                     whitespace-nowrap transition-all duration-200 shrink-0"
+              [style]="activeSectionId() === sec.id && activeGroupId() === 'poblacion'
+                ? 'background:#0056a1;border-color:#0056a1;color:#ffffff;box-shadow:0 2px 6px rgba(0,86,161,0.35);'
+                : 'background:#ffffff;border-color:#d1d5db;color:#4b5563;'">
+              @if (getSectionIcon(sec.id)) {
+                <img [src]="getSectionIcon(sec.id)" class="w-5 h-5 shrink-0"
+                     [style.filter]="activeSectionId() === sec.id && activeGroupId() === 'poblacion' ? 'brightness(0) invert(1)' : 'none'">
+              }
+              <span>{{ sec.label }}</span>
             </button>
           }
-        </div>
-      </div>
 
-      <!-- ══ SECCIONES TEMÁTICAS (sub-nivel dentro del grupo activo) ══════════ -->
-      @if (activeGroup(); as grp) {
-        @if (grp.sections.length > 1) {
-          <div class="bg-white border-b border-gray-100 shrink-0 px-2 py-1.5 flex items-stretch justify-center gap-1.5 overflow-x-auto"
-               (click)="$event.stopPropagation()"
-               style="animation: fadeIn 0.18s ease-out forwards">
-            @for (sec of grp.sections; track sec.id) {
-              <button (click)="setActiveSection(sec.id)"
-                class="relative flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl min-w-[80px] max-w-[130px] border transition-all duration-200 shrink-0"
-                [style]="activeSectionId() === sec.id
-                  ? 'background:' + grp.color + ';border:1px solid #424242;color:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,0.15);'
-                  : 'background:#f9fafb;border:1px solid #e5e7eb;color:#6b7280;'">
-                @if (getSectionIcon(sec.id)) {
-                  <img [src]="getSectionIcon(sec.id)" class="w-16 h-16 shrink-0"
-                       [style.filter]="activeSectionId() === sec.id ? 'brightness(0) invert(1)' : 'none'">
-                }
-                <span class="text-[8.5px] font-bold text-center leading-tight line-clamp-2">{{ sec.label }}</span>
-              </button>
-            }
-          </div>
-        }
-      }
+          <!-- Separador vertical -->
+          <div class="self-stretch w-px bg-gray-300 shrink-0 mx-0.5 my-0.5"></div>
+
+          <!-- Vivienda — independiente -->
+          <button (click)="setActiveGroup('viviendas')"
+            class="flex flex-row items-center gap-1.5
+                   px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg
+                   border text-[8px] sm:text-[9px] font-bold leading-tight
+                   whitespace-nowrap transition-all duration-200 shrink-0"
+            [style]="activeGroupId() === 'viviendas'
+              ? 'background:#33b3a9;border-color:#33b3a9;color:#ffffff;box-shadow:0 2px 6px rgba(51,179,169,0.40);'
+              : 'background:#ffffff;border-color:#424242;color:#374151;'">
+            <app-hero-icon name="home-modern" class="w-4 h-4 shrink-0"></app-hero-icon>
+            <span>Vivienda</span>
+          </button>
+
+          <!-- Hogar — independiente -->
+          <button (click)="setActiveGroup('hogares')"
+            class="flex flex-row items-center gap-1.5
+                   px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg
+                   border text-[8px] sm:text-[9px] font-bold leading-tight
+                   whitespace-nowrap transition-all duration-200 shrink-0"
+            [style]="activeGroupId() === 'hogares'
+              ? 'background:#038dd3;border-color:#038dd3;color:#ffffff;box-shadow:0 2px 6px rgba(3,141,211,0.40);'
+              : 'background:#ffffff;border-color:#424242;color:#374151;'">
+            <app-hero-icon name="building-office-2" class="w-4 h-4 shrink-0"></app-hero-icon>
+            <span>Hogar</span>
+          </button>
+
+        </div>
+      </div><!-- /botonera secciones temáticas -->
 
       <!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
       <main class="flex-1 min-h-0 flex flex-col overflow-hidden">
@@ -3697,6 +3715,11 @@ export class DashboardTematicoComponent implements OnInit {
     }
 
     setActiveSection(sectionId: string): void {
+        this.activeSectionId.set(sectionId);
+    }
+
+    selectSection(groupId: string, sectionId: string): void {
+        this.activeGroupId.set(groupId);
         this.activeSectionId.set(sectionId);
     }
 
