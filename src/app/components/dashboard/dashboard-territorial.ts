@@ -1352,6 +1352,7 @@ export class DashboardTerritorialComponent {
     navSections: { id: string; label: string; icon: string; route?: string }[] = [
         { id: 'poblacion_total',       label: 'Indicadores de población total',                icon: 'chart-bar',     route: '/dashboard'},
         { id: 'poblacion_viviendas',   label: 'Indicadores de población y viviendas censadas', icon: 'home',            route: '/dashboard-censada' },
+        { id: 'poblacion_comunidades', label: 'Indicadores de comunidades indígenas', icon: 'home',            route: '/indicadores-comunidades-indigenas' },
        
     ];
     activeSection = signal<string>('poblacion_total');

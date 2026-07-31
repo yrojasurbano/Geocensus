@@ -100,12 +100,12 @@ import { RouterLink } from '@angular/router';
           </p>
         </div>
 
-        <!-- Grid de tarjetas-botón: fila 1 = 2 cards centrados, fila 2 = 3 cards -->
+        <!-- Grid de tarjetas-botón: fila 1 = 3 cards, fila 2 = 3 cards -->
         <div class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5 md:gap-6">
 
-          <!-- ① Indicadores de población total — fila 1, izquierda -->
+          <!-- ① Indicadores de población total — fila 1 -->
           <button routerLink="/resultados"
-                  class="group card-btn border-t-4 border-[#0056a1] lg:col-start-3 lg:col-span-4">
+                  class="group card-btn border-t-4 border-[#0056a1] lg:col-span-4">
             <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-7 h-7 text-[#0056a1] group-hover:text-white transition-colors duration-300">
@@ -133,7 +133,22 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#038dd3]">→</span>
           </button>
 
-          <!-- ③ Geoportal — fila 2 -->
+          <!-- ③ Indicadores de comunidades indígenas — fila 1 -->
+          <button routerLink="/indicadores-comunidades-indigenas"
+                  class="group card-btn border-t-4 border-[#33b3a9] lg:col-span-4">
+            <div class="icon-wrap bg-[#33b3a9]/10 group-hover:bg-[#33b3a9] transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" class="w-7 h-7 text-[#33b3a9] group-hover:text-white transition-colors duration-300">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+            </div>
+            <span class="card-label">Indicadores de comunidades indígenas</span>
+            <span class="card-sub">Resultados de la población y hogares de comunidades indígenas u originarias.</span>
+            <span class="card-arrow text-[#33b3a9]">→</span>
+          </button>
+
+          <!-- ④ Geoportal — fila 2 -->
           <button routerLink="/geoportal"
                   class="group card-btn border-t-4 border-[#8383fd] lg:col-span-4">
             <div class="icon-wrap bg-[#8383fd]/10 group-hover:bg-[#8383fd] transition-colors duration-300"> 
@@ -145,7 +160,7 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#8383fd]">→</span>
           </button>
 
-          <!-- ④ Descarga de datos — fila 2 -->
+          <!-- ⑤ Descarga de datos — fila 2 -->
           <button routerLink="/descarga-datos"
                   class="group card-btn border-t-4 border-[#0056a1] lg:col-span-4">
             <div class="icon-wrap bg-[#0056a1]/10 group-hover:bg-[#0056a1] transition-colors duration-300">
@@ -157,7 +172,7 @@ import { RouterLink } from '@angular/router';
             <span class="card-arrow text-[#0056a1]">→</span>
           </button>
 
-          <!-- ⑤ Documentación y asistencia — fila 2 -->
+          <!-- ⑥ Documentación y asistencia — fila 2 -->
           <button routerLink="/documentacion-tecnica"
                   class="group card-btn border-t-4 border-[#038dd3] lg:col-span-4">
             <div class="icon-wrap bg-[#038dd3]/10 group-hover:bg-[#038dd3] transition-colors duration-300">

@@ -10,6 +10,7 @@ import { DashboardEvolucionComponent} from './components/dashboard/dashboard-evo
 import { DashboardTematicoComponent} from './components/dashboard/dashboard-tematico'
 import {DescargaDatosComponent} from './components/descarga/descarga-datos'
 import {GeoportalComponent} from './components/geoportal/geoportal'
+import { DashboardCensadaComponent as DashboardComunidadesComponent } from './components/dashboard/dashboard-comunidades'
 
 // SE ELIMINÓ: import { IntermediaComponent } from './components/intermedia/intermedia';
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'dashboard-tematico', component: DashboardTematicoComponent},
   { path: 'descarga-datos', component: DescargaDatosComponent},
   { path: 'geoportal', component: GeoportalComponent},
+  { path: 'indicadores-comunidades-indigenas', component: DashboardComunidadesComponent},
 
   // ── Censos 2025 ─────────────────────────────────────────────────────────────
   {

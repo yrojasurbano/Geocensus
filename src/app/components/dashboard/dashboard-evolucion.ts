@@ -705,6 +705,7 @@ export class DashboardEvolucionComponent implements OnInit {
     readonly navSections = [
         { id: 'poblacion_total',     label: 'Indicadores de población total',                icon: 'chart-bar',      route: '/dashboard' },
         { id: 'poblacion_viviendas', label: 'Indicadores de población y viviendas censadas', icon: 'home',           route: '/dashboard-censada' },
+        { id: 'poblacion_comunidades', label: 'Indicadores de comunidades indígenas', icon: 'home',            route: '/indicadores-comunidades-indigenas' },
         
     ];
 
